@@ -11,6 +11,8 @@
       "!**/.next",
       "!**/node_modules",
       "!**/bun.lock",
+      "!**/.changeset/*.md",
+      "!**/CHANGELOG.md",
       "!**/public",
       "!**/*.svg"
     ]
