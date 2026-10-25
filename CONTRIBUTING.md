@@ -36,7 +36,8 @@ bun run typecheck  # typescript
 bun run build      # production build
 ```
 
-A husky `pre-commit` hook runs biome on staged files.
+A husky `pre-commit` hook runs biome on staged files through `lint-staged`, so
+formatting fixes are included in the commit.
 
 ## Changesets
 
