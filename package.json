@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
+    "typecheck": "tsc --noEmit",
     "changeset": "changeset",
     "version": "changeset version",
     "release": "changeset publish"
@@ -17,13 +21,12 @@
     "react-dom": "19.3.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.6.3",
     "@changesets/cli": "^3.0.3",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.4.3",
     "tailwindcss": "^4",
     "typescript": "^5"
   },
