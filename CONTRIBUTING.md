@@ -46,3 +46,8 @@ Add a changeset for user facing changes:
 ```bash
 bun run changeset
 ```
+
+The release workflow opens a version pull request. Set a `CHANGESETS_TOKEN`
+repository secret to a personal access token if you want CI to run on that pull
+request, because pull requests opened with the default `GITHUB_TOKEN` do not
+trigger workflows.
