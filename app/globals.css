@@ -1,6 +1,4 @@
 @import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -40,7 +38,7 @@
   --color-brand-foreground: var(--brand-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-space-grotesk);
+  --font-display: var(--font-geist-sans);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -51,83 +49,81 @@
 }
 
 :root {
-  --background: #f3f3ee;
+  --background: #f8f7f2;
   --foreground: #0a0a0a;
-  --card: #fbfbf7;
+  --card: #ffffff;
   --card-foreground: #0a0a0a;
-  --popover: #fbfbf7;
+  --popover: #eceae2;
   --popover-foreground: #0a0a0a;
-  --primary: #0a0a0a;
-  --primary-foreground: #f3f3ee;
-  --secondary: #e7e7df;
+  --primary: #ccfcfb;
+  --primary-foreground: #0a0a0a;
+  --secondary: #eceae2;
   --secondary-foreground: #171717;
-  --muted: #e9e9e1;
-  --muted-foreground: #5f5f57;
-  --accent: #e1e1d7;
-  --accent-foreground: #171717;
+  --muted: #eceae2;
+  --muted-foreground: #62666d;
+  --accent: #e6e3da;
+  --accent-foreground: #0a0a0a;
   --destructive: #c73a2a;
-  --border: rgb(10 10 10 / 12%);
-  --input: rgb(10 10 10 / 16%);
-  --ring: #8ea300;
-  --chart-1: #8ea300;
-  --chart-2: #5f5f57;
-  --chart-3: #3a3a35;
-  --chart-4: #1e1e1b;
+  --border: transparent;
+  --input: rgb(10 10 10 / 18%);
+  --ring: #0a0a0a;
+  --chart-1: #ccfcfb;
+  --chart-2: #62666d;
+  --chart-3: #3a3d42;
+  --chart-4: #1f2428;
   --chart-5: #0a0a0a;
-  --radius: 0.5rem;
-  --brand: #d8f500;
+  --radius: 0.75rem;
+  --brand: #ccfcfb;
   --brand-foreground: #080808;
-  --sidebar: #f3f3ee;
+  --brand-soft: #e9fffe;
+  --sidebar: #f8f7f2;
   --sidebar-foreground: #0a0a0a;
-  --sidebar-primary: #0a0a0a;
-  --sidebar-primary-foreground: #f3f3ee;
-  --sidebar-accent: #e1e1d7;
-  --sidebar-accent-foreground: #171717;
-  --sidebar-border: rgb(10 10 10 / 12%);
-  --sidebar-ring: #8ea300;
+  --sidebar-primary: #ccfcfb;
+  --sidebar-primary-foreground: #0a0a0a;
+  --sidebar-accent: #e6e3da;
+  --sidebar-accent-foreground: #0a0a0a;
+  --sidebar-border: transparent;
+  --sidebar-ring: #0a0a0a;
 }
 
 .dark {
-  --background: #050505;
-  --foreground: #f4f4ec;
-  --card: #0b0b0b;
-  --card-foreground: #f4f4ec;
-  --popover: #0b0b0b;
-  --popover-foreground: #f4f4ec;
-  --primary: #e5ff5d;
-  --primary-foreground: #080808;
-  --secondary: #141414;
-  --secondary-foreground: #f4f4ec;
-  --muted: #111111;
-  --muted-foreground: #9d9d93;
-  --accent: #1a1a1a;
-  --accent-foreground: #e5ff5d;
+  --background: #0a0a0a;
+  --foreground: #f8f7f2;
+  --card: #1a1a1a;
+  --card-foreground: #f8f7f2;
+  --popover: #141414;
+  --popover-foreground: #f8f7f2;
+  --primary: #ccfcfb;
+  --primary-foreground: #0a0a0a;
+  --secondary: #1f2428;
+  --secondary-foreground: #f8f7f2;
+  --muted: #1a1a1a;
+  --muted-foreground: #9b9ca1;
+  --accent: #1f2428;
+  --accent-foreground: #ccfcfb;
   --destructive: #ff6b5b;
-  --border: rgb(255 255 255 / 12%);
-  --input: rgb(255 255 255 / 16%);
-  --ring: #e5ff5d;
-  --chart-1: #e5ff5d;
-  --chart-2: #9d9d93;
-  --chart-3: #5a5a54;
-  --chart-4: #2a2a27;
-  --chart-5: #111111;
-  --brand: #e5ff5d;
+  --border: transparent;
+  --input: rgb(248 247 242 / 16%);
+  --ring: #ccfcfb;
+  --chart-1: #ccfcfb;
+  --chart-2: #e9fffe;
+  --chart-3: #7d838a;
+  --chart-4: #363b3f;
+  --chart-5: #1f2428;
+  --brand: #ccfcfb;
   --brand-foreground: #080808;
-  --sidebar: #050505;
-  --sidebar-foreground: #f4f4ec;
-  --sidebar-primary: #e5ff5d;
+  --brand-soft: #e9fffe;
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #f8f7f2;
+  --sidebar-primary: #ccfcfb;
   --sidebar-primary-foreground: #080808;
-  --sidebar-accent: #1a1a1a;
-  --sidebar-accent-foreground: #e5ff5d;
-  --sidebar-border: rgb(255 255 255 / 12%);
-  --sidebar-ring: #e5ff5d;
+  --sidebar-accent: #1f2428;
+  --sidebar-accent-foreground: #ccfcfb;
+  --sidebar-border: transparent;
+  --sidebar-ring: #ccfcfb;
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-
   html {
     @apply scroll-smooth;
   }
@@ -167,6 +163,11 @@
     .site-container {
       padding-inline: 3rem;
     }
+  }
+
+  .site-panel {
+    border-radius: 1.5rem;
+    background: var(--card);
   }
 }
 
