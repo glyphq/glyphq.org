@@ -13,8 +13,8 @@ permissions:
   pull-requests: write
 
 jobs:
-  version:
-    name: version packages
+  release:
+    name: release
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -27,13 +27,12 @@ jobs:
           bun-version: 1.4.4
       - name: install dependencies
         run: bun install --frozen-lockfile
-      - name: create version pull request
-        uses: changesets/action@v1
+      - name: version and release
+        uses: changesets/action@v2
         with:
-          version: bun run version
-          commit: "chore(release): version packages"
-          title: "chore(release): version packages"
-          createGithubReleases: false
-        env:
-          # A PAT makes CI run on version PRs created with the token.
-          GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN || secrets.GITHUB_TOKEN }}
+          version-script: bun run version
+          publish-script: bun run release
+          commit-message: "chore(release): version packages"
+          pr-title: "chore(release): version packages"
+          create-github-releases: true
+          push-git-tags: true

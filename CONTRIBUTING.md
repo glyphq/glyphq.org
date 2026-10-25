@@ -47,7 +47,6 @@ Add a changeset for user facing changes:
 bun run changeset
 ```
 
-The release workflow opens a version pull request. Set a `CHANGESETS_TOKEN`
-repository secret to a personal access token if you want CI to run on that pull
-request, because pull requests opened with the default `GITHUB_TOKEN` do not
-trigger workflows.
+The release workflow opens a version pull request. Merging it tags the release
+and creates a GitHub release from the changelog entry. It uses the workflow
+`GITHUB_TOKEN` provided by GitHub Actions.
