@@ -50,3 +50,8 @@ bun run changeset
 The release workflow opens a version pull request. Merging it tags the release
 and creates a GitHub release from the changelog entry. It uses the workflow
 `GITHUB_TOKEN` provided by GitHub Actions.
+
+In repository settings under Actions > General, enable "Allow GitHub Actions
+to create and approve pull requests" so the version pull request can be
+opened. Pull requests created with `GITHUB_TOKEN` do not trigger workflows, so
+their checks may need a manual run.
