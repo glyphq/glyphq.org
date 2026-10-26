@@ -5,22 +5,21 @@ const faqs = [
   {
     question: "Does Glyph hold my keys?",
     answer:
-      "No. Vaults are encrypted on your computer and the password stays local. Your seed is the only recovery method, so keep an offline backup.",
+      "No. Vaults are encrypted on your computer. Your seed is the only way to recover an account, so keep an offline backup.",
   },
   {
     question: "Which desktops does Glyph support?",
-    answer:
-      "Glyph runs on Windows x64, macOS, and Linux. It is a desktop app, not a browser or mobile wallet.",
+    answer: "Windows x64, macOS, and Linux. Glyph runs as a desktop app.",
   },
   {
     question: "Is Glyph open source?",
     answer:
-      "Yes. The wallet, Connect, Relay, and Explorer are public. You can read the source, follow releases, or build the wallet yourself.",
+      "Yes. The wallet, Connect, Relay, and Explorer are public on GitHub.",
   },
   {
     question: "How do I connect a Qubic dApp?",
     answer:
-      "Use @glyph-oss/connect to build a typed request, then approve it in the desktop wallet. The Connect guide covers the full flow.",
+      "Build a typed request with @glyph-oss/connect, then approve it in the desktop wallet.",
   },
 ] as const;
 
@@ -31,20 +30,30 @@ export function HomeFaq() {
       aria-labelledby="home-faq-heading"
       className="site-container scroll-mt-28 pb-24 md:pb-32"
     >
-      <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
-        <Reveal>
+      <div className="mx-auto max-w-4xl">
+        <Reveal className="text-center">
           <h2
             id="home-faq-heading"
-            className="max-w-md font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl"
+            className="font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl"
           >
-            Questions, answered.
+            Common questions.
           </h2>
-          <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground text-pretty">
-            Short answers about custody, downloads, and connecting apps.
+          <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground text-pretty">
+            Short answers about the wallet and connecting apps.
           </p>
         </Reveal>
-        <Reveal delay={0.08}>
-          <Faq items={faqs} />
+        <Reveal delay={0.08} className="mt-12">
+          <Faq items={faqs} defaultOpen={0} />
+          <p className="mt-10 text-center text-sm text-muted-foreground">
+            Still stuck?{" "}
+            <a
+              href="#discord"
+              className="text-foreground underline decoration-foreground/25 underline-offset-4 transition-colors hover:text-brand hover:decoration-brand"
+            >
+              Ask in Discord
+            </a>
+            .
+          </p>
         </Reveal>
       </div>
     </section>
