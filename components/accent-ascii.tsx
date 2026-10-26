@@ -18,6 +18,7 @@ export function AccentAscii({
 }) {
   const { resolvedTheme } = useTheme();
   const light = resolvedTheme === "light";
+  const resolvedIntensity = light ? intensity * 0.6 : intensity;
 
   return (
     <div className={cn("pointer-events-none absolute inset-0", className)}>
@@ -27,14 +28,14 @@ export function AccentAscii({
         characters=" =+xX0S8#@"
         cellSize={cellSize}
         density={0.65}
-        glyphOpacity={0.8 * intensity}
+        glyphOpacity={0.8 * resolvedIntensity}
         glow={0.15}
         flicker={0.08}
         softness={0.5}
         scale={1}
         flow={0.5}
         speed={0.3}
-        gradientOpacity={0.2 * intensity}
+        gradientOpacity={0.2 * resolvedIntensity}
         grain={0.04}
         variation={3}
         mouseInteraction={false}
