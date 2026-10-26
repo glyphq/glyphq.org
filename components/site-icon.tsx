@@ -1,18 +1,17 @@
-import type { IconSvgElement } from "@hugeicons/react";
-import { HugeiconsIcon } from "@hugeicons/react";
+import type { IconProps } from "@solar-icons/react/lib/types";
+import type { ComponentType } from "react";
 
 export function SiteIcon({
-  icon,
+  icon: Icon,
   size = 16,
   className,
 }: {
-  icon: IconSvgElement;
+  icon: ComponentType<IconProps>;
   size?: number;
   className?: string;
 }) {
   return (
-    <HugeiconsIcon
-      icon={icon}
+    <Icon
       size={size}
       strokeWidth={1.6}
       className={className}
