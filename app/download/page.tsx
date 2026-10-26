@@ -103,138 +103,139 @@ export default async function DownloadPage() {
         ) : null}
       </section>
 
-      <section
-        aria-labelledby="platforms-heading"
-        className="site-container pb-24 md:pb-32"
-      >
-        <h2
-          id="platforms-heading"
-          className="text-center font-display text-3xl tracking-[-0.04em] sm:text-4xl"
+      <div className="bg-background">
+        <section
+          aria-labelledby="platforms-heading"
+          className="site-container pb-24 md:pb-32"
         >
-          Choose your platform.
-        </h2>
+          <h2
+            id="platforms-heading"
+            className="text-center font-display text-3xl tracking-[-0.04em] sm:text-4xl"
+          >
+            Choose your platform.
+          </h2>
 
-        <div className="mt-12 grid gap-12 md:grid-cols-2">
-          <div>
-            <div className="flex items-center gap-3">
-              <OsIcon os="windows" size={28} />
-              <div>
-                <h3 className="font-display text-2xl font-medium tracking-[-0.03em]">
-                  Windows
-                </h3>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Windows 10 or later, x64
-                </p>
-              </div>
-            </div>
-            <div className="mt-6">
-              <AssetLink
-                asset={release?.downloads.windows}
-                fallback={releaseUrl}
-                label="Installer (.exe)"
-              />
-            </div>
-          </div>
-
-          <div>
-            <div className="flex items-center gap-3">
-              <OsIcon os="macos" size={28} />
-              <div>
-                <h3 className="font-display text-2xl font-medium tracking-[-0.03em]">
-                  macOS
-                </h3>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Apple Silicon and Intel
-                </p>
-              </div>
-            </div>
-            <div className="mt-6">
-              <AssetLink
-                asset={release?.downloads.macos}
-                fallback={releaseUrl}
-                label="Universal (.dmg)"
-              />
-            </div>
-          </div>
-
-          <div className="md:col-span-2">
-            <div className="grid gap-6 md:grid-cols-2 md:gap-12">
+          <div className="mt-12 grid gap-12 md:grid-cols-2">
+            <div>
               <div className="flex items-center gap-3">
-                <OsIcon os="linux" size={28} />
+                <OsIcon os="windows" size={28} />
                 <div>
                   <h3 className="font-display text-2xl font-medium tracking-[-0.03em]">
-                    Linux
+                    Windows
                   </h3>
-                  <p className="mt-1 text-sm text-muted-foreground">x86_64</p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    Windows 10 or later, x64
+                  </p>
                 </div>
               </div>
-              <div className="grid gap-2">
+              <div className="mt-6">
                 <AssetLink
-                  asset={release?.downloads.appimage}
+                  asset={release?.downloads.windows}
                   fallback={releaseUrl}
-                  label="AppImage"
-                />
-                <AssetLink
-                  asset={release?.downloads.deb}
-                  fallback={releaseUrl}
-                  label="Debian / Ubuntu (.deb)"
-                />
-                <AssetLink
-                  asset={release?.downloads.rpm}
-                  fallback={releaseUrl}
-                  label="Fedora / RHEL (.rpm)"
+                  label="Installer (.exe)"
                 />
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      <section
-        aria-labelledby="install-heading"
-        className="site-container pb-24 md:pb-32"
-      >
-        <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
-          <div>
-            <h2
-              id="install-heading"
-              className="font-display text-3xl leading-[1] tracking-[-0.04em] text-balance sm:text-4xl"
-            >
-              Before you install.
-            </h2>
-            <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground text-pretty">
-              Glyph runs on 64-bit Windows, macOS, and Linux desktops. It does
-              not run in a browser, on mobile, or on 32-bit systems.
-            </p>
-          </div>
-
-          <div className="space-y-8">
             <div>
-              <h3 className="font-display text-xl font-medium tracking-[-0.02em]">
-                Windows
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground text-pretty">
-                Run the installer. Glyph installs for the current user.
+              <div className="flex items-center gap-3">
+                <OsIcon os="macos" size={28} />
+                <div>
+                  <h3 className="font-display text-2xl font-medium tracking-[-0.03em]">
+                    macOS
+                  </h3>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    Apple Silicon and Intel
+                  </p>
+                </div>
+              </div>
+              <div className="mt-6">
+                <AssetLink
+                  asset={release?.downloads.macos}
+                  fallback={releaseUrl}
+                  label="Universal (.dmg)"
+                />
+              </div>
+            </div>
+
+            <div className="md:col-span-2">
+              <div className="grid gap-6 md:grid-cols-2 md:gap-12">
+                <div className="flex items-center gap-3">
+                  <OsIcon os="linux" size={28} />
+                  <div>
+                    <h3 className="font-display text-2xl font-medium tracking-[-0.03em]">
+                      Linux
+                    </h3>
+                    <p className="mt-1 text-sm text-muted-foreground">x86_64</p>
+                  </div>
+                </div>
+                <div className="grid gap-2">
+                  <AssetLink
+                    asset={release?.downloads.appimage}
+                    fallback={releaseUrl}
+                    label="AppImage"
+                  />
+                  <AssetLink
+                    asset={release?.downloads.deb}
+                    fallback={releaseUrl}
+                    label="Debian / Ubuntu (.deb)"
+                  />
+                  <AssetLink
+                    asset={release?.downloads.rpm}
+                    fallback={releaseUrl}
+                    label="Fedora / RHEL (.rpm)"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          aria-labelledby="install-heading"
+          className="site-container pb-24 md:pb-32"
+        >
+          <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
+            <div>
+              <h2
+                id="install-heading"
+                className="font-display text-3xl leading-[1] tracking-[-0.04em] text-balance sm:text-4xl"
+              >
+                Before you install.
+              </h2>
+              <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground text-pretty">
+                Glyph runs on 64-bit Windows, macOS, and Linux desktops. It does
+                not run in a browser, on mobile, or on 32-bit systems.
               </p>
             </div>
-            <div>
-              <h3 className="font-display text-xl font-medium tracking-[-0.02em]">
-                macOS
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground text-pretty">
-                Open the DMG and move Glyph to Applications.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-display text-xl font-medium tracking-[-0.02em]">
-                Linux
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground text-pretty">
-                Make the AppImage executable and run it, or install the DEB or
-                RPM package.
-              </p>
-              <pre className="mt-4 overflow-x-auto rounded-2xl bg-foreground/5 p-4 font-mono text-xs leading-relaxed">
-                {`# AppImage
+
+            <div className="space-y-8">
+              <div>
+                <h3 className="font-display text-xl font-medium tracking-[-0.02em]">
+                  Windows
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground text-pretty">
+                  Run the installer. Glyph installs for the current user.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-display text-xl font-medium tracking-[-0.02em]">
+                  macOS
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground text-pretty">
+                  Open the DMG and move Glyph to Applications.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-display text-xl font-medium tracking-[-0.02em]">
+                  Linux
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground text-pretty">
+                  Make the AppImage executable and run it, or install the DEB or
+                  RPM package.
+                </p>
+                <pre className="mt-4 overflow-x-auto rounded-2xl bg-foreground/5 p-4 font-mono text-xs leading-relaxed">
+                  {`# AppImage
 chmod +x Glyph*.AppImage
 ./Glyph*.AppImage
 
@@ -243,36 +244,37 @@ sudo apt install ./Glyph*.deb
 
 # Fedora / RHEL
 sudo dnf install ./Glyph*.rpm`}
-              </pre>
-            </div>
+                </pre>
+              </div>
 
-            {release ? (
-              <details>
-                <summary className="cursor-pointer font-display text-xl font-medium tracking-[-0.02em] transition-colors hover:text-foreground">
-                  SHA-256 checksums
-                </summary>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground text-pretty">
-                  Compare each hash with the file you downloaded.
-                </p>
-                <div className="mt-5 space-y-5">
-                  {release.checksums
-                    .filter((asset) => asset.sha256)
-                    .map((asset) => (
-                      <div key={asset.name}>
-                        <p className="font-mono text-xs text-muted-foreground">
-                          {asset.name}
-                        </p>
-                        <p className="mt-1 break-all font-mono text-xs">
-                          {asset.sha256}
-                        </p>
-                      </div>
-                    ))}
-                </div>
-              </details>
-            ) : null}
+              {release ? (
+                <details>
+                  <summary className="cursor-pointer font-display text-xl font-medium tracking-[-0.02em] transition-colors hover:text-foreground">
+                    SHA-256 checksums
+                  </summary>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground text-pretty">
+                    Compare each hash with the file you downloaded.
+                  </p>
+                  <div className="mt-5 space-y-5">
+                    {release.checksums
+                      .filter((asset) => asset.sha256)
+                      .map((asset) => (
+                        <div key={asset.name}>
+                          <p className="font-mono text-xs text-muted-foreground">
+                            {asset.name}
+                          </p>
+                          <p className="mt-1 break-all font-mono text-xs">
+                            {asset.sha256}
+                          </p>
+                        </div>
+                      ))}
+                  </div>
+                </details>
+              ) : null}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </>
   );
 }

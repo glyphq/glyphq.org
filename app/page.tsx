@@ -8,10 +8,12 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       <HomeHero />
-      <HomeFeatures />
-      <HomeProducts />
-      <HomeTrust />
-      <HomeCta />
+      <div className="bg-background">
+        <HomeFeatures />
+        <HomeProducts />
+        <HomeTrust />
+        <HomeCta />
+      </div>
     </div>
   );
 }
