@@ -1,9 +1,11 @@
 "use client";
 
+import { useTheme } from "next-themes";
 import GradientASCII from "@/components/gradient-ascii";
+import { asciiDarkColors, asciiLightColors } from "@/lib/ascii-palette";
 import { cn } from "@/lib/utils";
 
-const colors = ["#0a2f2d", "#116a67", "#3fc9c5", "#ccfcfb"];
+const boxDarkColors = [...asciiDarkColors].reverse();
 
 export function AccentAscii({
   cellSize = 10,
@@ -14,10 +16,13 @@ export function AccentAscii({
   intensity?: number;
   className?: string;
 }) {
+  const { resolvedTheme } = useTheme();
+  const light = resolvedTheme === "light";
+
   return (
     <div className={cn("pointer-events-none absolute inset-0", className)}>
       <GradientASCII
-        colors={colors}
+        colors={light ? asciiLightColors : boxDarkColors}
         shape="horizon"
         characters=" =+xX0S8#@"
         cellSize={cellSize}
