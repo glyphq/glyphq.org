@@ -1,8 +1,9 @@
 import { HomeCta } from "@/components/home-cta";
+import { HomeDiscord } from "@/components/home-discord";
+import { HomeFaq } from "@/components/home-faq";
 import { HomeFeatures } from "@/components/home-features";
 import { HomeHero } from "@/components/home-hero";
 import { HomeProducts } from "@/components/home-products";
-import { HomeTrust } from "@/components/home-trust";
 
 export default function Home() {
   return (
@@ -11,7 +12,8 @@ export default function Home() {
       <div className="bg-background">
         <HomeFeatures />
         <HomeProducts />
-        <HomeTrust />
+        <HomeDiscord />
+        <HomeFaq />
         <HomeCta />
       </div>
     </div>
