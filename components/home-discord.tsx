@@ -1,5 +1,4 @@
 import { ArrowRightUpIcon } from "@solar-icons/react/linear";
-import { DiscordAscii } from "@/components/discord-ascii";
 import { DiscordMark } from "@/components/discord-mark";
 import { Reveal } from "@/components/reveal";
 import { SiteIcon } from "@/components/site-icon";
@@ -16,14 +15,10 @@ export function HomeDiscord() {
           href={siteConfig.links.discord}
           target="_blank"
           rel="noreferrer"
-          className="group relative isolate flex min-h-[20rem] flex-col justify-between overflow-hidden rounded-[2rem] bg-[#1e1f22] p-7 transition-colors duration-300 ease-out hover:bg-[#25272b] md:min-h-[22rem] md:p-12"
+          className="group grid gap-10 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-end"
         >
-          <DiscordAscii />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#1e1f22] via-[#1e1f22]/80 to-transparent" />
-          <DiscordMark className="pointer-events-none absolute -right-14 -bottom-20 hidden size-[24rem] rotate-[-10deg] text-[#5865f2]/15 sm:block" />
-
-          <div className="relative z-10 max-w-2xl">
-            <div className="flex items-center gap-2.5 text-[#a9b4ff]">
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-2.5 text-[#5865f2]">
               <DiscordMark className="size-5" />
               <span className="font-mono text-[0.7rem] tracking-[0.16em] uppercase">
                 Discord
@@ -31,36 +26,27 @@ export function HomeDiscord() {
             </div>
             <h2
               id="discord-heading"
-              className="mt-7 font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance text-[#f2f3ff] sm:text-5xl"
+              className="mt-7 font-display text-4xl leading-[0.96] font-semibold tracking-[-0.06em] text-balance text-foreground sm:text-5xl lg:text-6xl"
             >
               Built in the open.
               <br />
-              <span className="text-[#a9b4ff]">Answered in Discord.</span>
+              <span className="text-[#5865f2]">Answered in Discord.</span>
             </h2>
-            <p className="mt-5 max-w-xl text-sm leading-relaxed text-[#c9cdf5]/80 text-pretty sm:text-base">
+            <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground text-pretty sm:text-base">
               Wallet help, release notes, and build talk from the people making
               Glyph.
             </p>
-            <ul className="mt-6 flex flex-wrap gap-2">
-              {["Wallet help", "Release notes", "Build talk"].map((topic) => (
-                <li
-                  key={topic}
-                  className="rounded-full bg-[#5865f2]/15 px-3 py-1.5 font-mono text-[0.65rem] tracking-[0.12em] text-[#c9cdf5]/80 uppercase"
-                >
-                  {topic}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="relative z-10 mt-10 flex flex-wrap items-center gap-4">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#5865f2] px-5 py-3 text-sm font-medium text-white transition-colors group-hover:bg-[#4752c4]">
+            <span className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#5865f2] px-5 py-3 text-sm font-medium text-white transition-colors group-hover:bg-[#4752c4]">
               Join the Glyph Discord
               <SiteIcon icon={ArrowRightUpIcon} size={16} />
             </span>
-            <span className="font-mono text-[0.65rem] tracking-[0.12em] text-[#a9b4ff]/60">
+            <span className="mt-4 block font-mono text-[0.65rem] tracking-[0.12em] text-muted-foreground">
               discord.gg/s5qNRNGu96
             </span>
+          </div>
+
+          <div className="hidden justify-end lg:flex">
+            <DiscordMark className="size-56 text-[#5865f2]/20 transition-colors duration-300 group-hover:text-[#5865f2]/30" />
           </div>
         </a>
       </Reveal>
