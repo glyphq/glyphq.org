@@ -1,0 +1,86 @@
+import { pageMetadata } from "@/lib/page-metadata";
+
+export const metadata = pageMetadata({
+  title: "Install and set up Glyph",
+  description:
+    "Download Glyph Wallet for Windows, macOS, or Linux, create a Vault, and back up your seed before you add funds.",
+  path: "/guides/install-and-setup",
+});
+
+# Install and set up Glyph
+
+Glyph is a native desktop wallet for Qubic. It runs on 64-bit Windows, macOS, and Linux. It does not run in a browser, on mobile, or on 32-bit systems.
+
+<Callout title="Before you start">
+Glyph is self-custodial. Your seed is the only way to recover an account, and Glyph cannot reset a forgotten Vault password. Back up every new seed offline before you add funds.
+</Callout>
+
+## 1. Download the right build
+
+Get the latest stable release from [GitHub Releases](https://github.com/glyphq/wallet/releases/latest), or use the [download page](/download) for the current assets.
+
+| Platform | Asset | Install |
+| --- | --- | --- |
+| Windows x64 | `Glyph_*_x64-setup.exe` | Run the per-user installer. |
+| macOS, Apple Silicon and Intel | `Glyph_*_universal.dmg` | Open the DMG and move Glyph to Applications. |
+| Linux x86_64 | `Glyph_*_amd64.AppImage` | Make it executable, then run it. |
+| Debian / Ubuntu x86_64 | `Glyph_*_amd64.deb` | `sudo apt install ./Glyph_*_amd64.deb` |
+| Fedora / RHEL-compatible x86_64 | `Glyph-*.x86_64.rpm` | `sudo dnf install ./Glyph-*.x86_64.rpm` |
+
+## 2. Install on your desktop
+
+### Windows
+
+Run the installer. Glyph installs for the current user, so you do not need a separate system-wide setup.
+
+### macOS
+
+Open the DMG, then move Glyph into Applications. The universal build covers both Apple Silicon and Intel Macs.
+
+### Linux
+
+For the AppImage:
+
+```sh
+chmod +x Glyph_*_amd64.AppImage
+./Glyph_*_amd64.AppImage
+```
+
+For the Debian package or RPM, use the commands in the table above. If you are installing on a new distribution or a minimal desktop, check the platform notes in the [user guide](https://github.com/glyphq/wallet/blob/main/docs/USER_GUIDE.md) first.
+
+## 3. Create or restore a Vault
+
+On first launch you can create a Vault, import a Qubic seed, or restore a Glyph Vault export.
+
+1. Create a Vault for the identities you use together, or import an existing seed.
+2. Set a Vault password you can remember. Glyph stores the Vault encrypted on your computer.
+3. Write the seed down offline and store it somewhere separate from the machine.
+4. Test the backup before you add funds.
+
+A Vault can hold the Qubic identities you use every day. You can switch Vaults and accounts from anywhere in the app, hide balances when you need privacy, and change the display settings to fit your workspace.
+
+## 4. Check your setup
+
+- The dashboard shows balances, recent activity, owned assets, approximate fiat values, and QEarn information.
+- You can use a custom RPC endpoint when you need to work with a different Qubic service.
+- Settings includes connected apps and their permissions.
+- Contacts, local notes, and saved transfer templates are stored with your wallet data on your computer.
+
+## Keep your recovery safe
+
+Your encrypted Vaults and local wallet data live on your computer. Glyph does not upload your seed or Vault password to a Glyph account or recovery service.
+
+Vault exports are sensitive encrypted files. Store them separately from their passwords. If you lose the seed and the password, there is no recovery path.
+
+## Build from source
+
+Glyph is built with React, TypeScript, Rust, and Tauri v2. If you prefer to run from source:
+
+```sh
+git clone https://github.com/glyphq/wallet.git
+cd wallet
+bun install --frozen-lockfile
+bun tauri dev
+```
+
+Use Bun `1.3.14` and Rust `1.88.0`. Platform prerequisites and contribution guidance are in the [wallet repository](https://github.com/glyphq/wallet).

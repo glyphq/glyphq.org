@@ -1,0 +1,67 @@
+import { pageMetadata } from "@/lib/page-metadata";
+
+export const metadata = pageMetadata({
+  title: "Send QU",
+  description:
+    "Send QU from Glyph Wallet, receive with an identity or QR code, and track a transfer from broadcast to confirmation.",
+  path: "/guides/send-qubic",
+});
+
+# Send QU
+
+QU is the native unit on Qubic. A transfer goes to a 60-character Qubic identity, such as a saved contact or an identity you paste in.
+
+<Callout title="Start small">
+A signed transfer cannot be reversed from the wallet. Send a small test amount first, confirm it arrives, and only then send the rest.
+</Callout>
+
+## Before you send
+
+- Unlock the Vault that holds the account you want to use.
+- Select the correct Qubic identity. A Vault can hold several.
+- Check the recipient identity carefully. Qubic identities are long, and one wrong character sends funds somewhere you do not control.
+- Know the amount and enough about the remaining balance to spot a mistake.
+
+The review screen shows the account, recipient, amount, and remaining balance before you sign.
+
+## Send a transfer
+
+1. Open your Vault and select the account you want to send from.
+2. Start a transfer.
+3. Choose a saved contact or enter the recipient identity.
+4. Enter the amount.
+5. Add a local memo if you want to recognize the payment later. Memos and notes stay in your wallet data.
+6. Review the details, then sign.
+
+Glyph tracks the transaction from broadcast through confirmation, expiry, or failure. The history view is searchable, and you can keep local notes and tags on activity.
+
+## Send to multiple recipients
+
+Glyph supports sending to multiple recipients in one reviewed flow. Build the list, review each recipient and amount, then sign. Check the full list before you approve it. A transfer that has already been signed cannot be edited or pulled back from Glyph.
+
+## Receive QU
+
+To receive QU, share one of these from the account:
+
+- the Qubic identity itself
+- a QR code for the identity
+- a payment link
+
+The sender still needs the correct identity or link. Confirm that the destination account matches the wallet you control before you ask someone to send funds.
+
+## Track the transaction
+
+A transfer moves through several states. Glyph shows the current state so you can tell the difference between a transaction that is still being processed and one that has failed or expired.
+
+If a transfer looks stuck, first check:
+
+- the transaction state in Glyph
+- the recipient identity and amount you signed
+- whether the wallet is using the Qubic network or a custom RPC endpoint
+- the [user guide](https://github.com/glyphq/wallet/blob/main/docs/USER_GUIDE.md) for the current limitations
+
+## Reviewing app requests
+
+Glyph can also receive supported deep links from connected Qubic apps. A transfer request from an app is shown in the wallet with its account, action, amount, and details. Review it the same way you review a transfer you started yourself, and decline anything you do not recognize.
+
+Connected apps and their permissions live under **Settings → Connected apps**. You can remove access there.
