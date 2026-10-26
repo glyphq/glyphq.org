@@ -1,6 +1,7 @@
 import { ArrowRightIcon } from "@solar-icons/react/linear";
 import Link from "next/link";
 import { AccentBox } from "@/components/accent-box";
+import { Reveal } from "@/components/reveal";
 import { SiteButtonLink } from "@/components/site-button";
 import { SiteIcon } from "@/components/site-icon";
 import { pageMetadata } from "@/lib/page-metadata";
@@ -17,7 +18,7 @@ export const metadata = pageMetadata({
 export default function ProductsPage() {
   return (
     <section className="site-container pt-16 pb-24 md:pt-24 md:pb-32">
-      <div className="max-w-4xl">
+      <Reveal className="max-w-4xl" mount>
         <h1 className="font-display text-[clamp(3.4rem,8vw,7rem)] leading-[0.9] font-semibold tracking-[-0.07em] text-balance">
           Tools for <AccentBox>Qubic</AccentBox>
         </h1>
@@ -32,34 +33,35 @@ export default function ProductsPage() {
             Read the guides
           </SiteButtonLink>
         </div>
-      </div>
+      </Reveal>
 
       <div className="mt-16 grid gap-x-12 gap-y-14 sm:grid-cols-2 xl:grid-cols-3">
-        {products.map((product) => (
-          <Link
-            key={product.slug}
-            href={`/products/${product.slug}`}
-            className="group flex max-w-md flex-col"
-          >
-            <span className="flex items-center justify-between gap-4">
-              <span className="font-display text-3xl font-medium tracking-[-0.045em] transition-colors group-hover:text-brand sm:text-4xl">
-                {product.name}
+        {products.map((product, index) => (
+          <Reveal key={product.slug} className="min-w-0" delay={index * 0.05}>
+            <Link
+              href={`/products/${product.slug}`}
+              className="group flex h-full max-w-md flex-col"
+            >
+              <span className="flex items-center justify-between gap-4">
+                <span className="font-display text-3xl font-medium tracking-[-0.045em] transition-colors group-hover:text-brand sm:text-4xl">
+                  {product.name}
+                </span>
+                <SiteIcon
+                  icon={ArrowRightIcon}
+                  size={18}
+                  className="shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1"
+                />
               </span>
-              <SiteIcon
-                icon={ArrowRightIcon}
-                size={18}
-                className="shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1"
-              />
-            </span>
-            <span className="mt-3 block text-sm leading-relaxed text-muted-foreground text-pretty">
-              {product.shortDescription}
-            </span>
-            {product.status ? (
-              <span className="mt-4 font-mono text-[0.7rem] tracking-[0.14em] text-muted-foreground uppercase">
-                {product.status}
+              <span className="mt-3 block text-sm leading-relaxed text-muted-foreground text-pretty">
+                {product.shortDescription}
               </span>
-            ) : null}
-          </Link>
+              {product.status ? (
+                <span className="mt-4 font-mono text-[0.7rem] tracking-[0.14em] text-muted-foreground uppercase">
+                  {product.status}
+                </span>
+              ) : null}
+            </Link>
+          </Reveal>
         ))}
       </div>
     </section>

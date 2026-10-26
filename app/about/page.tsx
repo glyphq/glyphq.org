@@ -1,5 +1,6 @@
 import { ArrowRightUpIcon } from "@solar-icons/react/linear";
 import { AccentBox } from "@/components/accent-box";
+import { Reveal } from "@/components/reveal";
 import { SiteButtonLink } from "@/components/site-button";
 import { SiteIcon } from "@/components/site-icon";
 import { pageMetadata } from "@/lib/page-metadata";
@@ -36,19 +37,19 @@ export default function AboutPage() {
   return (
     <>
       <section className="site-container pt-16 pb-16 md:pt-24 md:pb-20">
-        <div className="max-w-4xl">
+        <Reveal className="max-w-4xl" mount>
           <h1 className="font-display text-[clamp(3.4rem,8vw,7rem)] leading-[0.9] font-semibold tracking-[-0.07em] text-balance">
             About <AccentBox>Glyph</AccentBox>
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
             A Qubic wallet built for the desktop, in the open.
           </p>
-        </div>
+        </Reveal>
       </section>
 
       <div className="bg-background">
         <section className="site-container pb-24 md:pb-32">
-          <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
+          <Reveal className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
             <h2 className="max-w-md font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl">
               Why Glyph exists.
             </h2>
@@ -63,11 +64,11 @@ export default function AboutPage() {
                 and Explorer for public network data.
               </p>
             </div>
-          </div>
+          </Reveal>
         </section>
 
         <section className="site-container pb-24 md:pb-32">
-          <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
+          <Reveal className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
             <h2 className="max-w-md font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl">
               Built by alez04.
             </h2>
@@ -92,11 +93,11 @@ export default function AboutPage() {
                 ))}
               </div>
             </div>
-          </div>
+          </Reveal>
         </section>
 
         <section className="site-container pb-24 md:pb-32">
-          <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
+          <Reveal className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
             <h2 className="max-w-md font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl">
               Built in the open.
             </h2>
@@ -124,7 +125,7 @@ export default function AboutPage() {
                 </SiteButtonLink>
               </div>
             </div>
-          </div>
+          </Reveal>
         </section>
       </div>
     </>

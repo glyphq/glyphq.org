@@ -1,17 +1,12 @@
 export type SponsorAsset = "QU" | "USDT";
 
-export type SponsorshipTierId =
-  | "supporter"
-  | "builder"
-  | "sustainer"
-  | "principal";
+export type SponsorshipThresholdId = "ledger" | "link" | "logo" | "roadmap";
 
-export type SponsorshipTier = {
-  id: SponsorshipTierId;
-  name: string;
+export type SponsorshipThreshold = {
+  id: SponsorshipThresholdId;
   thresholdUsdt: number;
-  summary: string;
-  benefits: string[];
+  /** One short line describing the recognition at this threshold. */
+  recognition: string;
 };
 
 export type SponsorTransfer = {
@@ -21,7 +16,7 @@ export type SponsorTransfer = {
   asset: SponsorAsset;
   /** Exact display amount. Do not round on-chain values. */
   amount: string;
-  tierId: SponsorshipTierId;
+  thresholdId: SponsorshipThresholdId;
   /** Full transaction hash. */
   transaction: string;
   transactionUrl?: string;
@@ -33,49 +28,26 @@ export type SponsorTransfer = {
  * is made indexable. Each threshold is the USDT value of a confirmed
  * sponsorship; QU transfers count at their USDT value on the day they confirm.
  */
-export const sponsorshipTiers: SponsorshipTier[] = [
+export const sponsorshipThresholds: SponsorshipThreshold[] = [
   {
-    id: "supporter",
-    name: "Supporter",
+    id: "ledger",
+    thresholdUsdt: 25, // PLACEHOLDER THRESHOLD
+    recognition: "Name in the public ledger.",
+  },
+  {
+    id: "link",
+    thresholdUsdt: 100, // PLACEHOLDER THRESHOLD
+    recognition: "Name and link.",
+  },
+  {
+    id: "logo",
     thresholdUsdt: 500, // PLACEHOLDER THRESHOLD
-    summary: "For individuals who want to keep the desktop wallet moving.",
-    benefits: [
-      "A line in the public transfer ledger",
-      "Sponsor role in the Glyph Discord",
-    ],
+    recognition: "Logo and release credit.",
   },
   {
-    id: "builder",
-    name: "Builder",
-    thresholdUsdt: 2_000, // PLACEHOLDER THRESHOLD
-    summary: "For teams that depend on Glyph in their Qubic workflow.",
-    benefits: [
-      "Everything in Supporter",
-      "Name and link on this page",
-      "Release-note credit when your support ships something",
-    ],
-  },
-  {
-    id: "sustainer",
-    name: "Sustainer",
-    thresholdUsdt: 7_500, // PLACEHOLDER THRESHOLD
-    summary: "For organisations funding a reliable independent desktop client.",
-    benefits: [
-      "Everything in Builder",
-      "Logo in the wallet repository and docs footer",
-      "Quarterly roadmap conversation with the maintainer",
-    ],
-  },
-  {
-    id: "principal",
-    name: "Principal",
-    thresholdUsdt: 20_000, // PLACEHOLDER THRESHOLD
-    summary: "For a named commitment to the open Qubic toolchain.",
-    benefits: [
-      "Everything in Sustainer",
-      "Named credit for a product area or release cycle",
-      "Early input on the public roadmap",
-    ],
+    id: "roadmap",
+    thresholdUsdt: 1_000, // PLACEHOLDER THRESHOLD
+    recognition: "Roadmap conversation.",
   },
 ];
 
@@ -111,8 +83,8 @@ export const sponsorsConfigured =
   !isPlaceholder(sponsorConfig.usdtAddress) &&
   !isPlaceholder(sponsorConfig.usdtNetwork);
 
-export function getSponsorshipTier(id: SponsorshipTierId) {
-  return sponsorshipTiers.find((tier) => tier.id === id);
+export function getSponsorshipThreshold(id: SponsorshipThresholdId) {
+  return sponsorshipThresholds.find((threshold) => threshold.id === id);
 }
 
 const usdtFormatter = new Intl.NumberFormat("en-US", {
