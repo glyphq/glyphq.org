@@ -1,4 +1,4 @@
-import { ArrowRight } from "@hugeicons/core-free-icons";
+import { ArrowRightIcon } from "@solar-icons/react/linear";
 import Image from "next/image";
 import { DownloadButton } from "@/components/download-button";
 import { SiteButtonLink } from "@/components/site-button";
@@ -40,7 +40,7 @@ export function HomeHero() {
         <DownloadButton size="lg" />
         <SiteButtonLink href="/products" variant="secondary" size="lg">
           Explore ecosystem
-          <SiteIcon icon={ArrowRight} size={16} />
+          <SiteIcon icon={ArrowRightIcon} size={16} />
         </SiteButtonLink>
       </div>
     </section>

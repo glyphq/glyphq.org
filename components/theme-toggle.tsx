@@ -1,6 +1,6 @@
 "use client";
 
-import { Moon, Sun } from "@hugeicons/core-free-icons";
+import { MoonIcon, SunIcon } from "@solar-icons/react/linear";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { siteButtonClasses } from "@/components/site-button";
@@ -24,9 +24,9 @@ export function ThemeToggle() {
       onClick={() => setTheme(dark ? "light" : "dark")}
     >
       {dark ? (
-        <SiteIcon icon={Moon} size={18} />
+        <SiteIcon icon={MoonIcon} size={18} />
       ) : (
-        <SiteIcon icon={Sun} size={18} />
+        <SiteIcon icon={SunIcon} size={18} />
       )}
     </button>
   );

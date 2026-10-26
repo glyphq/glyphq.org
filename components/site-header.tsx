@@ -1,14 +1,14 @@
 "use client";
 
-import { ArrowUpRight, ChevronDown } from "@hugeicons/core-free-icons";
+import { AltArrowDownIcon, ArrowRightUpIcon } from "@solar-icons/react/linear";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { BrandMark } from "@/components/brand-mark";
 import { DownloadButton } from "@/components/download-button";
 import { MobileNav } from "@/components/mobile-nav";
-import { SiteCommand } from "@/components/site-command";
 import { SiteIcon } from "@/components/site-icon";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { isActivePath, mainNav, productLinks } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -55,7 +55,7 @@ function ProductsMenu() {
       >
         Products
         <SiteIcon
-          icon={ChevronDown}
+          icon={AltArrowDownIcon}
           size={12}
           className={cn("transition-transform", open && "rotate-180")}
         />
@@ -86,7 +86,7 @@ function ProductsMenu() {
             className="mt-1 flex items-center justify-between rounded-xl px-2.5 py-2.5 text-sm transition-colors hover:bg-foreground/5"
           >
             All products
-            <SiteIcon icon={ArrowUpRight} size={14} />
+            <SiteIcon icon={ArrowRightUpIcon} size={14} />
           </Link>
         </div>
       ) : null}
@@ -150,7 +150,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-1">
-          <SiteCommand />
+          <ThemeToggle />
           <DownloadButton
             size="md"
             iconSize={16}

@@ -1,6 +1,10 @@
 "use client";
 
-import { ArrowUpRight, Cancel, Menu } from "@hugeicons/core-free-icons";
+import {
+  ArrowRightUpIcon,
+  CloseIcon,
+  HamburgerMenuIcon,
+} from "@solar-icons/react/linear";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { BrandMark } from "@/components/brand-mark";
@@ -38,7 +42,7 @@ export function MobileNav() {
           "lg:hidden",
         )}
       >
-        <SiteIcon icon={Menu} size={18} />
+        <SiteIcon icon={HamburgerMenuIcon} size={18} />
       </button>
 
       <dialog
@@ -56,23 +60,20 @@ export function MobileNav() {
               onClick={close}
               className={siteButtonClasses({ variant: "ghost", size: "icon" })}
             >
-              <SiteIcon icon={Cancel} size={18} />
+              <SiteIcon icon={CloseIcon} size={18} />
             </button>
           </div>
 
           <div className="flex-1 overflow-y-auto px-5 py-6">
             <nav aria-label="Mobile navigation" className="mt-4 flex flex-col">
-              {mainNav.map((item, index) => (
+              {mainNav.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={close}
-                  className="group flex items-center justify-between py-3 font-display text-3xl tracking-[-0.05em] transition-colors hover:text-brand"
+                  className="flex items-center justify-between py-3 font-display text-3xl tracking-[-0.05em] transition-colors hover:text-brand"
                 >
-                  <span>{item.label}</span>
-                  <span className="font-mono text-[10px] tracking-[0.16em] text-muted-foreground">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
+                  {item.label}
                 </Link>
               ))}
             </nav>
@@ -106,7 +107,7 @@ export function MobileNav() {
                       className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
                     >
                       {resource.label}
-                      <SiteIcon icon={ArrowUpRight} size={12} />
+                      <SiteIcon icon={ArrowRightUpIcon} size={12} />
                     </a>
                   ))}
                 </div>

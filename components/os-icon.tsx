@@ -1,4 +1,4 @@
-import { Download } from "@hugeicons/core-free-icons";
+import { DownloadIcon } from "@solar-icons/react/linear";
 import { SiteIcon } from "@/components/site-icon";
 import type { OperatingSystem } from "@/lib/use-operating-system";
 
@@ -35,5 +35,5 @@ export function OsIcon({
   if (os === "macos") return <MaskIcon src="/os/apple.svg" size={size} />;
   if (os === "windows") return <MaskIcon src="/os/windows.svg" size={size} />;
   if (os === "linux") return <MaskIcon src="/os/linux.svg" size={size} />;
-  return <SiteIcon icon={Download} size={size} />;
+  return <SiteIcon icon={DownloadIcon} size={size} />;
 }

@@ -21,7 +21,6 @@ export type NavItem = {
 };
 
 export const mainNav: NavItem[] = [
-  { label: "Features", href: "/features" },
   { label: "Products", href: "/products" },
   { label: "Download", href: "/download" },
   { label: "About", href: "/about" },
@@ -46,7 +45,7 @@ export const productLinks: NavItem[] = [
   {
     label: "Explorer",
     href: "/products#explorer",
-    description: "Network data for Qubic identities and ticks.",
+    description: "Network data for Qubic identities and activity.",
   },
   {
     label: "Glyph API",
