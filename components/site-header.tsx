@@ -1,95 +1,17 @@
 "use client";
 
-import { AltArrowDownIcon, ArrowRightUpIcon } from "@solar-icons/react/linear";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { BrandMark } from "@/components/brand-mark";
 import { DownloadButton } from "@/components/download-button";
 import { MobileNav } from "@/components/mobile-nav";
-import { SiteIcon } from "@/components/site-icon";
-import { isActivePath, mainNav, productLinks } from "@/lib/site";
+import { ProductsMenu } from "@/components/products-menu";
+import { isActivePath, mainNav } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const navLinkClass =
   "inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-foreground/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
-
-function ProductsMenu() {
-  const [open, setOpen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-
-    function onPointerDown(event: PointerEvent) {
-      if (!containerRef.current?.contains(event.target as Node)) {
-        setOpen(false);
-      }
-    }
-
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") setOpen(false);
-    }
-
-    document.addEventListener("pointerdown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("pointerdown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [open]);
-
-  return (
-    <div ref={containerRef} className="relative">
-      <button
-        type="button"
-        aria-expanded={open}
-        aria-controls="products-menu"
-        onClick={() => setOpen((value) => !value)}
-        className={cn(
-          navLinkClass,
-          "inline-flex items-center gap-1",
-          open && "bg-foreground/5 text-foreground",
-        )}
-      >
-        Products
-        <SiteIcon
-          icon={AltArrowDownIcon}
-          size={12}
-          className={cn("transition-transform", open && "rotate-180")}
-        />
-      </button>
-      {open ? (
-        <div
-          id="products-menu"
-          className="absolute top-full left-0 z-50 mt-2 w-80 rounded-2xl bg-popover p-2"
-        >
-          {productLinks.map((product) => (
-            <Link
-              key={product.href}
-              href={product.href}
-              onClick={() => setOpen(false)}
-              className="block rounded-xl px-2.5 py-2.5 transition-colors hover:bg-foreground/5"
-            >
-              <span className="text-sm font-medium">{product.label}</span>
-              <span className="mt-0.5 block text-xs leading-relaxed text-muted-foreground">
-                {product.description}
-              </span>
-            </Link>
-          ))}
-          <Link
-            href="/products"
-            onClick={() => setOpen(false)}
-            className="mt-1 flex items-center justify-between rounded-xl px-2.5 py-2.5 text-sm transition-colors hover:bg-foreground/5"
-          >
-            All products
-            <SiteIcon icon={ArrowRightUpIcon} size={14} />
-          </Link>
-        </div>
-      ) : null}
-    </div>
-  );
-}
 
 export function SiteHeader() {
   const pathname = usePathname();
