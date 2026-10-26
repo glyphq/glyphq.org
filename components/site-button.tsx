@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
-import { ButtonAscii } from "@/components/button-ascii";
 import { cn } from "@/lib/utils";
 
 export type SiteButtonVariant = "primary" | "secondary" | "outline" | "ghost";
@@ -10,7 +9,7 @@ type Variant = SiteButtonVariant;
 type Size = SiteButtonSize;
 
 const base =
-  "relative isolate inline-flex shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0";
+  "inline-flex shrink-0 items-center justify-center gap-2 rounded-full font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0";
 
 const variants: Record<Variant, string> = {
   primary: "bg-brand text-brand-foreground hover:bg-brand/85",
@@ -50,19 +49,13 @@ export function SiteButton({
   className,
   variant,
   size,
-  children,
   ...props
 }: SiteButtonProps & ComponentProps<"button">) {
   return (
     <button
       className={siteButtonClasses({ variant, size, className })}
       {...props}
-    >
-      {(variant === undefined || variant === "primary") && <ButtonAscii />}
-      <span className="relative z-10 inline-flex items-center gap-2">
-        {children}
-      </span>
-    </button>
+    />
   );
 }
 
@@ -72,7 +65,6 @@ export function SiteButtonLink({
   size,
   href,
   external,
-  children,
   ...props
 }: SiteButtonProps &
   Omit<ComponentProps<typeof Link>, "href"> & {
@@ -89,21 +81,9 @@ export function SiteButtonLink({
         rel="noreferrer"
         className={classes}
         {...props}
-      >
-        {(variant === undefined || variant === "primary") && <ButtonAscii />}
-        <span className="relative z-10 inline-flex items-center gap-2">
-          {children}
-        </span>
-      </a>
+      />
     );
   }
 
-  return (
-    <Link href={href} className={classes} {...props}>
-      {(variant === undefined || variant === "primary") && <ButtonAscii />}
-      <span className="relative z-10 inline-flex items-center gap-2">
-        {children}
-      </span>
-    </Link>
-  );
+  return <Link href={href} className={classes} {...props} />;
 }

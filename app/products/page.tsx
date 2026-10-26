@@ -1,6 +1,7 @@
 import { ArrowRightUpIcon, DownloadIcon } from "@solar-icons/react/linear";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { AccentBox } from "@/components/accent-box";
 import { SiteButtonLink } from "@/components/site-button";
 import { SiteIcon } from "@/components/site-icon";
 import { siteConfig } from "@/lib/site";
@@ -79,10 +80,7 @@ export default function ProductsPage() {
       <section className="site-container pt-16 pb-16 md:pt-24 md:pb-20">
         <div className="max-w-4xl">
           <h1 className="font-display text-[clamp(3.4rem,8vw,7rem)] leading-[0.9] font-semibold tracking-[-0.07em] text-balance">
-            Tools for{" "}
-            <span className="inline-flex items-center rounded-[0.16em] bg-brand px-[0.12em] py-[0.04em] text-brand-foreground">
-              Qubic
-            </span>
+            Tools for <AccentBox>Qubic</AccentBox>
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
             A self-custodial wallet and the developer tools around it.
