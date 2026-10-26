@@ -18,8 +18,8 @@ export default function NotFound() {
         Wrong turn.
       </h2>
       <p className="mt-4 max-w-md text-base leading-relaxed text-muted-foreground text-pretty">
-        This page doesn't exist. We checked every link and the couch cushions.
-        Your keys are fine.
+        This page doesn't exist. It probably wandered off. The rest of the site
+        is still here.
       </p>
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
