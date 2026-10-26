@@ -1,38 +1,11 @@
 import type { MDXComponents } from "mdx/types";
-import Link from "next/link";
 import type { ReactNode } from "react";
+import { GuideHero } from "@/components/guide-hero";
 import { Reveal } from "@/components/reveal";
 import { cn } from "@/lib/utils";
 
-export function GuideMeta({ category }: { category: string }) {
-  return (
-    <div className="mb-6 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1.5 text-sm text-muted-foreground">
-      <Link
-        href="/guides"
-        className="text-foreground/75 underline decoration-foreground/25 underline-offset-4 transition-colors hover:text-brand hover:decoration-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      >
-        All guides
-      </Link>
-      <span aria-hidden="true" className="text-foreground/25">
-        /
-      </span>
-      <span className="font-mono text-[0.7rem] tracking-[0.14em] text-brand uppercase">
-        {category}
-      </span>
-      <span aria-hidden="true" className="text-foreground/25">
-        /
-      </span>
-      <span>By alez04</span>
-    </div>
-  );
-}
-
-export function GuideIntro({ children }: { children: ReactNode }) {
-  return (
-    <p className="mx-auto mt-5 max-w-2xl text-center text-base leading-relaxed text-muted-foreground text-pretty">
-      {children}
-    </p>
-  );
+export function BlogArticle({ children }: { children: ReactNode }) {
+  return <article className="blog-article">{children}</article>;
 }
 
 export function Callout({
@@ -75,7 +48,7 @@ const components = {
   ),
   h2: ({ children, ...props }) => (
     <h2
-      className="mt-14 font-display text-3xl leading-[1] font-semibold tracking-[-0.045em] text-balance sm:text-4xl"
+      className="mt-14 scroll-mt-28 font-display text-3xl leading-[1] font-semibold tracking-[-0.045em] text-balance sm:text-4xl"
       {...props}
     >
       {children}
@@ -83,7 +56,7 @@ const components = {
   ),
   h3: ({ children, ...props }) => (
     <h3
-      className="mt-10 font-display text-xl font-medium tracking-[-0.02em]"
+      className="mt-10 scroll-mt-28 font-display text-xl font-medium tracking-[-0.02em]"
       {...props}
     >
       {children}
@@ -233,8 +206,8 @@ const components = {
   hr: (props) => (
     <hr className="my-12 border-0 border-t border-foreground/10" {...props} />
   ),
-  GuideMeta,
-  GuideIntro,
+  GuideHero,
+  BlogArticle,
   Callout,
 } satisfies MDXComponents;
 

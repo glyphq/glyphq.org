@@ -4,21 +4,13 @@ export const metadata = pageMetadata({
   title: "Connect a dApp",
   description:
     "Use @glyph-oss/connect to build typed Glyph deep-link requests, deliver results safely, and verify callbacks.",
-  path: "/guides/connect-a-dapp",
+  path: "/blog/connect-a-dapp",
+  image: "/blog/og/connect-a-dapp",
 });
 
-<GuideMeta category="Developers" />
+<GuideHero slug="connect-a-dapp" />
 
-# Connect a dApp
-
-<GuideIntro>
-  <code className="rounded-md bg-foreground/8 px-1.5 py-0.5 font-mono text-[0.85em] text-foreground">
-    @glyph-oss/connect
-  </code>{" "}
-  is a TypeScript SDK for Glyph deep-link requests. Build a typed request, wrap
-  it in an envelope, and open it in the Glyph desktop wallet. The wallet shows
-  the request for review before the user approves or declines it.
-</GuideIntro>
+<BlogArticle>
 
 <Callout title="Results are not trusted by default">
 Match the result nonce and request type, and verify signed callbacks before trusting the decoded result. A callback body that arrives at your server is not proof that the wallet signed it.
@@ -185,3 +177,5 @@ The SDK mirrors the wallet's deep-link policy. Before you ship, make sure:
 Relay sessions split read and write authority. Keep the callback capability in the wallet callback URL and the read capability in your dApp process. Never expose the read capability to the wallet.
 
 The full API, including `prepareRelaySession()`, `subscribeViaRelayV2()`, and the capability helpers, is documented in the [Connect repository](https://github.com/glyphq/connect).
+
+</BlogArticle>

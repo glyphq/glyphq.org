@@ -9,6 +9,16 @@ const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   cacheComponents: true,
   partialPrefetching: true,
+  async redirects() {
+    return [
+      { source: "/guides", destination: "/blog", permanent: true },
+      {
+        source: "/guides/:slug*",
+        destination: "/blog/:slug*",
+        permanent: true,
+      },
+    ];
+  },
   turbopack: {
     rules: {
       "*.css": {
@@ -25,6 +35,7 @@ const withMDX = createMDX({
     // Turbopack needs plugin names as strings.
     remarkPlugins: ["remark-gfm"],
     rehypePlugins: [
+      "rehype-slug",
       ["rehype-pretty-code", { theme: "vesper", keepBackground: false }],
     ],
   },

@@ -4,17 +4,13 @@ export const metadata = pageMetadata({
   title: "Send QU",
   description:
     "Send QU from Glyph Wallet, receive with an identity or QR code, and track a transfer from broadcast to confirmation.",
-  path: "/guides/send-qubic",
+  path: "/blog/send-qubic",
+  image: "/blog/og/send-qubic",
 });
 
-<GuideMeta category="Wallet" />
+<GuideHero slug="send-qubic" />
 
-# Send QU
-
-<GuideIntro>
-  QU is the native unit on Qubic. A transfer goes to a 60-character Qubic
-  identity, such as a saved contact or an identity you paste in.
-</GuideIntro>
+<BlogArticle>
 
 <Callout title="Start small">
 A signed transfer cannot be reversed from the wallet. Send a small test amount first, confirm it arrives, and only then send the rest.
@@ -70,3 +66,5 @@ If a transfer looks stuck, first check:
 Glyph can also receive supported deep links from connected Qubic apps. A transfer request from an app is shown in the wallet with its account, action, amount, and details. Review it the same way you review a transfer you started yourself, and decline anything you do not recognize.
 
 Connected apps and their permissions live under **Settings → Connected apps**. You can remove access there.
+
+</BlogArticle>
