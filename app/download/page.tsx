@@ -1,6 +1,7 @@
 import { ArrowRightUpIcon, DownloadIcon } from "@solar-icons/react/linear";
 import Image from "next/image";
 import { AccentBox } from "@/components/accent-box";
+import { CodeBlock } from "@/components/code-block";
 import { OsIcon } from "@/components/os-icon";
 import { ReleaseDownloadButton } from "@/components/release-download-button";
 import { SiteButtonLink } from "@/components/site-button";
@@ -60,19 +61,11 @@ export default async function DownloadPage() {
     <>
       <section className="site-container flex flex-col items-center py-20 text-center md:py-28">
         <Image
-          src="/brand/glyph-on-light.png"
-          alt=""
-          width={64}
-          height={64}
-          className="size-14 dark:hidden"
-          priority
-        />
-        <Image
           src="/brand/glyph-on-dark.png"
           alt=""
           width={64}
           height={64}
-          className="hidden size-14 dark:block"
+          className="size-14"
           priority
         />
 
@@ -159,33 +152,31 @@ export default async function DownloadPage() {
             </div>
 
             <div className="md:col-span-2">
-              <div className="grid gap-6 md:grid-cols-2 md:gap-12">
-                <div className="flex items-center gap-3">
-                  <OsIcon os="linux" size={28} />
-                  <div>
-                    <h3 className="font-display text-2xl font-medium tracking-[-0.03em]">
-                      Linux
-                    </h3>
-                    <p className="mt-1 text-sm text-muted-foreground">x86_64</p>
-                  </div>
+              <div className="flex items-center gap-3">
+                <OsIcon os="linux" size={28} />
+                <div>
+                  <h3 className="font-display text-2xl font-medium tracking-[-0.03em]">
+                    Linux
+                  </h3>
+                  <p className="mt-1 text-sm text-muted-foreground">x86_64</p>
                 </div>
-                <div className="grid gap-2">
-                  <AssetLink
-                    asset={release?.downloads.appimage}
-                    fallback={releaseUrl}
-                    label="AppImage"
-                  />
-                  <AssetLink
-                    asset={release?.downloads.deb}
-                    fallback={releaseUrl}
-                    label="Debian / Ubuntu (.deb)"
-                  />
-                  <AssetLink
-                    asset={release?.downloads.rpm}
-                    fallback={releaseUrl}
-                    label="Fedora / RHEL (.rpm)"
-                  />
-                </div>
+              </div>
+              <div className="mt-6 grid gap-2 md:grid-cols-3">
+                <AssetLink
+                  asset={release?.downloads.appimage}
+                  fallback={releaseUrl}
+                  label="AppImage"
+                />
+                <AssetLink
+                  asset={release?.downloads.deb}
+                  fallback={releaseUrl}
+                  label="Debian / Ubuntu (.deb)"
+                />
+                <AssetLink
+                  asset={release?.downloads.rpm}
+                  fallback={releaseUrl}
+                  label="Fedora / RHEL (.rpm)"
+                />
               </div>
             </div>
           </div>
@@ -234,8 +225,10 @@ export default async function DownloadPage() {
                   Make the AppImage executable and run it, or install the DEB or
                   RPM package.
                 </p>
-                <pre className="mt-4 overflow-x-auto rounded-2xl bg-foreground/5 p-4 font-mono text-xs leading-relaxed">
-                  {`# AppImage
+                <CodeBlock
+                  className="mt-4"
+                  lang="bash"
+                  code={`# AppImage
 chmod +x Glyph*.AppImage
 ./Glyph*.AppImage
 
@@ -244,7 +237,7 @@ sudo apt install ./Glyph*.deb
 
 # Fedora / RHEL
 sudo dnf install ./Glyph*.rpm`}
-                </pre>
+                />
               </div>
 
               {release ? (
