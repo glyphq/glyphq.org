@@ -1,13 +1,9 @@
 "use client";
 
-import { useTheme } from "next-themes";
 import GradientASCII from "@/components/gradient-ascii";
-import { asciiDarkColors, asciiLightColors } from "@/lib/ascii-palette";
+import { asciiDarkColors } from "@/lib/ascii-palette";
 
 export function SiteBackdrop() {
-  const { resolvedTheme } = useTheme();
-  const light = resolvedTheme === "light";
-
   return (
     <div
       aria-hidden="true"
@@ -22,25 +18,25 @@ export function SiteBackdrop() {
       />
       <div className="absolute inset-0">
         <GradientASCII
-          colors={light ? asciiLightColors : asciiDarkColors}
+          colors={asciiDarkColors}
           shape="horizon"
           characters=" =+xX0S8#@"
           cellSize={18}
-          density={light ? 0.4 : 0.7}
-          glyphOpacity={light ? 0.5 : 0.8}
-          glow={light ? 0.1 : 0.4}
+          density={0.7}
+          glyphOpacity={0.8}
+          glow={0.4}
           flicker={0.1}
           softness={0.5}
           scale={1}
           flow={0.5}
           speed={0.35}
-          gradientOpacity={light ? 0.1 : 0.9}
+          gradientOpacity={0.9}
           grain={0.08}
           variation={2}
           mouseInteraction={false}
           clickEffect="none"
           intro={false}
-          lightMode={light}
+          lightMode={false}
           dpr={1.5}
         />
       </div>

@@ -4,7 +4,7 @@ import { AccentBox } from "@/components/accent-box";
 import { SiteButtonLink } from "@/components/site-button";
 import { SiteIcon } from "@/components/site-icon";
 import { pageMetadata } from "@/lib/page-metadata";
-import { siteConfig } from "@/lib/site";
+import { productLinks, siteConfig } from "@/lib/site";
 
 export const metadata = pageMetadata({
   title: "Products",
@@ -19,14 +19,6 @@ const docs = {
   connect: "https://docs.glyphq.org/docs/reference/request-builders",
   relay: "https://docs.glyphq.org/docs/guides/relay-v2",
 };
-
-const productAnchors = [
-  { label: "Wallet", href: "#wallet" },
-  { label: "Connect", href: "#connect" },
-  { label: "Relay", href: "#relay" },
-  { label: "Explorer", href: "#explorer" },
-  { label: "API", href: "#api" },
-];
 
 function CodeBlock({ children }: { children: string }) {
   return (
@@ -89,14 +81,17 @@ export default function ProductsPage() {
           </p>
           <nav
             aria-label="Product sections"
-            className="mt-10 flex flex-wrap gap-x-6 gap-y-2 font-mono text-sm text-muted-foreground"
+            className="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground"
           >
-            {productAnchors.map((product) => (
+            {productLinks.map((product) => (
               <a
                 key={product.href}
-                href={product.href}
-                className="transition-colors hover:text-foreground"
+                href={`#${product.href.split("#")[1]}`}
+                className="inline-flex items-center gap-1.5 transition-colors hover:text-foreground"
               >
+                {product.icon ? (
+                  <SiteIcon icon={product.icon} size={14} />
+                ) : null}
                 {product.label}
               </a>
             ))}
@@ -322,7 +317,7 @@ GET  /v2/result/:session/:readCap`}</CodeBlock>
               >
                 API
               </h2>
-              <span className="rounded-full bg-foreground/8 px-2.5 py-1 font-mono text-xs text-muted-foreground">
+              <span className="rounded-full bg-foreground/8 px-2.5 py-1 text-xs text-muted-foreground">
                 In progress
               </span>
             </div>

@@ -129,11 +129,7 @@ export function createOgImage({
       >
         {/* biome-ignore lint/performance/noImgElement: OG image logo data URL */}
         <img src={logoSrc} width={48} height={48} alt="" />
-        <span
-          style={{ fontFamily: "monospace", fontSize: 28, fontWeight: 600 }}
-        >
-          Glyph
-        </span>
+        <span style={{ fontSize: 28, fontWeight: 600 }}>Glyph</span>
       </div>
 
       <div
@@ -148,8 +144,7 @@ export function createOgImage({
         <div
           style={{
             display: "flex",
-            fontFamily: "monospace",
-            fontSize: 66,
+            fontSize: 76,
             fontWeight: 700,
             letterSpacing: "-0.06em",
             lineHeight: 1.02,
@@ -161,8 +156,7 @@ export function createOgImage({
         <div
           style={{
             display: "flex",
-            fontFamily: "monospace",
-            fontSize: 26,
+            fontSize: 30,
             lineHeight: 1.25,
             color: "#9b9ca1",
             maxWidth: 900,

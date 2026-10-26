@@ -37,7 +37,7 @@ function AssetLink({
       target="_blank"
       rel="noreferrer"
       title={asset?.name}
-      className="flex items-center gap-3 rounded-xl bg-foreground/5 px-4 py-3 font-mono text-sm transition-colors hover:bg-foreground/10"
+      className="flex items-center gap-3 rounded-xl bg-foreground/5 px-4 py-3 text-sm transition-colors hover:bg-foreground/10"
     >
       <SiteIcon
         icon={DownloadIcon}
