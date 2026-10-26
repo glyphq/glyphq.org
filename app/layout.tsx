@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SiteBackdrop } from "@/components/site-backdrop";
 import { SiteFooter } from "@/components/site-footer";
@@ -24,6 +24,7 @@ export const metadata: Metadata = {
   },
   description:
     "Glyph is an open-source ecosystem for Qubic: a self-custodial desktop wallet, Connect SDK, Relay, and Explorer.",
+  alternates: { canonical: "/" },
   applicationName: "Glyph",
   keywords: [
     "Glyph",
@@ -53,6 +54,29 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  colorScheme: "dark light",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f8f7f2" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+};
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Glyph",
+  url: "https://glyphq.org",
+  description:
+    "An open-source ecosystem for Qubic: a self-custodial desktop wallet, Connect SDK, Relay, and Explorer.",
+  publisher: {
+    "@type": "Organization",
+    name: "Glyph",
+    url: "https://glyphq.org",
+    logo: "https://glyphq.org/brand/glyph-on-dark.png",
+  },
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -62,6 +86,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-dvh bg-background font-sans text-foreground">
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData).replace(/</g, "\\u003c")}
+        </script>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

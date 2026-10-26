@@ -1,16 +1,18 @@
 import { ArrowRightUpIcon, DownloadIcon } from "@solar-icons/react/linear";
-import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { AccentBox } from "@/components/accent-box";
 import { SiteButtonLink } from "@/components/site-button";
 import { SiteIcon } from "@/components/site-icon";
+import { pageMetadata } from "@/lib/page-metadata";
 import { siteConfig } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Products",
   description:
     "The Glyph ecosystem: a self-custodial Qubic wallet, Connect SDK, Relay, Explorer, and API.",
-};
+  path: "/products",
+  image: "/products/opengraph-image",
+});
 
 const docs = {
   wallet: "https://docs.glyphq.org/docs/getting-started/install",
@@ -28,7 +30,7 @@ const productAnchors = [
 
 function CodeBlock({ children }: { children: string }) {
   return (
-    <pre className="overflow-x-auto rounded-2xl bg-foreground/5 p-5 font-mono text-xs leading-relaxed text-foreground/85">
+    <pre className="min-w-0 max-w-full overflow-x-auto rounded-2xl bg-foreground/5 p-5 font-mono text-xs leading-relaxed text-foreground/85">
       {children}
     </pre>
   );
@@ -87,7 +89,7 @@ export default function ProductsPage() {
           </p>
           <nav
             aria-label="Product sections"
-            className="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground"
+            className="mt-10 flex flex-wrap gap-x-6 gap-y-2 font-mono text-sm text-muted-foreground"
           >
             {productAnchors.map((product) => (
               <a
@@ -173,7 +175,7 @@ export default function ProductsPage() {
               </SiteButtonLink>
             </ProductHeader>
 
-            <div className="space-y-8">
+            <div className="min-w-0 space-y-8">
               <CodeBlock>{`import {
   buildGlyphUrl,
   createEnvelope,
@@ -237,7 +239,7 @@ const url = buildGlyphUrl(envelope);`}</CodeBlock>
               </SiteButtonLink>
             </ProductHeader>
 
-            <div className="space-y-8">
+            <div className="min-w-0 space-y-8">
               <CodeBlock>{`POST /v2/register/:session
 POST /v2/callback/:session/:callbackCap
 GET  /v2/stream/:session/:readCap
@@ -320,7 +322,7 @@ GET  /v2/result/:session/:readCap`}</CodeBlock>
               >
                 API
               </h2>
-              <span className="rounded-full bg-foreground/8 px-2.5 py-1 text-xs text-muted-foreground">
+              <span className="rounded-full bg-foreground/8 px-2.5 py-1 font-mono text-xs text-muted-foreground">
                 In progress
               </span>
             </div>

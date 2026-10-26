@@ -3,7 +3,7 @@
 import { AltArrowDownIcon, ArrowRightUpIcon } from "@solar-icons/react/linear";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { BrandMark } from "@/components/brand-mark";
 import { DownloadButton } from "@/components/download-button";
 import { MobileNav } from "@/components/mobile-nav";
@@ -13,7 +13,7 @@ import { isActivePath, mainNav, productLinks } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const navLinkClass =
-  "inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+  "inline-flex items-center gap-1.5 rounded-full px-3 py-2 font-mono text-sm font-medium text-foreground transition-colors hover:bg-foreground/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
 function ProductsMenu() {
   const [open, setOpen] = useState(false);
@@ -45,7 +45,7 @@ function ProductsMenu() {
       <button
         type="button"
         aria-expanded={open}
-        aria-haspopup="menu"
+        aria-controls="products-menu"
         onClick={() => setOpen((value) => !value)}
         className={cn(
           navLinkClass,
@@ -62,18 +62,19 @@ function ProductsMenu() {
       </button>
       {open ? (
         <div
-          role="menu"
+          id="products-menu"
           className="absolute top-full left-0 z-50 mt-2 w-80 rounded-2xl bg-popover p-2"
         >
           {productLinks.map((product) => (
             <Link
               key={product.href}
               href={product.href}
-              role="menuitem"
               onClick={() => setOpen(false)}
               className="block rounded-xl px-2.5 py-2.5 transition-colors hover:bg-foreground/5"
             >
-              <span className="block text-sm font-medium">{product.label}</span>
+              <span className="block font-mono text-sm font-medium">
+                {product.label}
+              </span>
               <span className="mt-0.5 block text-xs leading-relaxed text-muted-foreground">
                 {product.description}
               </span>
@@ -81,7 +82,6 @@ function ProductsMenu() {
           ))}
           <Link
             href="/products"
-            role="menuitem"
             onClick={() => setOpen(false)}
             className="mt-1 flex items-center justify-between rounded-xl px-2.5 py-2.5 text-sm transition-colors hover:bg-foreground/5"
           >
@@ -127,26 +127,35 @@ export function SiteHeader() {
           aria-label="Main navigation"
           className="hidden items-center gap-1 lg:flex"
         >
-          {mainNav.map((item) =>
-            item.label === "Products" ? (
-              <ProductsMenu key={item.href} />
-            ) : (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={
-                  isActivePath(pathname, item.href) ? "page" : undefined
-                }
-                className={cn(
-                  navLinkClass,
-                  isActivePath(pathname, item.href) &&
-                    "bg-foreground/5 text-foreground",
-                )}
-              >
-                {item.label}
-              </Link>
-            ),
-          )}
+          {mainNav.map((item, index) => (
+            <Fragment key={item.href}>
+              {index > 0 ? (
+                <span
+                  aria-hidden="true"
+                  className="px-0.5 font-mono text-xs text-muted-foreground/30"
+                >
+                  /
+                </span>
+              ) : null}
+              {item.label === "Products" ? (
+                <ProductsMenu />
+              ) : (
+                <Link
+                  href={item.href}
+                  aria-current={
+                    isActivePath(pathname, item.href) ? "page" : undefined
+                  }
+                  className={cn(
+                    navLinkClass,
+                    isActivePath(pathname, item.href) &&
+                      "bg-foreground/5 text-foreground",
+                  )}
+                >
+                  {item.label}
+                </Link>
+              )}
+            </Fragment>
+          ))}
         </nav>
 
         <div className="ml-auto flex items-center gap-1">

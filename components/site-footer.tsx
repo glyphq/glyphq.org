@@ -34,13 +34,13 @@ export function SiteFooter() {
             aria-label="Footer products"
             className="col-span-1 md:col-span-2"
           >
-            <h3 className="text-sm font-medium">Products</h3>
+            <h3 className="font-mono text-sm font-medium">Products</h3>
             <ul className="mt-4 space-y-2.5">
               {productLinks.map((product) => (
                 <li key={product.href}>
                   <Link
                     href={product.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    className="font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {product.label}
                   </Link>
@@ -53,7 +53,7 @@ export function SiteFooter() {
             aria-label="Footer resources"
             className="col-span-1 md:col-span-3"
           >
-            <h3 className="text-sm font-medium">Resources</h3>
+            <h3 className="font-mono text-sm font-medium">Resources</h3>
             <ul className="mt-4 space-y-2.5">
               {resourceLinks.map((resource) => (
                 <li key={resource.href}>
@@ -61,7 +61,7 @@ export function SiteFooter() {
                     href={resource.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1 text-sm whitespace-nowrap text-muted-foreground transition-colors hover:text-foreground"
+                    className="inline-flex items-center gap-1 font-mono text-sm whitespace-nowrap text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {resource.label}
                     <SiteIcon icon={ArrowRightUpIcon} size={12} />
@@ -72,7 +72,7 @@ export function SiteFooter() {
           </nav>
 
           <nav aria-label="Footer network" className="col-span-2 md:col-span-3">
-            <h3 className="text-sm font-medium">Network</h3>
+            <h3 className="font-mono text-sm font-medium">Network</h3>
             <ul className="mt-4 space-y-2.5">
               {networkLinks.map((link) => (
                 <li key={link.href}>
@@ -80,7 +80,7 @@ export function SiteFooter() {
                     href={link.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1 text-sm whitespace-nowrap text-muted-foreground transition-colors hover:text-foreground"
+                    className="inline-flex items-center gap-1 font-mono text-sm whitespace-nowrap text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {link.label}
                     <SiteIcon icon={ArrowRightUpIcon} size={12} />

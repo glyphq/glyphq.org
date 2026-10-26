@@ -18,10 +18,13 @@ export function AccentAscii({
 }) {
   const { resolvedTheme } = useTheme();
   const light = resolvedTheme === "light";
-  const resolvedIntensity = light ? intensity * 0.6 : intensity;
+  const resolvedIntensity = light ? intensity * 0.45 : intensity;
 
   return (
-    <div className={cn("pointer-events-none absolute inset-0", className)}>
+    <div
+      aria-hidden="true"
+      className={cn("pointer-events-none absolute inset-0", className)}
+    >
       <GradientASCII
         colors={light ? asciiLightColors : boxDarkColors}
         shape="horizon"

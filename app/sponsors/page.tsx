@@ -1,14 +1,17 @@
 import { ArrowRightUpIcon } from "@solar-icons/react/linear";
-import type { Metadata } from "next";
 import { AccentBox } from "@/components/accent-box";
 import { SiteButtonLink } from "@/components/site-button";
 import { SiteIcon } from "@/components/site-icon";
+import { pageMetadata } from "@/lib/page-metadata";
 import { siteConfig } from "@/lib/site";
 import { sponsorConfig, sponsorsConfigured } from "@/lib/sponsors";
 
-export const metadata: Metadata = {
-  title: "Sponsors",
-  description: "Sponsor the Glyph wallet and its open-source tools.",
+export const metadata = {
+  ...pageMetadata({
+    title: "Sponsors",
+    description: "Sponsor the Glyph wallet and its open-source tools.",
+    path: "/sponsors",
+  }),
   ...(sponsorsConfigured ? {} : { robots: { index: false, follow: false } }),
 };
 
@@ -74,7 +77,7 @@ export default function SponsorsPage() {
           </h2>
           {sponsorConfig.sponsors.length > 0 ? (
             <div className="mt-8 overflow-x-auto">
-              <table className="w-full border-separate border-spacing-y-3 text-left text-sm">
+              <table className="w-full border-separate border-spacing-y-3 text-left font-mono text-sm">
                 <thead>
                   <tr className="text-xs text-muted-foreground">
                     <th className="pr-6 font-normal">Sponsor</th>

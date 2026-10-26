@@ -1,15 +1,17 @@
 import { ArrowRightUpIcon } from "@solar-icons/react/linear";
-import type { Metadata } from "next";
 import { AccentBox } from "@/components/accent-box";
 import { SiteButtonLink } from "@/components/site-button";
 import { SiteIcon } from "@/components/site-icon";
+import { pageMetadata } from "@/lib/page-metadata";
 import { siteConfig } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "About",
   description:
     "Glyph is an independent, open-source Qubic wallet and developer ecosystem.",
-};
+  path: "/about",
+  image: "/about/opengraph-image",
+});
 
 const contributions = [
   {
@@ -82,7 +84,7 @@ export default function AboutPage() {
                     href={contribution.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    className="inline-flex items-center gap-1.5 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {contribution.label}
                     <SiteIcon icon={ArrowRightUpIcon} size={12} />
