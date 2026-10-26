@@ -20,6 +20,7 @@
 }
 
 :root {
+  color-scheme: dark;
   --background: #0a0a0a;
   --foreground: #f8f7f2;
   --card: #1a1a1a;
@@ -35,6 +36,8 @@
 @layer base {
   html {
     @apply scroll-smooth;
+    scrollbar-color: #333333 var(--background);
+    scrollbar-width: thin;
   }
 
   body {
@@ -59,7 +62,36 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
+
+    [data-reveal] {
+      opacity: 1 !important;
+      transform: none !important;
+    }
   }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  min-height: 3rem;
+  border: 3px solid var(--background);
+  border-radius: 999px;
+  background: #333333;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--background);
 }
 
 @layer components {

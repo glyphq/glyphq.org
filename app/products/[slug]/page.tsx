@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AccentBox } from "@/components/accent-box";
 import { CodeBlock, type CodeLanguage } from "@/components/code-block";
+import { Reveal } from "@/components/reveal";
 import { SiteButtonLink } from "@/components/site-button";
 import { SiteIcon } from "@/components/site-icon";
 import { pageMetadata } from "@/lib/page-metadata";
@@ -107,7 +108,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   return (
     <>
       <section className="site-container pt-12 pb-16 md:pt-20 md:pb-24">
-        <div className="max-w-5xl">
+        <Reveal className="max-w-5xl" mount>
           <Link
             href="/products"
             className="text-sm text-foreground transition-colors hover:text-brand"
@@ -145,7 +146,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </SiteButtonLink>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
 
       <div className="bg-background">
@@ -153,7 +154,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           aria-labelledby="product-intro-heading"
           className="site-container pb-24 md:pb-32"
         >
-          <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
+          <Reveal className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
             <div>
               <h2
                 id="product-intro-heading"
@@ -168,7 +169,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </p>
               <FeatureGrid features={product.features} />
             </div>
-          </div>
+          </Reveal>
         </section>
 
         {product.tech ? (
@@ -176,7 +177,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             aria-labelledby="product-tech-heading"
             className="site-container pb-24 md:pb-32"
           >
-            <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
+            <Reveal className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
               <div>
                 <h2
                   id="product-tech-heading"
@@ -191,7 +192,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 ) : null}
               </div>
               <TechContent tech={product.tech} />
-            </div>
+            </Reveal>
           </section>
         ) : null}
 
@@ -199,7 +200,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           aria-labelledby="other-products-heading"
           className="site-container pb-24 md:pb-32"
         >
-          <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
+          <Reveal className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
             <div>
               <h2
                 id="other-products-heading"
@@ -229,7 +230,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </Link>
               ))}
             </div>
-          </div>
+          </Reveal>
         </section>
       </div>
     </>

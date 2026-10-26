@@ -81,6 +81,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-dvh bg-background font-sans text-foreground">
+        <noscript>
+          <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
         <script type="application/ld+json">
           {JSON.stringify(structuredData).replace(/</g, "\\u003c")}
         </script>

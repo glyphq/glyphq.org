@@ -1,6 +1,31 @@
 import type { MDXComponents } from "mdx/types";
+import Link from "next/link";
 import type { ReactNode } from "react";
+import { Reveal } from "@/components/reveal";
 import { cn } from "@/lib/utils";
+
+export function GuideMeta({ category }: { category: string }) {
+  return (
+    <div className="mb-6 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-sm text-muted-foreground">
+      <Link
+        href="/guides"
+        className="text-foreground/75 underline decoration-foreground/25 underline-offset-4 transition-colors hover:text-brand hover:decoration-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        All guides
+      </Link>
+      <span aria-hidden="true" className="text-foreground/25">
+        /
+      </span>
+      <span className="font-mono text-[0.7rem] tracking-[0.14em] text-brand uppercase">
+        {category}
+      </span>
+      <span aria-hidden="true" className="text-foreground/25">
+        /
+      </span>
+      <span>By alez04</span>
+    </div>
+  );
+}
 
 export function Callout({
   children,
@@ -31,12 +56,14 @@ export function Callout({
 
 const components = {
   h1: ({ children, ...props }) => (
-    <h1
-      className="font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl"
-      {...props}
-    >
-      {children}
-    </h1>
+    <Reveal mount>
+      <h1
+        className="font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl"
+        {...props}
+      >
+        {children}
+      </h1>
+    </Reveal>
   ),
   h2: ({ children, ...props }) => (
     <h2
@@ -151,7 +178,7 @@ const components = {
 
     return (
       <code
-        className="rounded-md bg-foreground/8 px-1.5 py-0.5 font-mono text-[0.85em] text-foreground"
+        className="rounded-md bg-foreground/8 px-1.5 py-0.5 font-mono text-[0.85em] text-foreground [overflow-wrap:anywhere]"
         {...props}
       >
         {children}
@@ -198,6 +225,7 @@ const components = {
   hr: (props) => (
     <hr className="my-12 border-0 border-t border-foreground/10" {...props} />
   ),
+  GuideMeta,
   Callout,
 } satisfies MDXComponents;
 

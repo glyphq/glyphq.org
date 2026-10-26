@@ -4,6 +4,7 @@ import { AccentBox } from "@/components/accent-box";
 import { CodeBlock } from "@/components/code-block";
 import { OsIcon } from "@/components/os-icon";
 import { ReleaseDownloadButton } from "@/components/release-download-button";
+import { Reveal } from "@/components/reveal";
 import { SiteButtonLink } from "@/components/site-button";
 import { SiteIcon } from "@/components/site-icon";
 import { pageMetadata } from "@/lib/page-metadata";
@@ -60,40 +61,42 @@ export default async function DownloadPage() {
   return (
     <>
       <section className="site-container flex flex-col items-center py-20 text-center md:py-28">
-        <Image
-          src="/brand/glyph-on-dark.png"
-          alt=""
-          width={64}
-          height={64}
-          className="size-14"
-          priority
-        />
+        <Reveal className="flex flex-col items-center" mount>
+          <Image
+            src="/brand/glyph-on-dark.png"
+            alt=""
+            width={64}
+            height={64}
+            className="size-14"
+            priority
+          />
 
-        <h1 className="mt-8 max-w-4xl font-display text-[clamp(3.4rem,8vw,7rem)] leading-[0.9] font-semibold tracking-[-0.07em] text-balance">
-          Download <AccentBox>Glyph</AccentBox>
-        </h1>
-        <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
-          The self-custodial Qubic wallet for Windows, macOS, and Linux.
-        </p>
-
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <ReleaseDownloadButton release={release} />
-          <SiteButtonLink
-            href={releaseUrl}
-            external
-            variant="secondary"
-            size="lg"
-          >
-            Release notes
-            <SiteIcon icon={ArrowRightUpIcon} size={16} />
-          </SiteButtonLink>
-        </div>
-
-        {release ? (
-          <p className="mt-4 font-mono text-xs text-muted-foreground">
-            {release.tag} · {formatReleaseDate(release.publishedAt)}
+          <h1 className="mt-8 max-w-4xl font-display text-[clamp(3.4rem,8vw,7rem)] leading-[0.9] font-semibold tracking-[-0.07em] text-balance">
+            Download <AccentBox>Glyph</AccentBox>
+          </h1>
+          <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
+            The self-custodial Qubic wallet for Windows, macOS, and Linux.
           </p>
-        ) : null}
+
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <ReleaseDownloadButton release={release} />
+            <SiteButtonLink
+              href={releaseUrl}
+              external
+              variant="secondary"
+              size="lg"
+            >
+              Release notes
+              <SiteIcon icon={ArrowRightUpIcon} size={16} />
+            </SiteButtonLink>
+          </div>
+
+          {release ? (
+            <p className="mt-4 font-mono text-xs text-muted-foreground">
+              {release.tag} · {formatReleaseDate(release.publishedAt)}
+            </p>
+          ) : null}
+        </Reveal>
       </section>
 
       <div className="bg-background">
@@ -108,7 +111,7 @@ export default async function DownloadPage() {
             Choose your platform.
           </h2>
 
-          <div className="mt-12 grid gap-12 md:grid-cols-2">
+          <Reveal className="mt-12 grid gap-12 md:grid-cols-2">
             <div>
               <div className="flex items-center gap-3">
                 <OsIcon os="windows" size={28} />
@@ -179,14 +182,14 @@ export default async function DownloadPage() {
                 />
               </div>
             </div>
-          </div>
+          </Reveal>
         </section>
 
         <section
           aria-labelledby="install-heading"
           className="site-container pb-24 md:pb-32"
         >
-          <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
+          <Reveal className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
             <div>
               <h2
                 id="install-heading"
@@ -265,7 +268,7 @@ sudo dnf install ./Glyph*.rpm`}
                 </details>
               ) : null}
             </div>
-          </div>
+          </Reveal>
         </section>
       </div>
     </>
