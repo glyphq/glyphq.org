@@ -1,5 +1,6 @@
 import { ArrowRightIcon } from "@solar-icons/react/linear";
 import Image from "next/image";
+import { AccentBox } from "@/components/accent-box";
 import { DownloadButton } from "@/components/download-button";
 import { SiteButtonLink } from "@/components/site-button";
 import { SiteIcon } from "@/components/site-icon";
@@ -26,9 +27,7 @@ export function HomeHero() {
 
       <h1 className="mt-8 flex flex-wrap items-center justify-center gap-x-[0.12em] gap-y-1 font-display text-[clamp(3.4rem,8.5vw,7.5rem)] leading-[0.9] font-semibold tracking-[-0.07em]">
         <span>Glyph</span>
-        <span className="inline-flex items-center rounded-[0.16em] bg-brand px-[0.12em] py-[0.04em] text-brand-foreground">
-          Ecosystem
-        </span>
+        <AccentBox>Ecosystem</AccentBox>
       </h1>
 
       <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">

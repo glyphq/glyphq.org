@@ -1,6 +1,7 @@
 import { ArrowRightUpIcon, DownloadIcon } from "@solar-icons/react/linear";
 import type { Metadata } from "next";
 import Image from "next/image";
+import { AccentBox } from "@/components/accent-box";
 import { OsIcon } from "@/components/os-icon";
 import { ReleaseDownloadButton } from "@/components/release-download-button";
 import { SiteButtonLink } from "@/components/site-button";
@@ -74,10 +75,7 @@ export default async function DownloadPage() {
         />
 
         <h1 className="mt-8 max-w-4xl font-display text-[clamp(3.4rem,8vw,7rem)] leading-[0.9] font-semibold tracking-[-0.07em] text-balance">
-          Download{" "}
-          <span className="inline-flex items-center rounded-[0.16em] bg-brand px-[0.12em] py-[0.04em] text-brand-foreground">
-            Glyph
-          </span>
+          Download <AccentBox>Glyph</AccentBox>
         </h1>
         <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
           The self-custodial Qubic wallet for Windows, macOS, and Linux.
