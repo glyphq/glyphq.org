@@ -10,19 +10,11 @@ export function BrandMark({ className }: { className?: string }) {
       )}
     >
       <Image
-        src="/brand/glyph-on-light.png"
-        alt=""
-        width={28}
-        height={28}
-        className="size-7 shrink-0 dark:hidden"
-        priority
-      />
-      <Image
         src="/brand/glyph-on-dark.png"
         alt=""
         width={28}
         height={28}
-        className="hidden size-7 shrink-0 dark:block"
+        className="size-7 shrink-0"
         priority
       />
       <span className="font-display text-base leading-none font-normal tracking-[-0.015em]">

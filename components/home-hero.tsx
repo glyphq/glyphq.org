@@ -9,19 +9,11 @@ export function HomeHero() {
   return (
     <section className="site-container flex min-h-[calc(100svh-4.5rem)] flex-col items-center justify-center py-16 text-center">
       <Image
-        src="/brand/glyph-on-light.png"
-        alt=""
-        width={64}
-        height={64}
-        className="size-14 dark:hidden"
-        priority
-      />
-      <Image
         src="/brand/glyph-on-dark.png"
         alt=""
         width={64}
         height={64}
-        className="hidden size-14 dark:block"
+        className="size-14"
         priority
       />
 

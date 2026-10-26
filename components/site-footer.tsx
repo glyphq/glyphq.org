@@ -40,15 +40,8 @@ export function SiteFooter() {
                 <li key={product.href}>
                   <Link
                     href={product.href}
-                    className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    {product.icon ? (
-                      <SiteIcon
-                        icon={product.icon}
-                        size={14}
-                        className="text-muted-foreground"
-                      />
-                    ) : null}
                     {product.label}
                   </Link>
                 </li>
@@ -105,20 +98,12 @@ export function SiteFooter() {
         aria-hidden="true"
       >
         <Image
-          src="/brand/glyph-on-light.png"
-          alt=""
-          width={256}
-          height={256}
-          loading="eager"
-          className="size-[clamp(10rem,24vw,16rem)] shrink-0 opacity-[0.08] dark:hidden"
-        />
-        <Image
           src="/brand/glyph-on-dark.png"
           alt=""
           width={256}
           height={256}
           loading="eager"
-          className="hidden size-[clamp(10rem,24vw,16rem)] shrink-0 opacity-[0.08] dark:block"
+          className="size-[clamp(10rem,24vw,16rem)] shrink-0 opacity-[0.08]"
         />
       </div>
     </footer>

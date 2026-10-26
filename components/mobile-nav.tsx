@@ -39,7 +39,7 @@ export function MobileNav() {
         onClick={() => setOpen(true)}
         className={cn(
           siteButtonClasses({ variant: "ghost", size: "icon" }),
-          "lg:hidden",
+          "bg-background/70 text-foreground backdrop-blur-md hover:bg-background/90 xl:hidden",
         )}
       >
         <SiteIcon icon={HamburgerMenuIcon} size={18} />
@@ -73,10 +73,7 @@ export function MobileNav() {
                   onClick={close}
                   className="flex items-center justify-between py-3 font-display text-3xl tracking-[-0.05em] transition-colors hover:text-brand"
                 >
-                  <span className="flex items-center gap-3">
-                    {item.icon ? <SiteIcon icon={item.icon} size={20} /> : null}
-                    {item.label}
-                  </span>
+                  {item.label}
                 </Link>
               ))}
             </nav>
@@ -90,11 +87,8 @@ export function MobileNav() {
                       key={product.href}
                       href={product.href}
                       onClick={close}
-                      className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                     >
-                      {product.icon ? (
-                        <SiteIcon icon={product.icon} size={14} />
-                      ) : null}
                       {product.label}
                     </Link>
                   ))}
