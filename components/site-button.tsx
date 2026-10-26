@@ -9,7 +9,7 @@ type Variant = SiteButtonVariant;
 type Size = SiteButtonSize;
 
 const base =
-  "inline-flex shrink-0 items-center justify-center gap-2 rounded-full font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0";
+  "inline-flex shrink-0 items-center justify-center gap-2 rounded-full font-mono font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0";
 
 const variants: Record<Variant, string> = {
   primary: "bg-brand text-brand-foreground hover:bg-brand/85",

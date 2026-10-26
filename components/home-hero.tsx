@@ -25,7 +25,7 @@ export function HomeHero() {
         priority
       />
 
-      <h1 className="mt-8 flex flex-wrap items-center justify-center gap-x-[0.12em] gap-y-1 font-display text-[clamp(3.4rem,8.5vw,7.5rem)] leading-[0.9] font-semibold tracking-[-0.07em]">
+      <h1 className="mt-8 flex flex-wrap items-center justify-center gap-x-[0.2em] gap-y-1 font-display text-[clamp(3.4rem,8vw,7rem)] leading-[0.9] font-semibold tracking-[-0.07em]">
         <span>Glyph</span>
         <AccentBox>Ecosystem</AccentBox>
       </h1>

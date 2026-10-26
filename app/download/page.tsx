@@ -1,11 +1,11 @@
 import { ArrowRightUpIcon, DownloadIcon } from "@solar-icons/react/linear";
-import type { Metadata } from "next";
 import Image from "next/image";
 import { AccentBox } from "@/components/accent-box";
 import { OsIcon } from "@/components/os-icon";
 import { ReleaseDownloadButton } from "@/components/release-download-button";
 import { SiteButtonLink } from "@/components/site-button";
 import { SiteIcon } from "@/components/site-icon";
+import { pageMetadata } from "@/lib/page-metadata";
 import {
   formatBytes,
   formatReleaseDate,
@@ -14,11 +14,13 @@ import {
 } from "@/lib/releases";
 import { siteConfig } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Download",
   description:
     "Download Glyph Wallet for Windows, macOS, and Linux. A self-custodial Qubic wallet.",
-};
+  path: "/download",
+  image: "/download/opengraph-image",
+});
 
 function AssetLink({
   asset,
@@ -35,7 +37,7 @@ function AssetLink({
       target="_blank"
       rel="noreferrer"
       title={asset?.name}
-      className="flex items-center gap-3 rounded-xl bg-foreground/5 px-4 py-3 text-sm transition-colors hover:bg-foreground/10"
+      className="flex items-center gap-3 rounded-xl bg-foreground/5 px-4 py-3 font-mono text-sm transition-colors hover:bg-foreground/10"
     >
       <SiteIcon
         icon={DownloadIcon}

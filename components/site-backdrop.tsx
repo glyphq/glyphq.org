@@ -26,20 +26,20 @@ export function SiteBackdrop() {
           shape="horizon"
           characters=" =+xX0S8#@"
           cellSize={18}
-          density={light ? 0.45 : 0.7}
-          glyphOpacity={light ? 0.4 : 0.8}
-          glow={light ? 0.2 : 0.4}
+          density={light ? 0.4 : 0.7}
+          glyphOpacity={light ? 0.5 : 0.8}
+          glow={light ? 0.1 : 0.4}
           flicker={0.1}
           softness={0.5}
           scale={1}
           flow={0.5}
           speed={0.35}
-          gradientOpacity={light ? 0.35 : 0.9}
+          gradientOpacity={light ? 0.1 : 0.9}
           grain={0.08}
           variation={2}
           mouseInteraction={false}
           clickEffect="none"
-          intro
+          intro={false}
           lightMode={light}
           dpr={1.5}
         />
