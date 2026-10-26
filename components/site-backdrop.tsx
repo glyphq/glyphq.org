@@ -2,9 +2,7 @@
 
 import { useTheme } from "next-themes";
 import GradientASCII from "@/components/gradient-ascii";
-
-const darkColors = ["#123f3e", "#35b8b3", "#a8fbf8", "#eafffe"];
-const lightColors = ["#0a2f2d", "#116a67", "#3fc9c5", "#ccfcfb"];
+import { asciiDarkColors, asciiLightColors } from "@/lib/ascii-palette";
 
 export function SiteBackdrop() {
   const { resolvedTheme } = useTheme();
@@ -24,7 +22,7 @@ export function SiteBackdrop() {
       />
       <div className="absolute inset-0">
         <GradientASCII
-          colors={light ? lightColors : darkColors}
+          colors={light ? asciiLightColors : asciiDarkColors}
           shape="horizon"
           characters=" =+xX0S8#@"
           cellSize={18}
