@@ -20,6 +20,7 @@ export function HomeDiscord() {
         >
           <DiscordAscii />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#1e1f22] via-[#1e1f22]/80 to-transparent" />
+          <DiscordMark className="pointer-events-none absolute -right-14 -bottom-20 hidden size-[24rem] rotate-[-10deg] text-[#5865f2]/15 sm:block" />
 
           <div className="relative z-10 max-w-2xl">
             <div className="flex items-center gap-2.5 text-[#a9b4ff]">
@@ -34,21 +35,31 @@ export function HomeDiscord() {
             >
               Built in the open.
               <br />
-              <span className="text-[#a9b4ff]">Yours to verify.</span>
+              <span className="text-[#a9b4ff]">Answered in Discord.</span>
             </h2>
             <p className="mt-5 max-w-xl text-sm leading-relaxed text-[#c9cdf5]/80 text-pretty sm:text-base">
-              The wallet source, releases, and documentation are public. Ask
-              questions, follow releases, or join the conversation.
+              Wallet help, release notes, and build talk from the people making
+              Glyph.
             </p>
+            <ul className="mt-6 flex flex-wrap gap-2">
+              {["Wallet help", "Release notes", "Build talk"].map((topic) => (
+                <li
+                  key={topic}
+                  className="rounded-full bg-[#5865f2]/15 px-3 py-1.5 font-mono text-[0.65rem] tracking-[0.12em] text-[#c9cdf5]/80 uppercase"
+                >
+                  {topic}
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div className="relative z-10 mt-10 flex flex-wrap items-center gap-4">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#5865f2] px-5 py-3 text-sm font-medium text-white transition-colors group-hover:bg-[#4752c4]">
-              Join Discord
+              Join the Glyph Discord
               <SiteIcon icon={ArrowRightUpIcon} size={16} />
             </span>
-            <span className="font-mono text-[0.65rem] tracking-[0.14em] text-[#a9b4ff]/60 uppercase">
-              Open invite
+            <span className="font-mono text-[0.65rem] tracking-[0.12em] text-[#a9b4ff]/60">
+              discord.gg/s5qNRNGu96
             </span>
           </div>
         </a>
