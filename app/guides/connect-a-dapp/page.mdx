@@ -1,0 +1,178 @@
+import { pageMetadata } from "@/lib/page-metadata";
+
+export const metadata = pageMetadata({
+  title: "Connect a dApp",
+  description:
+    "Use @glyph-oss/connect to build typed Glyph deep-link requests, deliver results safely, and verify callbacks.",
+  path: "/guides/connect-a-dapp",
+});
+
+# Connect a dApp
+
+`@glyph-oss/connect` is a TypeScript SDK for Glyph deep-link requests. Build a typed request, wrap it in an envelope, and open it in the Glyph desktop wallet. The wallet shows the request for review before the user approves or declines it.
+
+<Callout title="Results are not trusted by default">
+Match the result nonce and request type, and verify signed callbacks before trusting the decoded result. A callback body that arrives at your server is not proof that the wallet signed it.
+</Callout>
+
+## Install
+
+```bash
+bun add @glyph-oss/connect
+# or
+npm install @glyph-oss/connect
+```
+
+The package is published as Node-compatible ESM and supports Node 18+ for non-browser helpers. Browser launch helpers require `window`.
+
+## Build a request
+
+```ts
+import {
+  buildGlyphUrl,
+  createEnvelope,
+  createTransferRequest,
+  GLYPH_MAINNET,
+} from "@glyph-oss/connect";
+
+const request = createTransferRequest({
+  type: "transfer",
+  dapp: { name: "My App", origin: "https://my.app" },
+  to: "UVYAOYTNYCRBVFBHNFIJUEOUEPEDIDUWWEAXKFSJEBJVASCQEROJOVOEEATL",
+  amount: "1000",
+});
+
+const envelope = createEnvelope(request, {
+  callback: "https://my.app/api/glyph/callback",
+  network: GLYPH_MAINNET, // default when omitted
+});
+
+const url = buildGlyphUrl(envelope);
+```
+
+Request builders generate a 16 to 128 character nonce and a five minute expiry by default. Expiry is capped at one hour to match the wallet replay window.
+
+Available builders:
+
+| Builder | Purpose |
+| --- | --- |
+| `createTransferRequest()` | Sign a QU transfer to a recipient |
+| `createScCallRequest()` | Sign a smart contract input |
+| `createSignMessageRequest()` | Sign a message for off-chain auth |
+| `createVerifyMessageRequest()` | Verify an existing signature bundle |
+| `createConnectRequest()` | Request a wallet session with permissions |
+
+## What the wallet receives
+
+Requests are wrapped in an envelope before encoding:
+
+```ts
+interface GlyphEnvelope {
+  protocol: "glyph-connect-request/2";
+  request: GlyphRequest;
+  callback?: string | null;
+  redirect_uri?: string | null;
+  network: {
+    id:
+      | "qubic:mainnet"
+      | "qubic:testnet"
+      | `qubic:custom:sha256:${string}`;
+  };
+  request_hash: `sha256:${string}`;
+}
+```
+
+Deep links target `glyph://v2/request?d=<base64url envelope>`. The SDK has no v1 request launch compatibility.
+
+Mainnet is the safe default. Use `GLYPH_TESTNET` for testnet, or `createCustomNetworkBinding(rpcObject)` for a custom RPC binding. The custom network id is `qubic:custom:sha256:<JCS hash of rpcObject>`.
+
+## Choose how to receive the result
+
+| Mode | How it works |
+| --- | --- |
+| `callback` | Glyph POSTs a JSON result to your server after the user acts |
+| `redirect_uri` | Glyph opens `redirect_uri?result=<base64url>` in the browser |
+| relay | The dApp streams the result from the official Glyph relay over SSE |
+
+For a server callback, check the body against the request you sent:
+
+```ts
+import { parseCallbackResponse } from "@glyph-oss/connect";
+
+const result = parseCallbackResponse(await req.json(), {
+  nonce: request.nonce,
+  type: request.type,
+});
+```
+
+## Verify signed callbacks
+
+For the secure callback protocol, accept the wallet's `glyph-connect-callback-envelope/2` body and verify its Qubic SchnorrQ proof before trusting the decoded result.
+
+```ts
+import { verifyCallbackEnvelope } from "@glyph-oss/connect";
+
+const result = await verifyCallbackEnvelope(await req.json(), {
+  expected: { nonce: request.nonce, type: request.type },
+  expectedDappOrigin: request.dapp.origin,
+  expectedRequestHash: envelope.request_hash,
+  expectedNetwork: envelope.network,
+  expectedExp: request.exp ?? null,
+  expectedCallbackUrl: callbackUrl,
+  requireSigned: true,
+  trustedPublicKeys: [walletCallbackPublicKey],
+  verifySignature(input) {
+    // Inject a Qubic SchnorrQ verifier for the final signature check.
+    return verifySchnorrQ(input.payload, input.signature, input.publicKey);
+  },
+});
+```
+
+The SDK performs the strict envelope, canonical payload, hash, nonce, and type checks. Your app supplies the cryptographic verifier.
+
+## Browser promise flow
+
+If you want a single promise instead of your own callback handler, use `glyphRequest()`:
+
+```ts
+import {
+  createConnectRequest,
+  glyphRequest,
+  handleRedirect,
+} from "@glyph-oss/connect";
+
+const result = await glyphRequest(
+  createConnectRequest({
+    type: "connect",
+    dapp: { name: "My App", origin: "https://my.app" },
+    permissions: ["transfer", "sign_message"],
+  }),
+  {
+    onStatus(status) {
+      if (status.state === "awaiting_approval") {
+        showMessage("Continue in Glyph Wallet");
+      }
+    },
+  },
+);
+
+// On your /__glyph__ route:
+handleRedirect();
+```
+
+`glyphRequest()` opens Glyph, waits on `BroadcastChannel`, and accepts a broadcast only when the result matches the request nonce and type.
+
+## Origin and delivery rules
+
+The SDK mirrors the wallet's deep-link policy. Before you ship, make sure:
+
+- `dapp.origin` is a credential-free canonical HTTPS origin with no path, query, or fragment.
+- Delivery URLs use HTTPS and do not embed credentials.
+- Delivery URLs do not target localhost, private, reserved, multicast, documentation, or otherwise non-global IP literals.
+- `callback` and `redirect_uri` match `dapp.origin`.
+- The only cross-origin callback exception is a secure relay v2 callback URL: `https://relay.glyphq.org/v2/callback/:session/:callbackCap`, with a `callbackCap` prefixed by `c_`.
+- Callback and relay results are rejected when the nonce or request type does not match the expected request.
+
+Relay sessions split read and write authority. Keep the callback capability in the wallet callback URL and the read capability in your dApp process. Never expose the read capability to the wallet.
+
+The full API, including `prepareRelaySession()`, `subscribeViaRelayV2()`, and the capability helpers, is documented in the [Connect repository](https://github.com/glyphq/connect).
