@@ -29,8 +29,8 @@ export default function ProductsPage() {
           <SiteButtonLink href="/download" size="md">
             Download Glyph
           </SiteButtonLink>
-          <SiteButtonLink href="/guides" variant="secondary" size="md">
-            Read the guides
+          <SiteButtonLink href="/blog" variant="secondary" size="md">
+            Read the blog
           </SiteButtonLink>
         </div>
       </Reveal>

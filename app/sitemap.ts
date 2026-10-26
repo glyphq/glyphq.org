@@ -1,14 +1,9 @@
 import type { MetadataRoute } from "next";
+import { posts } from "@/lib/posts";
 import { products } from "@/lib/products";
 import { sponsorsConfigured } from "@/lib/sponsors";
 
 const baseUrl = "https://glyphq.org";
-
-const guideSlugs = [
-  "install-and-setup",
-  "send-qubic",
-  "connect-a-dapp",
-] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes: MetadataRoute.Sitemap = [
@@ -33,12 +28,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: product.slug === "wallet" ? 0.9 : 0.7,
     })),
     {
-      url: `${baseUrl}/guides`,
+      url: `${baseUrl}/blog`,
       changeFrequency: "monthly",
       priority: 0.7,
     },
-    ...guideSlugs.map((slug) => ({
-      url: `${baseUrl}/guides/${slug}`,
+    ...posts.map((post) => ({
+      url: `${baseUrl}/blog/${post.slug}`,
       changeFrequency: "monthly" as const,
       priority: 0.6,
     })),
