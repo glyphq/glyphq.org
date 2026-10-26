@@ -8,8 +8,14 @@ export type FaqItem = {
   answer: string;
 };
 
-export function Faq({ items }: { items: readonly FaqItem[] }) {
-  const [open, setOpen] = useState<number | null>(null);
+export function Faq({
+  items,
+  defaultOpen = null,
+}: {
+  items: readonly FaqItem[];
+  defaultOpen?: number | null;
+}) {
+  const [open, setOpen] = useState<number | null>(defaultOpen);
   const reduceMotion = useReducedMotion();
 
   return (
@@ -24,7 +30,7 @@ export function Faq({ items }: { items: readonly FaqItem[] }) {
               aria-expanded={isOpen}
               aria-controls={`faq-panel-${index}`}
               onClick={() => setOpen(isOpen ? null : index)}
-              className="flex w-full items-center justify-between gap-6 py-5 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="flex w-full items-center justify-between gap-6 py-6 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <span className="font-display text-lg leading-snug font-medium tracking-[-0.02em] text-balance sm:text-xl">
                 {item.question}

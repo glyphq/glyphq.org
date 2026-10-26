@@ -12,8 +12,8 @@ export default function Home() {
       <div className="bg-background">
         <HomeFeatures />
         <HomeProducts />
-        <HomeDiscord />
         <HomeFaq />
+        <HomeDiscord />
         <HomeCta />
       </div>
     </div>

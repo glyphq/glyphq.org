@@ -7,8 +7,9 @@ import { siteConfig } from "@/lib/site";
 export function HomeDiscord() {
   return (
     <section
+      id="discord"
       aria-labelledby="discord-heading"
-      className="site-container pb-24 md:pb-32"
+      className="site-container scroll-mt-28 pb-24 md:pb-32"
     >
       <Reveal>
         <a
