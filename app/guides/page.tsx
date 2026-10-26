@@ -76,11 +76,11 @@ function GuideLink({
 export default function GuidesPage() {
   return (
     <>
-      <header className="max-w-2xl">
+      <header className="mx-auto max-w-2xl text-center">
         <h1 className="font-display text-3xl leading-[1.05] font-semibold tracking-[-0.04em] text-balance sm:text-4xl">
           Practical Qubic, step by step.
         </h1>
-        <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
+        <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
           Short walkthroughs for setting up Glyph, moving QU, and connecting
           Qubic dApps.
         </p>

@@ -115,15 +115,15 @@ export default function SponsorsPage() {
   return (
     <>
       <section className="site-container pt-16 pb-20 md:pt-24 md:pb-24">
-        <Reveal mount>
+        <Reveal className="mx-auto max-w-4xl text-center" mount>
           <h1 className="font-display text-[clamp(3.4rem,8vw,7rem)] leading-[0.9] font-semibold tracking-[-0.07em] text-balance">
             Sponsor <AccentBox>Glyph</AccentBox>.
           </h1>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
+          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
             Glyph is a self-custodial Qubic wallet and open toolchain, and
             sponsors keep releases and developer tools moving.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
             <SiteButtonLink href="#funding" size="md">
               Sponsor Glyph
               <SiteIcon icon={ArrowRightIcon} size={16} />

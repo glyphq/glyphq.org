@@ -108,7 +108,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   return (
     <>
       <section className="site-container pt-12 pb-16 md:pt-20 md:pb-24">
-        <Reveal className="max-w-5xl" mount>
+        <Reveal className="mx-auto max-w-5xl text-center" mount>
           <Link
             href="/products"
             className="text-sm text-foreground transition-colors hover:text-brand"
@@ -126,11 +126,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </p>
           ) : null}
 
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
+          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
             {product.shortDescription}
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
             {product.ctas.map((cta) => (
               <SiteButtonLink
                 key={`${cta.label}-${cta.href}`}

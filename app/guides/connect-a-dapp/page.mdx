@@ -11,7 +11,14 @@ export const metadata = pageMetadata({
 
 # Connect a dApp
 
-`@glyph-oss/connect` is a TypeScript SDK for Glyph deep-link requests. Build a typed request, wrap it in an envelope, and open it in the Glyph desktop wallet. The wallet shows the request for review before the user approves or declines it.
+<GuideIntro>
+  <code className="rounded-md bg-foreground/8 px-1.5 py-0.5 font-mono text-[0.85em] text-foreground">
+    @glyph-oss/connect
+  </code>{" "}
+  is a TypeScript SDK for Glyph deep-link requests. Build a typed request, wrap
+  it in an envelope, and open it in the Glyph desktop wallet. The wallet shows
+  the request for review before the user approves or declines it.
+</GuideIntro>
 
 <Callout title="Results are not trusted by default">
 Match the result nonce and request type, and verify signed callbacks before trusting the decoded result. A callback body that arrives at your server is not proof that the wallet signed it.

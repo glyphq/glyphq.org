@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 export function GuideMeta({ category }: { category: string }) {
   return (
-    <div className="mb-6 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-sm text-muted-foreground">
+    <div className="mb-6 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1.5 text-sm text-muted-foreground">
       <Link
         href="/guides"
         className="text-foreground/75 underline decoration-foreground/25 underline-offset-4 transition-colors hover:text-brand hover:decoration-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -24,6 +24,14 @@ export function GuideMeta({ category }: { category: string }) {
       </span>
       <span>By alez04</span>
     </div>
+  );
+}
+
+export function GuideIntro({ children }: { children: ReactNode }) {
+  return (
+    <p className="mx-auto mt-5 max-w-2xl text-center text-base leading-relaxed text-muted-foreground text-pretty">
+      {children}
+    </p>
   );
 }
 
@@ -58,7 +66,7 @@ const components = {
   h1: ({ children, ...props }) => (
     <Reveal mount>
       <h1
-        className="font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl"
+        className="text-center font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl"
         {...props}
       >
         {children}
@@ -226,6 +234,7 @@ const components = {
     <hr className="my-12 border-0 border-t border-foreground/10" {...props} />
   ),
   GuideMeta,
+  GuideIntro,
   Callout,
 } satisfies MDXComponents;
 

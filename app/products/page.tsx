@@ -18,14 +18,14 @@ export const metadata = pageMetadata({
 export default function ProductsPage() {
   return (
     <section className="site-container pt-16 pb-24 md:pt-24 md:pb-32">
-      <Reveal className="max-w-4xl" mount>
+      <Reveal className="mx-auto max-w-4xl text-center" mount>
         <h1 className="font-display text-[clamp(3.4rem,8vw,7rem)] leading-[0.9] font-semibold tracking-[-0.07em] text-balance">
           Tools for <AccentBox>Qubic</AccentBox>
         </h1>
-        <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
+        <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
           A self-custodial wallet and the developer tools around it.
         </p>
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
           <SiteButtonLink href="/download" size="md">
             Download Glyph
           </SiteButtonLink>
