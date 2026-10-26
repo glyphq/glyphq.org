@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SiteBackdrop } from "@/components/site-backdrop";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -60,24 +61,27 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-dvh flex-col bg-background font-sans text-foreground">
+      <body className="min-h-dvh bg-background font-sans text-foreground">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem={false}
           disableTransitionOnChange
         >
-          <a
-            href="#main-content"
-            className="fixed top-4 left-4 z-[100] -translate-y-24 rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-foreground transition-transform focus:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            Skip to content
-          </a>
-          <SiteHeader />
-          <main id="main-content" className="flex-1">
-            {children}
-          </main>
-          <SiteFooter />
+          <SiteBackdrop />
+          <div className="relative z-10 flex min-h-dvh flex-col">
+            <a
+              href="#main-content"
+              className="fixed top-4 left-4 z-[100] -translate-y-24 rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-foreground transition-transform focus:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              Skip to content
+            </a>
+            <SiteHeader />
+            <main id="main-content" className="flex-1">
+              {children}
+            </main>
+            <SiteFooter />
+          </div>
         </ThemeProvider>
       </body>
     </html>
