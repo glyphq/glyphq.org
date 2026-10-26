@@ -37,11 +37,11 @@ export default function AboutPage() {
   return (
     <>
       <section className="site-container pt-16 pb-16 md:pt-24 md:pb-20">
-        <Reveal className="max-w-4xl" mount>
+        <Reveal className="mx-auto max-w-4xl text-center" mount>
           <h1 className="font-display text-[clamp(3.4rem,8vw,7rem)] leading-[0.9] font-semibold tracking-[-0.07em] text-balance">
             About <AccentBox>Glyph</AccentBox>
           </h1>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
+          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
             A Qubic wallet built for the desktop, in the open.
           </p>
         </Reveal>
