@@ -124,7 +124,6 @@ export function createOgImage({
           alignItems: "center",
           gap: 18,
           position: "relative",
-          zIndex: 1,
         }}
       >
         {/* biome-ignore lint/performance/noImgElement: OG image logo data URL */}
@@ -138,7 +137,6 @@ export function createOgImage({
           flexDirection: "column",
           gap: 20,
           position: "relative",
-          zIndex: 1,
         }}
       >
         <div

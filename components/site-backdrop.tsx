@@ -7,7 +7,7 @@ export function SiteBackdrop() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[38svh] max-h-[32rem] overflow-hidden md:h-[46svh]"
+      className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[38svh] max-h-[32rem] overflow-hidden md:h-[46svh]"
     >
       <div
         className="absolute inset-0"

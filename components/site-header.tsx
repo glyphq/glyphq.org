@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 const navLinkClass =
   "inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-foreground/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
-function ProductsMenu({ icon }: { icon?: (typeof mainNav)[number]["icon"] }) {
+function ProductsMenu() {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -52,7 +52,6 @@ function ProductsMenu({ icon }: { icon?: (typeof mainNav)[number]["icon"] }) {
           open && "bg-foreground/5 text-foreground",
         )}
       >
-        {icon ? <SiteIcon icon={icon} size={14} /> : null}
         Products
         <SiteIcon
           icon={AltArrowDownIcon}
@@ -72,16 +71,7 @@ function ProductsMenu({ icon }: { icon?: (typeof mainNav)[number]["icon"] }) {
               onClick={() => setOpen(false)}
               className="block rounded-xl px-2.5 py-2.5 transition-colors hover:bg-foreground/5"
             >
-              <span className="flex items-center gap-2 text-sm font-medium">
-                {product.icon ? (
-                  <SiteIcon
-                    icon={product.icon}
-                    size={14}
-                    className="text-muted-foreground"
-                  />
-                ) : null}
-                {product.label}
-              </span>
+              <span className="text-sm font-medium">{product.label}</span>
               <span className="mt-0.5 block text-xs leading-relaxed text-muted-foreground">
                 {product.description}
               </span>
@@ -132,11 +122,11 @@ export function SiteHeader() {
 
         <nav
           aria-label="Main navigation"
-          className="hidden items-center gap-1 lg:flex"
+          className="hidden items-center gap-1 xl:flex"
         >
           {mainNav.map((item) =>
             item.label === "Products" ? (
-              <ProductsMenu key={item.href} icon={item.icon} />
+              <ProductsMenu key={item.href} />
             ) : (
               <Link
                 key={item.href}
@@ -150,7 +140,6 @@ export function SiteHeader() {
                     "bg-foreground/5 text-foreground",
                 )}
               >
-                {item.icon ? <SiteIcon icon={item.icon} size={14} /> : null}
                 {item.label}
               </Link>
             ),

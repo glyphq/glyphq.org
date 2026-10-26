@@ -20,19 +20,6 @@
 }
 
 :root {
-  --background: #f8f7f2;
-  --foreground: #0a0a0a;
-  --card: #ffffff;
-  --card-foreground: #0a0a0a;
-  --popover: #eceae2;
-  --popover-foreground: #0a0a0a;
-  --muted-foreground: #62666d;
-  --ring: #0a0a0a;
-  --brand: #ccfcfb;
-  --brand-foreground: #080808;
-}
-
-.dark {
   --background: #0a0a0a;
   --foreground: #f8f7f2;
   --card: #1a1a1a;
