@@ -9,18 +9,21 @@ export function Reveal({
   delay = 0,
   distance = 16,
   mount = false,
+  layout = false,
 }: {
   children: ReactNode;
   className?: string;
   delay?: number;
   distance?: number;
   mount?: boolean;
+  layout?: boolean;
 }) {
   const visible = { opacity: 1, y: 0 };
 
   return (
     <motion.div
       data-reveal=""
+      layout={layout}
       className={className}
       initial={{ opacity: 0, y: distance }}
       {...(mount

@@ -1,12 +1,44 @@
-import { ArrowRightIcon } from "@solar-icons/react/linear";
 import Link from "next/link";
-import { MaskIcon } from "@/components/mask-icon";
+import { ProductAsciiBanner } from "@/components/product-ascii-banner";
 import { Reveal } from "@/components/reveal";
-import { SiteButtonLink } from "@/components/site-button";
-import { SiteIcon } from "@/components/site-icon";
 import { productLinks } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
-const [wallet, ...tools] = productLinks;
+const productLayout: Record<
+  string,
+  { span: string; banner: string; title: string; content: string }
+> = {
+  "/products/wallet": {
+    span: "sm:col-span-2 lg:col-span-6",
+    banner: "h-40",
+    title: "text-4xl md:text-5xl",
+    content: "pt-32",
+  },
+  "/products/connect": {
+    span: "sm:col-span-2 lg:col-span-6",
+    banner: "h-32",
+    title: "text-3xl",
+    content: "pt-24",
+  },
+  "/products/relay": {
+    span: "sm:col-span-1 lg:col-span-4",
+    banner: "h-28",
+    title: "text-2xl md:text-3xl",
+    content: "pt-24",
+  },
+  "/products/explorer": {
+    span: "sm:col-span-1 lg:col-span-4",
+    banner: "h-32",
+    title: "text-2xl md:text-3xl",
+    content: "pt-24",
+  },
+  "/products/api": {
+    span: "sm:col-span-2 lg:col-span-4",
+    banner: "h-32",
+    title: "text-2xl md:text-3xl",
+    content: "pt-24",
+  },
+};
 
 export function HomeProducts() {
   return (
@@ -29,63 +61,38 @@ export function HomeProducts() {
         </p>
       </Reveal>
 
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
-        <Reveal className="sm:col-span-2 lg:col-span-4">
-          <article className="group relative isolate flex h-full flex-col overflow-hidden rounded-[2rem] bg-foreground/[0.05] p-7 transition-[background-color,transform] duration-300 hover:-translate-y-1 hover:bg-foreground/[0.07] sm:flex-row sm:items-end sm:justify-between sm:gap-8 md:p-9">
-            <MaskIcon
-              src="/masks/wallet.svg"
-              interactive={false}
-              className="-top-20 -right-10 size-64 opacity-15 sm:size-80"
-            />
+      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-12">
+        {productLinks.map((product, index) => {
+          const layout = productLayout[product.href];
 
-            <div className="relative z-10 max-w-md">
-              <h3 className="font-display text-2xl leading-tight font-medium tracking-[-0.02em] md:text-3xl">
-                {wallet.label}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground text-pretty">
-                {wallet.description}
-              </p>
-            </div>
+          if (!layout) return null;
 
-            <div className="relative z-10 mt-6 flex flex-wrap items-center gap-4 sm:mt-0">
-              <SiteButtonLink href="/download" size="md">
-                Download Glyph
-                <SiteIcon icon={ArrowRightIcon} size={14} />
-              </SiteButtonLink>
-              <Link
-                href={wallet.href}
-                className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Explore Wallet
-                <SiteIcon icon={ArrowRightIcon} size={14} />
-              </Link>
-            </div>
-          </article>
-        </Reveal>
-
-        {tools.map((tool, index) => (
-          <Reveal
-            key={tool.href}
-            className="min-w-0"
-            delay={0.05 + index * 0.06}
-          >
-            <Link
-              href={tool.href}
-              className="group flex h-full min-h-[12rem] flex-col rounded-[2rem] bg-foreground/[0.035] p-7 transition-[background-color,transform] duration-300 hover:-translate-y-1 hover:bg-foreground/[0.06] md:min-h-[13rem] md:p-8"
+          return (
+            <Reveal
+              key={product.href}
+              className={cn("min-w-0", layout.span)}
+              delay={index * 0.05}
             >
-              <h3 className="font-display text-lg leading-tight font-medium tracking-[-0.02em] transition-colors group-hover:text-brand">
-                {tool.label}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground text-pretty">
-                {tool.description}
-              </p>
-              <span className="mt-auto inline-flex items-center gap-1 pt-8 text-sm text-muted-foreground transition-colors group-hover:text-foreground">
-                Explore
-                <SiteIcon icon={ArrowRightIcon} size={14} />
-              </span>
-            </Link>
-          </Reveal>
-        ))}
+              <Link
+                href={product.href}
+                className="group relative flex flex-col overflow-hidden rounded-[2rem] bg-foreground/[0.035] p-7 transition-colors duration-300 ease-out hover:bg-foreground/[0.06] md:p-8"
+              >
+                <ProductAsciiBanner
+                  href={product.href}
+                  title={product.label}
+                  className={layout.banner}
+                  titleClassName={layout.title}
+                />
+
+                <div className={cn("relative z-10", layout.content)}>
+                  <p className="max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
+                    {product.description}
+                  </p>
+                </div>
+              </Link>
+            </Reveal>
+          );
+        })}
       </div>
     </section>
   );

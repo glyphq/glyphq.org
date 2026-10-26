@@ -29,7 +29,7 @@ function GuideLink({
         "group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background",
         featured
           ? "max-w-2xl"
-          : "h-full rounded-2xl bg-foreground/[0.035] p-6 transition-[background-color,transform] duration-300 hover:-translate-y-1 hover:bg-foreground/[0.06]",
+          : "h-full rounded-2xl bg-foreground/[0.035] p-6 transition-colors duration-300 ease-out hover:bg-foreground/[0.06]",
       )}
     >
       <span className="font-mono text-[0.7rem] tracking-[0.16em] text-brand uppercase">

@@ -13,8 +13,8 @@ export function MaskIcon({
     <span
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute bg-[linear-gradient(135deg,var(--brand),transparent_72%)] opacity-25 transition-[opacity,transform] duration-700",
-        interactive && "group-hover:scale-105 group-hover:opacity-45",
+        "pointer-events-none absolute bg-[linear-gradient(135deg,var(--brand),transparent_72%)] opacity-25 transition-opacity duration-700",
+        interactive && "group-hover:opacity-45",
         className,
       )}
       style={{

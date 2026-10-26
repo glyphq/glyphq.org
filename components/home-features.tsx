@@ -61,7 +61,7 @@ export function HomeFeatures() {
       <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:mt-20 lg:grid-cols-4">
         {features.map((feature, index) => (
           <Reveal key={feature.title} className="min-w-0" delay={index * 0.06}>
-            <article className="group relative isolate flex h-full min-h-[14rem] flex-col overflow-hidden rounded-[2rem] bg-foreground/[0.035] p-7 transition-[background-color,transform] duration-300 hover:-translate-y-1 hover:bg-foreground/[0.06] md:min-h-[16rem] md:p-8">
+            <article className="group relative isolate flex h-full min-h-[14rem] flex-col overflow-hidden rounded-[2rem] bg-foreground/[0.035] p-7 transition-colors duration-300 ease-out hover:bg-foreground/[0.06] md:min-h-[16rem] md:p-8">
               {feature.mask ? (
                 <MaskIcon
                   src={feature.mask}
