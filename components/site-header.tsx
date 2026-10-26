@@ -5,16 +5,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { BrandMark } from "@/components/brand-mark";
+import { DownloadButton } from "@/components/download-button";
 import { MobileNav } from "@/components/mobile-nav";
-import { SiteButtonLink } from "@/components/site-button";
 import { SiteCommand } from "@/components/site-command";
 import { SiteIcon } from "@/components/site-icon";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { isActivePath, mainNav, productLinks } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const navLinkClass =
-  "inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-medium text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+  "inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
 function ProductsMenu() {
   const [open, setOpen] = useState(false);
@@ -110,23 +109,23 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 px-3 pt-3 md:px-6 md:pt-4">
       <div
         className={cn(
-          "relative mx-auto grid w-full grid-cols-[1fr_auto_1fr] items-center gap-3 rounded-full px-3 transition-all duration-300 md:px-4",
+          "mx-auto flex w-full items-center gap-4 rounded-full px-3 transition-all duration-300 md:px-4",
           scrolled
-            ? "h-12 max-w-5xl bg-background/70 backdrop-blur-xl"
-            : "h-14 max-w-[84rem] bg-transparent",
+            ? "h-14 max-w-5xl bg-background/70 backdrop-blur-xl"
+            : "h-16 max-w-[84rem] bg-transparent",
         )}
       >
         <Link
           href="/"
-          aria-label="Glyph Ecosystem home"
-          className="relative z-10 justify-self-start rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          aria-label="Glyph home"
+          className="inline-flex items-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <BrandMark />
         </Link>
 
         <nav
           aria-label="Main navigation"
-          className="relative z-10 hidden items-center gap-0.5 justify-self-center lg:flex"
+          className="hidden items-center gap-1 lg:flex"
         >
           {mainNav.map((item) =>
             item.label === "Products" ? (
@@ -150,17 +149,13 @@ export function SiteHeader() {
           )}
         </nav>
 
-        <div className="relative z-10 flex items-center gap-0.5 justify-self-end">
+        <div className="ml-auto flex items-center gap-1">
           <SiteCommand />
-          <ThemeToggle />
-          <SiteButtonLink
-            href="/download"
-            size="sm"
-            className="ml-1 hidden gap-1.5 pr-3 sm:inline-flex"
-          >
-            Download
-            <SiteIcon icon={ArrowUpRight} size={14} />
-          </SiteButtonLink>
+          <DownloadButton
+            size="md"
+            iconSize={16}
+            className="ml-1 hidden pr-4 sm:inline-flex"
+          />
           <MobileNav />
         </div>
       </div>

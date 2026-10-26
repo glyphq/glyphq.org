@@ -77,7 +77,7 @@ export function SiteCommand() {
         onClick={() => setOpen(true)}
         aria-label="Open command menu"
         className={cn(
-          siteButtonClasses({ variant: "ghost", size: "sm" }),
+          siteButtonClasses({ variant: "ghost", size: "md" }),
           "hidden gap-2 md:inline-flex",
         )}
       >

@@ -14,7 +14,7 @@ export function BrandMark({ className }: { className?: string }) {
         alt=""
         width={28}
         height={28}
-        className="size-6 shrink-0 dark:hidden"
+        className="size-7 shrink-0 dark:hidden"
         priority
       />
       <Image
@@ -22,11 +22,11 @@ export function BrandMark({ className }: { className?: string }) {
         alt=""
         width={28}
         height={28}
-        className="hidden size-6 shrink-0 dark:block"
+        className="hidden size-7 shrink-0 dark:block"
         priority
       />
-      <span className="font-display text-[15px] leading-none font-semibold tracking-[-0.015em]">
-        Glyph <span className="text-muted-foreground">Ecosystem</span>
+      <span className="font-display text-base leading-none font-normal tracking-[-0.015em]">
+        Glyph
       </span>
     </span>
   );
