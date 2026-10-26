@@ -9,43 +9,13 @@
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-geist-sans);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 :root {
@@ -55,35 +25,10 @@
   --card-foreground: #0a0a0a;
   --popover: #eceae2;
   --popover-foreground: #0a0a0a;
-  --primary: #ccfcfb;
-  --primary-foreground: #0a0a0a;
-  --secondary: #eceae2;
-  --secondary-foreground: #171717;
-  --muted: #eceae2;
   --muted-foreground: #62666d;
-  --accent: #e6e3da;
-  --accent-foreground: #0a0a0a;
-  --destructive: #c73a2a;
-  --border: transparent;
-  --input: rgb(10 10 10 / 18%);
   --ring: #0a0a0a;
-  --chart-1: #ccfcfb;
-  --chart-2: #62666d;
-  --chart-3: #3a3d42;
-  --chart-4: #1f2428;
-  --chart-5: #0a0a0a;
-  --radius: 0.75rem;
   --brand: #ccfcfb;
   --brand-foreground: #080808;
-  --brand-soft: #e9fffe;
-  --sidebar: #f8f7f2;
-  --sidebar-foreground: #0a0a0a;
-  --sidebar-primary: #ccfcfb;
-  --sidebar-primary-foreground: #0a0a0a;
-  --sidebar-accent: #e6e3da;
-  --sidebar-accent-foreground: #0a0a0a;
-  --sidebar-border: transparent;
-  --sidebar-ring: #0a0a0a;
 }
 
 .dark {
@@ -93,34 +38,10 @@
   --card-foreground: #f8f7f2;
   --popover: #141414;
   --popover-foreground: #f8f7f2;
-  --primary: #ccfcfb;
-  --primary-foreground: #0a0a0a;
-  --secondary: #1f2428;
-  --secondary-foreground: #f8f7f2;
-  --muted: #1a1a1a;
   --muted-foreground: #9b9ca1;
-  --accent: #1f2428;
-  --accent-foreground: #ccfcfb;
-  --destructive: #ff6b5b;
-  --border: transparent;
-  --input: rgb(248 247 242 / 16%);
   --ring: #ccfcfb;
-  --chart-1: #ccfcfb;
-  --chart-2: #e9fffe;
-  --chart-3: #7d838a;
-  --chart-4: #363b3f;
-  --chart-5: #1f2428;
   --brand: #ccfcfb;
   --brand-foreground: #080808;
-  --brand-soft: #e9fffe;
-  --sidebar: #0a0a0a;
-  --sidebar-foreground: #f8f7f2;
-  --sidebar-primary: #ccfcfb;
-  --sidebar-primary-foreground: #080808;
-  --sidebar-accent: #1f2428;
-  --sidebar-accent-foreground: #ccfcfb;
-  --sidebar-border: transparent;
-  --sidebar-ring: #ccfcfb;
 }
 
 @layer base {
@@ -164,11 +85,6 @@
       padding-inline: 3rem;
     }
   }
-
-  .site-panel {
-    border-radius: 1.5rem;
-    background: var(--card);
-  }
 }
 
 @layer utilities {
@@ -178,22 +94,5 @@
 
   .text-pretty {
     text-wrap: pretty;
-  }
-
-  .bg-site-grid {
-    background-image:
-      linear-gradient(to right, var(--border) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--border) 1px, transparent 1px);
-    background-size: 4rem 4rem;
-  }
-
-  .mask-fade-y {
-    mask-image: linear-gradient(
-      to bottom,
-      transparent,
-      black 12%,
-      black 88%,
-      transparent
-    );
   }
 }

@@ -4,7 +4,8 @@ import { ArrowUpRight, Cancel, Menu } from "@hugeicons/core-free-icons";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { BrandMark } from "@/components/brand-mark";
-import { SiteButtonLink, siteButtonClasses } from "@/components/site-button";
+import { DownloadButton } from "@/components/download-button";
+import { siteButtonClasses } from "@/components/site-button";
 import { SiteIcon } from "@/components/site-icon";
 import { mainNav, productLinks, resourceLinks } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -114,15 +115,7 @@ export function MobileNav() {
           </div>
 
           <div className="shrink-0 p-5">
-            <SiteButtonLink
-              href="/download"
-              size="lg"
-              className="w-full"
-              onClick={close}
-            >
-              Download Glyph
-              <SiteIcon icon={ArrowUpRight} size={16} />
-            </SiteButtonLink>
+            <DownloadButton size="lg" className="w-full" onClick={close} />
             <p className="mt-3 text-center font-mono text-[10px] tracking-[0.16em] text-muted-foreground uppercase">
               macOS / Windows / Linux
             </p>

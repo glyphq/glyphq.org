@@ -2,8 +2,11 @@ import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "secondary" | "outline" | "ghost";
-type Size = "sm" | "md" | "lg" | "icon" | "icon-sm";
+export type SiteButtonVariant = "primary" | "secondary" | "outline" | "ghost";
+export type SiteButtonSize = "sm" | "md" | "lg" | "icon" | "icon-sm";
+
+type Variant = SiteButtonVariant;
+type Size = SiteButtonSize;
 
 const base =
   "inline-flex shrink-0 items-center justify-center gap-2 rounded-full font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0";
