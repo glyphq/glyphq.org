@@ -20,7 +20,11 @@ export function ThemeToggle() {
     <button
       type="button"
       aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
-      className={siteButtonClasses({ variant: "ghost", size: "icon" })}
+      className={siteButtonClasses({
+        variant: "ghost",
+        size: "icon",
+        className: "text-foreground",
+      })}
       onClick={() => setTheme(dark ? "light" : "dark")}
     >
       {dark ? (
