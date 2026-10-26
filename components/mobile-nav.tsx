@@ -73,7 +73,10 @@ export function MobileNav() {
                   onClick={close}
                   className="flex items-center justify-between py-3 font-display text-3xl tracking-[-0.05em] transition-colors hover:text-brand"
                 >
-                  {item.label}
+                  <span className="flex items-center gap-3">
+                    {item.icon ? <SiteIcon icon={item.icon} size={20} /> : null}
+                    {item.label}
+                  </span>
                 </Link>
               ))}
             </nav>
@@ -87,8 +90,11 @@ export function MobileNav() {
                       key={product.href}
                       href={product.href}
                       onClick={close}
-                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                      className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
                     >
+                      {product.icon ? (
+                        <SiteIcon icon={product.icon} size={14} />
+                      ) : null}
                       {product.label}
                     </Link>
                   ))}

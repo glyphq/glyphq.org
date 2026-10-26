@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { SiteBackdrop } from "@/components/site-backdrop";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -55,11 +54,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  colorScheme: "dark light",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f8f7f2" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
-  ],
+  colorScheme: "dark",
+  themeColor: "#0a0a0a",
 };
 
 const structuredData = {
@@ -82,34 +78,26 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-dvh bg-background font-sans text-foreground">
         <script type="application/ld+json">
           {JSON.stringify(structuredData).replace(/</g, "\\u003c")}
         </script>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          <SiteBackdrop />
-          <div className="relative z-10 flex min-h-dvh flex-col">
-            <a
-              href="#main-content"
-              className="fixed top-4 left-4 z-[100] -translate-y-24 rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-foreground transition-transform focus:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              Skip to content
-            </a>
-            <SiteHeader />
-            <main id="main-content" className="flex-1">
-              {children}
-            </main>
-            <SiteFooter />
-          </div>
-        </ThemeProvider>
+        <SiteBackdrop />
+        <div className="relative z-10 flex min-h-dvh flex-col">
+          <a
+            href="#main-content"
+            className="fixed top-4 left-4 z-[100] -translate-y-24 rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-foreground transition-transform focus:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            Skip to content
+          </a>
+          <SiteHeader />
+          <main id="main-content" className="flex-1">
+            {children}
+          </main>
+          <SiteFooter />
+        </div>
       </body>
     </html>
   );

@@ -84,7 +84,7 @@ export default function AboutPage() {
                     href={contribution.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {contribution.label}
                     <SiteIcon icon={ArrowRightUpIcon} size={12} />

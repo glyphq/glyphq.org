@@ -77,7 +77,7 @@ export default function SponsorsPage() {
           </h2>
           {sponsorConfig.sponsors.length > 0 ? (
             <div className="mt-8 overflow-x-auto">
-              <table className="w-full border-separate border-spacing-y-3 text-left font-mono text-sm">
+              <table className="w-full border-separate border-spacing-y-3 text-left text-sm">
                 <thead>
                   <tr className="text-xs text-muted-foreground">
                     <th className="pr-6 font-normal">Sponsor</th>

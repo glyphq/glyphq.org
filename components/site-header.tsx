@@ -3,19 +3,18 @@
 import { AltArrowDownIcon, ArrowRightUpIcon } from "@solar-icons/react/linear";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BrandMark } from "@/components/brand-mark";
 import { DownloadButton } from "@/components/download-button";
 import { MobileNav } from "@/components/mobile-nav";
 import { SiteIcon } from "@/components/site-icon";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { isActivePath, mainNav, productLinks } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const navLinkClass =
-  "inline-flex items-center gap-1.5 rounded-full px-3 py-2 font-mono text-sm font-medium text-foreground transition-colors hover:bg-foreground/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+  "inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-foreground/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
-function ProductsMenu() {
+function ProductsMenu({ icon }: { icon?: (typeof mainNav)[number]["icon"] }) {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -53,6 +52,7 @@ function ProductsMenu() {
           open && "bg-foreground/5 text-foreground",
         )}
       >
+        {icon ? <SiteIcon icon={icon} size={14} /> : null}
         Products
         <SiteIcon
           icon={AltArrowDownIcon}
@@ -72,7 +72,14 @@ function ProductsMenu() {
               onClick={() => setOpen(false)}
               className="block rounded-xl px-2.5 py-2.5 transition-colors hover:bg-foreground/5"
             >
-              <span className="block font-mono text-sm font-medium">
+              <span className="flex items-center gap-2 text-sm font-medium">
+                {product.icon ? (
+                  <SiteIcon
+                    icon={product.icon}
+                    size={14}
+                    className="text-muted-foreground"
+                  />
+                ) : null}
                 {product.label}
               </span>
               <span className="mt-0.5 block text-xs leading-relaxed text-muted-foreground">
@@ -127,39 +134,30 @@ export function SiteHeader() {
           aria-label="Main navigation"
           className="hidden items-center gap-1 lg:flex"
         >
-          {mainNav.map((item, index) => (
-            <Fragment key={item.href}>
-              {index > 0 ? (
-                <span
-                  aria-hidden="true"
-                  className="px-0.5 font-mono text-xs text-muted-foreground/30"
-                >
-                  /
-                </span>
-              ) : null}
-              {item.label === "Products" ? (
-                <ProductsMenu />
-              ) : (
-                <Link
-                  href={item.href}
-                  aria-current={
-                    isActivePath(pathname, item.href) ? "page" : undefined
-                  }
-                  className={cn(
-                    navLinkClass,
-                    isActivePath(pathname, item.href) &&
-                      "bg-foreground/5 text-foreground",
-                  )}
-                >
-                  {item.label}
-                </Link>
-              )}
-            </Fragment>
-          ))}
+          {mainNav.map((item) =>
+            item.label === "Products" ? (
+              <ProductsMenu key={item.href} icon={item.icon} />
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={
+                  isActivePath(pathname, item.href) ? "page" : undefined
+                }
+                className={cn(
+                  navLinkClass,
+                  isActivePath(pathname, item.href) &&
+                    "bg-foreground/5 text-foreground",
+                )}
+              >
+                {item.icon ? <SiteIcon icon={item.icon} size={14} /> : null}
+                {item.label}
+              </Link>
+            ),
+          )}
         </nav>
 
         <div className="ml-auto flex items-center gap-1">
-          <ThemeToggle />
           <DownloadButton
             size="md"
             iconSize={16}
