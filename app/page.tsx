@@ -1,4 +1,3 @@
-import { HomeCta } from "@/components/home-cta";
 import { HomeDiscord } from "@/components/home-discord";
 import { HomeFaq } from "@/components/home-faq";
 import { HomeFeatures } from "@/components/home-features";
@@ -14,7 +13,6 @@ export default function Home() {
         <HomeProducts />
         <HomeFaq />
         <HomeDiscord />
-        <HomeCta />
       </div>
     </div>
   );

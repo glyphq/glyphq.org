@@ -5,6 +5,8 @@ import { SiteIcon } from "@/components/site-icon";
 import { siteConfig } from "@/lib/site";
 
 export function HomeDiscord() {
+  const invite = siteConfig.links.discord.replace(/^https?:\/\//, "");
+
   return (
     <section
       id="discord"
@@ -38,7 +40,7 @@ export function HomeDiscord() {
           </span>
 
           <span className="mt-3 font-mono text-[0.65rem] tracking-[0.12em] text-muted-foreground">
-            discord.gg/s5qNRNGu96
+            {invite}
           </span>
         </a>
       </Reveal>

@@ -12,7 +12,7 @@ export const siteConfig = {
     explorer: "https://explorer.glyphq.org",
     explorerRepo: "https://github.com/glyphq/explorer",
     releases: "https://github.com/glyphq/wallet/releases/latest",
-    discord: "https://discord.gg/s5qNRNGu96",
+    discord: "https://discord.gg/faKATpcHGf",
   },
 } as const;
 
