@@ -11,10 +11,12 @@ export function CopyButton({
   value,
   label,
   className,
+  iconOnly = false,
 }: {
   value: string;
   label: string;
   className?: string;
+  iconOnly?: boolean;
 }) {
   const [state, setState] = useState<CopyState>("idle");
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -71,11 +73,12 @@ export function CopyButton({
           "inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-full px-4 text-xs font-medium transition-colors outline-none",
           "bg-foreground/8 text-foreground hover:bg-foreground/14 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           copied && "text-brand",
+          iconOnly && "size-8 rounded-lg px-0",
           className,
         )}
       >
         <SiteIcon icon={copied ? CopyCheckIcon : CopyIcon} size={14} />
-        {copied ? "Copied" : failed ? "Try again" : "Copy"}
+        {iconOnly ? null : copied ? "Copied" : failed ? "Try again" : "Copy"}
       </button>
       <span className="sr-only" role="status" aria-live="polite">
         {copied
