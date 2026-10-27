@@ -3,6 +3,7 @@ import { cacheLife } from "next/cache";
 export const donationConfig = {
   evmAddress: "0xbe663600d2a0d9c32f28f5cc0649452584986ad4",
   qubicIdentity: "XIKAQZMFGQSALEMMJRATPPRESWTBXQVCOHTHCZWDGFXVBMCAHBCRUICFOQBI",
+  solanaAddress: "BSjYcvpVW4tyrGEaj9miH3RFh8gfsEiZTPXUumHtvdzo",
 };
 
 type EvmToken = {
@@ -137,6 +138,24 @@ export type QubicBalance = {
   formatted: string;
   error?: boolean;
 };
+
+export type SolanaBalance = {
+  tokens: TokenBalance[];
+  error?: boolean;
+};
+
+const solanaRpcUrl = "https://api.mainnet-beta.solana.com";
+
+const solanaTokens = [
+  {
+    symbol: "USDC",
+    mint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+  },
+  {
+    symbol: "USDT",
+    mint: "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+  },
+] as const;
 
 async function evmRpc(
   rpcUrl: string,
@@ -275,21 +294,121 @@ async function getQubicBalance(): Promise<QubicBalance> {
   }
 }
 
+async function getSolanaTokenBalance({
+  symbol,
+  mint,
+}: (typeof solanaTokens)[number]): Promise<TokenBalance> {
+  const response = await fetch(solanaRpcUrl, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      id: 1,
+      method: "getTokenAccountsByOwner",
+      params: [
+        donationConfig.solanaAddress,
+        { mint },
+        { encoding: "jsonParsed" },
+      ],
+    }),
+    signal: AbortSignal.timeout(8_000),
+  });
+
+  if (!response.ok) throw new Error("Solana RPC failed");
+
+  const payload = (await response.json()) as {
+    result?: {
+      value?: {
+        account?: {
+          data?: {
+            parsed?: {
+              info?: {
+                tokenAmount?: { amount?: string };
+              };
+            };
+          };
+        };
+      }[];
+    };
+    error?: { message?: string };
+  };
+
+  if (payload.error) {
+    throw new Error(payload.error.message ?? "Solana RPC failed");
+  }
+
+  const raw = (payload.result?.value ?? []).reduce((total, account) => {
+    const amount =
+      account.account?.data?.parsed?.info?.tokenAmount?.amount ?? "0";
+    return total + BigInt(amount);
+  }, BigInt(0));
+
+  return {
+    symbol,
+    formatted: formatUnits(raw.toString(), 6, 2),
+    amount: Number(raw) / 10 ** 6,
+  };
+}
+
+async function getSolanaBalance(): Promise<SolanaBalance> {
+  const results = await Promise.allSettled(
+    solanaTokens.map((token) => getSolanaTokenBalance(token)),
+  );
+  const tokens = results.map((result, index) => {
+    if (result.status === "fulfilled") return result.value;
+
+    return {
+      symbol: solanaTokens[index].symbol,
+      formatted: "0.00",
+      amount: 0,
+    };
+  });
+
+  return {
+    tokens,
+    ...(results.every((result) => result.status === "rejected")
+      ? { error: true }
+      : {}),
+  };
+}
+
 export async function getDonationSnapshot() {
   "use cache";
   cacheLife("minutes");
 
-  const [evm, qubic] = await Promise.all([
+  const [evm, solana, qubic] = await Promise.all([
     Promise.all(evmChains.map((chain) => getEvmChainBalance(chain))),
+    getSolanaBalance(),
     getQubicBalance(),
   ]);
 
+  const evmStablecoins = evm
+    .flatMap((balance) => balance.tokens)
+    .reduce((sum, token) => sum + token.amount, 0);
+  const solanaStablecoins = solana.tokens.reduce(
+    (sum, token) => sum + token.amount,
+    0,
+  );
+  const stablecoins = [
+    ...evm.flatMap((balance) => balance.tokens),
+    ...solana.tokens,
+  ];
+  const usdcTotal = stablecoins
+    .filter((token) => token.symbol === "USDC")
+    .reduce((sum, token) => sum + token.amount, 0);
+  const usdtTotal = stablecoins
+    .filter((token) => token.symbol === "USDT")
+    .reduce((sum, token) => sum + token.amount, 0);
+
   return {
     evm,
+    solana,
     qubic,
-    donatedStablecoins: evm
-      .flatMap((balance) => balance.tokens)
-      .reduce((sum, token) => sum + token.amount, 0),
+    evmStablecoins,
+    solanaStablecoins,
+    usdcTotal,
+    usdtTotal,
+    donatedStablecoins: evmStablecoins + solanaStablecoins,
   };
 }
 
