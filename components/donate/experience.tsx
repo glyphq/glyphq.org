@@ -18,10 +18,10 @@ import {
   useRef,
   useState,
 } from "react";
-import { AccentBox } from "@/components/accent-box";
-import { CopyButton } from "@/components/copy-button";
-import { SiteButton, SiteButtonLink } from "@/components/site-button";
-import { SiteIcon } from "@/components/site-icon";
+import { AccentBox } from "@/components/ascii/accent-box";
+import { CopyButton } from "@/components/ui/copy-button";
+import { SiteButton, SiteButtonLink } from "@/components/ui/site-button";
+import { SiteIcon } from "@/components/ui/site-icon";
 import type { ChainBalance, QubicBalance } from "@/lib/donations";
 import { siteConfig } from "@/lib/site";
 import { type Sponsor, sponsors, sponsorThresholds } from "@/lib/sponsors";

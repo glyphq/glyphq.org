@@ -1,8 +1,8 @@
 import { ArrowRightIcon } from "@solar-icons/react/linear";
 import Link from "next/link";
-import { MaskIcon } from "@/components/mask-icon";
-import { Reveal } from "@/components/reveal";
-import { SiteIcon } from "@/components/site-icon";
+import { MaskIcon } from "@/components/ui/mask-icon";
+import { Reveal } from "@/components/ui/reveal";
+import { SiteIcon } from "@/components/ui/site-icon";
 import { siteConfig } from "@/lib/site";
 
 const features = [

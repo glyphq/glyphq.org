@@ -1,4 +1,4 @@
-import { DonationExperience } from "@/components/donation-experience";
+import { DonationExperience } from "@/components/donate/experience";
 import { donationConfig, getDonationSnapshot } from "@/lib/donations";
 import { pageMetadata } from "@/lib/page-metadata";
 import { getDonationQrCodes } from "@/lib/qr";

@@ -1,5 +1,5 @@
 import { DownloadIcon } from "@solar-icons/react/linear";
-import { SiteIcon } from "@/components/site-icon";
+import { SiteIcon } from "@/components/ui/site-icon";
 import type { OperatingSystem } from "@/lib/use-operating-system";
 
 function MaskIcon({ src, size }: { src: string; size: number }) {

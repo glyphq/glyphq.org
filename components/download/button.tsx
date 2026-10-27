@@ -1,11 +1,11 @@
 "use client";
 
-import { OsIcon } from "@/components/os-icon";
+import { OsIcon } from "@/components/download/os-icon";
 import type {
   SiteButtonSize,
   SiteButtonVariant,
-} from "@/components/site-button";
-import { SiteButtonLink } from "@/components/site-button";
+} from "@/components/ui/site-button";
+import { SiteButtonLink } from "@/components/ui/site-button";
 import { useOperatingSystem } from "@/lib/use-operating-system";
 
 export function DownloadButton({

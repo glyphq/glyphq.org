@@ -1,10 +1,10 @@
 import { ArrowRightIcon } from "@solar-icons/react/linear";
 import Image from "next/image";
-import { AccentBox } from "@/components/accent-box";
-import { DownloadButton } from "@/components/download-button";
-import { Reveal } from "@/components/reveal";
-import { SiteButtonLink } from "@/components/site-button";
-import { SiteIcon } from "@/components/site-icon";
+import { AccentBox } from "@/components/ascii/accent-box";
+import { DownloadButton } from "@/components/download/button";
+import { Reveal } from "@/components/ui/reveal";
+import { SiteButtonLink } from "@/components/ui/site-button";
+import { SiteIcon } from "@/components/ui/site-icon";
 
 export function HomeHero() {
   return (

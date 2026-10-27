@@ -1,7 +1,10 @@
 "use client";
 
-import { OsIcon } from "@/components/os-icon";
-import { SiteButtonLink, type SiteButtonSize } from "@/components/site-button";
+import { OsIcon } from "@/components/download/os-icon";
+import {
+  SiteButtonLink,
+  type SiteButtonSize,
+} from "@/components/ui/site-button";
 import type { WalletRelease } from "@/lib/releases";
 import { siteConfig } from "@/lib/site";
 import { useOperatingSystem } from "@/lib/use-operating-system";

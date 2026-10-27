@@ -4,8 +4,8 @@ import { ArrowRightIcon } from "@solar-icons/react/linear";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
-import { SiteIcon } from "@/components/site-icon";
-import { TableOfContents } from "@/components/table-of-contents";
+import { TableOfContents } from "@/components/blog/table-of-contents";
+import { SiteIcon } from "@/components/ui/site-icon";
 import { sortedPosts } from "@/lib/posts";
 import { cn } from "@/lib/utils";
 

@@ -2,7 +2,7 @@
 
 import { CopyCheckIcon, CopyIcon } from "@solar-icons/react/linear";
 import { useEffect, useRef, useState } from "react";
-import { SiteIcon } from "@/components/site-icon";
+import { SiteIcon } from "@/components/ui/site-icon";
 import { cn } from "@/lib/utils";
 
 type CopyState = "idle" | "copied" | "failed";

@@ -1,7 +1,7 @@
 import { ArrowRightIcon, HomeIcon } from "@solar-icons/react/linear";
 import type { Metadata } from "next";
-import { SiteButtonLink } from "@/components/site-button";
-import { SiteIcon } from "@/components/site-icon";
+import { SiteButtonLink } from "@/components/ui/site-button";
+import { SiteIcon } from "@/components/ui/site-icon";
 
 export const metadata: Metadata = {
   title: "Page not found",

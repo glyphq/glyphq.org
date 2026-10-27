@@ -1,7 +1,7 @@
 import type { MDXComponents } from "mdx/types";
 import type { ReactNode } from "react";
-import { PostHeader } from "@/components/post-header";
-import { Reveal } from "@/components/reveal";
+import { PostHeader } from "@/components/blog/header";
+import { Reveal } from "@/components/ui/reveal";
 import { cn } from "@/lib/utils";
 
 export function BlogArticle({ children }: { children: ReactNode }) {

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { BlogShell } from "@/components/blog-shell";
+import { BlogShell } from "@/components/blog/shell";
 
 export default function BlogLayout({ children }: { children: ReactNode }) {
   return (

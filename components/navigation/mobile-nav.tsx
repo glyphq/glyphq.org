@@ -7,10 +7,10 @@ import {
 } from "@solar-icons/react/linear";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { BrandMark } from "@/components/brand-mark";
-import { DownloadButton } from "@/components/download-button";
-import { siteButtonClasses } from "@/components/site-button";
-import { SiteIcon } from "@/components/site-icon";
+import { DownloadButton } from "@/components/download/button";
+import { BrandMark } from "@/components/ui/brand-mark";
+import { siteButtonClasses } from "@/components/ui/site-button";
+import { SiteIcon } from "@/components/ui/site-icon";
 import { mainNav, productLinks, resourceLinks } from "@/lib/site";
 import { cn } from "@/lib/utils";
 

@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { SiteBackdrop } from "@/components/site-backdrop";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { SiteBackdrop } from "@/components/ascii/site-backdrop";
+import { SiteFooter } from "@/components/navigation/footer";
+import { SiteHeader } from "@/components/navigation/header";
 import "./globals.css";
 
 const geistSans = Geist({
