@@ -8,7 +8,7 @@ import {
   type ChainBalance,
   donationConfig,
   evmChains,
-  formatUsdt,
+  formatStablecoin,
   getDonationSnapshot,
   type QubicBalance,
 } from "@/lib/donations";
@@ -18,7 +18,7 @@ import { siteConfig } from "@/lib/site";
 export const metadata = pageMetadata({
   title: "Donate",
   description:
-    "Support Glyph with ETH, POL, USDC, USDT, or QU. See live balances and the current monthly goal.",
+    "Support Glyph with ETH, POL, USDC, USDT, or QU. See USDT and USDC balances and what has been donated so far.",
   path: "/donate",
 });
 
@@ -87,26 +87,22 @@ function BalanceCard({ balance }: { balance: ChainBalance }) {
 
       {balance.error ? (
         <p className="mt-6 text-sm text-muted-foreground">
-          Balance unavailable right now.
+          Stablecoin balances unavailable right now.
         </p>
       ) : (
-        <>
-          <p className="mt-6 font-mono text-2xl tracking-[-0.04em]">
-            {balance.native}{" "}
-            <span className="text-sm text-muted-foreground">
-              {balance.chain.nativeSymbol}
-            </span>
-          </p>
-          {balance.tokens.length > 0 ? (
-            <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[0.7rem] text-muted-foreground">
-              {balance.tokens.map((token) => (
-                <span key={token.symbol}>
-                  {token.formatted} {token.symbol}
-                </span>
-              ))}
+        <div className="mt-5 divide-y divide-foreground/10">
+          {balance.tokens.map((token) => (
+            <div
+              key={token.symbol}
+              className="flex items-baseline justify-between gap-4 py-2.5 first:pt-0 last:pb-0"
+            >
+              <span className="font-mono text-xs text-muted-foreground">
+                {token.symbol}
+              </span>
+              <span className="font-mono text-lg">{token.formatted}</span>
             </div>
-          ) : null}
-        </>
+          ))}
+        </div>
       )}
     </article>
   );
@@ -149,20 +145,12 @@ function QubicBalanceCard({ balance }: { balance: QubicBalance }) {
 
 export default async function DonatePage() {
   const snapshot = await getDonationSnapshot();
-  const goal = donationConfig.monthlyGoalUsdt;
-  const progress =
-    goal > 0
-      ? Math.min(100, Math.round((snapshot.monthlyRaisedUsdt / goal) * 100))
-      : 0;
 
   return (
     <>
       <section className="site-container pt-16 pb-14 md:pt-24 md:pb-16">
         <div className="mx-auto max-w-4xl text-center">
-          <p className="font-mono text-[0.65rem] tracking-[0.18em] text-brand uppercase">
-            Support Glyph
-          </p>
-          <h1 className="mt-4 font-display text-[clamp(3.4rem,8vw,7rem)] leading-[0.9] font-semibold tracking-[-0.07em] text-balance">
+          <h1 className="font-display text-[clamp(3.4rem,8vw,7rem)] leading-[0.9] font-semibold tracking-[-0.07em] text-balance">
             Keep Glyph <AccentBox>shipping</AccentBox>.
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
@@ -178,45 +166,15 @@ export default async function DonatePage() {
               See balances
             </SiteButtonLink>
           </div>
-        </div>
-      </section>
-
-      <section className="site-container pb-16 md:pb-20">
-        <div className="mx-auto max-w-3xl rounded-3xl bg-card p-6 sm:p-8">
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <p className="font-mono text-[0.6rem] tracking-[0.16em] text-muted-foreground uppercase">
-                This month
-              </p>
-              <p className="mt-2 font-display text-4xl font-medium tracking-[-0.05em]">
-                {formatUsdt(snapshot.monthlyRaisedUsdt)}{" "}
-                <span className="text-lg tracking-[-0.03em] text-muted-foreground">
-                  of {formatUsdt(goal)} USDT
-                </span>
-              </p>
-            </div>
-            <span className="font-mono text-xs text-muted-foreground">
-              {progress}%
-            </span>
+          <div className="mt-10">
+            <p className="font-display text-5xl leading-none font-medium tracking-[-0.055em]">
+              {formatStablecoin(snapshot.donatedStablecoins)}{" "}
+              <span className="text-lg tracking-[-0.03em] text-muted-foreground">
+                USDT + USDC
+              </span>
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">donated so far</p>
           </div>
-          <div
-            role="progressbar"
-            aria-label="Monthly donation goal"
-            aria-valuemin={0}
-            aria-valuemax={goal}
-            aria-valuenow={Math.min(goal, snapshot.monthlyRaisedUsdt)}
-            className="mt-5 h-1.5 overflow-hidden rounded-full bg-foreground/10"
-          >
-            <div
-              className="h-full rounded-full bg-brand transition-[width] duration-700"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-          <p className="mt-3 text-xs leading-relaxed text-muted-foreground text-pretty">
-            {snapshot.monthlyRaisedUsdt === 0
-              ? "No confirmed donations yet this month."
-              : "Confirmed donations update this total as they clear."}
-          </p>
         </div>
       </section>
 
@@ -227,12 +185,9 @@ export default async function DonatePage() {
       >
         <div className="mx-auto grid max-w-5xl gap-3 lg:grid-cols-[1.15fr_0.85fr]">
           <div className="rounded-3xl bg-card p-6 sm:p-8">
-            <p className="font-mono text-[0.6rem] tracking-[0.16em] text-brand uppercase">
-              EVM
-            </p>
             <h2
               id="methods-heading"
-              className="mt-3 font-display text-3xl leading-[1] font-semibold tracking-[-0.05em]"
+              className="font-display text-3xl leading-[1] font-semibold tracking-[-0.05em]"
             >
               One address, every EVM network.
             </h2>
@@ -262,10 +217,7 @@ export default async function DonatePage() {
           </div>
 
           <div className="rounded-3xl bg-card p-6 sm:p-8">
-            <p className="font-mono text-[0.6rem] tracking-[0.16em] text-brand uppercase">
-              Qubic
-            </p>
-            <div className="mt-3 flex items-center gap-3">
+            <div className="flex items-center gap-3">
               <span className="flex size-10 items-center justify-center rounded-full bg-foreground/5">
                 <ChainIcon
                   src="/chains/qubic.svg"
@@ -296,20 +248,13 @@ export default async function DonatePage() {
       >
         <div className="mx-auto max-w-5xl">
           <div className="flex flex-wrap items-end justify-between gap-3 border-b border-foreground/10 pb-4">
-            <div>
-              <p className="font-mono text-[0.6rem] tracking-[0.16em] text-muted-foreground uppercase">
-                Transparency
-              </p>
-              <h2
-                id="balances-heading"
-                className="mt-2 font-display text-3xl leading-[1] font-semibold tracking-[-0.05em]"
-              >
-                What is on each chain.
-              </h2>
-            </div>
-            <p className="font-mono text-[0.6rem] tracking-[0.14em] text-muted-foreground uppercase">
-              Live balances
-            </p>
+            <h2
+              id="balances-heading"
+              className="font-display text-3xl leading-[1] font-semibold tracking-[-0.05em]"
+            >
+              What is on each chain.
+            </h2>
+            <p className="text-sm text-muted-foreground">USDT and USDC</p>
           </div>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -320,9 +265,8 @@ export default async function DonatePage() {
           </div>
 
           <p className="mt-4 max-w-2xl text-xs leading-relaxed text-muted-foreground text-pretty">
-            Native balances and native USDC/USDT are tracked across the EVM
-            networks. Other tokens can still be sent to the address but are not
-            listed here.
+            USDT and USDC balances are tracked across the EVM networks. Other
+            tokens can still be sent to the address but are not listed here.
           </p>
         </div>
       </section>

@@ -1,27 +1,8 @@
 import { cacheLife } from "next/cache";
 
-export type DonationRecord = {
-  /** ISO date (YYYY-MM-DD). */
-  date: string;
-  /** Confirmed value in USDT at the time the transfer cleared. */
-  amountUsdt: number;
-  asset: string;
-  chain: string;
-};
-
 export const donationConfig = {
   evmAddress: "0xbe663600d2a0d9c32f28f5cc0649452584986ad4",
   qubicIdentity: "XIKAQZMFGQSALEMMJRATPPRESWTBXQVCOHTHCZWDGFXVBMCAHBCRUICFOQBI",
-  /** Adjust this target when the monthly goal changes. */
-  monthlyGoalUsdt: 500,
-  /**
-   * Confirmed donations only. Add an entry after the transfer clears.
-   * The monthly total is calculated from this list.
-   *
-   * Example:
-   * { date: "2026-10-27", amountUsdt: 25, asset: "USDC", chain: "Base" },
-   */
-  confirmedDonations: [] as DonationRecord[],
 };
 
 type EvmToken = {
@@ -34,7 +15,6 @@ export type EvmChain = {
   id: "ethereum" | "base" | "polygon" | "arbitrum" | "optimism";
   name: string;
   icon: string;
-  nativeSymbol: "ETH" | "POL";
   rpcUrl: string;
   explorerAddress: string;
   tokens: EvmToken[];
@@ -48,7 +28,6 @@ export const evmChains: EvmChain[] = [
     id: "ethereum",
     name: "Ethereum",
     icon: "/chains/ethereum.svg",
-    nativeSymbol: "ETH",
     rpcUrl: "https://ethereum-rpc.publicnode.com",
     explorerAddress: "https://etherscan.io/address",
     tokens: [
@@ -68,7 +47,6 @@ export const evmChains: EvmChain[] = [
     id: "base",
     name: "Base",
     icon: "/chains/base.svg",
-    nativeSymbol: "ETH",
     rpcUrl: "https://base-rpc.publicnode.com",
     explorerAddress: "https://basescan.org/address",
     tokens: [
@@ -88,7 +66,6 @@ export const evmChains: EvmChain[] = [
     id: "polygon",
     name: "Polygon",
     icon: "/chains/polygon.svg",
-    nativeSymbol: "POL",
     rpcUrl: "https://polygon-bor-rpc.publicnode.com",
     explorerAddress: "https://polygonscan.com/address",
     tokens: [
@@ -108,7 +85,6 @@ export const evmChains: EvmChain[] = [
     id: "arbitrum",
     name: "Arbitrum",
     icon: "/chains/arbitrum.svg",
-    nativeSymbol: "ETH",
     rpcUrl: "https://arbitrum-one-rpc.publicnode.com",
     explorerAddress: "https://arbiscan.io/address",
     tokens: [
@@ -128,7 +104,6 @@ export const evmChains: EvmChain[] = [
     id: "optimism",
     name: "Optimism",
     icon: "/chains/optimism.svg",
-    nativeSymbol: "ETH",
     rpcUrl: "https://optimism-rpc.publicnode.com",
     explorerAddress: "https://optimistic.etherscan.io/address",
     tokens: [
@@ -149,11 +124,11 @@ export const evmChains: EvmChain[] = [
 export type TokenBalance = {
   symbol: string;
   formatted: string;
+  amount: number;
 };
 
 export type ChainBalance = {
   chain: EvmChain;
-  native: string;
   tokens: TokenBalance[];
   error?: boolean;
 };
@@ -211,9 +186,12 @@ function formatUnits(
     .slice(0, maxFractionDigits)
     .replace(/0+$/, "");
 
-  return fractionText
-    ? `${whole.toLocaleString("en-US")}.${fractionText}`
-    : whole.toLocaleString("en-US");
+  const wholeText = whole.toLocaleString("en-US");
+
+  if (fractionText) return `${wholeText}.${fractionText}`;
+  return maxFractionDigits > 0
+    ? `${wholeText}.${"0".repeat(maxFractionDigits)}`
+    : wholeText;
 }
 
 function formatQubic(value: string) {
@@ -234,27 +212,20 @@ async function getTokenBalance(
     "latest",
   ]);
 
-  if (BigInt(result) === BigInt(0)) return null;
-
   return {
     symbol: token.symbol,
     formatted: formatUnits(result, token.decimals, 2),
+    amount: Number(result) / 10 ** token.decimals,
   };
 }
 
 async function getEvmChainBalance(chain: EvmChain): Promise<ChainBalance> {
   try {
-    const [nativeResult, tokenResults] = await Promise.all([
-      evmRpc(chain.rpcUrl, "eth_getBalance", [
-        donationConfig.evmAddress,
-        "latest",
-      ]),
-      Promise.allSettled(
-        chain.tokens.map((token) =>
-          getTokenBalance(chain.rpcUrl, donationConfig.evmAddress, token),
-        ),
+    const tokenResults = await Promise.allSettled(
+      chain.tokens.map((token) =>
+        getTokenBalance(chain.rpcUrl, donationConfig.evmAddress, token),
       ),
-    ]);
+    );
 
     const tokens = tokenResults
       .filter(
@@ -263,19 +234,19 @@ async function getEvmChainBalance(chain: EvmChain): Promise<ChainBalance> {
         ): result is PromiseFulfilledResult<{
           symbol: string;
           formatted: string;
-        }> => result.status === "fulfilled" && result.value !== null,
+          amount: number;
+        }> => result.status === "fulfilled",
       )
       .map((result) => result.value);
 
     return {
       chain,
-      native: formatUnits(nativeResult, 18, 6),
       tokens,
+      ...(tokens.length === 0 ? { error: true } : {}),
     };
   } catch {
     return {
       chain,
-      native: "0",
       tokens: [],
       error: true,
     };
@@ -304,14 +275,6 @@ async function getQubicBalance(): Promise<QubicBalance> {
   }
 }
 
-export function getMonthlyDonationTotal(date = new Date()) {
-  const month = date.toISOString().slice(0, 7);
-
-  return donationConfig.confirmedDonations
-    .filter((donation) => donation.date.startsWith(month))
-    .reduce((sum, donation) => sum + donation.amountUsdt, 0);
-}
-
 export async function getDonationSnapshot() {
   "use cache";
   cacheLife("minutes");
@@ -324,14 +287,17 @@ export async function getDonationSnapshot() {
   return {
     evm,
     qubic,
-    monthlyRaisedUsdt: getMonthlyDonationTotal(),
+    donatedStablecoins: evm
+      .flatMap((balance) => balance.tokens)
+      .reduce((sum, token) => sum + token.amount, 0),
   };
 }
 
-const usdtFormatter = new Intl.NumberFormat("en-US", {
-  maximumFractionDigits: 0,
+const stablecoinFormatter = new Intl.NumberFormat("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
 });
 
-export function formatUsdt(value: number) {
-  return usdtFormatter.format(value);
+export function formatStablecoin(value: number) {
+  return stablecoinFormatter.format(value);
 }
