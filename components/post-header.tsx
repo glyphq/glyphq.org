@@ -7,8 +7,8 @@ export function PostHeader({ slug }: { slug: string }) {
   if (!post) return null;
 
   return (
-    <header className="mx-auto mb-12 max-w-3xl border-b border-foreground/10 pb-10 text-center">
-      <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1.5 font-mono text-[0.65rem] tracking-[0.14em] uppercase">
+    <header className="mb-12 max-w-3xl">
+      <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5 font-mono text-[0.65rem] tracking-[0.14em] uppercase">
         <Link
           href="/blog"
           className="text-foreground/75 transition-colors hover:text-brand"
@@ -37,10 +37,10 @@ export function PostHeader({ slug }: { slug: string }) {
         </time>
       </div>
 
-      <h1 className="mx-auto mt-6 max-w-2xl font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl">
+      <h1 className="mt-6 max-w-2xl font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl">
         {post.title}
       </h1>
-      <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground text-pretty sm:text-base">
+      <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground text-pretty sm:text-base">
         {post.description}
       </p>
       <p className="mt-5 font-mono text-[0.65rem] tracking-[0.12em] text-muted-foreground uppercase">
