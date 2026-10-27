@@ -36,13 +36,14 @@ export default function AboutPage() {
             </h2>
             <div className="mx-auto mt-8 max-w-2xl space-y-5 text-base leading-relaxed text-muted-foreground text-pretty">
               <p>
-                Qubic deserves a wallet that feels like a desktop app: keys on
-                your machine, a real window, and native signing.
+                People use Qubic through wallets, apps, and tools. A desktop
+                wallet should keep keys on your machine, sign locally, and feel
+                like software you chose to install.
               </p>
               <p>
-                Glyph started with that wallet. It has grown into a small
-                ecosystem: Connect for typed requests, Relay for app callbacks,
-                and Explorer for public network data.
+                Glyph started with that wallet. Connect, Relay, and Explorer
+                came from the same work: typed requests, a way to return signed
+                results, and a clear view of public network data.
               </p>
             </div>
           </Reveal>
