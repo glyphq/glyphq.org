@@ -136,6 +136,7 @@ export type ChainBalance = {
 
 export type QubicBalance = {
   formatted: string;
+  exact: string;
   error?: boolean;
 };
 
@@ -213,8 +214,20 @@ function formatUnits(
     : wholeText;
 }
 
+const qubicCompactFormatter = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  maximumFractionDigits: 1,
+});
+
+const qubicExactFormatter = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 0,
+});
+
 function formatQubic(value: string) {
-  return BigInt(value).toLocaleString("en-US");
+  return {
+    formatted: qubicCompactFormatter.format(Number(value)),
+    exact: qubicExactFormatter.format(BigInt(value)),
+  };
 }
 
 async function getTokenBalance(
@@ -288,9 +301,9 @@ async function getQubicBalance(): Promise<QubicBalance> {
 
     if (!value) throw new Error("Qubic balance missing");
 
-    return { formatted: formatQubic(value) };
+    return formatQubic(value);
   } catch {
-    return { formatted: "0", error: true };
+    return { formatted: "0", exact: "0", error: true };
   }
 }
 
