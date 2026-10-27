@@ -154,16 +154,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
           aria-labelledby="product-intro-heading"
           className="site-container pb-24 md:pb-32"
         >
-          <Reveal className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
-            <div>
-              <h2
-                id="product-intro-heading"
-                className="max-w-md font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl"
-              >
-                {product.name} at a glance.
-              </h2>
-            </div>
-            <div className="max-w-2xl space-y-8">
+          <Reveal className="mx-auto max-w-4xl">
+            <h2
+              id="product-intro-heading"
+              className="font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl"
+            >
+              {product.overviewTitle}
+            </h2>
+            <div className="mt-8 space-y-8">
               <p className="text-base leading-relaxed text-muted-foreground text-pretty">
                 {product.intro}
               </p>
@@ -177,21 +175,21 @@ export default async function ProductPage({ params }: ProductPageProps) {
             aria-labelledby="product-tech-heading"
             className="site-container pb-24 md:pb-32"
           >
-            <Reveal className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
-              <div>
-                <h2
-                  id="product-tech-heading"
-                  className="max-w-md font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl"
-                >
-                  {product.tech.title}
-                </h2>
-                {product.tech.description ? (
-                  <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground text-pretty">
-                    {product.tech.description}
-                  </p>
-                ) : null}
+            <Reveal className="mx-auto max-w-4xl">
+              <h2
+                id="product-tech-heading"
+                className="font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl"
+              >
+                {product.tech.title}
+              </h2>
+              {product.tech.description ? (
+                <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground text-pretty">
+                  {product.tech.description}
+                </p>
+              ) : null}
+              <div className="mt-8">
+                <TechContent tech={product.tech} />
               </div>
-              <TechContent tech={product.tech} />
             </Reveal>
           </section>
         ) : null}
@@ -200,16 +198,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
           aria-labelledby="other-products-heading"
           className="site-container pb-24 md:pb-32"
         >
-          <Reveal className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
-            <div>
-              <h2
-                id="other-products-heading"
-                className="max-w-md font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl"
-              >
-                More from Glyph.
-              </h2>
-            </div>
-            <div className="grid gap-x-10 gap-y-10 sm:grid-cols-2">
+          <Reveal className="mx-auto max-w-4xl">
+            <h2
+              id="other-products-heading"
+              className="font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl"
+            >
+              More from Glyph.
+            </h2>
+            <div className="mt-8 grid gap-x-10 gap-y-10 sm:grid-cols-2">
               {otherProducts.map((other) => (
                 <Link
                   key={other.slug}
