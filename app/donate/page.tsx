@@ -5,7 +5,7 @@ import { pageMetadata } from "@/lib/page-metadata";
 export const metadata = pageMetadata({
   title: "Donate",
   description:
-    "Support Glyph with ETH, POL, USDC, USDT, or QU. See USDT and USDC balances and what has been donated so far.",
+    "Support Glyph with ETH, POL, USDC, USDT, SOL, or QU. See USDT and USDC balances and what has been donated so far.",
   path: "/donate",
 });
 
@@ -16,8 +16,14 @@ export default async function DonatePage() {
     <DonationExperience
       evmAddress={donationConfig.evmAddress}
       qubicIdentity={donationConfig.qubicIdentity}
+      solanaAddress={donationConfig.solanaAddress}
       evmBalances={snapshot.evm}
+      solanaBalance={snapshot.solana}
       qubicBalance={snapshot.qubic}
+      evmStablecoins={snapshot.evmStablecoins}
+      solanaStablecoins={snapshot.solanaStablecoins}
+      usdcTotal={snapshot.usdcTotal}
+      usdtTotal={snapshot.usdtTotal}
       donatedStablecoins={snapshot.donatedStablecoins}
     />
   );

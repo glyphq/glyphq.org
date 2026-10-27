@@ -128,7 +128,7 @@ The download page reads the latest public GitHub release from `lib/releases.ts`.
 
 ### Donations
 
-Donation addresses live in `lib/donations.ts`. The donated-so-far figure is the total USDT and USDC held by the EVM address. Balances are fetched from public RPCs and cached for one minute.
+Donation addresses live in `lib/donations.ts`. The donated-so-far figure is the total USDT and USDC held by the EVM and Solana addresses. Balances are fetched from public RPCs and cached for one minute. Official sponsor data lives in `lib/sponsors.ts`.
 
 ## Design notes
 
