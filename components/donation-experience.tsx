@@ -90,7 +90,7 @@ function TokenIcon({ symbol, size = 18 }: { symbol: string; size?: number }) {
 
 function QrCode({ src, label }: { src: string; label: string }) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl bg-foreground/[0.04] p-4">
+    <div className="flex flex-col items-center justify-center">
       <div className="aspect-square w-full max-w-48 rounded-lg bg-[#f8f7f2] p-2">
         <Image
           src={src}
@@ -104,6 +104,28 @@ function QrCode({ src, label }: { src: string; label: string }) {
       <span className="mt-2 text-[0.65rem] text-muted-foreground">
         Scan to donate
       </span>
+    </div>
+  );
+}
+
+function AddressField({ value, label }: { value: string; label: string }) {
+  return (
+    <div className="relative">
+      <textarea
+        readOnly
+        rows={3}
+        value={value}
+        aria-label={label}
+        spellCheck={false}
+        onFocus={(event) => event.currentTarget.select()}
+        className="w-full resize-none rounded-2xl bg-foreground/[0.04] p-4 pr-12 font-mono text-xs leading-relaxed break-all text-foreground/85 outline-none transition-colors focus:bg-foreground/[0.06] focus:ring-2 focus:ring-ring"
+      />
+      <CopyButton
+        value={value}
+        label={label}
+        iconOnly
+        className="absolute top-2 right-2"
+      />
     </div>
   );
 }
@@ -205,11 +227,16 @@ function Dialog({
               role="dialog"
               aria-modal="true"
               aria-labelledby={titleId}
-              className="relative z-10 max-h-[min(90svh,46rem)] w-full max-w-xl overflow-y-auto overscroll-contain rounded-3xl bg-popover p-5 shadow-2xl shadow-black/50 sm:p-6"
-              initial={{ opacity: 0, y: 12, scale: 0.985 }}
+              layout="size"
+              className="relative z-10 max-h-[min(90svh,46rem)] w-full max-w-md overflow-y-auto overscroll-contain rounded-3xl bg-popover p-5 shadow-2xl shadow-black/50 sm:p-6"
+              initial={{ opacity: 0, y: 16, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 8, scale: 0.99 }}
-              transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+              exit={{ opacity: 0, y: 8, scale: 0.985 }}
+              transition={{
+                duration: 0.24,
+                ease: [0.22, 1, 0.36, 1],
+                layout: { duration: 0.24, ease: [0.22, 1, 0.36, 1] },
+              }}
             >
               <div className="flex items-start justify-between gap-4">
                 <h2
@@ -282,34 +309,15 @@ function EvmDonatePanel({
         })}
       </div>
 
-      <div className="mt-4 flex flex-col gap-3">
-        <div className="rounded-2xl bg-foreground/[0.04] p-4">
-          <div className="flex items-center justify-between gap-3">
-            <span className="flex items-center gap-2 text-sm font-medium">
-              <ChainIcon src={selected.chain.icon} size={18} />
-              {selected.chain.name}
-            </span>
-            <a
-              href={`${selected.chain.explorerAddress}/${evmAddress}`}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-brand"
-            >
-              Explorer
-              <SiteIcon icon={ArrowRightUpIcon} size={12} />
-            </a>
-          </div>
-          <p className="mt-3 font-mono text-xs leading-relaxed break-all text-foreground/85">
-            {evmAddress}
-          </p>
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            <CopyButton value={evmAddress} label="EVM address" />
-            <span className="text-xs text-muted-foreground">
-              Same address on every EVM network.
-            </span>
-          </div>
-        </div>
+      <div className="mt-4 flex flex-col gap-4">
         <QrCode src={evmQr} label="EVM address" />
+        <div>
+          <p className="mb-2 flex items-center gap-2 text-xs text-muted-foreground">
+            <ChainIcon src={selected.chain.icon} size={14} />
+            {selected.chain.name} address
+          </p>
+          <AddressField value={evmAddress} label="EVM address" />
+        </div>
       </div>
 
       <p className="mt-4 text-xs leading-relaxed text-muted-foreground text-pretty">
@@ -329,31 +337,15 @@ function SolanaDonatePanel({
 }) {
   return (
     <div className="mt-5">
-      <div className="flex flex-col gap-3">
-        <div className="rounded-2xl bg-foreground/[0.04] p-4">
-          <div className="flex items-center justify-between gap-3">
-            <span className="flex items-center gap-2 text-sm font-medium">
-              <ChainIcon src="/chains/solana.svg" size={18} />
-              Solana
-            </span>
-            <a
-              href={`https://solscan.io/account/${solanaAddress}`}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-brand"
-            >
-              Explorer
-              <SiteIcon icon={ArrowRightUpIcon} size={12} />
-            </a>
-          </div>
-          <p className="mt-3 font-mono text-xs leading-relaxed break-all text-foreground/85">
-            {solanaAddress}
-          </p>
-          <div className="mt-3">
-            <CopyButton value={solanaAddress} label="Solana address" />
-          </div>
-        </div>
+      <div className="flex flex-col gap-4">
         <QrCode src={solanaQr} label="Solana address" />
+        <div>
+          <p className="mb-2 flex items-center gap-2 text-xs text-muted-foreground">
+            <ChainIcon src="/chains/solana.svg" size={14} />
+            Solana address
+          </p>
+          <AddressField value={solanaAddress} label="Solana address" />
+        </div>
       </div>
 
       <p className="mt-4 text-xs leading-relaxed text-muted-foreground text-pretty">
@@ -437,6 +429,12 @@ function DonateDialog({
   const [selectedChain, setSelectedChain] = useState<string>(
     evmBalances[0]?.chain.id ?? "ethereum",
   );
+  const previousStep = useRef(step);
+  const direction = step >= previousStep.current ? 1 : -1;
+
+  useEffect(() => {
+    previousStep.current = step;
+  }, [step]);
 
   return (
     <Dialog
@@ -457,102 +455,97 @@ function DonateDialog({
         ))}
       </div>
 
-      {step === 1 ? (
-        <div className="mt-5">
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            Choose a network to get the address.
-          </p>
-          <div className="mt-4 space-y-2">
-            <NetworkOption
-              title="EVM networks"
-              description="Ethereum, Base, Polygon, Arbitrum, and Optimism"
-              icons={["/chains/ethereum.svg"]}
-              onClick={() => onSelectNetwork("evm")}
-            />
-            <NetworkOption
-              title="Solana"
-              description="USDC or USDT on Solana"
-              icons={["/chains/solana.svg"]}
-              onClick={() => onSelectNetwork("solana")}
-            />
-            <NetworkOption
-              title="Qubic"
-              description="Send QU to the Glyph identity"
-              icons={["/chains/qubic.svg"]}
-              onClick={() => onSelectNetwork("qubic")}
-            />
-          </div>
-        </div>
-      ) : (
-        <>
-          <button
-            type="button"
-            onClick={onBack}
-            className="mt-4 inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <SiteIcon icon={AltArrowLeftIcon} size={13} />
-            Back
-          </button>
-
-          {tab === "evm" ? (
-            <EvmDonatePanel
-              evmAddress={evmAddress}
-              evmQr={evmQr}
-              evmBalances={evmBalances}
-              selectedChain={selectedChain}
-              onSelectChain={setSelectedChain}
-            />
-          ) : tab === "solana" ? (
-            <SolanaDonatePanel
-              solanaAddress={solanaAddress}
-              solanaQr={solanaQr}
-            />
-          ) : (
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={`step-${step}`}
+          initial={{ opacity: 0, x: direction * 18 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: direction * -18 }}
+          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {step === 1 ? (
             <div className="mt-5">
-              <div className="flex items-center gap-3 rounded-2xl bg-foreground/[0.04] p-4">
-                <ChainIcon src="/chains/qubic.svg" size={28} />
-                <div>
-                  <p className="text-sm font-medium">Qubic</p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    Send QU to the Glyph identity.
-                  </p>
-                </div>
-              </div>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground text-pretty">
-                Send QU to this identity. Keep the transaction ID after you
-                send.
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Choose a network to get the address.
               </p>
-              <div className="mt-4 flex flex-col gap-3">
-                <div className="rounded-2xl bg-foreground/[0.04] p-4">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="text-xs text-muted-foreground">
-                      Identity
-                    </span>
-                    <a
-                      href={`https://explorer.qubic.org/network/address/${qubicIdentity}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-brand"
-                    >
-                      Explorer
-                      <SiteIcon icon={ArrowRightUpIcon} size={12} />
-                    </a>
-                  </div>
-                  <p className="mt-2 font-mono text-xs leading-relaxed break-all text-foreground/85">
-                    {qubicIdentity}
-                  </p>
-                  <CopyButton
-                    value={qubicIdentity}
-                    label="Qubic identity"
-                    className="mt-3"
-                  />
-                </div>
-                <QrCode src={qubicQr} label="Qubic identity" />
+              <div className="mt-4 space-y-2">
+                <NetworkOption
+                  title="EVM networks"
+                  description="Ethereum, Base, Polygon, Arbitrum, and Optimism"
+                  icons={["/chains/ethereum.svg"]}
+                  onClick={() => onSelectNetwork("evm")}
+                />
+                <NetworkOption
+                  title="Solana"
+                  description="USDC or USDT on Solana"
+                  icons={["/chains/solana.svg"]}
+                  onClick={() => onSelectNetwork("solana")}
+                />
+                <NetworkOption
+                  title="Qubic"
+                  description="Send QU to the Glyph identity"
+                  icons={["/chains/qubic.svg"]}
+                  onClick={() => onSelectNetwork("qubic")}
+                />
               </div>
             </div>
+          ) : (
+            <>
+              <button
+                type="button"
+                onClick={onBack}
+                className="mt-4 inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
+              >
+                <SiteIcon icon={AltArrowLeftIcon} size={13} />
+                Back
+              </button>
+
+              {tab === "evm" ? (
+                <EvmDonatePanel
+                  evmAddress={evmAddress}
+                  evmQr={evmQr}
+                  evmBalances={evmBalances}
+                  selectedChain={selectedChain}
+                  onSelectChain={setSelectedChain}
+                />
+              ) : tab === "solana" ? (
+                <SolanaDonatePanel
+                  solanaAddress={solanaAddress}
+                  solanaQr={solanaQr}
+                />
+              ) : (
+                <div className="mt-5">
+                  <div className="flex items-center gap-3 rounded-2xl bg-foreground/[0.04] p-4">
+                    <ChainIcon src="/chains/qubic.svg" size={28} />
+                    <div>
+                      <p className="text-sm font-medium">Qubic</p>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        Send QU to the Glyph identity.
+                      </p>
+                    </div>
+                  </div>
+                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground text-pretty">
+                    Send QU to this identity. Keep the transaction ID after you
+                    send.
+                  </p>
+                  <div className="mt-4 flex flex-col gap-4">
+                    <QrCode src={qubicQr} label="Qubic identity" />
+                    <div>
+                      <p className="mb-2 text-xs text-muted-foreground">
+                        Qubic identity
+                      </p>
+                      <AddressField
+                        value={qubicIdentity}
+                        label="Qubic identity"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
           )}
-        </>
-      )}
+        </motion.div>
+      </AnimatePresence>
     </Dialog>
   );
 }
