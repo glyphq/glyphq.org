@@ -42,6 +42,7 @@ export type Product = {
   slug: ProductSlug;
   name: string;
   shortDescription: string;
+  overviewTitle: string;
   intro: string;
   status?: string;
   features: ProductFeature[];
@@ -60,38 +61,39 @@ export const products: Product[] = [
     slug: "wallet",
     name: "Wallet",
     shortDescription: "Self-custodial desktop wallet for Qubic.",
+    overviewTitle: "Keys stay on your desktop.",
     intro:
-      "Glyph Wallet is the center of the ecosystem: a native desktop app built with Tauri v2, React, TypeScript, and Rust. Encrypted Vaults and local wallet data stay on your machine, and your seed or Vault password is never uploaded to a Glyph account or recovery service.",
+      "Glyph Wallet is a native desktop app built with Tauri v2, React, TypeScript, and Rust. Vaults and wallet data stay on your machine. Your seed and Vault password never go to a Glyph account or a recovery service.",
     features: [
       {
         title: "Vaults and identities",
         description:
-          "Create or import Vaults, keep Qubic identities together, and organize them with names, colors, icons, and notes.",
+          "Create or import Vaults, keep Qubic identities together, and add names, colors, icons, and notes.",
       },
       {
         title: "Send and receive QU",
         description:
-          "Send to an identity, a saved contact, or multiple recipients. Receive with a QR code or payment link and track each transfer to confirmation.",
+          "Send to an identity, a saved contact, or several recipients. Receive with a QR code or payment link, then follow the transfer to confirmation.",
       },
       {
         title: "Activity with context",
         description:
-          "Searchable history, local memos, tags, saved transfer templates, exports, owned assets, and QEarn information in one place.",
+          "Search history, add local memos and tags, save transfer templates, export records, and see owned assets and QEarn in one place.",
       },
       {
-        title: "Connected apps on your terms",
+        title: "Requests you review",
         description:
-          "Open glyph:// requests from Qubic apps and review connection, transfer, contract-call, signing, and verification requests before signing.",
+          "Open glyph:// requests from Qubic apps. Review connection, transfer, contract-call, signing, and verification requests before you approve them.",
       },
       {
-        title: "Native on every desktop",
+        title: "Desktop builds",
         description:
-          "Windows x64, macOS universal, and Linux AppImage, deb, or rpm builds. Keys and signing stay local to the app.",
+          "Windows x64, macOS universal, and Linux AppImage, deb, or rpm. Keys and signing stay in the app.",
       },
       {
-        title: "Self-custody by design",
+        title: "Your seed is the backup",
         description:
-          "Your seed is the recovery method. Glyph cannot recover a seed or reset a forgotten Vault password, so backups matter.",
+          "Glyph cannot recover a seed or reset a forgotten Vault password. Keep an offline backup before you add funds.",
       },
     ],
     tech: {
@@ -126,8 +128,9 @@ bun tauri dev`,
     slug: "connect",
     name: "Connect",
     shortDescription: "Typed SDK for wallet requests and approvals.",
+    overviewTitle: "Typed requests from dApp to wallet.",
     intro:
-      "Connect is a framework-agnostic TypeScript SDK for building glyph:// requests. Construct a typed request, wrap it in a signed envelope, and open it in the Glyph desktop wallet from a web app, dApp, or JavaScript toolchain.",
+      "Connect is a TypeScript SDK for building glyph:// requests. You build a typed request, wrap it in a signed envelope, and open it in the Glyph desktop wallet from a web app or JavaScript tool.",
     features: [
       {
         title: "Five request builders",
@@ -204,8 +207,9 @@ const url = buildGlyphUrl(envelope);`,
     slug: "relay",
     name: "Relay",
     shortDescription: "Transport for dApp callbacks over SSE.",
+    overviewTitle: "Results that find their way back.",
     intro:
-      "Relay is a bounded result bridge for Glyph Wallet dApps, deployed on Cloudflare Workers with Durable Objects. The dApp streams a result over SSE while the wallet posts the signed response to a separate callback URL.",
+      "Relay carries a result from Glyph Wallet back to a dApp. It runs on Cloudflare Workers with Durable Objects. The dApp listens over SSE while the wallet posts the signed response to a separate callback URL.",
     features: [
       {
         title: "A Durable Object per session",
@@ -291,13 +295,14 @@ const url = buildGlyphUrl(envelope);`,
     slug: "explorer",
     name: "Explorer",
     shortDescription: "Network data for Qubic identities and activity.",
+    overviewTitle: "Public Qubic data, made readable.",
     intro:
-      "Glyph Explorer is a fast, readable view of public Qubic data. It uses the official Qubic RPC packages to show network health, ticks, transactions, identities, tokens, generated contract metadata, and the rich list.",
+      "Glyph Explorer is a readable view of public Qubic data. It uses the official Qubic RPC packages to show network health, ticks, transactions, identities, tokens, generated contract metadata, and rich-list balances.",
     features: [
       {
         title: "Network overview",
         description:
-          "Current tick quality and network health at a glance, with explicit unavailable states when an upstream service has no answer.",
+          "Tick quality and network health, with clear unavailable states when a source has no answer.",
       },
       {
         title: "Direct lookup",
@@ -320,9 +325,9 @@ const url = buildGlyphUrl(envelope);`,
           "Browse issued assets, generated smart contracts, and rich-list balances from the public Stats API.",
       },
       {
-        title: "Honest about freshness",
+        title: "Freshness and limits",
         description:
-          "The explorer presents public RPC responses only. Archive and stats data can lag the live network.",
+          "The explorer shows public RPC responses. Archive and stats data can lag the live network.",
       },
     ],
     tech: {
@@ -354,29 +359,30 @@ NEXT_PUBLIC_QUBIC_QUERY_RPC_URL=https://rpc.qubic.org/query/v1`,
     slug: "api",
     name: "API",
     shortDescription: "Programmatic access for Qubic data. In progress.",
+    overviewTitle: "One surface for Qubic data.",
     intro:
-      "The Glyph API is in progress. The goal is a documented, programmatic way for apps and services to read Qubic data without stitching together individual RPC endpoints. Follow along in Discord or the proposals repository as the design takes shape.",
+      "The Glyph API is still in progress. The aim is one documented way for apps and services to read Qubic data, instead of wiring separate RPC calls for every feature. Updates will land in Discord and the proposals repository.",
     status: "In progress",
     features: [
       {
-        title: "One access layer",
+        title: "One way in",
         description:
-          "A single documented surface for Qubic data instead of a collection of endpoints assembled per app.",
+          "Apps get one documented surface for Qubic data instead of a different RPC setup for each feature.",
       },
       {
-        title: "Consistent with the ecosystem",
+        title: "Shared behavior",
         description:
-          "Designed alongside the wallet, Connect, Relay, and Explorer so the same data reads the same way across Glyph tools.",
+          "Built with Wallet, Connect, Relay, and Explorer so the same data reads the same way across Glyph.",
       },
       {
-        title: "Built in the open",
+        title: "Public design",
         description:
-          "Scope, endpoint design, and release timing will be discussed publicly before the API ships.",
+          "Scope, endpoints, and release timing will be discussed publicly before launch.",
       },
       {
-        title: "Developer first",
+        title: "Predictable responses",
         description:
-          "The target is predictable responses, clear errors, and documentation that does not require reading the network source.",
+          "The target is stable response shapes, useful errors, and docs that do not require reading node source.",
       },
     ],
     ctas: [
