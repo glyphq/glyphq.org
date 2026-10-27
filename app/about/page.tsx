@@ -14,25 +14,6 @@ export const metadata = pageMetadata({
   image: "/about/opengraph-image",
 });
 
-const contributions = [
-  {
-    label: "TypeScript client",
-    href: "https://github.com/qubic/qubic-typescript",
-  },
-  {
-    label: "Wallet extension",
-    href: "https://github.com/qubic/wallet-extension",
-  },
-  {
-    label: "Network explorer",
-    href: "https://explorer.qubic.org",
-  },
-  {
-    label: "alez04 on GitHub",
-    href: "https://github.com/alez04",
-  },
-];
-
 export default function AboutPage() {
   return (
     <>
@@ -49,11 +30,11 @@ export default function AboutPage() {
 
       <div className="bg-background">
         <section className="site-container pb-24 md:pb-32">
-          <Reveal className="mx-auto max-w-4xl">
+          <Reveal className="mx-auto max-w-4xl text-center">
             <h2 className="font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl">
               Why Glyph exists.
             </h2>
-            <div className="mt-8 max-w-2xl space-y-5 text-base leading-relaxed text-muted-foreground text-pretty">
+            <div className="mx-auto mt-8 max-w-2xl space-y-5 text-base leading-relaxed text-muted-foreground text-pretty">
               <p>
                 Qubic deserves a wallet that feels like a desktop app: keys on
                 your machine, a real window, and native signing.
@@ -68,45 +49,42 @@ export default function AboutPage() {
         </section>
 
         <section className="site-container pb-24 md:pb-32">
-          <Reveal className="mx-auto max-w-4xl">
+          <Reveal className="mx-auto max-w-4xl text-center">
             <h2 className="font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl">
               Built by alez04.
             </h2>
             <div className="mt-8">
-              <p className="max-w-2xl text-base leading-relaxed text-muted-foreground text-pretty">
-                Glyph is designed and built by alez04, who has worked on Qubic
-                tooling including the TypeScript client, the browser wallet
-                extension, and the official network explorer.
+              <p className="mx-auto max-w-2xl text-base leading-relaxed text-muted-foreground text-pretty">
+                Glyph is designed and built by alez04, a software engineer who
+                discovered Qubic in January 2025 and has been working in the
+                ecosystem ever since.
               </p>
-              <div className="mt-8 grid gap-x-10 gap-y-4 sm:grid-cols-2">
-                {contributions.map((contribution) => (
-                  <a
-                    key={contribution.href}
-                    href={contribution.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {contribution.label}
-                    <SiteIcon icon={ArrowRightUpIcon} size={12} />
-                  </a>
-                ))}
+              <div className="mt-6 flex justify-center">
+                <a
+                  href="https://github.com/alez04"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  alez04 on GitHub
+                  <SiteIcon icon={ArrowRightUpIcon} size={12} />
+                </a>
               </div>
             </div>
           </Reveal>
         </section>
 
         <section className="site-container pb-24 md:pb-32">
-          <Reveal className="mx-auto max-w-4xl">
+          <Reveal className="mx-auto max-w-4xl text-center">
             <h2 className="font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl">
               Built in the open.
             </h2>
             <div className="mt-8">
-              <p className="max-w-2xl text-base leading-relaxed text-muted-foreground text-pretty">
+              <p className="mx-auto max-w-2xl text-base leading-relaxed text-muted-foreground text-pretty">
                 Glyph is an independent, open-source project. The wallet, SDK,
                 relay, and explorer are public, and contributions are welcome.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-8 flex flex-wrap justify-center gap-3">
                 <SiteButtonLink
                   href={siteConfig.links.github}
                   external
