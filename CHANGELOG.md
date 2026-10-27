@@ -1,5 +1,11 @@
 # glyphq.org
 
+## 0.2.2
+
+### Patch Changes
+
+- db9b3fb: add the qubicmap listing badge to the footer
+
 ## 0.2.1
 
 ### Patch Changes
