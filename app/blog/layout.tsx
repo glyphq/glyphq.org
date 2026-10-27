@@ -10,7 +10,7 @@ export default function BlogLayout({ children }: { children: ReactNode }) {
 
       <div className="relative bg-background">
         <div className="site-container">
-          <div className="pt-12 pb-24 md:pt-16 md:pb-32">
+          <div className="pt-12 pb-16 md:pt-16 md:pb-20">
             <BlogShell>{children}</BlogShell>
           </div>
         </div>
