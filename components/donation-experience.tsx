@@ -23,10 +23,9 @@ import type {
   ChainBalance,
   QubicBalance,
   SolanaBalance,
-  TokenBalance,
 } from "@/lib/donations";
 import { siteConfig } from "@/lib/site";
-import { sponsors } from "@/lib/sponsors";
+import { type Sponsor, sponsors, sponsorThresholdUsd } from "@/lib/sponsors";
 import { cn } from "@/lib/utils";
 
 type DonateTab = "evm" | "solana" | "qubic";
@@ -36,6 +35,9 @@ type DonationExperienceProps = {
   evmAddress: string;
   qubicIdentity: string;
   solanaAddress: string;
+  evmQr: string;
+  solanaQr: string;
+  qubicQr: string;
   evmBalances: ChainBalance[];
   solanaBalance: SolanaBalance;
   qubicBalance: QubicBalance;
@@ -43,12 +45,16 @@ type DonationExperienceProps = {
   solanaStablecoins: number;
   usdcTotal: number;
   usdtTotal: number;
-  donatedStablecoins: number;
+  donatedUsd: number;
 };
 
 const stablecoinFormatter = new Intl.NumberFormat("en-US", {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
+});
+
+const wholeUsdFormatter = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 0,
 });
 
 function formatStablecoin(value: number) {
@@ -80,6 +86,26 @@ function TokenIcon({ symbol, size = 18 }: { symbol: string; size?: number }) {
   if (!src) return null;
 
   return <ChainIcon src={src} size={size} />;
+}
+
+function QrCode({ src, label }: { src: string; label: string }) {
+  return (
+    <div className="flex flex-col items-center justify-center rounded-2xl bg-foreground/[0.04] p-4">
+      <div className="aspect-square w-full max-w-48 rounded-lg bg-[#f8f7f2] p-2">
+        <Image
+          src={src}
+          alt={`QR code for ${label}`}
+          width={192}
+          height={192}
+          unoptimized
+          className="h-full w-full object-contain"
+        />
+      </div>
+      <span className="mt-2 text-[0.65rem] text-muted-foreground">
+        Scan to donate
+      </span>
+    </div>
+  );
 }
 
 function useDialog(open: boolean, onClose: () => void) {
@@ -211,46 +237,15 @@ function Dialog({
   );
 }
 
-function TokenRows({
-  tokens,
-  error,
-}: {
-  tokens: TokenBalance[];
-  error?: boolean;
-}) {
-  if (error) {
-    return (
-      <p className="mt-4 text-sm text-muted-foreground">
-        Stablecoin balances unavailable right now.
-      </p>
-    );
-  }
-
-  return (
-    <div className="mt-4 divide-y divide-foreground/10">
-      {tokens.map((token) => (
-        <div
-          key={token.symbol}
-          className="flex items-baseline justify-between gap-4 py-2.5 first:pt-0 last:pb-0"
-        >
-          <span className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
-            <TokenIcon symbol={token.symbol} size={16} />
-            {token.symbol}
-          </span>
-          <span className="font-mono text-sm">{token.formatted}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 function EvmDonatePanel({
   evmAddress,
+  evmQr,
   evmBalances,
   selectedChain,
   onSelectChain,
 }: {
   evmAddress: string;
+  evmQr: string;
   evmBalances: ChainBalance[];
   selectedChain: string;
   onSelectChain: (chain: string) => void;
@@ -287,34 +282,35 @@ function EvmDonatePanel({
         })}
       </div>
 
-      <div className="mt-4 rounded-2xl bg-foreground/[0.04] p-4">
-        <div className="flex items-center justify-between gap-3">
-          <span className="flex items-center gap-2 text-sm font-medium">
-            <ChainIcon src={selected.chain.icon} size={18} />
-            {selected.chain.name}
-          </span>
-          <a
-            href={`${selected.chain.explorerAddress}/${evmAddress}`}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-brand"
-          >
-            Explorer
-            <SiteIcon icon={ArrowRightUpIcon} size={12} />
-          </a>
+      <div className="mt-4 flex flex-col gap-3">
+        <div className="rounded-2xl bg-foreground/[0.04] p-4">
+          <div className="flex items-center justify-between gap-3">
+            <span className="flex items-center gap-2 text-sm font-medium">
+              <ChainIcon src={selected.chain.icon} size={18} />
+              {selected.chain.name}
+            </span>
+            <a
+              href={`${selected.chain.explorerAddress}/${evmAddress}`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-brand"
+            >
+              Explorer
+              <SiteIcon icon={ArrowRightUpIcon} size={12} />
+            </a>
+          </div>
+          <p className="mt-3 font-mono text-xs leading-relaxed break-all text-foreground/85">
+            {evmAddress}
+          </p>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <CopyButton value={evmAddress} label="EVM address" />
+            <span className="text-xs text-muted-foreground">
+              Same address on every EVM network.
+            </span>
+          </div>
         </div>
-        <p className="mt-3 font-mono text-xs leading-relaxed break-all text-foreground/85">
-          {evmAddress}
-        </p>
-        <div className="mt-3 flex flex-wrap items-center gap-2">
-          <CopyButton value={evmAddress} label="EVM address" />
-          <span className="text-xs text-muted-foreground">
-            Same address on every EVM network.
-          </span>
-        </div>
+        <QrCode src={evmQr} label="EVM address" />
       </div>
-
-      <TokenRows tokens={selected.tokens} error={selected.error} />
 
       <p className="mt-4 text-xs leading-relaxed text-muted-foreground text-pretty">
         Send USDC, USDT, ETH, POL, or another EVM asset on {selected.chain.name}
@@ -326,38 +322,39 @@ function EvmDonatePanel({
 
 function SolanaDonatePanel({
   solanaAddress,
-  solanaBalance,
+  solanaQr,
 }: {
   solanaAddress: string;
-  solanaBalance: SolanaBalance;
+  solanaQr: string;
 }) {
   return (
     <div className="mt-5">
-      <div className="rounded-2xl bg-foreground/[0.04] p-4">
-        <div className="flex items-center justify-between gap-3">
-          <span className="flex items-center gap-2 text-sm font-medium">
-            <ChainIcon src="/chains/solana.svg" size={18} />
-            Solana
-          </span>
-          <a
-            href={`https://solscan.io/account/${solanaAddress}`}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-brand"
-          >
-            Explorer
-            <SiteIcon icon={ArrowRightUpIcon} size={12} />
-          </a>
+      <div className="flex flex-col gap-3">
+        <div className="rounded-2xl bg-foreground/[0.04] p-4">
+          <div className="flex items-center justify-between gap-3">
+            <span className="flex items-center gap-2 text-sm font-medium">
+              <ChainIcon src="/chains/solana.svg" size={18} />
+              Solana
+            </span>
+            <a
+              href={`https://solscan.io/account/${solanaAddress}`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-brand"
+            >
+              Explorer
+              <SiteIcon icon={ArrowRightUpIcon} size={12} />
+            </a>
+          </div>
+          <p className="mt-3 font-mono text-xs leading-relaxed break-all text-foreground/85">
+            {solanaAddress}
+          </p>
+          <div className="mt-3">
+            <CopyButton value={solanaAddress} label="Solana address" />
+          </div>
         </div>
-        <p className="mt-3 font-mono text-xs leading-relaxed break-all text-foreground/85">
-          {solanaAddress}
-        </p>
-        <div className="mt-3">
-          <CopyButton value={solanaAddress} label="Solana address" />
-        </div>
+        <QrCode src={solanaQr} label="Solana address" />
       </div>
-
-      <TokenRows tokens={solanaBalance.tokens} error={solanaBalance.error} />
 
       <p className="mt-4 text-xs leading-relaxed text-muted-foreground text-pretty">
         Send USDC or USDT on Solana. Transfers are final.
@@ -369,13 +366,11 @@ function SolanaDonatePanel({
 function NetworkOption({
   title,
   description,
-  balance,
   icons,
   onClick,
 }: {
   title: string;
   description: string;
-  balance: string;
   icons: string[];
   onClick: () => void;
 }) {
@@ -401,10 +396,11 @@ function NetworkOption({
           {description}
         </span>
       </span>
-      <span className="flex shrink-0 items-center gap-2 font-mono text-[0.7rem] text-muted-foreground">
-        {balance}
-        <SiteIcon icon={ArrowRightIcon} size={13} />
-      </span>
+      <SiteIcon
+        icon={ArrowRightIcon}
+        size={13}
+        className="shrink-0 text-muted-foreground"
+      />
     </button>
   );
 }
@@ -419,9 +415,10 @@ function DonateDialog({
   evmAddress,
   qubicIdentity,
   solanaAddress,
+  evmQr,
+  solanaQr,
+  qubicQr,
   evmBalances,
-  solanaBalance,
-  qubicBalance,
 }: {
   open: boolean;
   onClose: () => void;
@@ -432,19 +429,13 @@ function DonateDialog({
   evmAddress: string;
   qubicIdentity: string;
   solanaAddress: string;
+  evmQr: string;
+  solanaQr: string;
+  qubicQr: string;
   evmBalances: ChainBalance[];
-  solanaBalance: SolanaBalance;
-  qubicBalance: QubicBalance;
 }) {
   const [selectedChain, setSelectedChain] = useState<string>(
     evmBalances[0]?.chain.id ?? "ethereum",
-  );
-  const evmTotal = evmBalances
-    .flatMap((balance) => balance.tokens)
-    .reduce((sum, token) => sum + token.amount, 0);
-  const solanaTotal = solanaBalance.tokens.reduce(
-    (sum, token) => sum + token.amount,
-    0,
   );
 
   return (
@@ -475,25 +466,18 @@ function DonateDialog({
             <NetworkOption
               title="EVM networks"
               description="Ethereum, Base, Polygon, Arbitrum, and Optimism"
-              balance={formatStablecoin(evmTotal)}
-              icons={evmBalances.map((balance) => balance.chain.icon)}
+              icons={["/chains/ethereum.svg"]}
               onClick={() => onSelectNetwork("evm")}
             />
             <NetworkOption
               title="Solana"
               description="USDC or USDT on Solana"
-              balance={formatStablecoin(solanaTotal)}
               icons={["/chains/solana.svg"]}
               onClick={() => onSelectNetwork("solana")}
             />
             <NetworkOption
               title="Qubic"
               description="Send QU to the Glyph identity"
-              balance={
-                qubicBalance.error
-                  ? "Unavailable"
-                  : `${qubicBalance.formatted} QU`
-              }
               icons={["/chains/qubic.svg"]}
               onClick={() => onSelectNetwork("qubic")}
             />
@@ -513,6 +497,7 @@ function DonateDialog({
           {tab === "evm" ? (
             <EvmDonatePanel
               evmAddress={evmAddress}
+              evmQr={evmQr}
               evmBalances={evmBalances}
               selectedChain={selectedChain}
               onSelectChain={setSelectedChain}
@@ -520,7 +505,7 @@ function DonateDialog({
           ) : tab === "solana" ? (
             <SolanaDonatePanel
               solanaAddress={solanaAddress}
-              solanaBalance={solanaBalance}
+              solanaQr={solanaQr}
             />
           ) : (
             <div className="mt-5">
@@ -528,13 +513,8 @@ function DonateDialog({
                 <ChainIcon src="/chains/qubic.svg" size={28} />
                 <div>
                   <p className="text-sm font-medium">Qubic</p>
-                  <p
-                    className="mt-0.5 font-mono text-lg"
-                    title={qubicBalance.error ? undefined : qubicBalance.exact}
-                  >
-                    {qubicBalance.error
-                      ? "Unavailable"
-                      : `${qubicBalance.formatted} QU`}
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Send QU to the Glyph identity.
                   </p>
                 </div>
               </div>
@@ -542,29 +522,32 @@ function DonateDialog({
                 Send QU to this identity. Keep the transaction ID after you
                 send.
               </p>
-              <div className="mt-4 rounded-2xl bg-foreground/[0.04] p-4">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-xs text-muted-foreground">
-                    Identity
-                  </span>
-                  <a
-                    href={`https://explorer.qubic.org/network/address/${qubicIdentity}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-brand"
-                  >
-                    Explorer
-                    <SiteIcon icon={ArrowRightUpIcon} size={12} />
-                  </a>
+              <div className="mt-4 flex flex-col gap-3">
+                <div className="rounded-2xl bg-foreground/[0.04] p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-xs text-muted-foreground">
+                      Identity
+                    </span>
+                    <a
+                      href={`https://explorer.qubic.org/network/address/${qubicIdentity}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-brand"
+                    >
+                      Explorer
+                      <SiteIcon icon={ArrowRightUpIcon} size={12} />
+                    </a>
+                  </div>
+                  <p className="mt-2 font-mono text-xs leading-relaxed break-all text-foreground/85">
+                    {qubicIdentity}
+                  </p>
+                  <CopyButton
+                    value={qubicIdentity}
+                    label="Qubic identity"
+                    className="mt-3"
+                  />
                 </div>
-                <p className="mt-2 font-mono text-xs leading-relaxed break-all text-foreground/85">
-                  {qubicIdentity}
-                </p>
-                <CopyButton
-                  value={qubicIdentity}
-                  label="Qubic identity"
-                  className="mt-3"
-                />
+                <QrCode src={qubicQr} label="Qubic identity" />
               </div>
             </div>
           )}
@@ -584,7 +567,7 @@ function BalancesDialog({
   qubicBalance,
   usdcTotal,
   usdtTotal,
-  donatedStablecoins,
+  donatedUsd,
 }: {
   open: boolean;
   onClose: () => void;
@@ -595,7 +578,7 @@ function BalancesDialog({
   qubicBalance: QubicBalance;
   usdcTotal: number;
   usdtTotal: number;
-  donatedStablecoins: number;
+  donatedUsd: number;
 }) {
   return (
     <Dialog
@@ -606,10 +589,10 @@ function BalancesDialog({
     >
       <div className="mt-5 rounded-2xl bg-foreground/[0.04] p-4">
         <p className="font-display text-4xl leading-none font-medium tracking-[-0.05em]">
-          {formatStablecoin(donatedStablecoins)}
+          {formatStablecoin(donatedUsd)}
         </p>
         <p className="mt-2 text-sm text-muted-foreground">
-          USDT + USDC across EVM and Solana
+          USDT + USDC + QU value
         </p>
       </div>
 
@@ -735,16 +718,112 @@ function BalancesDialog({
   );
 }
 
+function SponsorCard({ sponsor }: { sponsor: Sponsor }) {
+  return (
+    <a
+      href={sponsor.url}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={sponsor.name}
+      className="mb-3 block break-inside-avoid rounded-3xl bg-card p-6 transition-colors hover:bg-foreground/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    >
+      <div className="flex min-h-56 flex-col">
+        <p className="text-sm text-muted-foreground">{sponsor.kind}</p>
+        <Image
+          src={sponsor.logo}
+          alt={sponsor.name}
+          width={220}
+          height={72}
+          loading="eager"
+          className="mt-8 h-12 w-auto object-contain invert"
+        />
+        <p className="mt-6 max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
+          {sponsor.note}
+        </p>
+        <span className="mt-auto inline-flex items-center gap-1 pt-6 text-sm text-muted-foreground">
+          {sponsor.name}
+          <SiteIcon icon={ArrowRightUpIcon} size={13} />
+        </span>
+      </div>
+    </a>
+  );
+}
+
+function SponsorSlot({ donatedUsd }: { donatedUsd: number }) {
+  const unlocked = donatedUsd >= sponsorThresholdUsd;
+  const progress = Math.min(
+    100,
+    Math.round((donatedUsd / sponsorThresholdUsd) * 100),
+  );
+
+  return (
+    <div className="mb-3 break-inside-avoid rounded-3xl border border-dashed border-foreground/15 p-6">
+      <div className="flex min-h-48 flex-col">
+        <p className="text-sm text-muted-foreground">Sponsor spot</p>
+        <p className="mt-5 font-display text-2xl leading-tight font-medium tracking-[-0.04em]">
+          {unlocked
+            ? "Unlocked."
+            : `Unlocks at $${wholeUsdFormatter.format(sponsorThresholdUsd)}.`}
+        </p>
+        <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
+          {unlocked
+            ? "Your support cleared the threshold. Claim your logo and link in Discord."
+            : "Donate $500+ USD and put your project in this grid."}
+        </p>
+        <div className="mt-auto pt-6">
+          <div className="h-1 overflow-hidden rounded-full bg-foreground/10">
+            <div
+              className="h-full rounded-full bg-brand"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <div className="mt-2 flex items-center justify-between gap-3 font-mono text-[0.65rem] text-muted-foreground">
+            <span>{formatStablecoin(donatedUsd)} USD</span>
+            <span>{wholeUsdFormatter.format(sponsorThresholdUsd)} USD</span>
+          </div>
+          {unlocked ? (
+            <SiteButtonLink
+              href={siteConfig.links.discord}
+              external
+              size="sm"
+              className="mt-4"
+            >
+              Claim in Discord
+              <SiteIcon icon={ArrowRightUpIcon} size={13} />
+            </SiteButtonLink>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SponsorNote() {
+  return (
+    <div className="mb-3 break-inside-avoid rounded-3xl bg-card p-6">
+      <h3 className="font-display text-xl leading-tight font-medium tracking-[-0.03em]">
+        Why sponsor?
+      </h3>
+      <p className="mt-3 text-sm leading-relaxed text-muted-foreground text-pretty">
+        Put your project in front of the people using and building on Qubic.
+        Sponsors get a logo, a link, and a place on this page.
+      </p>
+    </div>
+  );
+}
+
 function DonationMethodCard({
   title,
   description,
   balance,
+  balanceNote,
   icons,
   onClick,
 }: {
   title: string;
   description: string;
   balance: string;
+  balanceNote?: string;
   icons: string[];
   onClick: () => void;
 }) {
@@ -771,7 +850,12 @@ function DonationMethodCard({
         {description}
       </p>
       <div className="mt-auto flex items-end justify-between gap-4 pt-8">
-        <p className="font-mono text-2xl tracking-[-0.04em]">{balance}</p>
+        <div>
+          <p className="font-mono text-2xl tracking-[-0.04em]">{balance}</p>
+          {balanceNote ? (
+            <p className="mt-1 text-xs text-muted-foreground">{balanceNote}</p>
+          ) : null}
+        </div>
         <span className="text-sm text-muted-foreground transition-colors group-hover:text-foreground">
           Open
         </span>
@@ -784,6 +868,9 @@ export function DonationExperience({
   evmAddress,
   qubicIdentity,
   solanaAddress,
+  evmQr,
+  solanaQr,
+  qubicQr,
   evmBalances,
   solanaBalance,
   qubicBalance,
@@ -791,7 +878,7 @@ export function DonationExperience({
   solanaStablecoins,
   usdcTotal,
   usdtTotal,
-  donatedStablecoins,
+  donatedUsd,
 }: DonationExperienceProps) {
   const [donateOpen, setDonateOpen] = useState(false);
   const [donateStep, setDonateStep] = useState<DonateStep>(1);
@@ -837,9 +924,9 @@ export function DonationExperience({
           </div>
           <div className="mt-10">
             <p className="font-display text-5xl leading-none font-medium tracking-[-0.055em]">
-              {formatStablecoin(donatedStablecoins)}{" "}
+              {formatStablecoin(donatedUsd)}{" "}
               <span className="text-lg tracking-[-0.03em] text-muted-foreground">
-                USDT + USDC
+                USD
               </span>
             </p>
             <p className="mt-2 text-sm text-muted-foreground">donated so far</p>
@@ -851,6 +938,10 @@ export function DonationExperience({
               <span className="inline-flex items-center gap-1.5">
                 <TokenIcon symbol="USDT" size={14} />
                 {formatStablecoin(usdtTotal)} USDT
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <ChainIcon src="/chains/qubic.svg" size={14} />
+                {qubicBalance.formatted} QU
               </span>
             </div>
           </div>
@@ -881,6 +972,11 @@ export function DonationExperience({
                 ? "Balance unavailable"
                 : `${qubicBalance.formatted} QU`
             }
+            balanceNote={
+              qubicBalance.error
+                ? undefined
+                : `≈ ${formatStablecoin(qubicBalance.usdValue)} USD`
+            }
             icons={["/chains/qubic.svg"]}
             onClick={() => openDonate("qubic")}
           />
@@ -891,36 +987,36 @@ export function DonationExperience({
         </p>
       </section>
 
-      <section className="site-container pb-16 md:pb-20">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-6 border-t border-foreground/10 pt-8">
-          <div>
-            <h2 className="font-display text-2xl leading-tight font-medium tracking-[-0.04em]">
-              Official sponsor
-            </h2>
-            <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground text-pretty">
-              {sponsors[0]?.note}
+      <section
+        id="sponsors"
+        aria-labelledby="sponsors-heading"
+        className="site-container scroll-mt-28 pb-16 md:pb-20"
+      >
+        <div className="mx-auto max-w-5xl">
+          <div className="flex flex-wrap items-end justify-between gap-5 border-t border-foreground/10 pt-8">
+            <div>
+              <h2
+                id="sponsors-heading"
+                className="font-display text-3xl leading-[1] font-semibold tracking-[-0.05em]"
+              >
+                Sponsors
+              </h2>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground text-pretty">
+                MinerLab was Glyph&apos;s first sponsor. Supporters at $500+ USD
+                donated get a logo and link in this grid.
+              </p>
+            </div>
+            <p className="max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
+              A spot unlocks at $500+ USD donated.
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-6">
+
+          <div className="mt-6 columns-1 gap-3 sm:columns-2 lg:columns-3">
             {sponsors.map((sponsor) => (
-              <a
-                key={sponsor.name}
-                href={sponsor.url}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={sponsor.name}
-                className="inline-flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                <Image
-                  src={sponsor.logo}
-                  alt={sponsor.name}
-                  width={220}
-                  height={72}
-                  loading="eager"
-                  className="h-12 w-auto object-contain invert"
-                />
-              </a>
+              <SponsorCard key={sponsor.name} sponsor={sponsor} />
             ))}
+            <SponsorSlot donatedUsd={donatedUsd} />
+            <SponsorNote />
           </div>
         </div>
       </section>
@@ -964,9 +1060,10 @@ export function DonationExperience({
         evmAddress={evmAddress}
         qubicIdentity={qubicIdentity}
         solanaAddress={solanaAddress}
+        evmQr={evmQr}
+        solanaQr={solanaQr}
+        qubicQr={qubicQr}
         evmBalances={evmBalances}
-        solanaBalance={solanaBalance}
-        qubicBalance={qubicBalance}
       />
       <BalancesDialog
         open={balancesOpen}
@@ -978,7 +1075,7 @@ export function DonationExperience({
         qubicBalance={qubicBalance}
         usdcTotal={usdcTotal}
         usdtTotal={usdtTotal}
-        donatedStablecoins={donatedStablecoins}
+        donatedUsd={donatedUsd}
       />
     </>
   );

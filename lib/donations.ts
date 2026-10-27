@@ -137,6 +137,9 @@ export type ChainBalance = {
 export type QubicBalance = {
   formatted: string;
   exact: string;
+  amount: number;
+  priceUsd: number;
+  usdValue: number;
   error?: boolean;
 };
 
@@ -285,12 +288,39 @@ async function getEvmChainBalance(chain: EvmChain): Promise<ChainBalance> {
   }
 }
 
-async function getQubicBalance(): Promise<QubicBalance> {
+const qubicFallbackPriceUsd = 400 / 1_000_000_000;
+
+async function getQubicUsdPrice() {
   try {
     const response = await fetch(
-      `https://rpc.qubic.org/v1/balances/${donationConfig.qubicIdentity}`,
-      { signal: AbortSignal.timeout(8_000) },
+      "https://api.coingecko.com/api/v3/simple/price?ids=qubic-network&vs_currencies=usd",
+      { signal: AbortSignal.timeout(6_000) },
     );
+
+    if (!response.ok) throw new Error("Qubic price request failed");
+
+    const payload = (await response.json()) as {
+      "qubic-network"?: { usd?: number };
+    };
+    const price = payload["qubic-network"]?.usd;
+
+    return typeof price === "number" && price > 0
+      ? price
+      : qubicFallbackPriceUsd;
+  } catch {
+    return qubicFallbackPriceUsd;
+  }
+}
+
+async function getQubicBalance(): Promise<QubicBalance> {
+  try {
+    const [response, priceUsd] = await Promise.all([
+      fetch(
+        `https://rpc.qubic.org/v1/balances/${donationConfig.qubicIdentity}`,
+        { signal: AbortSignal.timeout(8_000) },
+      ),
+      getQubicUsdPrice(),
+    ]);
 
     if (!response.ok) throw new Error("Qubic RPC failed");
 
@@ -301,9 +331,24 @@ async function getQubicBalance(): Promise<QubicBalance> {
 
     if (!value) throw new Error("Qubic balance missing");
 
-    return formatQubic(value);
+    const formatted = formatQubic(value);
+    const amount = Number(value);
+
+    return {
+      ...formatted,
+      amount,
+      priceUsd,
+      usdValue: amount * priceUsd,
+    };
   } catch {
-    return { formatted: "0", exact: "0", error: true };
+    return {
+      formatted: "0",
+      exact: "0",
+      amount: 0,
+      priceUsd: 0,
+      usdValue: 0,
+      error: true,
+    };
   }
 }
 
@@ -412,6 +457,7 @@ export async function getDonationSnapshot() {
   const usdtTotal = stablecoins
     .filter((token) => token.symbol === "USDT")
     .reduce((sum, token) => sum + token.amount, 0);
+  const donatedUsd = evmStablecoins + solanaStablecoins + qubic.usdValue;
 
   return {
     evm,
@@ -421,7 +467,7 @@ export async function getDonationSnapshot() {
     solanaStablecoins,
     usdcTotal,
     usdtTotal,
-    donatedStablecoins: evmStablecoins + solanaStablecoins,
+    donatedUsd,
   };
 }
 
