@@ -3,8 +3,11 @@ export type Sponsor = {
   url: string;
   logo: string;
   description: string;
+  donatedUsd: number;
+  donationLabel: string;
   invert?: boolean;
   crown?: boolean;
+  gold?: boolean;
 };
 
 export const sponsorThresholds = {
@@ -18,8 +21,10 @@ export const sponsors: Sponsor[] = [
     url: "https://minerlab.io",
     logo: "/sponsors/minerlab.png",
     description:
-      "Decentralized mining pool infrastructure and analytics for Qubic miners.",
-    invert: true,
+      "MinerLab runs mining pools for Qubic, Xelis, Abel, and Ore, with transparent payouts and live network stats.",
+    donatedUsd: 2000,
+    donationLabel: "$2,000+",
+    gold: true,
     crown: true,
   },
 ];

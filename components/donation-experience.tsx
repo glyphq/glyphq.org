@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  AddCircleIcon,
   AltArrowLeftIcon,
   ArrowRightIcon,
   ArrowRightUpIcon,
@@ -549,6 +550,10 @@ function DonateDialog({
 
 function SponsorCard({ sponsor }: { sponsor: Sponsor }) {
   const gold = "color-mix(in oklab, var(--brand) 35%, #d4a64a)";
+  const large = sponsor.donatedUsd >= 2000;
+  const medium = sponsor.donatedUsd >= 1000;
+  const small = sponsor.donatedUsd >= 500;
+  const goldCard = sponsor.gold === true;
 
   return (
     <a
@@ -556,21 +561,31 @@ function SponsorCard({ sponsor }: { sponsor: Sponsor }) {
       target="_blank"
       rel="noreferrer"
       aria-label={sponsor.name}
-      className="group relative flex min-h-32 flex-col items-center justify-center rounded-3xl bg-card p-5 text-center transition-colors hover:bg-foreground/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className={cn(
+        "group relative mb-3 flex break-inside-avoid flex-col items-center justify-center rounded-3xl bg-card p-6 text-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        !goldCard && "hover:bg-foreground/[0.04]",
+        large && "min-h-72 p-8",
+        medium && !large && "min-h-60",
+        small && !medium && "min-h-48",
+        !small && "min-h-40",
+      )}
+      style={goldCard ? { backgroundColor: gold, color: "#0a0a0a" } : undefined}
     >
       {sponsor.crown ? (
         <>
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 rounded-3xl border"
-            style={{ borderColor: gold, opacity: 0.4 }}
-          />
+          {!goldCard ? (
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 rounded-[inherit] border"
+              style={{ borderColor: gold, opacity: 0.4 }}
+            />
+          ) : null}
           <span
             aria-hidden="true"
             className="pointer-events-none absolute top-4 right-4"
-            style={{ color: gold }}
+            style={{ color: goldCard ? "#0a0a0a" : gold }}
           >
-            <SiteIcon icon={CrownStarIcon} size={17} />
+            <SiteIcon icon={CrownStarIcon} size={large ? 22 : 18} />
           </span>
         </>
       ) : null}
@@ -581,14 +596,55 @@ function SponsorCard({ sponsor }: { sponsor: Sponsor }) {
         height={72}
         loading="eager"
         className={cn(
-          "max-h-8 w-auto object-contain opacity-80 transition-opacity group-hover:opacity-100",
-          sponsor.invert && "invert",
+          "w-auto object-contain transition-opacity",
+          goldCard ? "opacity-100" : "opacity-80 group-hover:opacity-100",
+          large ? "max-h-16" : "max-h-10",
+          sponsor.invert && !goldCard && "invert",
         )}
       />
-      <p className="mt-3 max-w-[16rem] text-xs leading-relaxed text-muted-foreground text-pretty">
+      <p
+        className={cn(
+          "mt-3 leading-relaxed text-pretty",
+          goldCard ? "text-black" : "text-muted-foreground",
+          large ? "max-w-sm text-sm" : "max-w-[16rem] text-xs",
+        )}
+      >
         {sponsor.description}
       </p>
+      <span
+        className="mt-3 rounded-full border px-2.5 py-1 text-[0.65rem]"
+        style={{
+          borderColor: goldCard ? "rgba(10,10,10,0.28)" : gold,
+          color: goldCard ? "#0a0a0a" : gold,
+        }}
+      >
+        {sponsor.donationLabel} donated
+      </span>
     </a>
+  );
+}
+
+function SponsorPlaceholder({
+  title,
+  threshold,
+}: {
+  title: string;
+  threshold: number;
+}) {
+  return (
+    <div className="mb-3 break-inside-avoid rounded-3xl border border-dashed border-foreground/15 p-6">
+      <div className="flex min-h-36 flex-col items-center justify-center text-center">
+        <SiteIcon
+          icon={AddCircleIcon}
+          size={20}
+          className="text-muted-foreground/60"
+        />
+        <p className="mt-3 text-sm font-medium">{title}</p>
+        <p className="mt-1 text-xs text-muted-foreground">
+          ${wholeUsdFormatter.format(threshold)}+ USD donated
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -751,10 +807,6 @@ export function DonationExperience({
             onClick={() => openDonate("qubic")}
           />
         </div>
-        <p className="mx-auto mt-4 max-w-5xl text-xs leading-relaxed text-muted-foreground text-pretty">
-          Balances update every minute. Open a method to get the address, copy
-          it, and jump to the explorer.
-        </p>
       </section>
 
       <section
@@ -763,29 +815,33 @@ export function DonationExperience({
         className="site-container scroll-mt-28 pb-16 md:pb-20"
       >
         <div className="mx-auto max-w-5xl">
-          <div className="flex flex-wrap items-end justify-between gap-5 pt-8">
-            <div>
-              <h2
-                id="sponsors-heading"
-                className="font-display text-3xl leading-[1] font-semibold tracking-[-0.05em]"
-              >
-                Sponsors
-              </h2>
-              <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground text-pretty">
-                People and projects backing Glyph.
-              </p>
-            </div>
-            <p className="max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
-              People at ${wholeUsdFormatter.format(sponsorThresholds.person)}+
-              USD. Organizations at $
-              {wholeUsdFormatter.format(sponsorThresholds.organization)}+ USD.
+          <div className="pt-8">
+            <h2
+              id="sponsors-heading"
+              className="font-display text-3xl leading-[1] font-semibold tracking-[-0.05em]"
+            >
+              Sponsors
+            </h2>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground text-pretty">
+              People and projects backing Glyph.
+            </p>
+            <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground text-pretty">
+              {`People at $${wholeUsdFormatter.format(sponsorThresholds.person)}+ USD. Organizations at $${wholeUsdFormatter.format(sponsorThresholds.organization)}+ USD.`}
             </p>
           </div>
 
-          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="mt-6 columns-1 gap-3 sm:columns-2 lg:columns-3">
             {sponsors.map((sponsor) => (
               <SponsorCard key={sponsor.name} sponsor={sponsor} />
             ))}
+            <SponsorPlaceholder
+              title="Person spot"
+              threshold={sponsorThresholds.person}
+            />
+            <SponsorPlaceholder
+              title="Organization spot"
+              threshold={sponsorThresholds.organization}
+            />
           </div>
         </div>
       </section>
