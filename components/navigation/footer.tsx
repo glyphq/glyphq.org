@@ -2,6 +2,7 @@ import { ArrowRightUpIcon } from "@solar-icons/react/linear";
 import Image from "next/image";
 import Link from "next/link";
 import { BrandMark } from "@/components/ui/brand-mark";
+import { siteButtonClasses } from "@/components/ui/site-button";
 import { SiteIcon } from "@/components/ui/site-icon";
 import { productLinks, resourceLinks, siteConfig } from "@/lib/site";
 
@@ -28,6 +29,41 @@ export function SiteFooter() {
               Open-source tools for the Qubic network. A self-custodial desktop
               wallet, developer SDK, relay, and network explorer.
             </p>
+            <div className="mt-6 flex flex-col items-start gap-2">
+              <span className="text-xs text-muted-foreground">Listed on</span>
+              <a
+                href="https://qubicmap.org/p/glyph"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="View Glyph on qubicmap.org"
+                className={siteButtonClasses({
+                  variant: "secondary",
+                  size: "sm",
+                  className: "group gap-2 rounded-xl px-3.5 text-xs",
+                })}
+              >
+                <span
+                  aria-hidden="true"
+                  className="size-3.5 shrink-0 bg-foreground"
+                  style={{
+                    maskImage: "url(/chains/qubic.svg)",
+                    WebkitMaskImage: "url(/chains/qubic.svg)",
+                    maskRepeat: "no-repeat",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskSize: "contain",
+                    WebkitMaskSize: "contain",
+                    maskPosition: "center",
+                    WebkitMaskPosition: "center",
+                  }}
+                />
+                <span className="whitespace-nowrap">qubicmap.org</span>
+                <SiteIcon
+                  icon={ArrowRightUpIcon}
+                  size={11}
+                  className="text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                />
+              </a>
+            </div>
           </div>
 
           <nav
