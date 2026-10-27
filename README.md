@@ -128,7 +128,7 @@ The download page reads the latest public GitHub release from `lib/releases.ts`.
 
 ### Donations
 
-Donation addresses live in `lib/donations.ts`. The donated-so-far figure is USDT and USDC plus the USD value of the Qubic balance, using a live CoinGecko price with a $400 per billion fallback. Balances are fetched from public RPCs and cached for one minute. Sponsor entries and the $500 sponsor threshold live in `lib/sponsors.ts`.
+Donation addresses live in `lib/donations.ts`. The donated-so-far figure is USDT and USDC plus the USD value of the Qubic balance, using a live CoinGecko price with a $400 per billion fallback. Balances are fetched from public RPCs and cached for one minute. Sponsor entries and the $100 person / $250 organization thresholds live in `lib/sponsors.ts`.
 
 ## Design notes
 

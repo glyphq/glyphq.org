@@ -5,6 +5,8 @@ import {
   ArrowRightIcon,
   ArrowRightUpIcon,
   CloseIcon,
+  CrownStarIcon,
+  HandHeartIcon,
 } from "@solar-icons/react/linear";
 import { AnimatePresence, MotionConfig, motion } from "motion/react";
 import Image from "next/image";
@@ -19,13 +21,9 @@ import { AccentBox } from "@/components/accent-box";
 import { CopyButton } from "@/components/copy-button";
 import { SiteButton, SiteButtonLink } from "@/components/site-button";
 import { SiteIcon } from "@/components/site-icon";
-import type {
-  ChainBalance,
-  QubicBalance,
-  SolanaBalance,
-} from "@/lib/donations";
+import type { ChainBalance, QubicBalance } from "@/lib/donations";
 import { siteConfig } from "@/lib/site";
-import { type Sponsor, sponsors, sponsorThresholdUsd } from "@/lib/sponsors";
+import { type Sponsor, sponsors, sponsorThresholds } from "@/lib/sponsors";
 import { cn } from "@/lib/utils";
 
 type DonateTab = "evm" | "solana" | "qubic";
@@ -39,7 +37,6 @@ type DonationExperienceProps = {
   solanaQr: string;
   qubicQr: string;
   evmBalances: ChainBalance[];
-  solanaBalance: SolanaBalance;
   qubicBalance: QubicBalance;
   evmStablecoins: number;
   solanaStablecoins: number;
@@ -109,16 +106,27 @@ function QrCode({ src, label }: { src: string; label: string }) {
 }
 
 function AddressField({ value, label }: { value: string; label: string }) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  });
+
   return (
     <div className="relative">
       <textarea
+        ref={textareaRef}
         readOnly
-        rows={3}
+        rows={1}
         value={value}
         aria-label={label}
         spellCheck={false}
         onFocus={(event) => event.currentTarget.select()}
-        className="w-full resize-none rounded-2xl bg-foreground/[0.04] p-4 pr-12 font-mono text-xs leading-relaxed break-all text-foreground/85 outline-none transition-colors focus:bg-foreground/[0.06] focus:ring-2 focus:ring-ring"
+        className="w-full resize-none overflow-hidden rounded-2xl bg-foreground/[0.04] p-4 pr-12 font-mono text-xs leading-relaxed break-all text-foreground/85 outline-none transition-colors focus:bg-foreground/[0.06] focus:ring-2 focus:ring-ring"
       />
       <CopyButton
         value={value}
@@ -539,258 +547,48 @@ function DonateDialog({
   );
 }
 
-function BalancesDialog({
-  open,
-  onClose,
-  evmAddress,
-  solanaAddress,
-  evmBalances,
-  solanaBalance,
-  qubicBalance,
-  usdcTotal,
-  usdtTotal,
-  donatedUsd,
-}: {
-  open: boolean;
-  onClose: () => void;
-  evmAddress: string;
-  solanaAddress: string;
-  evmBalances: ChainBalance[];
-  solanaBalance: SolanaBalance;
-  qubicBalance: QubicBalance;
-  usdcTotal: number;
-  usdtTotal: number;
-  donatedUsd: number;
-}) {
-  return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      title="Balances"
-      titleId="balances-dialog-title"
-    >
-      <div className="mt-5 rounded-2xl bg-foreground/[0.04] p-4">
-        <p className="font-display text-4xl leading-none font-medium tracking-[-0.05em]">
-          {formatStablecoin(donatedUsd)}
-        </p>
-        <p className="mt-2 text-sm text-muted-foreground">
-          USDT + USDC + QU value
-        </p>
-      </div>
-
-      <div className="mt-2 grid grid-cols-2 gap-2">
-        <div className="rounded-2xl bg-foreground/[0.04] p-3">
-          <span className="flex items-center gap-2 text-xs text-muted-foreground">
-            <TokenIcon symbol="USDC" size={16} />
-            USDC
-          </span>
-          <p className="mt-2 font-mono text-xl tracking-[-0.03em]">
-            {formatStablecoin(usdcTotal)}
-          </p>
-        </div>
-        <div className="rounded-2xl bg-foreground/[0.04] p-3">
-          <span className="flex items-center gap-2 text-xs text-muted-foreground">
-            <TokenIcon symbol="USDT" size={16} />
-            USDT
-          </span>
-          <p className="mt-2 font-mono text-xl tracking-[-0.03em]">
-            {formatStablecoin(usdtTotal)}
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-5 divide-y divide-foreground/10">
-        {evmBalances.map((balance) => (
-          <div key={balance.chain.id} className="py-3">
-            <div className="flex items-center justify-between gap-3">
-              <span className="flex items-center gap-2 text-sm">
-                <ChainIcon src={balance.chain.icon} size={18} />
-                {balance.chain.name}
-              </span>
-              <a
-                href={`${balance.chain.explorerAddress}/${evmAddress}`}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`View ${balance.chain.name} balance`}
-                className="text-muted-foreground transition-colors hover:text-brand"
-              >
-                <SiteIcon icon={ArrowRightUpIcon} size={12} />
-              </a>
-            </div>
-            {balance.error ? (
-              <p className="mt-2 text-xs text-muted-foreground">
-                Unavailable right now.
-              </p>
-            ) : (
-              <div className="mt-2 grid grid-cols-2 gap-4">
-                {balance.tokens.map((token) => (
-                  <div
-                    key={token.symbol}
-                    className="flex items-baseline justify-between gap-3 font-mono text-xs"
-                  >
-                    <span className="flex items-center gap-1.5 text-muted-foreground">
-                      <TokenIcon symbol={token.symbol} size={14} />
-                      {token.symbol}
-                    </span>
-                    <span>{token.formatted}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-3 border-t border-foreground/10 pt-3">
-        <div className="flex items-center justify-between gap-3">
-          <span className="flex items-center gap-2 text-sm">
-            <ChainIcon src="/chains/solana.svg" size={18} />
-            Solana
-          </span>
-          <a
-            href={`https://solscan.io/account/${solanaAddress}`}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="View Solana address"
-            className="text-muted-foreground transition-colors hover:text-brand"
-          >
-            <SiteIcon icon={ArrowRightUpIcon} size={12} />
-          </a>
-        </div>
-        {solanaBalance.error ? (
-          <p className="mt-2 text-xs text-muted-foreground">
-            Unavailable right now.
-          </p>
-        ) : (
-          <div className="mt-2 grid grid-cols-2 gap-4">
-            {solanaBalance.tokens.map((token) => (
-              <div
-                key={token.symbol}
-                className="flex items-baseline justify-between gap-3 font-mono text-xs"
-              >
-                <span className="flex items-center gap-1.5 text-muted-foreground">
-                  <TokenIcon symbol={token.symbol} size={14} />
-                  {token.symbol}
-                </span>
-                <span>{token.formatted}</span>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div className="mt-3 flex items-center justify-between gap-4 border-t border-foreground/10 pt-4">
-        <span className="flex items-center gap-2 text-sm">
-          <ChainIcon src="/chains/qubic.svg" size={18} />
-          Qubic
-        </span>
-        <span
-          className="font-mono text-xs"
-          title={qubicBalance.error ? undefined : qubicBalance.exact}
-        >
-          {qubicBalance.error ? "Unavailable" : `${qubicBalance.formatted} QU`}
-        </span>
-      </div>
-
-      <p className="mt-4 text-xs leading-relaxed text-muted-foreground text-pretty">
-        Only USDC and USDT are accepted on EVM networks and Solana. Qubic
-        donations are sent in QU.
-      </p>
-    </Dialog>
-  );
-}
-
 function SponsorCard({ sponsor }: { sponsor: Sponsor }) {
+  const gold = "color-mix(in oklab, var(--brand) 35%, #d4a64a)";
+
   return (
     <a
       href={sponsor.url}
       target="_blank"
       rel="noreferrer"
       aria-label={sponsor.name}
-      className="mb-3 block break-inside-avoid rounded-3xl bg-card p-6 transition-colors hover:bg-foreground/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="group relative flex min-h-32 flex-col items-center justify-center rounded-3xl bg-card p-5 text-center transition-colors hover:bg-foreground/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
-      <div className="flex min-h-56 flex-col">
-        <p className="text-sm text-muted-foreground">{sponsor.kind}</p>
-        <Image
-          src={sponsor.logo}
-          alt={sponsor.name}
-          width={220}
-          height={72}
-          loading="eager"
-          className="mt-8 h-12 w-auto object-contain invert"
-        />
-        <p className="mt-6 max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
-          {sponsor.note}
-        </p>
-        <span className="mt-auto inline-flex items-center gap-1 pt-6 text-sm text-muted-foreground">
-          {sponsor.name}
-          <SiteIcon icon={ArrowRightUpIcon} size={13} />
-        </span>
-      </div>
-    </a>
-  );
-}
-
-function SponsorSlot({ donatedUsd }: { donatedUsd: number }) {
-  const unlocked = donatedUsd >= sponsorThresholdUsd;
-  const progress = Math.min(
-    100,
-    Math.round((donatedUsd / sponsorThresholdUsd) * 100),
-  );
-
-  return (
-    <div className="mb-3 break-inside-avoid rounded-3xl border border-dashed border-foreground/15 p-6">
-      <div className="flex min-h-48 flex-col">
-        <p className="text-sm text-muted-foreground">Sponsor spot</p>
-        <p className="mt-5 font-display text-2xl leading-tight font-medium tracking-[-0.04em]">
-          {unlocked
-            ? "Unlocked."
-            : `Unlocks at $${wholeUsdFormatter.format(sponsorThresholdUsd)}.`}
-        </p>
-        <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
-          {unlocked
-            ? "Your support cleared the threshold. Claim your logo and link in Discord."
-            : "Donate $500+ USD and put your project in this grid."}
-        </p>
-        <div className="mt-auto pt-6">
-          <div className="h-1 overflow-hidden rounded-full bg-foreground/10">
-            <div
-              className="h-full rounded-full bg-brand"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-          <div className="mt-2 flex items-center justify-between gap-3 font-mono text-[0.65rem] text-muted-foreground">
-            <span>{formatStablecoin(donatedUsd)} USD</span>
-            <span>{wholeUsdFormatter.format(sponsorThresholdUsd)} USD</span>
-          </div>
-          {unlocked ? (
-            <SiteButtonLink
-              href={siteConfig.links.discord}
-              external
-              size="sm"
-              className="mt-4"
-            >
-              Claim in Discord
-              <SiteIcon icon={ArrowRightUpIcon} size={13} />
-            </SiteButtonLink>
-          ) : null}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function SponsorNote() {
-  return (
-    <div className="mb-3 break-inside-avoid rounded-3xl bg-card p-6">
-      <h3 className="font-display text-xl leading-tight font-medium tracking-[-0.03em]">
-        Why sponsor?
-      </h3>
-      <p className="mt-3 text-sm leading-relaxed text-muted-foreground text-pretty">
-        Put your project in front of the people using and building on Qubic.
-        Sponsors get a logo, a link, and a place on this page.
+      {sponsor.crown ? (
+        <>
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 rounded-3xl border"
+            style={{ borderColor: gold, opacity: 0.4 }}
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute top-4 right-4"
+            style={{ color: gold }}
+          >
+            <SiteIcon icon={CrownStarIcon} size={17} />
+          </span>
+        </>
+      ) : null}
+      <Image
+        src={sponsor.logo}
+        alt={sponsor.name}
+        width={220}
+        height={72}
+        loading="eager"
+        className={cn(
+          "max-h-8 w-auto object-contain opacity-80 transition-opacity group-hover:opacity-100",
+          sponsor.invert && "invert",
+        )}
+      />
+      <p className="mt-3 max-w-[16rem] text-xs leading-relaxed text-muted-foreground text-pretty">
+        {sponsor.description}
       </p>
-    </div>
+    </a>
   );
 }
 
@@ -854,7 +652,6 @@ export function DonationExperience({
   solanaQr,
   qubicQr,
   evmBalances,
-  solanaBalance,
   qubicBalance,
   evmStablecoins,
   solanaStablecoins,
@@ -865,10 +662,8 @@ export function DonationExperience({
   const [donateOpen, setDonateOpen] = useState(false);
   const [donateStep, setDonateStep] = useState<DonateStep>(1);
   const [donateTab, setDonateTab] = useState<DonateTab>("evm");
-  const [balancesOpen, setBalancesOpen] = useState(false);
 
   const closeDonate = useCallback(() => setDonateOpen(false), []);
-  const closeBalances = useCallback(() => setBalancesOpen(false), []);
 
   const openDonate = (tab?: DonateTab) => {
     if (tab) {
@@ -893,15 +688,8 @@ export function DonationExperience({
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <SiteButton size="md" onClick={() => openDonate()}>
+              <SiteIcon icon={HandHeartIcon} size={16} />
               Donate
-              <SiteIcon icon={ArrowRightIcon} size={16} />
-            </SiteButton>
-            <SiteButton
-              variant="secondary"
-              size="md"
-              onClick={() => setBalancesOpen(true)}
-            >
-              View balances
             </SiteButton>
           </div>
           <div className="mt-10">
@@ -975,7 +763,7 @@ export function DonationExperience({
         className="site-container scroll-mt-28 pb-16 md:pb-20"
       >
         <div className="mx-auto max-w-5xl">
-          <div className="flex flex-wrap items-end justify-between gap-5 border-t border-foreground/10 pt-8">
+          <div className="flex flex-wrap items-end justify-between gap-5 pt-8">
             <div>
               <h2
                 id="sponsors-heading"
@@ -984,27 +772,26 @@ export function DonationExperience({
                 Sponsors
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground text-pretty">
-                MinerLab was Glyph&apos;s first sponsor. Supporters at $500+ USD
-                donated get a logo and link in this grid.
+                People and projects backing Glyph.
               </p>
             </div>
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
-              A spot unlocks at $500+ USD donated.
+              People at ${wholeUsdFormatter.format(sponsorThresholds.person)}+
+              USD. Organizations at $
+              {wholeUsdFormatter.format(sponsorThresholds.organization)}+ USD.
             </p>
           </div>
 
-          <div className="mt-6 columns-1 gap-3 sm:columns-2 lg:columns-3">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {sponsors.map((sponsor) => (
               <SponsorCard key={sponsor.name} sponsor={sponsor} />
             ))}
-            <SponsorSlot donatedUsd={donatedUsd} />
-            <SponsorNote />
           </div>
         </div>
       </section>
 
       <section className="site-container pb-20 md:pb-24">
-        <div className="mx-auto max-w-5xl border-t border-foreground/10 pt-6">
+        <div className="mx-auto max-w-5xl pt-6">
           <div className="flex flex-wrap items-center justify-between gap-5">
             <p className="max-w-xl text-sm leading-relaxed text-muted-foreground text-pretty">
               Donations pay for releases, test infrastructure, and the time it
@@ -1046,18 +833,6 @@ export function DonationExperience({
         solanaQr={solanaQr}
         qubicQr={qubicQr}
         evmBalances={evmBalances}
-      />
-      <BalancesDialog
-        open={balancesOpen}
-        onClose={closeBalances}
-        evmAddress={evmAddress}
-        solanaAddress={solanaAddress}
-        evmBalances={evmBalances}
-        solanaBalance={solanaBalance}
-        qubicBalance={qubicBalance}
-        usdcTotal={usdcTotal}
-        usdtTotal={usdtTotal}
-        donatedUsd={donatedUsd}
       />
     </>
   );

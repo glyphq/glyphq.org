@@ -2,18 +2,24 @@ export type Sponsor = {
   name: string;
   url: string;
   logo: string;
-  kind: string;
-  note: string;
+  description: string;
+  invert?: boolean;
+  crown?: boolean;
 };
 
-export const sponsorThresholdUsd = 500;
+export const sponsorThresholds = {
+  person: 100,
+  organization: 250,
+} as const;
 
 export const sponsors: Sponsor[] = [
   {
     name: "MinerLab",
     url: "https://minerlab.io",
     logo: "/sponsors/minerlab.png",
-    kind: "Founding sponsor",
-    note: "MinerLab backed Glyph at the very start.",
+    description:
+      "Decentralized mining pool infrastructure and analytics for Qubic miners.",
+    invert: true,
+    crown: true,
   },
 ];
