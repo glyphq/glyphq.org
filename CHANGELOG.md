@@ -1,5 +1,17 @@
 # glyphq.org
 
+## 0.2.2
+
+### Patch Changes
+
+- db9b3fb: add the qubicmap listing badge to the footer
+
+## 0.2.1
+
+### Patch Changes
+
+- 83d5bc1: normalize link preview crawlers so social platforms receive Open Graph metadata
+
 ## 0.2.0
 
 ### Minor Changes
