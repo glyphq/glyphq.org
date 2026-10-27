@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  AltArrowDownIcon,
-  ArrowRightIcon,
-  Code2Icon,
-  CodeSquareIcon,
-  GlobalIcon,
-  LinkIcon,
-  WalletIcon,
-} from "@solar-icons/react/linear";
+import { AltArrowDownIcon, ArrowRightIcon } from "@solar-icons/react/linear";
 import {
   AnimatePresence,
   MotionConfig,
@@ -21,22 +13,6 @@ import { useEffect, useRef, useState } from "react";
 import { SiteIcon } from "@/components/site-icon";
 import { productLinks } from "@/lib/site";
 import { cn } from "@/lib/utils";
-
-const productIcons = {
-  "/products/wallet": WalletIcon,
-  "/products/connect": Code2Icon,
-  "/products/relay": LinkIcon,
-  "/products/explorer": GlobalIcon,
-  "/products/api": CodeSquareIcon,
-} as const;
-
-const productAccents = {
-  "/products/wallet": "text-brand",
-  "/products/connect": "text-[#9fc8ff]",
-  "/products/relay": "text-[#c8b2ff]",
-  "/products/explorer": "text-[#a4edc1]",
-  "/products/api": "text-[#ffc69e]",
-} as const;
 
 const productMasks = {
   "/products/wallet": "/masks/products/wallet.svg",
@@ -60,46 +36,18 @@ const triggerClass =
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
 const menuVariants: Variants = {
-  hidden: { opacity: 0, y: -8, scale: 0.985 },
+  hidden: { opacity: 0, y: -4, scale: 0.99 },
   show: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: {
-      duration: 0.22,
-      ease: easeOut,
-      when: "beforeChildren",
-      delayChildren: 0.02,
-    },
+    transition: { duration: 0.16, ease: easeOut },
   },
   exit: {
     opacity: 0,
-    y: -6,
+    y: -4,
     scale: 0.99,
-    transition: { duration: 0.14, ease: [0.4, 0, 1, 1] },
-  },
-};
-
-const gridVariants: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.045 } },
-};
-
-const tileVariants: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.3, ease: easeOut },
-  },
-};
-
-const footerVariants: Variants = {
-  hidden: { opacity: 0, y: 4 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.24, ease: easeOut },
+    transition: { duration: 0.1, ease: [0.4, 0, 1, 1] },
   },
 };
 
@@ -114,82 +62,65 @@ function ProductTile({
   span?: string;
   onSelect: () => void;
 }) {
-  const Icon = productIcons[product.href as keyof typeof productIcons];
-  const accent =
-    productAccents[product.href as keyof typeof productAccents] ?? "text-brand";
   const mask = productMasks[product.href as keyof typeof productMasks];
   const maskColor =
     productMaskColors[product.href as keyof typeof productMaskColors] ??
     "#ccfcfb";
 
   return (
-    <motion.div
-      variants={tileVariants}
+    <Link
+      href={product.href}
+      onClick={onSelect}
       className={cn(
+        "group/tile relative flex h-full w-full flex-col overflow-hidden rounded-2xl bg-foreground/[0.04] p-4 transition-colors duration-300 hover:bg-foreground/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         featured
-          ? "col-span-12 md:col-span-7 md:row-span-2"
-          : cn("col-span-12", span ?? "md:col-span-5"),
+          ? "col-span-12 min-h-[13rem] bg-foreground/[0.05] md:col-span-7 md:row-span-2"
+          : cn("col-span-12 min-h-[6.5rem]", span ?? "md:col-span-5"),
       )}
     >
-      <Link
-        href={product.href}
-        onClick={onSelect}
-        className={cn(
-          "group/tile relative flex h-full w-full flex-col overflow-hidden rounded-2xl bg-foreground/[0.04] p-4 transition-colors duration-300 hover:bg-foreground/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-          featured ? "min-h-[13rem] bg-foreground/[0.05]" : "min-h-[6.5rem]",
-        )}
-      >
-        {mask ? (
-          <span
-            aria-hidden="true"
-            className={cn(
-              "pointer-events-none absolute opacity-[0.09]",
-              featured
-                ? "-top-8 -right-6 h-56 w-56"
-                : "-top-7 -right-5 h-32 w-32",
-            )}
-            style={{
-              backgroundColor: maskColor,
-              maskImage: `url(${mask})`,
-              WebkitMaskImage: `url(${mask})`,
-              maskRepeat: "no-repeat",
-              WebkitMaskRepeat: "no-repeat",
-              maskSize: "contain",
-              WebkitMaskSize: "contain",
-              maskPosition: "center",
-              WebkitMaskPosition: "center",
-            }}
-          />
-        ) : null}
-        <div className="flex items-start justify-between gap-3">
-          {Icon ? (
-            <SiteIcon
-              icon={Icon}
-              size={featured ? 24 : 18}
-              className={accent}
-            />
-          ) : null}
-          <SiteIcon
-            icon={ArrowRightIcon}
-            size={featured ? 18 : 14}
-            className="text-muted-foreground transition-colors group-hover/tile:text-foreground"
-          />
-        </div>
-        <div className={cn("mt-auto", featured ? "pt-6" : "pt-4")}>
-          <span
-            className={cn(
-              "block font-display font-medium tracking-[-0.03em]",
-              featured ? "text-2xl md:text-3xl" : "text-lg",
-            )}
-          >
-            {product.label}
-          </span>
-          <span className="mt-1.5 block max-w-[18rem] text-xs leading-relaxed text-muted-foreground text-pretty">
-            {product.description}
-          </span>
-        </div>
-      </Link>
-    </motion.div>
+      {mask ? (
+        <span
+          aria-hidden="true"
+          className={cn(
+            "pointer-events-none absolute opacity-[0.09]",
+            featured
+              ? "-top-8 -right-6 h-56 w-56"
+              : "-top-7 -right-5 h-32 w-32",
+          )}
+          style={{
+            backgroundColor: maskColor,
+            maskImage: `url(${mask})`,
+            WebkitMaskImage: `url(${mask})`,
+            maskRepeat: "no-repeat",
+            WebkitMaskRepeat: "no-repeat",
+            maskSize: "contain",
+            WebkitMaskSize: "contain",
+            maskPosition: "center",
+            WebkitMaskPosition: "center",
+          }}
+        />
+      ) : null}
+      <div className="flex items-start justify-end">
+        <SiteIcon
+          icon={ArrowRightIcon}
+          size={featured ? 18 : 14}
+          className="text-muted-foreground transition-colors group-hover/tile:text-foreground"
+        />
+      </div>
+      <div className={cn("mt-auto", featured ? "pt-6" : "pt-4")}>
+        <span
+          className={cn(
+            "block font-display font-medium tracking-[-0.03em]",
+            featured ? "text-2xl md:text-3xl" : "text-lg",
+          )}
+        >
+          {product.label}
+        </span>
+        <span className="mt-1.5 block max-w-[18rem] text-xs leading-relaxed text-muted-foreground text-pretty">
+          {product.description}
+        </span>
+      </div>
+    </Link>
   );
 }
 
@@ -294,10 +225,7 @@ export function ProductsMenu() {
               exit="exit"
               className="absolute top-full left-0 z-50 mt-2 w-[min(52rem,calc(100vw-2rem))] origin-top-left rounded-[1.75rem] bg-popover p-2 shadow-2xl shadow-black/40"
             >
-              <motion.div
-                variants={gridVariants}
-                className="grid grid-cols-12 gap-2"
-              >
+              <div className="grid grid-cols-12 gap-2">
                 {wallet ? (
                   <ProductTile
                     product={wallet}
@@ -313,12 +241,9 @@ export function ProductsMenu() {
                     onSelect={() => setOpen(false)}
                   />
                 ))}
-              </motion.div>
+              </div>
 
-              <motion.div
-                variants={footerVariants}
-                className="mt-2 flex flex-wrap items-center justify-between gap-3 px-3 pt-3 pb-1"
-              >
+              <div className="mt-2 flex flex-wrap items-center justify-between gap-3 px-3 pt-3 pb-1">
                 <Link
                   href="/products"
                   onClick={() => setOpen(false)}
@@ -334,7 +259,7 @@ export function ProductsMenu() {
                 >
                   Download Glyph
                 </Link>
-              </motion.div>
+              </div>
             </motion.div>
           ) : null}
         </AnimatePresence>
