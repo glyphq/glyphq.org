@@ -528,7 +528,10 @@ function DonateDialog({
                 <ChainIcon src="/chains/qubic.svg" size={28} />
                 <div>
                   <p className="text-sm font-medium">Qubic</p>
-                  <p className="mt-0.5 font-mono text-lg">
+                  <p
+                    className="mt-0.5 font-mono text-lg"
+                    title={qubicBalance.error ? undefined : qubicBalance.exact}
+                  >
                     {qubicBalance.error
                       ? "Unavailable"
                       : `${qubicBalance.formatted} QU`}
@@ -716,7 +719,10 @@ function BalancesDialog({
           <ChainIcon src="/chains/qubic.svg" size={18} />
           Qubic
         </span>
-        <span className="font-mono text-xs">
+        <span
+          className="font-mono text-xs"
+          title={qubicBalance.error ? undefined : qubicBalance.exact}
+        >
           {qubicBalance.error ? "Unavailable" : `${qubicBalance.formatted} QU`}
         </span>
       </div>
