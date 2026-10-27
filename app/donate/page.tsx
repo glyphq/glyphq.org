@@ -27,7 +27,6 @@ export default async function DonatePage() {
       solanaQr={solanaQr}
       qubicQr={qubicQr}
       evmBalances={snapshot.evm}
-      solanaBalance={snapshot.solana}
       qubicBalance={snapshot.qubic}
       evmStablecoins={snapshot.evmStablecoins}
       solanaStablecoins={snapshot.solanaStablecoins}
