@@ -1,5 +1,3 @@
-import { cacheLife } from "next/cache";
-
 export const donationConfig = {
   evmAddress: "0xbe663600d2a0d9c32f28f5cc0649452584986ad4",
   qubicIdentity: "XIKAQZMFGQSALEMMJRATPPRESWTBXQVCOHTHCZWDGFXVBMCAHBCRUICFOQBI",
@@ -430,10 +428,18 @@ async function getSolanaBalance(): Promise<SolanaBalance> {
   };
 }
 
-export async function getDonationSnapshot() {
-  "use cache";
-  cacheLife("minutes");
+export type DonationSnapshot = {
+  evm: ChainBalance[];
+  solana: SolanaBalance;
+  qubic: QubicBalance;
+  evmStablecoins: number;
+  solanaStablecoins: number;
+  usdcTotal: number;
+  usdtTotal: number;
+  donatedUsd: number;
+};
 
+export async function getDonationSnapshot(): Promise<DonationSnapshot> {
   const [evm, solana, qubic] = await Promise.all([
     Promise.all(evmChains.map((chain) => getEvmChainBalance(chain))),
     getSolanaBalance(),

@@ -1,5 +1,5 @@
 import { DonationExperience } from "@/components/donate/experience";
-import { donationConfig, getDonationSnapshot } from "@/lib/donations";
+import { donationConfig } from "@/lib/donations";
 import { pageMetadata } from "@/lib/page-metadata";
 import { getDonationQrCodes } from "@/lib/qr";
 
@@ -11,7 +11,6 @@ export const metadata = pageMetadata({
 });
 
 export default async function DonatePage() {
-  const snapshot = await getDonationSnapshot();
   const { evmQr, solanaQr, qubicQr } = await getDonationQrCodes({
     evmAddress: donationConfig.evmAddress,
     solanaAddress: donationConfig.solanaAddress,
@@ -26,13 +25,6 @@ export default async function DonatePage() {
       evmQr={evmQr}
       solanaQr={solanaQr}
       qubicQr={qubicQr}
-      evmBalances={snapshot.evm}
-      qubicBalance={snapshot.qubic}
-      evmStablecoins={snapshot.evmStablecoins}
-      solanaStablecoins={snapshot.solanaStablecoins}
-      usdcTotal={snapshot.usdcTotal}
-      usdtTotal={snapshot.usdtTotal}
-      donatedUsd={snapshot.donatedUsd}
     />
   );
 }
