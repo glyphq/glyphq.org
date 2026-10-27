@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { posts } from "@/lib/posts";
 import { products } from "@/lib/products";
-import { sponsorsConfigured } from "@/lib/sponsors";
 
 const baseUrl = "https://glyphq.org";
 
@@ -42,15 +41,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.6,
     },
-  ];
-
-  if (sponsorsConfigured) {
-    routes.push({
-      url: `${baseUrl}/sponsors`,
+    {
+      url: `${baseUrl}/donate`,
       changeFrequency: "monthly",
       priority: 0.5,
-    });
-  }
+    },
+  ];
 
   return routes;
 }

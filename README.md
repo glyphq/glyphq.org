@@ -12,7 +12,7 @@ The public site for **Glyph**, a self-custodial desktop wallet and a set of open
 
 ## What is this?
 
-This repository is the marketing and content site for the Glyph ecosystem. It covers the wallet, Connect SDK, Relay, Explorer, and the Glyph API, plus the blog, downloads, and the project's sponsor page.
+This repository is the marketing and content site for the Glyph ecosystem. It covers the wallet, Connect SDK, Relay, Explorer, and the Glyph API, plus the blog, downloads, and the project's donations page.
 
 The site is dark only. It uses a restrained palette, Geist for interface text, Geist Mono for technical labels, and generated ASCII artwork for large accents. There is no light theme and no CMS. Content lives in TypeScript and MDX alongside the app.
 
@@ -74,9 +74,9 @@ Run `check`, `typecheck`, and `build` before opening a pull request.
 | `/blog/[slug]`     | Individual post                       |
 | `/blog/og/[slug]`  | Generated social card for a post      |
 | `/about`           | Project background                    |
-| `/sponsors`        | Sponsor recognition                   |
+| `/donate`          | Donations, addresses, and balances    |
 
-`/guides` and `/guides/*` permanently redirect to `/blog` and `/blog/*`.
+`/guides` and `/guides/*` permanently redirect to `/blog` and `/blog/*`. `/sponsors` redirects to `/donate`.
 
 ## Project layout
 
@@ -85,8 +85,8 @@ app/                 Routes, layouts, metadata, and MDX posts
   blog/              Blog index, post pages, and OG route
   products/          Product index and detail pages
 components/          UI, ASCII treatments, navigation, and content widgets
-lib/                 Site data, posts, products, releases, sponsors, helpers
-public/              Brand assets, masks, and OS icons
+lib/                 Site data, posts, products, releases, donations, helpers
+public/              Brand assets, chain icons, masks, and OS icons
 ```
 
 ## Content
@@ -126,9 +126,9 @@ Product names, links, short descriptions, feature lists, and status live in `lib
 
 The download page reads the latest public GitHub release from `lib/releases.ts`. No token is required. The route is cached and revalidates every 15 minutes.
 
-### Sponsors
+### Donations
 
-Sponsorship thresholds and display data live in `lib/sponsors.ts`. The page is intentionally noindexed until the sponsor configuration is filled in.
+Donation addresses, the monthly goal, and confirmed donation records live in `lib/donations.ts`. The monthly total uses the confirmed entries in that file. EVM chain balances are fetched from public RPCs and cached for one minute.
 
 ## Design notes
 

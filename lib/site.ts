@@ -27,7 +27,7 @@ export const mainNav: NavItem[] = [
   { label: "Products", href: "/products" },
   { label: "Blog", href: "/blog" },
   { label: "Download", href: "/download" },
-  { label: "Sponsors", href: "/sponsors" },
+  { label: "Donate", href: "/donate" },
   { label: "About", href: "/about" },
 ];
 
