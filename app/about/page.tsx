@@ -49,11 +49,11 @@ export default function AboutPage() {
 
       <div className="bg-background">
         <section className="site-container pb-24 md:pb-32">
-          <Reveal className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
-            <h2 className="max-w-md font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl">
+          <Reveal className="mx-auto max-w-4xl">
+            <h2 className="font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl">
               Why Glyph exists.
             </h2>
-            <div className="max-w-xl space-y-5 text-base leading-relaxed text-muted-foreground text-pretty">
+            <div className="mt-8 max-w-2xl space-y-5 text-base leading-relaxed text-muted-foreground text-pretty">
               <p>
                 Qubic deserves a wallet that feels like a desktop app: keys on
                 your machine, a real window, and native signing.
@@ -68,12 +68,12 @@ export default function AboutPage() {
         </section>
 
         <section className="site-container pb-24 md:pb-32">
-          <Reveal className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
-            <h2 className="max-w-md font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl">
+          <Reveal className="mx-auto max-w-4xl">
+            <h2 className="font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl">
               Built by alez04.
             </h2>
-            <div>
-              <p className="max-w-xl text-base leading-relaxed text-muted-foreground text-pretty">
+            <div className="mt-8">
+              <p className="max-w-2xl text-base leading-relaxed text-muted-foreground text-pretty">
                 Glyph is designed and built by alez04, who has worked on Qubic
                 tooling including the TypeScript client, the browser wallet
                 extension, and the official network explorer.
@@ -97,12 +97,12 @@ export default function AboutPage() {
         </section>
 
         <section className="site-container pb-24 md:pb-32">
-          <Reveal className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
-            <h2 className="max-w-md font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl">
+          <Reveal className="mx-auto max-w-4xl">
+            <h2 className="font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl">
               Built in the open.
             </h2>
-            <div>
-              <p className="max-w-xl text-base leading-relaxed text-muted-foreground text-pretty">
+            <div className="mt-8">
+              <p className="max-w-2xl text-base leading-relaxed text-muted-foreground text-pretty">
                 Glyph is an independent, open-source project. The wallet, SDK,
                 relay, and explorer are public, and contributions are welcome.
               </p>
