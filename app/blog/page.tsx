@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { RelativeDate } from "@/components/relative-date";
 import { pageMetadata } from "@/lib/page-metadata";
-import { type BlogPost, formatPostDate, sortedPosts } from "@/lib/posts";
+import { type BlogPost, sortedPosts } from "@/lib/posts";
 import { cn } from "@/lib/utils";
 
 export const metadata = pageMetadata({
@@ -17,7 +18,7 @@ function PostRow({ post }: { post: BlogPost }) {
         href={`/blog/${post.slug}`}
         className="group block rounded-2xl py-9 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:py-10"
       >
-        <div className="flex flex-wrap items-center gap-2 font-mono text-[0.6rem] tracking-[0.14em] uppercase">
+        <div className="flex flex-wrap items-center gap-2 text-[0.6rem] font-medium tracking-[0.08em] uppercase">
           <span
             className={cn(
               "inline-flex items-center rounded-full px-2.5 py-1",
@@ -38,12 +39,10 @@ function PostRow({ post }: { post: BlogPost }) {
         <p className="mt-2.5 max-w-2xl text-sm leading-relaxed text-muted-foreground text-pretty sm:text-base">
           {post.description}
         </p>
-        <time
-          dateTime={post.date}
-          className="mt-4 block font-mono text-[0.6rem] tracking-[0.12em] text-muted-foreground uppercase transition-colors group-hover:text-foreground"
-        >
-          {formatPostDate(post.date)}
-        </time>
+        <RelativeDate
+          date={post.date}
+          className="mt-4 block font-mono text-[0.6rem] tracking-[0.12em] text-muted-foreground transition-colors group-hover:text-foreground"
+        />
       </Link>
     </li>
   );

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { formatPostDate, getPost } from "@/lib/posts";
+import { RelativeDate } from "@/components/relative-date";
+import { getPost } from "@/lib/posts";
 
 export function PostHeader({ slug }: { slug: string }) {
   const post = getPost(slug);
@@ -8,7 +9,7 @@ export function PostHeader({ slug }: { slug: string }) {
 
   return (
     <header className="mb-12 max-w-3xl">
-      <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5 font-mono text-[0.65rem] tracking-[0.14em] uppercase">
+      <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5 font-mono text-[0.65rem] tracking-[0.14em]">
         <Link
           href="/blog"
           className="text-foreground/75 transition-colors hover:text-brand"
@@ -32,9 +33,7 @@ export function PostHeader({ slug }: { slug: string }) {
         <span aria-hidden="true" className="text-foreground/25">
           /
         </span>
-        <time dateTime={post.date} className="text-muted-foreground">
-          {formatPostDate(post.date)}
-        </time>
+        <RelativeDate date={post.date} className="text-muted-foreground" />
       </div>
 
       <h1 className="mt-6 max-w-2xl font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl">

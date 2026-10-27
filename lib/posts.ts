@@ -46,14 +46,3 @@ export const sortedPosts = [...posts].sort((a, b) =>
 export function getPost(slug: string) {
   return posts.find((post) => post.slug === slug);
 }
-
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  day: "2-digit",
-  month: "short",
-  timeZone: "UTC",
-  year: "numeric",
-});
-
-export function formatPostDate(date: string) {
-  return dateFormatter.format(new Date(`${date}T00:00:00Z`));
-}
