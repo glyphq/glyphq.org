@@ -41,7 +41,7 @@ function PostRow({ post }: { post: BlogPost }) {
         </p>
         <RelativeDate
           date={post.date}
-          className="mt-4 block font-mono text-[0.6rem] tracking-[0.12em] text-muted-foreground transition-colors group-hover:text-foreground"
+          className="mt-4 block text-[0.7rem] text-muted-foreground transition-colors group-hover:text-foreground"
         />
       </Link>
     </li>

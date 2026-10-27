@@ -33,7 +33,10 @@ export function PostHeader({ slug }: { slug: string }) {
         <span aria-hidden="true" className="text-foreground/25">
           /
         </span>
-        <RelativeDate date={post.date} className="text-muted-foreground" />
+        <RelativeDate
+          date={post.date}
+          className="font-sans tracking-normal text-muted-foreground"
+        />
       </div>
 
       <h1 className="mt-6 max-w-2xl font-display text-4xl leading-[0.98] font-semibold tracking-[-0.055em] text-balance sm:text-5xl">
