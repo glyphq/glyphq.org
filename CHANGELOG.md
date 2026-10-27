@@ -1,5 +1,11 @@
 # glyphq.org
 
+## 0.2.3
+
+### Patch Changes
+
+- d27eab0: load donation balances client-side so the donate page renders on Cloudflare
+
 ## 0.2.2
 
 ### Patch Changes
