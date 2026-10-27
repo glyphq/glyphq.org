@@ -22,7 +22,12 @@ import { AccentBox } from "@/components/ascii/accent-box";
 import { CopyButton } from "@/components/ui/copy-button";
 import { SiteButton, SiteButtonLink } from "@/components/ui/site-button";
 import { SiteIcon } from "@/components/ui/site-icon";
-import type { ChainBalance, QubicBalance } from "@/lib/donations";
+import {
+  type ChainBalance,
+  type DonationSnapshot,
+  evmChains,
+  type QubicBalance,
+} from "@/lib/donations";
 import { siteConfig } from "@/lib/site";
 import { type Sponsor, sponsors, sponsorThresholds } from "@/lib/sponsors";
 import { cn } from "@/lib/utils";
@@ -37,13 +42,19 @@ type DonationExperienceProps = {
   evmQr: string;
   solanaQr: string;
   qubicQr: string;
-  evmBalances: ChainBalance[];
-  qubicBalance: QubicBalance;
-  evmStablecoins: number;
-  solanaStablecoins: number;
-  usdcTotal: number;
-  usdtTotal: number;
-  donatedUsd: number;
+};
+
+const emptyEvmBalances: ChainBalance[] = evmChains.map((chain) => ({
+  chain,
+  tokens: [],
+}));
+
+const emptyQubicBalance: QubicBalance = {
+  formatted: "0",
+  exact: "0",
+  amount: 0,
+  priceUsd: 0,
+  usdValue: 0,
 };
 
 const stablecoinFormatter = new Intl.NumberFormat("en-US", {
@@ -722,17 +733,42 @@ export function DonationExperience({
   evmQr,
   solanaQr,
   qubicQr,
-  evmBalances,
-  qubicBalance,
-  evmStablecoins,
-  solanaStablecoins,
-  usdcTotal,
-  usdtTotal,
-  donatedUsd,
 }: DonationExperienceProps) {
   const [donateOpen, setDonateOpen] = useState(false);
   const [donateStep, setDonateStep] = useState<DonateStep>(1);
   const [donateTab, setDonateTab] = useState<DonateTab>("evm");
+  const [snapshot, setSnapshot] = useState<DonationSnapshot | null>(null);
+  const [balancesUnavailable, setBalancesUnavailable] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+
+    fetch("/api/donations")
+      .then(async (response) => {
+        if (!response.ok) throw new Error("Donation snapshot failed");
+
+        return (await response.json()) as DonationSnapshot;
+      })
+      .then((data) => {
+        if (active) setSnapshot(data);
+      })
+      .catch(() => {
+        if (active) setBalancesUnavailable(true);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const loading = snapshot === null && !balancesUnavailable;
+  const evmBalances = snapshot?.evm ?? emptyEvmBalances;
+  const qubicBalance = snapshot?.qubic ?? emptyQubicBalance;
+  const evmStablecoins = snapshot?.evmStablecoins ?? 0;
+  const solanaStablecoins = snapshot?.solanaStablecoins ?? 0;
+  const usdcTotal = snapshot?.usdcTotal ?? 0;
+  const usdtTotal = snapshot?.usdtTotal ?? 0;
+  const donatedUsd = snapshot?.donatedUsd ?? 0;
 
   const closeDonate = useCallback(() => setDonateOpen(false), []);
 
@@ -765,7 +801,7 @@ export function DonationExperience({
           </div>
           <div className="mt-10">
             <p className="font-display text-5xl leading-none font-medium tracking-[-0.055em]">
-              {formatStablecoin(donatedUsd)}{" "}
+              {loading ? "—" : formatStablecoin(donatedUsd)}{" "}
               <span className="text-lg tracking-[-0.03em] text-muted-foreground">
                 USD
               </span>
@@ -774,15 +810,15 @@ export function DonationExperience({
             <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-xs text-muted-foreground">
               <span className="inline-flex items-center gap-1.5">
                 <TokenIcon symbol="USDC" size={14} />
-                {formatStablecoin(usdcTotal)} USDC
+                {loading ? "—" : formatStablecoin(usdcTotal)} USDC
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <TokenIcon symbol="USDT" size={14} />
-                {formatStablecoin(usdtTotal)} USDT
+                {loading ? "—" : formatStablecoin(usdtTotal)} USDT
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <ChainIcon src="/chains/qubic.svg" size={14} />
-                {qubicBalance.formatted} QU
+                {loading ? "—" : qubicBalance.formatted} QU
               </span>
             </div>
           </div>
@@ -794,14 +830,26 @@ export function DonationExperience({
           <DonationMethodCard
             title="EVM networks"
             description="One address on Ethereum, Base, Polygon, Arbitrum, and Optimism. Send USDC or USDT."
-            balance={`${formatStablecoin(evmStablecoins)} USDT + USDC`}
+            balance={
+              loading
+                ? "Loading balance"
+                : balancesUnavailable
+                  ? "Balance unavailable"
+                  : `${formatStablecoin(evmStablecoins)} USDT + USDC`
+            }
             icons={evmBalances.map((balance) => balance.chain.icon)}
             onClick={() => openDonate("evm")}
           />
           <DonationMethodCard
             title="Solana"
             description="Send USDC or USDT on Solana. Keep the transaction ID after you send."
-            balance={`${formatStablecoin(solanaStablecoins)} USDT + USDC`}
+            balance={
+              loading
+                ? "Loading balance"
+                : balancesUnavailable
+                  ? "Balance unavailable"
+                  : `${formatStablecoin(solanaStablecoins)} USDT + USDC`
+            }
             icons={["/chains/solana.svg"]}
             onClick={() => openDonate("solana")}
           />
@@ -809,12 +857,14 @@ export function DonationExperience({
             title="Qubic"
             description="Send QU to the Glyph identity. The same address works for every Qubic transfer."
             balance={
-              qubicBalance.error
-                ? "Balance unavailable"
-                : `${qubicBalance.formatted} QU`
+              loading
+                ? "Loading balance"
+                : balancesUnavailable || qubicBalance.error
+                  ? "Balance unavailable"
+                  : `${qubicBalance.formatted} QU`
             }
             balanceNote={
-              qubicBalance.error
+              loading || balancesUnavailable || qubicBalance.error
                 ? undefined
                 : `≈ ${formatStablecoin(qubicBalance.usdValue)} USD`
             }
