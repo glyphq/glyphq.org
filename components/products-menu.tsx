@@ -72,7 +72,7 @@ function ProductTile({
       href={product.href}
       onClick={onSelect}
       className={cn(
-        "group/tile relative flex h-full w-full flex-col overflow-hidden rounded-2xl bg-foreground/[0.04] p-4 transition-colors duration-300 hover:bg-foreground/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "relative flex h-full w-full flex-col overflow-hidden rounded-2xl bg-foreground/[0.04] p-4 transition-colors duration-300 hover:bg-foreground/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         featured
           ? "col-span-12 min-h-[13rem] bg-foreground/[0.05] md:col-span-7 md:row-span-2"
           : cn("col-span-12 min-h-[6.5rem]", span ?? "md:col-span-5"),
@@ -100,13 +100,6 @@ function ProductTile({
           }}
         />
       ) : null}
-      <div className="flex items-start justify-end">
-        <SiteIcon
-          icon={ArrowRightIcon}
-          size={featured ? 18 : 14}
-          className="text-muted-foreground transition-colors group-hover/tile:text-foreground"
-        />
-      </div>
       <div className={cn("mt-auto", featured ? "pt-6" : "pt-4")}>
         <span
           className={cn(
