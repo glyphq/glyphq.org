@@ -612,11 +612,8 @@ function SponsorCard({ sponsor }: { sponsor: Sponsor }) {
         {sponsor.description}
       </p>
       <span
-        className="mt-3 rounded-full border px-2.5 py-1 text-[0.65rem]"
-        style={{
-          borderColor: goldCard ? "rgba(10,10,10,0.28)" : gold,
-          color: goldCard ? "#0a0a0a" : gold,
-        }}
+        className="mt-3 rounded-full bg-[#0a0a0a] px-2.5 py-1 text-[0.65rem]"
+        style={{ color: gold }}
       >
         {sponsor.donationLabel} donated
       </span>
@@ -626,20 +623,38 @@ function SponsorCard({ sponsor }: { sponsor: Sponsor }) {
 
 function SponsorPlaceholder({
   title,
+  description,
   threshold,
+  size = "md",
 }: {
   title: string;
+  description?: string;
   threshold: number;
+  size?: "sm" | "md" | "lg";
 }) {
+  const sizes = {
+    sm: "min-h-32",
+    md: "min-h-44",
+    lg: "min-h-56",
+  };
+
   return (
     <div className="mb-3 break-inside-avoid rounded-3xl border border-dashed border-foreground/15 p-6">
-      <div className="flex min-h-36 flex-col items-center justify-center text-center">
+      <div
+        className={cn(
+          "flex flex-col items-center justify-center text-center",
+          sizes[size],
+        )}
+      >
         <SiteIcon
           icon={AddCircleIcon}
           size={20}
           className="text-muted-foreground/60"
         />
         <p className="mt-3 text-sm font-medium">{title}</p>
+        {description ? (
+          <p className="mt-1 text-xs text-muted-foreground">{description}</p>
+        ) : null}
         <p className="mt-1 text-xs text-muted-foreground">
           ${wholeUsdFormatter.format(threshold)}+ USD donated
         </p>
@@ -836,11 +851,25 @@ export function DonationExperience({
             ))}
             <SponsorPlaceholder
               title="Person spot"
+              description="An individual supporter."
               threshold={sponsorThresholds.person}
+              size="sm"
+            />
+            <SponsorPlaceholder
+              title="Organization spot"
+              description="A team or project."
+              threshold={sponsorThresholds.organization}
+              size="lg"
+            />
+            <SponsorPlaceholder
+              title="Person spot"
+              threshold={sponsorThresholds.person}
+              size="md"
             />
             <SponsorPlaceholder
               title="Organization spot"
               threshold={sponsorThresholds.organization}
+              size="sm"
             />
           </div>
         </div>
