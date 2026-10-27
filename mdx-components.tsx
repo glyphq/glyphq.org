@@ -1,6 +1,6 @@
 import type { MDXComponents } from "mdx/types";
 import type { ReactNode } from "react";
-import { GuideHero } from "@/components/guide-hero";
+import { PostHeader } from "@/components/post-header";
 import { Reveal } from "@/components/reveal";
 import { cn } from "@/lib/utils";
 
@@ -206,7 +206,7 @@ const components = {
   hr: (props) => (
     <hr className="my-12 border-0 border-t border-foreground/10" {...props} />
   ),
-  GuideHero,
+  PostHeader,
   BlogArticle,
   Callout,
 } satisfies MDXComponents;

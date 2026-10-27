@@ -1,10 +1,11 @@
-import { ArrowRightIcon } from "@solar-icons/react/linear";
-import Image from "next/image";
 import Link from "next/link";
-import { Reveal } from "@/components/reveal";
-import { SiteIcon } from "@/components/site-icon";
 import { pageMetadata } from "@/lib/page-metadata";
-import { type BlogPost, formatPostDate, sortedPosts } from "@/lib/posts";
+import {
+  type BlogPost,
+  formatPostDay,
+  formatPostMonthYear,
+  sortedPosts,
+} from "@/lib/posts";
 
 export const metadata = pageMetadata({
   title: "Blog",
@@ -13,72 +14,44 @@ export const metadata = pageMetadata({
   path: "/blog",
 });
 
-function PostThumbnail({
-  post,
-  className,
-}: {
-  post: BlogPost;
-  className?: string;
-}) {
-  return (
-    <div
-      className={className ?? "overflow-hidden rounded-xl bg-foreground/[0.04]"}
-    >
-      <Image
-        src={`/blog/og/${post.slug}`}
-        alt=""
-        width={1200}
-        height={630}
-        className="aspect-[1200/630] w-full object-cover"
-      />
-    </div>
-  );
-}
-
-function PostRow({ post, index }: { post: BlogPost; index: number }) {
+function PostRow({ post }: { post: BlogPost }) {
   return (
     <li className="border-t border-foreground/10 first:border-t-0">
-      <Reveal delay={index * 0.04}>
-        <Link
-          href={`/blog/${post.slug}`}
-          className="group grid gap-4 py-8 md:grid-cols-[7rem_minmax(0,1fr)_14rem] md:items-start md:gap-6 md:py-10 lg:grid-cols-[7rem_minmax(0,1fr)_18rem] lg:gap-8"
+      <Link
+        href={`/blog/${post.slug}`}
+        className="group grid gap-4 rounded-2xl py-9 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:grid-cols-[6.5rem_minmax(0,1fr)] md:items-start md:gap-8 md:py-10 lg:grid-cols-[7rem_minmax(0,1fr)]"
+      >
+        <time
+          dateTime={post.date}
+          className="font-mono tracking-[0.12em] uppercase"
         >
-          <time
-            dateTime={post.date}
-            className="font-mono text-[0.65rem] tracking-[0.12em] text-muted-foreground uppercase"
-          >
-            {formatPostDate(post.date)}
-          </time>
+          <span className="block text-xl leading-none text-foreground/80 transition-colors group-hover:text-brand">
+            {formatPostDay(post.date)}
+          </span>
+          <span className="mt-1.5 block text-[0.6rem] text-muted-foreground">
+            {formatPostMonthYear(post.date)}
+          </span>
+        </time>
 
-          <div className="md:col-start-2">
-            <div className="flex flex-wrap items-center gap-2 font-mono text-[0.65rem] tracking-[0.14em] uppercase">
-              <span
-                className={
-                  post.kind === "Changelog" ? "text-[#ffd3b8]" : "text-brand"
-                }
-              >
-                {post.kind}
-              </span>
-              <span className="text-muted-foreground">{post.category}</span>
-            </div>
-            <h2 className="mt-3 max-w-xl font-display text-2xl leading-tight font-medium tracking-[-0.035em] text-balance transition-colors group-hover:text-brand sm:text-3xl">
-              {post.title}
-            </h2>
-            <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground text-pretty">
-              {post.description}
-            </p>
-            <span className="mt-5 inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors group-hover:text-foreground">
-              Read {post.kind.toLowerCase()}
-              <SiteIcon icon={ArrowRightIcon} size={14} />
+        <div className="md:col-start-2">
+          <div className="flex flex-wrap items-center gap-2 font-mono text-[0.65rem] tracking-[0.14em] uppercase">
+            <span
+              className={
+                post.kind === "Changelog" ? "text-[#ffd3b8]" : "text-brand"
+              }
+            >
+              {post.kind}
             </span>
+            <span className="text-muted-foreground">{post.category}</span>
           </div>
-
-          <PostThumbnail
-            post={post}
-            className="hidden overflow-hidden rounded-xl bg-foreground/[0.04] md:block"
-          />
-        </Link>
-      </Reveal>
+          <h2 className="mt-3 max-w-2xl font-display text-3xl leading-tight font-medium tracking-[-0.035em] text-balance transition-colors group-hover:text-brand sm:text-4xl">
+            {post.title}
+          </h2>
+          <p className="mt-2.5 max-w-2xl text-sm leading-relaxed text-muted-foreground text-pretty sm:text-base">
+            {post.description}
+          </p>
+        </div>
+      </Link>
     </li>
   );
 }
@@ -95,11 +68,19 @@ export default function BlogPage() {
         </p>
       </header>
 
-      <ol className="mx-auto mt-14 max-w-5xl list-none">
-        {sortedPosts.map((post, index) => (
-          <PostRow key={post.slug} post={post} index={index} />
-        ))}
-      </ol>
+      <div className="mx-auto mt-12 max-w-5xl">
+        <div className="flex items-center justify-between border-b border-foreground/10 pb-3 font-mono text-[0.6rem] tracking-[0.16em] text-muted-foreground uppercase">
+          <span>Latest first</span>
+          <span>
+            {sortedPosts.length} {sortedPosts.length === 1 ? "post" : "posts"}
+          </span>
+        </div>
+        <ol aria-label="Blog posts" className="list-none">
+          {sortedPosts.map((post) => (
+            <PostRow key={post.slug} post={post} />
+          ))}
+        </ol>
+      </div>
     </>
   );
 }

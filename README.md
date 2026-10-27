@@ -106,17 +106,17 @@ Posts are MDX files under `app/blog/<slug>/page.mdx`. Each post is registered in
 }
 ```
 
-`kind` is `Guide` or `Changelog`. The index sorts by date, newest first. Every post starts with a generated banner:
+`kind` is `Guide` or `Changelog`. The index sorts by date, newest first. Every post starts with a shared header:
 
 ```mdx
-<GuideHero slug="install-and-setup" />
+<PostHeader slug="install-and-setup" />
 
 <BlogArticle>
   ...post content...
 </BlogArticle>
 ```
 
-The banner uses the post metadata and the shared `GradientASCII` treatment. The social card at `/blog/og/<slug>` is generated from the same metadata. Headings get IDs from `rehype-slug`, which powers the sticky table of contents.
+The header uses the post metadata. The social card at `/blog/og/<slug>` is generated from the same metadata. Headings get IDs from `rehype-slug`, which powers the sticky table of contents.
 
 We no longer use the `/guides` content type. Old links redirect to the blog.
 
@@ -156,7 +156,7 @@ Examples:
 
 ```text
 feat(site): add landing page hero
-fix(blog): load post banners on the index
+fix(blog): keep post navigation aligned
 chore(tooling): update biome
 ```
 

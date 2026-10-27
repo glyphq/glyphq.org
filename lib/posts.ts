@@ -54,6 +54,25 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
 });
 
+const dayFormatter = new Intl.DateTimeFormat("en-US", {
+  day: "2-digit",
+  timeZone: "UTC",
+});
+
+const monthYearFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  timeZone: "UTC",
+  year: "numeric",
+});
+
 export function formatPostDate(date: string) {
   return dateFormatter.format(new Date(`${date}T00:00:00Z`));
+}
+
+export function formatPostDay(date: string) {
+  return dayFormatter.format(new Date(`${date}T00:00:00Z`));
+}
+
+export function formatPostMonthYear(date: string) {
+  return monthYearFormatter.format(new Date(`${date}T00:00:00Z`));
 }
