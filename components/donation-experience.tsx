@@ -321,8 +321,7 @@ function EvmDonatePanel({
       </div>
 
       <p className="mt-4 text-xs leading-relaxed text-muted-foreground text-pretty">
-        Send USDC, USDT, ETH, POL, or another EVM asset on {selected.chain.name}
-        . Transfers are final.
+        Send only USDC or USDT on {selected.chain.name}. Transfers are final.
       </p>
     </div>
   );
@@ -349,7 +348,7 @@ function SolanaDonatePanel({
       </div>
 
       <p className="mt-4 text-xs leading-relaxed text-muted-foreground text-pretty">
-        Send USDC or USDT on Solana. Transfers are final.
+        Send only USDC or USDT on Solana. Transfers are final.
       </p>
     </div>
   );
@@ -515,19 +514,6 @@ function DonateDialog({
                 />
               ) : (
                 <div className="mt-5">
-                  <div className="flex items-center gap-3 rounded-2xl bg-foreground/[0.04] p-4">
-                    <ChainIcon src="/chains/qubic.svg" size={28} />
-                    <div>
-                      <p className="text-sm font-medium">Qubic</p>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        Send QU to the Glyph identity.
-                      </p>
-                    </div>
-                  </div>
-                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground text-pretty">
-                    Send QU to this identity. Keep the transaction ID after you
-                    send.
-                  </p>
                   <div className="mt-4 flex flex-col gap-4">
                     <QrCode src={qubicQr} label="Qubic identity" />
                     <div>
@@ -540,6 +526,9 @@ function DonateDialog({
                       />
                     </div>
                   </div>
+                  <p className="mt-4 text-xs leading-relaxed text-muted-foreground text-pretty">
+                    Send only QU on Qubic. Transfers are final.
+                  </p>
                 </div>
               )}
             </>
@@ -704,8 +693,8 @@ function BalancesDialog({
       </div>
 
       <p className="mt-4 text-xs leading-relaxed text-muted-foreground text-pretty">
-        USDT and USDC are tracked across EVM networks and Solana. Other tokens
-        can still be sent but are not listed here.
+        Only USDC and USDT are accepted on EVM networks and Solana. Qubic
+        donations are sent in QU.
       </p>
     </Dialog>
   );
@@ -945,7 +934,7 @@ export function DonationExperience({
         <div className="mx-auto grid max-w-5xl gap-3 md:grid-cols-2 lg:grid-cols-3">
           <DonationMethodCard
             title="EVM networks"
-            description="One address on Ethereum, Base, Polygon, Arbitrum, and Optimism. Send USDC, USDT, or any other EVM asset."
+            description="One address on Ethereum, Base, Polygon, Arbitrum, and Optimism. Send USDC or USDT."
             balance={`${formatStablecoin(evmStablecoins)} USDT + USDC`}
             icons={evmBalances.map((balance) => balance.chain.icon)}
             onClick={() => openDonate("evm")}
