@@ -2,11 +2,11 @@ import { ArrowRightUpIcon } from "@solar-icons/react/linear";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AccentBox } from "@/components/accent-box";
-import { CodeBlock, type CodeLanguage } from "@/components/code-block";
-import { Reveal } from "@/components/reveal";
-import { SiteButtonLink } from "@/components/site-button";
-import { SiteIcon } from "@/components/site-icon";
+import { AccentBox } from "@/components/ascii/accent-box";
+import { CodeBlock, type CodeLanguage } from "@/components/ui/code-block";
+import { Reveal } from "@/components/ui/reveal";
+import { SiteButtonLink } from "@/components/ui/site-button";
+import { SiteIcon } from "@/components/ui/site-icon";
 import { pageMetadata } from "@/lib/page-metadata";
 import {
   getOtherProducts,

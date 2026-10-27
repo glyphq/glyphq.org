@@ -10,7 +10,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { SiteIcon } from "@/components/site-icon";
+import { SiteIcon } from "@/components/ui/site-icon";
 import { productLinks } from "@/lib/site";
 import { cn } from "@/lib/utils";
 

@@ -1,5 +1,5 @@
-import { Faq } from "@/components/faq";
-import { Reveal } from "@/components/reveal";
+import { Faq } from "@/components/ui/faq";
+import { Reveal } from "@/components/ui/reveal";
 
 const faqs = [
   {

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { RelativeDate } from "@/components/relative-date";
+import { RelativeDate } from "@/components/blog/relative-date";
 import { getPost } from "@/lib/posts";
 
 export function PostHeader({ slug }: { slug: string }) {

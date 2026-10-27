@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { ProductAsciiBanner } from "@/components/product-ascii-banner";
-import { Reveal } from "@/components/reveal";
+import { ProductAsciiBanner } from "@/components/product/ascii-banner";
+import { Reveal } from "@/components/ui/reveal";
 import { productLinks } from "@/lib/site";
 import { cn } from "@/lib/utils";
 

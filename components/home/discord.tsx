@@ -1,7 +1,7 @@
 import { ArrowRightUpIcon } from "@solar-icons/react/linear";
-import { DiscordMark } from "@/components/discord-mark";
-import { Reveal } from "@/components/reveal";
-import { SiteIcon } from "@/components/site-icon";
+import { DiscordMark } from "@/components/ui/discord-mark";
+import { Reveal } from "@/components/ui/reveal";
+import { SiteIcon } from "@/components/ui/site-icon";
 import { siteConfig } from "@/lib/site";
 
 export function HomeDiscord() {

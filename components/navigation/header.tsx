@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { BrandMark } from "@/components/brand-mark";
-import { DownloadButton } from "@/components/download-button";
-import { MobileNav } from "@/components/mobile-nav";
-import { ProductsMenu } from "@/components/products-menu";
+import { DownloadButton } from "@/components/download/button";
+import { MobileNav } from "@/components/navigation/mobile-nav";
+import { ProductsMenu } from "@/components/navigation/products-menu";
+import { BrandMark } from "@/components/ui/brand-mark";
 import { isActivePath, mainNav } from "@/lib/site";
 import { cn } from "@/lib/utils";
 

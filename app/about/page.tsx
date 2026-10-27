@@ -1,8 +1,8 @@
 import { ArrowRightUpIcon } from "@solar-icons/react/linear";
-import { AccentBox } from "@/components/accent-box";
-import { Reveal } from "@/components/reveal";
-import { SiteButtonLink } from "@/components/site-button";
-import { SiteIcon } from "@/components/site-icon";
+import { AccentBox } from "@/components/ascii/accent-box";
+import { Reveal } from "@/components/ui/reveal";
+import { SiteButtonLink } from "@/components/ui/site-button";
+import { SiteIcon } from "@/components/ui/site-icon";
 import { pageMetadata } from "@/lib/page-metadata";
 import { siteConfig } from "@/lib/site";
 

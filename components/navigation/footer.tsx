@@ -1,8 +1,8 @@
 import { ArrowRightUpIcon } from "@solar-icons/react/linear";
 import Image from "next/image";
 import Link from "next/link";
-import { BrandMark } from "@/components/brand-mark";
-import { SiteIcon } from "@/components/site-icon";
+import { BrandMark } from "@/components/ui/brand-mark";
+import { SiteIcon } from "@/components/ui/site-icon";
 import { productLinks, resourceLinks, siteConfig } from "@/lib/site";
 
 const networkLinks = [

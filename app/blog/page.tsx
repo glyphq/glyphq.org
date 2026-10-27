@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { RelativeDate } from "@/components/relative-date";
+import { RelativeDate } from "@/components/blog/relative-date";
 import { pageMetadata } from "@/lib/page-metadata";
 import { type BlogPost, sortedPosts } from "@/lib/posts";
 import { cn } from "@/lib/utils";

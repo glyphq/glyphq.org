@@ -1,8 +1,8 @@
-import { HomeDiscord } from "@/components/home-discord";
-import { HomeFaq } from "@/components/home-faq";
-import { HomeFeatures } from "@/components/home-features";
-import { HomeHero } from "@/components/home-hero";
-import { HomeProducts } from "@/components/home-products";
+import { HomeDiscord } from "@/components/home/discord";
+import { HomeFaq } from "@/components/home/faq";
+import { HomeFeatures } from "@/components/home/features";
+import { HomeHero } from "@/components/home/hero";
+import { HomeProducts } from "@/components/home/products";
 
 export default function Home() {
   return (

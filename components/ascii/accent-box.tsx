@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { AccentAscii } from "@/components/accent-ascii";
+import { AccentAscii } from "@/components/ascii/accent";
 import { cn } from "@/lib/utils";
 
 export function AccentBox({

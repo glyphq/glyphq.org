@@ -1,6 +1,6 @@
 "use client";
 
-import GradientASCII from "@/components/gradient-ascii";
+import GradientASCII from "@/components/ascii/gradient";
 import { asciiDarkColors } from "@/lib/ascii-palette";
 import { cn } from "@/lib/utils";
 

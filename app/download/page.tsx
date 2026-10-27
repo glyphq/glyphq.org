@@ -1,12 +1,12 @@
 import { ArrowRightUpIcon, DownloadIcon } from "@solar-icons/react/linear";
 import Image from "next/image";
-import { AccentBox } from "@/components/accent-box";
-import { CodeBlock } from "@/components/code-block";
-import { OsIcon } from "@/components/os-icon";
-import { ReleaseDownloadButton } from "@/components/release-download-button";
-import { Reveal } from "@/components/reveal";
-import { SiteButtonLink } from "@/components/site-button";
-import { SiteIcon } from "@/components/site-icon";
+import { AccentBox } from "@/components/ascii/accent-box";
+import { OsIcon } from "@/components/download/os-icon";
+import { ReleaseDownloadButton } from "@/components/download/release-button";
+import { CodeBlock } from "@/components/ui/code-block";
+import { Reveal } from "@/components/ui/reveal";
+import { SiteButtonLink } from "@/components/ui/site-button";
+import { SiteIcon } from "@/components/ui/site-icon";
 import { pageMetadata } from "@/lib/page-metadata";
 import {
   formatBytes,
