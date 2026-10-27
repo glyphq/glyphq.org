@@ -6,7 +6,7 @@ import { getDonationQrCodes } from "@/lib/qr";
 export const metadata = pageMetadata({
   title: "Donate",
   description:
-    "Support Glyph with ETH, POL, USDC, USDT, SOL, or QU. See USDT and USDC balances and what has been donated so far.",
+    "Support Glyph with USDC, USDT, or QU. See stablecoin balances and what has been donated so far.",
   path: "/donate",
 });
 
