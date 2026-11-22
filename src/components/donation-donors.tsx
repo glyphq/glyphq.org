@@ -97,27 +97,29 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
       target="_blank"
       rel="noreferrer"
       aria-label={staticSupporter.ariaLabel}
-      className="inline-flex w-fit items-center gap-2.5 rounded-full bg-surface py-1.5 pl-1.5 pr-4 text-sm transition-colors duration-150 hover:bg-ink/5"
+      className="flex w-fit flex-col items-center"
     >
-      {staticSupporter.image ? (
-        <span className="flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-ink/5 ring-1 ring-ink/10">
-          <img
-            src={staticSupporter.image}
-            alt=""
-            width="20"
-            height="20"
-            className="size-5 object-contain"
-          />
-        </span>
-      ) : (
-        <IdentityAvatar value={staticSupporter.label} size={28} />
-      )}
-      <span className="flex flex-col">
-        <span className="flex items-baseline gap-2">
-          <span className="text-muted">{staticSupporter.label}</span>
+      <span className="z-10 max-w-[14rem] truncate rounded-t-2xl bg-surface px-3 py-1 font-mono text-[11px] tracking-[0.04em] text-muted">
+        {staticSupporter.label}
+      </span>
+      <span className="flex items-center gap-2.5 rounded-2xl bg-surface py-1.5 pl-1.5 pr-4 text-sm">
+        {staticSupporter.image ? (
+          <span className="flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-ink/5 ring-1 ring-ink/10">
+            <img
+              src={staticSupporter.image}
+              alt=""
+              width="20"
+              height="20"
+              className="size-5 object-contain"
+            />
+          </span>
+        ) : (
+          <IdentityAvatar value={staticSupporter.label} size={28} />
+        )}
+        <span className="flex flex-col">
           <span className="text-ink">{staticSupporter.amount}</span>
+          <span className="text-xs text-muted">{staticSupporter.timestamp}</span>
         </span>
-        <span className="text-xs text-muted">{staticSupporter.timestamp}</span>
       </span>
     </a>
   ) : null;
@@ -176,27 +178,31 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
             rel="noreferrer"
             aria-label={`${name} donated ${quFormatter.format(donation.amount)} QU.${index === 0 ? " Top donation." : ""} Open transaction.`}
             title={donation.identity}
-            className={`inline-flex w-fit items-center gap-2.5 rounded-full py-1.5 pl-1.5 pr-4 text-sm transition-colors duration-150 hover:bg-ink/5 ${chipTone}`}
+            className="relative flex w-fit flex-col items-center"
           >
-            <span className="relative shrink-0">
-              {index === 0 && (
-                <span
-                  className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-accent-soft"
-                  aria-hidden="true"
-                >
-                  <CrownIcon size={14} aria-hidden="true" />
-                </span>
-              )}
-              <IdentityAvatar value={donation.identity} size={28} />
+            {index === 0 && (
+              <span
+                className="absolute -top-3 left-1/2 z-20 -translate-x-1/2 text-accent-soft"
+                aria-hidden="true"
+              >
+                <CrownIcon size={14} aria-hidden="true" />
+              </span>
+            )}
+            <span
+              className={`relative z-10 max-w-[14rem] truncate rounded-t-2xl px-3 py-1 font-mono text-[11px] tracking-[0.04em] text-muted ${chipTone}`}
+            >
+              {name}
             </span>
-            <span className="flex min-w-0 flex-col">
-              <span className="flex items-baseline gap-2">
-                <span className="max-w-[12rem] truncate text-muted">{name}</span>
+            <span
+              className={`flex items-center gap-2.5 rounded-2xl py-1.5 pl-1.5 pr-4 text-sm ${chipTone}`}
+            >
+              <IdentityAvatar value={donation.identity} size={28} />
+              <span className="flex flex-col">
                 <span className={isPodium ? "text-accent-soft" : "text-ink"}>
                   {quFormatter.format(donation.amount)} QU
                 </span>
+                <span className="text-xs text-muted">{moment(donation.timestamp).fromNow()}</span>
               </span>
-              <span className="text-xs text-muted">{moment(donation.timestamp).fromNow()}</span>
             </span>
           </a>
         );
