@@ -29,7 +29,7 @@ export default function CopyButton({ value, label }: Props) {
       onClick={copy}
       whileTap={{ scale: 0.97 }}
       aria-label={`Copy ${label} address`}
-      className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 font-display text-xs font-semibold text-ink transition-colors duration-150 hover:bg-[#2a2a2a]"
+      className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 font-display text-xs font-semibold text-ink transition-colors duration-150 hover:bg-[#2A1F21]"
     >
       {copied ? (
         <CheckCircleIcon size={14} aria-hidden="true" />

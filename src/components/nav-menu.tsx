@@ -157,9 +157,7 @@ export default function NavMenu({ pathname }: Props) {
             aria-controls="products-menu"
             aria-haspopup="true"
             className={`flex cursor-pointer items-center gap-2 rounded-full px-3 py-2 font-display text-[14px] font-medium transition-colors duration-150 ${
-              isActive("/products")
-                ? "text-white"
-                : "text-white/60 hover:bg-white/10 hover:text-white"
+              isActive("/products") ? "text-ink" : "text-ink/60 hover:bg-ink/10 hover:text-ink"
             }`}
           >
             <WidgetIcon size={16} aria-hidden="true" />
@@ -235,9 +233,7 @@ export default function NavMenu({ pathname }: Props) {
               whileTap={{ scale: 0.97 }}
               aria-current={isActive(item.href) ? "page" : undefined}
               className={`inline-flex items-center gap-2 rounded-full px-3 py-2 font-display text-[14px] font-medium transition-colors duration-150 ${
-                isActive(item.href)
-                  ? "text-white"
-                  : "text-white/60 hover:bg-white/10 hover:text-white"
+                isActive(item.href) ? "text-ink" : "text-ink/60 hover:bg-ink/10 hover:text-ink"
               }`}
             >
               <RouteIcon size={16} aria-hidden="true" />
@@ -265,7 +261,7 @@ export default function NavMenu({ pathname }: Props) {
           aria-expanded={mobileOpen}
           aria-controls="mobile-menu"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          className="inline-flex size-9 items-center justify-center rounded-full bg-white/10 text-white lg:hidden"
+          className="inline-flex size-9 items-center justify-center rounded-full bg-ink/10 text-ink lg:hidden"
         >
           {mobileOpen ? <CloseIcon size={18} /> : <HamburgerMenuIcon size={18} />}
         </motion.button>
@@ -337,7 +333,7 @@ export default function NavMenu({ pathname }: Props) {
                                   ease: [0.22, 1, 0.36, 1],
                                 }
                           }
-                          className="flex items-center gap-3 rounded-2xl px-4 py-4 font-display text-2xl font-medium text-ink/80 transition-colors duration-150 hover:bg-white/5 hover:text-ink"
+                          className="flex items-center gap-3 rounded-2xl px-4 py-4 font-display text-2xl font-medium text-ink/80 transition-colors duration-150 hover:bg-ink/5 hover:text-ink"
                         >
                           <RouteIcon
                             size={20}

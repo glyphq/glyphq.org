@@ -13,7 +13,7 @@ const { title, description, href, external = false } = Astro.props;
   href={href}
   target={external ? "_blank" : undefined}
   rel={external ? "noreferrer" : undefined}
-  class="my-6 block rounded-2xl bg-white/[0.03] p-4 transition-colors duration-150 hover:bg-white/[0.06]"
+  class="my-6 block rounded-2xl bg-ink/[0.03] p-4 transition-colors duration-150 hover:bg-ink/[0.06]"
 >
   <span class="block font-medium text-ink">{title}</span>
   {

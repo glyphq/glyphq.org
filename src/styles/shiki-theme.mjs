@@ -3,19 +3,19 @@ export const glyphShikiTheme = {
   name: "glyph-dark",
   type: "dark",
   colors: {
-    "editor.background": "#07140f",
-    "editor.foreground": "#e9fff5",
+    "editor.background": "#1A1513",
+    "editor.foreground": "#EED3BA",
   },
   tokenColors: [
     {
       settings: {
-        foreground: "#e9fff5",
+        foreground: "#EED3BA",
       },
     },
     {
       scope: ["comment", "punctuation.definition.comment"],
       settings: {
-        foreground: "#7c9b8f",
+        foreground: "#9C8374",
         fontStyle: "italic",
       },
     },
@@ -29,19 +29,19 @@ export const glyphShikiTheme = {
         "keyword.operator.new",
       ],
       settings: {
-        foreground: "#a8f5dc",
+        foreground: "#EED3BA",
       },
     },
     {
       scope: ["string", "string.template", "constant.character.escape"],
       settings: {
-        foreground: "#c7f9e4",
+        foreground: "#F6E2CE",
       },
     },
     {
       scope: ["constant.numeric", "constant.language", "constant.other.symbol", "constant.other"],
       settings: {
-        foreground: "#8be5c6",
+        foreground: "#D8B79D",
       },
     },
     {
@@ -52,7 +52,7 @@ export const glyphShikiTheme = {
         "meta.function-call",
       ],
       settings: {
-        foreground: "#e0fff2",
+        foreground: "#F2DFCC",
       },
     },
     {
@@ -64,7 +64,7 @@ export const glyphShikiTheme = {
         "storage.type.interface",
       ],
       settings: {
-        foreground: "#b5f0d9",
+        foreground: "#E8CBB6",
       },
     },
     {
@@ -76,19 +76,19 @@ export const glyphShikiTheme = {
         "punctuation.terminator",
       ],
       settings: {
-        foreground: "#789085",
+        foreground: "#9B8477",
       },
     },
     {
       scope: ["entity.name.tag", "support.type.property-name", "meta.object-literal.key"],
       settings: {
-        foreground: "#a8f5dc",
+        foreground: "#EED3BA",
       },
     },
     {
       scope: ["invalid", "invalid.illegal"],
       settings: {
-        foreground: "#ff8a7a",
+        foreground: "#E58F8F",
       },
     },
   ],

@@ -15,7 +15,7 @@ const items = headings.filter((heading) => heading.depth === 2 || heading.depth 
   items.length > 0 &&
   (variant === "mobile" ? (
     <details
-      class:list={["rounded-2xl bg-white/[0.03] p-4", className]}
+      class:list={["rounded-2xl bg-ink/[0.03] p-4", className]}
       data-toc-nav
       data-toc-mobile
     >
@@ -38,7 +38,7 @@ const items = headings.filter((heading) => heading.depth === 2 || heading.depth 
     <nav class:list={["text-sm", className]} aria-label="Table of contents" data-toc-nav>
       <p class="text-xs font-medium uppercase tracking-[0.14em] text-muted">On this page</p>
       <div class="relative mt-3">
-        <span class="absolute inset-y-0 left-0 w-px bg-white/10" aria-hidden="true" />
+        <span class="absolute inset-y-0 left-0 w-px bg-ink/10" aria-hidden="true" />
         <span
           data-toc-progress
           class="absolute left-0 top-0 w-px bg-accent-soft"

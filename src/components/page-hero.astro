@@ -30,7 +30,7 @@ const isArticle = variant === "article";
     {
       !isArticle && (
         <span
-          class="glyph-logo mx-auto mb-5 block size-9 text-white md:size-11"
+          class="glyph-logo mx-auto mb-5 block size-9 text-ink md:size-11"
           aria-hidden="true"
         />
       )
@@ -38,7 +38,7 @@ const isArticle = variant === "article";
     <h1
       transition:name="page-title"
       class:list={[
-        "text-balance text-white",
+        "text-balance text-ink",
         isArticle
           ? "mx-auto max-w-3xl text-[2.5rem] leading-[1.08] tracking-[-0.03em] md:text-[52px]"
           : "mx-auto max-w-4xl text-[2.75rem] leading-[1.0] tracking-[-0.035em] md:text-[64px]",
@@ -48,7 +48,7 @@ const isArticle = variant === "article";
     </h1>
     <p
       class:list={[
-        "text-pretty text-white/75",
+        "text-pretty text-ink/75",
         isArticle
           ? "mx-auto mt-4 max-w-2xl text-base leading-7 md:text-[19px] md:leading-[1.5]"
           : "mx-auto mt-5 max-w-2xl text-base leading-7 md:text-[19px] md:leading-[1.5]",
