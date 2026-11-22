@@ -160,13 +160,8 @@ export default function NavMenu({ pathname }: Props) {
                               className="glyph-logo mt-0.5 size-5 shrink-0"
                               aria-hidden="true"
                             />
-                            <span className="min-w-0">
-                              <span className="block text-sm font-medium text-ink">
-                                {product.name}
-                              </span>
-                              <span className="mt-0.5 block text-xs leading-5 text-muted">
-                                {product.short}
-                              </span>
+                            <span className="block text-sm font-medium text-ink">
+                              {product.name}
                             </span>
                           </a>
                         </li>

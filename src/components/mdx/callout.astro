@@ -1,0 +1,40 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  type?: "note" | "tip" | "warning";
+  title?: string;
+}
+
+const { type = "note", title } = Astro.props;
+
+const styles = {
+  note: {
+    icon: "solar:info-circle-linear",
+    label: "Note",
+    tone: "border-white/10 bg-white/[0.03]",
+  },
+  tip: {
+    icon: "solar:lightbulb-linear",
+    label: "Tip",
+    tone: "border-accent/20 bg-accent/[0.06]",
+  },
+  warning: {
+    icon: "solar:danger-triangle-linear",
+    label: "Heads up",
+    tone: "border-orange-400/20 bg-orange-400/[0.06]",
+  },
+};
+
+const style = styles[type];
+---
+
+<aside class={`my-7 rounded-2xl border p-5 ${style.tone}`}>
+  <p class="flex items-center gap-2 text-sm font-medium text-ink">
+    <Icon name={style.icon} class="size-4 text-accent-soft" aria-hidden="true" />
+    {title ?? style.label}
+  </p>
+  <div class="mt-2 text-sm leading-7 text-muted [&_a]:text-accent-soft [&_a]:underline [&_a]:underline-offset-4 [&_p]:mt-2 [&_strong]:font-medium [&_strong]:text-ink">
+    <slot />
+  </div>
+</aside>

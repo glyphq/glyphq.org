@@ -1,6 +1,10 @@
 ---
-import { Icon } from "astro-icon/components";
+import { getCollection, render } from "astro:content";
 import ButtonLink from "../../components/button-link.astro";
+import Callout from "../../components/mdx/callout.astro";
+import FeatureList from "../../components/mdx/feature-list.astro";
+import LinkCard from "../../components/mdx/link-card.astro";
+import Steps from "../../components/mdx/steps.astro";
 import PageHero from "../../components/page-hero.astro";
 import PageSection from "../../components/page-section.astro";
 import ProductGrid from "../../components/product-grid.astro";
@@ -18,6 +22,15 @@ export function getStaticPaths() {
 
 const { product } = Astro.props;
 const related = products.filter((item) => item.slug !== product.slug).slice(0, 3);
+const articles = await getCollection("products");
+const article = articles.find((entry) => entry.id.replace(/\.mdx?$/, "") === product.slug);
+
+if (!article) {
+  throw new Error(`No MDX article found for product "${product.slug}".`);
+}
+
+const { Content } = await render(article);
+const mdxComponents = { Callout, FeatureList, Steps, LinkCard };
 ---
 
 <Layout title={`${product.name} | Glyph`} description={product.summary}>
@@ -25,41 +38,18 @@ const related = products.filter((item) => item.slug !== product.slug).slice(0, 3
 
   <PageSection>
     <Reveal>
-      <div class="grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
-        <div>
-          <span
-            class="flex size-12 items-center justify-center rounded-full bg-surface" style={{ color: product.color }}
-          >
-            <Icon name={product.icon} class="size-6" aria-hidden="true" />
-          </span>
-          <h2 class="mt-6 text-3xl leading-[1.1] tracking-[-0.02em] text-ink md:text-4xl">
-            What it does
-          </h2>
-          <p class="mt-4 max-w-lg text-base leading-7 text-muted">{product.description}</p>
-        </div>
-
-        <ul>
-          {
-            product.features.map((feature) => (
-              <li class="flex gap-3 py-4">
-                <Icon
-                  name="solar:check-circle-linear"
-                  class="mt-0.5 size-5 shrink-0 text-accent-soft"
-                  aria-hidden="true"
-                />
-                <span class="text-base leading-7 text-ink/80">{feature}</span>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+      <article
+        class="mx-auto max-w-3xl text-base leading-8 text-muted [&>h2]:mt-10 [&>h2]:text-2xl [&>h2]:font-medium [&>h2]:tracking-tight [&>h2]:text-ink [&>h3]:mt-8 [&>h3]:text-lg [&>h3]:font-medium [&>h3]:text-ink [&>p]:mt-5 [&>p]:leading-8 [&>p_a]:text-accent-soft [&>p_a]:underline [&>p_a]:underline-offset-4 [&_code]:rounded [&_code]:bg-white/5 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[0.9em] [&_pre]:mt-6 [&_pre]:overflow-x-auto [&_pre]:rounded-2xl [&_pre]:bg-[#0d0d0d] [&_pre]:p-4 [&_strong]:font-medium [&_strong]:text-ink"
+      >
+        <Content components={mdxComponents} />
+      </article>
     </Reveal>
   </PageSection>
 
   <PageSection>
     <Reveal>
       <SectionHeader
-        title="Get started"
+        title="Next steps"
         description={`Use ${product.name} on its own or with the rest of the toolchain.`}
       />
       <div class="mt-8 flex flex-wrap gap-3">
@@ -80,8 +70,6 @@ const related = products.filter((item) => item.slug !== product.slug).slice(0, 3
     <Reveal>
       <SectionHeader title="Related products" description="The rest of the stack." size="lg" />
       <ProductGrid products={related} class="mt-10" />
-
     </Reveal>
   </PageSection>
-
 </Layout>

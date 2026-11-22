@@ -1,0 +1,51 @@
+---
+title: Glyph Wallet
+description: The desktop wallet for Qubic, with local Vaults and reviewed requests from connected apps.
+---
+
+Glyph Wallet is the desktop app for holding Qubic assets and approving requests from connected apps. It runs as a native application on Windows, macOS, and Linux, and is built with Tauri v2, React, TypeScript, and Rust.
+
+Vaults and wallet data stay on your machine. A Vault holds your Qubic identities, and the app uses them to send transfers, sign data, and answer contract calls. Private material does not leave the desktop app, so connected apps have to ask the wallet to act.
+
+## What the app handles
+
+<FeatureList
+  items={[
+    "Vaults and Qubic identities in one place",
+    "Send and receive QU with contacts and templates",
+    "Review connection, transfer, signing, and contract requests",
+    "Windows, macOS, and Linux builds",
+  ]}
+/>
+
+Transfers work like you would expect from a desktop wallet. You can keep regular recipients as contacts, reuse a payment as a template, and check the activity for an identity without opening a separate explorer.
+
+Connected apps use the request flow to act through the wallet. A dApp builds a typed request with Glyph Connect and opens it in the wallet. The wallet shows the request details, and you approve or reject it. The result goes back through the path the app chose: a callback, a redirect, or Glyph Relay. A connection request is separate from a transfer or signature request, so each action can be reviewed on its own.
+
+## Vaults and identities
+
+A Vault is the local container for one or more Qubic identities. The wallet uses those identities for every operation, from a simple QU transfer to a contract input request. Keeping the Vault local means the app does not depend on a hosted account, and the same Vault can serve multiple apps that connect to Glyph.
+
+<Callout type="tip" title="Keep the desktop app with your other local data">
+  The wallet stores its data on your machine. Treat the app and its data the way you treat any other local tool that holds important material, including your normal desktop backup routine.
+</Callout>
+
+## Getting started
+
+<Steps
+  items={[
+    "Download the build for your platform from the Glyph download page.",
+    "Open the wallet and create or open a Vault.",
+    "Add the Qubic identities you want to use.",
+    "Connect an app when it asks for access, then review each request as it arrives.",
+  ]}
+/>
+
+<LinkCard
+  title="Download Glyph"
+  description="Current builds for Windows, macOS, and Linux."
+  href="/download"
+  icon="solar:download-linear"
+/>
+
+The rest of the toolchain builds on the wallet. Glyph Connect defines the requests, Glyph Contracts supplies the contract metadata and codecs, and Glyph Relay carries results back to apps that cannot receive a direct callback.

@@ -1,0 +1,58 @@
+---
+title: Glyph Contracts
+description: Typed Qubic contract metadata, ABIs, and binary codecs for TypeScript.
+---
+
+Glyph Contracts packages Qubic contract metadata, ABI descriptors, and binary codecs for TypeScript. The package is generated from `qubic/core`, so its types follow the contract definitions instead of a hand-maintained copy.
+
+It is published as `@glyph-oss/contracts`.
+
+## What the package includes
+
+<FeatureList
+  items={[
+    "Metadata for every production contract",
+    "Procedures, functions, notifications, structs, and enums",
+    "Exact on-chain memory layout and padding",
+    "Encoders and decoders for procedure and function inputs and outputs",
+  ]}
+/>
+
+Contract calls in Qubic are binary. A procedure has an input layout, a function returns a value with its own layout, and notifications and structs have shapes that need to match the chain. The package carries those layouts so application code can work with typed fields.
+
+The metadata also makes it possible to inspect a contract before calling it. You can see which procedures and functions exist, what arguments they take, and which structs or enums they use.
+
+## Encoding and decoding
+
+A typical call resolves the contract by name, selects a procedure or function, encodes the input, sends it to the network, and decodes the result. The generated codecs handle byte order, padding, arrays, and nested structs.
+
+<Steps
+  items={[
+    "Find the contract and the procedure or function in the generated metadata.",
+    "Encode the input with the generated codec.",
+    "Send the encoded call through the Qubic client or API you already use.",
+    "Decode the returned bytes with the matching output codec.",
+  ]}
+/>
+
+<Callout type="warning" title="Use the generated codecs at the contract boundary">
+  Qubic contract layouts include padding and fixed field widths. Hand-written offsets can look correct for one contract and fail on another. The generated codecs keep the encoding and decoding in one place and follow the source definitions.
+</Callout>
+
+It fits a TypeScript service that already talks to Qubic. A test suite can use it to build contract calls, and a read-only tool can decode contract state and notifications. It does not replace a Qubic client; it supplies the contract definitions and byte handling around that client.
+
+<LinkCard
+  title="@glyph-oss/contracts on npm"
+  description="Install the package and browse the generated contract exports."
+  href="https://www.npmjs.com/package/@glyph-oss/contracts"
+  external
+  icon="solar:box-linear"
+/>
+
+<LinkCard
+  title="Contracts source"
+  description="Generated types and codecs on GitHub."
+  href="https://github.com/glyphq/contracts"
+  external
+  icon="solar:code-linear"
+/>

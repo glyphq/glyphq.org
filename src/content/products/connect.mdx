@@ -1,0 +1,63 @@
+---
+title: Glyph Connect
+description: A typed TypeScript SDK for building glyph:// wallet requests and handling their results.
+---
+
+Glyph Connect is the TypeScript package for building requests that Glyph Wallet can open and sign. It covers the request format, the envelope, and the browser helpers, so a dApp can ask for a transfer, contract input, signature, verification, or connection without inventing its own wallet protocol.
+
+The package is published as `@glyph-oss/connect`. It has no runtime dependencies, which keeps it easy to add to a web app or a small script.
+
+## Request builders
+
+<FeatureList
+  items={[
+    "Five request builders: transfer, contract input, sign, verify, and connect",
+    "Envelope protocol v2 with a canonical request hash",
+    "Results through a callback, redirect, or the Glyph relay",
+    "Zero runtime dependencies and browser helpers",
+  ]}
+/>
+
+Each builder produces a typed request for one operation. The transfer builder describes a QU payment. Contract input carries the contract and procedure data. The signing and verification builders work with data rather than a transaction. A connect request asks the wallet for an identity and the permissions the app needs.
+
+Requests use the `glyph://` scheme. Version 2 of the envelope includes a canonical hash of the request, which gives the app and the wallet a stable reference for the same payload.
+
+## Choosing a result path
+
+A callback works when the app controls the page that started the request. The wallet returns the result to that page, and the app can update its own state without a server round trip.
+
+A redirect works when the request leaves the app, for example when the wallet opens from a link and the browser returns to a different page.
+
+The Glyph relay works when the app cannot receive a direct callback, or when the result needs to reach a server. The app creates a relay session and listens there while the wallet posts the signed result. Relay sessions are short lived and accept one result, so the app still needs to handle a timeout or a rejected request.
+
+<Callout type="tip" title="Decide where the result lands before building the request">
+  The request payload can stay the same across the three paths. Pick the result path first, then keep the request and the handling code together.
+</Callout>
+
+## Getting started
+
+<Steps
+  items={[
+    "Install @glyph-oss/connect in the app.",
+    "Choose the builder for the operation you need and fill in the request fields.",
+    "Open the glyph:// request from the page or from the relay session.",
+    "Handle the returned result and verify it before changing app state.",
+  ]}
+/>
+
+<LinkCard
+  title="Request builder reference"
+  description="The fields and result shape for each builder."
+  href="https://docs.glyphq.org/docs/reference/request-builders"
+  external
+/>
+
+<LinkCard
+  title="Glyph Connect source"
+  description="The TypeScript package on GitHub."
+  href="https://github.com/glyphq/connect"
+  external
+  icon="solar:code-linear"
+/>
+
+For a server-side result path, continue with [Glyph Relay](/products/relay). For contract calls, pair the request with the contract metadata in [Glyph Contracts](/products/contracts).

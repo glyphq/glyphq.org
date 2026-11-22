@@ -4,26 +4,10 @@ import PageSection from "../components/page-section.astro";
 import ProjectCard from "../components/project-card.astro";
 import Reveal from "../components/reveal.astro";
 import SectionHeader from "../components/section-header.astro";
+import { showcaseProducts } from "../data/showcase";
 import Layout from "../layouts/layout.astro";
 
 const discord = "https://discord.gg/faKATpcHGf";
-
-const posts = [
-  {
-    title: "Q+Pay",
-    description:
-      "Accept Qubic payments with invoices, point-of-sale checkout, tip jars, and plugins for WooCommerce and Shopify. Non-custodial.",
-    href: "https://useqpay.com/",
-    image: "https://useqpay.com/media/og-image-logo.png",
-  },
-  {
-    title: "QubicSwap",
-    description:
-      "Trade Qubic tokens and shares through a decentralized exchange interface with order books and liquidity pools.",
-    href: "https://qubicswap.com/",
-    image: "https://qubicswap.com/images/og/og-tokens.png",
-  },
-];
 ---
 
 <Layout title="Showcase | Glyph" description="Apps using Glyph Wallet and the Glyph toolchain.">
@@ -42,7 +26,7 @@ const posts = [
       />
 
       <div class="mt-10 grid gap-4 md:grid-cols-2">
-        {posts.map((post) => <ProjectCard {...post} />)}
+        {showcaseProducts.map((post) => <ProjectCard {...post} />)}
       </div>
 
       <p class="mx-auto mt-10 max-w-2xl text-center text-sm leading-6 text-muted">

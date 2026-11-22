@@ -1,0 +1,63 @@
+---
+title: Glyph Relay
+description: Carries signed wallet results back to apps that cannot receive a direct callback.
+---
+
+Glyph Relay moves a signed result from Glyph Wallet back to a dApp. It is useful when the wallet cannot return the result directly to the page that started the request, or when the result needs to reach a server before the app can act on it.
+
+Each relay session runs in its own Durable Object. The dApp reads from the session and the wallet posts a result with the callback token. The read and callback tokens are separate, so a page that listens cannot submit a result, and a callback cannot read the session.
+
+## One result, short window
+
+<FeatureList
+  items={[
+    "A Durable Object per session",
+    "Read and callback tokens are separate",
+    "Results are accepted once and deleted after ten minutes",
+    "SSE streaming or polling",
+  ]}
+/>
+
+A result is accepted once. After that, the session is finished. The ten minute window is enough for a person to review a request in the wallet, but it is not a durable queue. A result that arrives after the window is gone, and a network retry cannot recover it.
+
+Keep the Relay result on the server when the app needs to act on it more than once. The relay can deliver the signed payload, and the app can record what it received before updating its own state.
+
+## Transports
+
+SSE works well when the listening page stays open and can keep a stream. The connection receives the result as soon as the wallet posts it, so the app does not need to poll.
+
+Polling works when a stream is inconvenient, for example behind a proxy that buffers responses or in a short-lived process. The tradeoff is a small delay between the wallet posting the result and the app reading it.
+
+## In a Connect flow
+
+Glyph Connect has a relay result path alongside callbacks and redirects. The app creates the relay session, starts listening, and opens the `glyph://` request. The wallet posts the signed result to the relay, and the app consumes it from the session.
+
+<Callout type="warning" title="Do not treat the relay as permanent storage">
+  The session expires after ten minutes and accepts one result. If the app needs an audit trail, write the result to its own storage as soon as it is read.
+</Callout>
+
+## Getting started
+
+<Steps
+  items={[
+    "Create a relay session for the request.",
+    "Start listening with the read token.",
+    "Open the wallet request and let the person review it.",
+    "Consume the result from the session and store it where the app needs it.",
+  ]}
+/>
+
+<LinkCard
+  title="Relay v2 guide"
+  description="The session flow, tokens, and transport options."
+  href="https://docs.glyphq.org/docs/guides/relay-v2"
+  external
+/>
+
+<LinkCard
+  title="Glyph Relay source"
+  description="The Durable Object service on GitHub."
+  href="https://github.com/glyphq/relay"
+  external
+  icon="solar:code-linear"
+/>

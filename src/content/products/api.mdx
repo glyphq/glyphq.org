@@ -1,0 +1,63 @@
+---
+title: Glyph API
+description: A self-hosted Qubic indexer and read API with verification at ingest.
+---
+
+Glyph API is the self-hosted data service for Qubic. It connects to Qubic peers over the native TCP protocol, verifies what they return, stores normalized history in ClickHouse, and serves reads over HTTP.
+
+Running the service yourself gives you control over the index and the query surface. You choose the peers, keep the history that matters to you, and expose the API to your own applications.
+
+## The data path
+
+Peers are the source. The service connects over TCP, receives ticks and the records that come with them, and checks the data before it reaches storage. Verification at ingest means a peer response is not written to ClickHouse just because it arrived.
+
+<FeatureList
+  items={[
+    "Direct Qubic peers over the native TCP protocol",
+    "Quorum and data verification at ingest",
+    "Normalized history for reads, streams, and analytics",
+    "REST resources, SSE and WebSocket streams, and OpenAPI 3.1",
+  ]}
+/>
+
+ClickHouse holds the normalized history. The API reads from that store and returns resources for identities, transactions, ticks, tokens, and contracts. The same store supports analytical queries that would be awkward to run against a live peer.
+
+## Interfaces
+
+REST resources cover the records an application reads on demand. SSE and WebSocket streams cover changes that a client wants to follow. The OpenAPI 3.1 description documents the HTTP surface, so you can generate a client or inspect the available resources before writing integration code.
+
+The API is resource oriented. A request names the resource and its identifiers, and the response carries the normalized record. That keeps the HTTP layer separate from the peer protocol and the storage schema.
+
+## Why self-host
+
+A hosted index is convenient until you need a different retention window, a private network path, or a query that the public service does not expose. A self-hosted node keeps those decisions in your infrastructure.
+
+The service also fits an application that already runs Qubic infrastructure. It can use the peers you trust and write into a ClickHouse instance you already operate, so the data path stays inside your network.
+
+<Steps
+  items={[
+    "Choose the Qubic peers the service should connect to.",
+    "Run the indexer and point it at ClickHouse.",
+    "Open the HTTP API and confirm the OpenAPI document loads.",
+    "Connect your application to the resources or streams it needs.",
+  ]}
+/>
+
+<Callout type="note" title="Ingest is the trust boundary">
+  The service verifies peer data before writing it. Once a record is in ClickHouse, the read path serves it without repeating the peer check. Keep that in mind when you choose peers and review the verification settings.
+</Callout>
+
+<LinkCard
+  title="Glyph API source"
+  description="The indexer and HTTP service on GitHub."
+  href="https://github.com/glyphq/service"
+  external
+  icon="solar:code-linear"
+/>
+
+<LinkCard
+  title="Glyph documentation"
+  description="Setup notes and API reference."
+  href="https://docs.glyphq.org"
+  external
+/>

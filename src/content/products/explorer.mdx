@@ -1,0 +1,58 @@
+---
+title: Glyph Explorer
+description: A readable view of Qubic ticks, transactions, identities, tokens, and contracts.
+---
+
+Glyph Explorer shows public Qubic data in a form you can read. It covers network health, ticks, transactions, identities, tokens, and contracts, and it presents that data without raw RPC responses.
+
+The explorer is a hosted app, so a lookup does not require a local index or a running Qubic client. Open the site, search for an identity or a transaction, and follow the links between records.
+
+## What you can open
+
+<FeatureList
+  items={[
+    "Network overview and tick health",
+    "Identity, transaction, token, and contract lookup",
+    "Identity pages with balances and activity",
+    "Generated contract metadata and rich-list balances",
+  ]}
+/>
+
+An identity page collects the balances and activity for one address. A transaction page shows the transaction and the tick it belongs to. Token and contract pages connect the visible state to the contract metadata that generated it.
+
+The tick view is useful when you need to check whether the network is moving before you investigate a specific transaction. If the latest ticks look healthy and your transaction is not there, the problem is more likely in the transaction path than in the network as a whole.
+
+## Looking up a record
+
+<Steps
+  items={[
+    "Search for an identity, transaction, token, or contract.",
+    "Use the linked records to move from the result to the surrounding context.",
+    "Check the tick and the timestamp together when a result looks out of place.",
+    "Open the contract metadata when a transaction includes a contract call.",
+  ]}
+/>
+
+<Callout type="tip" title="Start with the identity page">
+  An identity page usually answers the first question: whether a balance changed and which transactions caused it. From there, the transaction and tick pages fill in the rest.
+</Callout>
+
+## For development
+
+The explorer is a quick way to inspect what a contract call or transfer did before writing a query against an index. For repeated reads, streams, or historical analysis, use [Glyph API](/products/api), which is the self-hosted data service in the same stack.
+
+<LinkCard
+  title="Open Glyph Explorer"
+  description="Look up Qubic identities, ticks, transactions, tokens, and contracts."
+  href="https://explorer.glyphq.org"
+  external
+  icon="solar:global-linear"
+/>
+
+<LinkCard
+  title="Explorer source"
+  description="The explorer application on GitHub."
+  href="https://github.com/glyphq/explorer-v2"
+  external
+  icon="solar:code-linear"
+/>

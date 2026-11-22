@@ -1,0 +1,43 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  title: string;
+  description?: string;
+  href: string;
+  external?: boolean;
+  icon?: string;
+}
+
+const {
+  title,
+  description,
+  href,
+  external = false,
+  icon = "solar:document-text-linear",
+} = Astro.props;
+---
+
+<a
+  href={href}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noreferrer" : undefined}
+  class="my-6 flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.025] p-4 transition-colors duration-150 hover:border-white/20 hover:bg-white/[0.05]"
+>
+  <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-surface text-accent-soft">
+    <Icon name={icon} class="size-5" aria-hidden="true" />
+  </span>
+  <span class="min-w-0">
+    <span class="block font-medium text-ink">{title}</span>
+    {
+      description && (
+        <span class="mt-0.5 block text-sm leading-6 text-muted">{description}</span>
+      )
+    }
+  </span>
+  <Icon
+    name="solar:arrow-right-linear"
+    class="ml-auto size-4 shrink-0 text-muted"
+    aria-hidden="true"
+  />
+</a>
