@@ -5,7 +5,7 @@ import { createElement as h } from "react";
 import satori from "satori";
 import { type OgPage, ogImageSize, ogPages } from "../../lib/seo";
 
-const font = readFileSync(`${process.cwd()}/src/assets/og/geist.ttf`);
+const font = readFileSync(`${process.cwd()}/src/assets/og/space-grotesk.ttf`);
 const logo = readFileSync(`${process.cwd()}/public/brand/glyph-on-dark.png`);
 const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
 const productMaskSlugs = new Set(["wallet", "connect", "contracts", "relay", "explorer", "api"]);
@@ -46,7 +46,7 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
           padding: "64px 72px",
           background: "#151311",
           color: "#f6e2ce",
-          fontFamily: "Geist",
+          fontFamily: "Space Grotesk",
         },
       },
       h("img", {
@@ -84,8 +84,8 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
             position: "relative",
           },
         },
-        h("img", { src: logoSrc, width: 56, height: 56, alt: "" }),
-        h("span", { style: { fontSize: 32, fontWeight: 600, letterSpacing: "-0.03em" } }, "Glyph"),
+        h("img", { src: logoSrc, width: 112, height: 112, alt: "" }),
+        h("span", { style: { fontSize: 64, fontWeight: 600, letterSpacing: "-0.04em" } }, "Glyph"),
       ),
       h(
         "div",
@@ -129,8 +129,8 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
     {
       ...ogImageSize,
       fonts: [
-        { name: "Geist", data: font, weight: 400, style: "normal" },
-        { name: "Geist", data: font, weight: 700, style: "normal" },
+        { name: "Space Grotesk", data: font, weight: 400, style: "normal" },
+        { name: "Space Grotesk", data: font, weight: 700, style: "normal" },
       ],
     },
   );

@@ -36,6 +36,7 @@
         "@commitlint/config-conventional": "^21.2.4",
         "@effect/platform-bun": "4.1.4",
         "@effect/platform-node": "4.1.4",
+        "@fontsource-variable/space-grotesk": "^5.3.0",
         "@resvg/resvg-js": "^2.6.2",
         "@types/qrcode": "^1.5.6",
         "@types/react": "^19.3.0",
@@ -277,6 +278,8 @@
     "@fontsource-variable/geist": ["@fontsource-variable/geist@5.3.0", "", {}, "sha512-j0m+vLQuG5XAYoHtGCVu0spvlGreR3EzpECUVzkFmI1mTVnAO38l/NEPDCFgZ177JxzYJCLSmTQibIiYPilGrA=="],
 
     "@fontsource-variable/geist-mono": ["@fontsource-variable/geist-mono@5.3.0", "", {}, "sha512-vBbuwDEo9AkrqADMXOrlAR3DFcJi4/JxeuU43FoiQERnNwsfXNnvxvReZG02cQKmyk4DZkZdBZX3oTDvy2zBAw=="],
+
+    "@fontsource-variable/space-grotesk": ["@fontsource-variable/space-grotesk@5.3.0", "", {}, "sha512-2IxmvfB08i9vnGB3Ym/AXvhRE+8XOjWMXIyDum03c+tPwH0FUoMNQfGpU8NXPxjbws0Vvss3AH0Zqt4oJBBAdw=="],
 
     "@iconify-json/solar": ["@iconify-json/solar@1.2.17", "", { "dependencies": { "@iconify/types": "*" } }, "sha512-xCR6vOkEnSjNpCOfbMGZ9MVp56Qi700GAH6IK6g1SLtntPEk61rF213Ch314zi2T1cvOrhjxQLUGK/qG4O0AAw=="],
 
