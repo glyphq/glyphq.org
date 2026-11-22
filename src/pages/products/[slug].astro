@@ -1,10 +1,9 @@
 ---
 import { Icon } from "astro-icon/components";
 import ButtonLink from "../../components/button-link.astro";
-import CtaSection from "../../components/cta-section.astro";
 import PageHero from "../../components/page-hero.astro";
 import PageSection from "../../components/page-section.astro";
-import ProductCard from "../../components/product-card.astro";
+import ProductGrid from "../../components/product-grid.astro";
 import Reveal from "../../components/reveal.astro";
 import SectionHeader from "../../components/section-header.astro";
 import { products } from "../../data/site";
@@ -38,7 +37,7 @@ const related = products.filter((item) => item.slug !== product.slug).slice(0, 3
       <div class="grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
         <div>
           <span
-            class="flex size-12 items-center justify-center rounded-full bg-surface text-accent-soft"
+            class="flex size-12 items-center justify-center rounded-full bg-surface" style={{ color: product.color }}
           >
             <Icon name={product.icon} class="size-6" aria-hidden="true" />
           </span>
@@ -48,10 +47,10 @@ const related = products.filter((item) => item.slug !== product.slug).slice(0, 3
           <p class="mt-4 max-w-lg text-base leading-7 text-muted">{product.description}</p>
         </div>
 
-        <ul class="border-t border-line">
+        <ul>
           {
             product.features.map((feature) => (
-              <li class="flex gap-3 border-b border-line py-4">
+              <li class="flex gap-3 py-4">
                 <Icon
                   name="solar:check-circle-linear"
                   class="mt-0.5 size-5 shrink-0 text-accent-soft"
@@ -89,11 +88,9 @@ const related = products.filter((item) => item.slug !== product.slug).slice(0, 3
   <PageSection>
     <Reveal>
       <SectionHeader title="Related products" description="The rest of the stack." size="lg" />
-      <div class="-mx-4 mt-10 grid divide-y divide-line border-y border-line md:-mx-8 md:grid-cols-3 md:divide-x md:divide-y-0">
-        {related.map((item) => <ProductCard {...item} />)}
-      </div>
+      <ProductGrid products={related} class="mt-10" />
+
     </Reveal>
   </PageSection>
 
-  <CtaSection />
 </Layout>

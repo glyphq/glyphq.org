@@ -1,9 +1,8 @@
 ---
 import ButtonLink from "../components/button-link.astro";
-import CtaSection from "../components/cta-section.astro";
 import PageHero from "../components/page-hero.astro";
 import PrinciplesRow from "../components/principles-row.astro";
-import ProductCard from "../components/product-card.astro";
+import ProductGrid from "../components/product-grid.astro";
 import Reveal from "../components/reveal.astro";
 import SectionHeader from "../components/section-header.astro";
 import { products } from "../data/site";
@@ -22,9 +21,9 @@ import Layout from "../layouts/layout.astro";
     <ButtonLink href="/download" variant="glass" icon="glyph">Download Glyph</ButtonLink>
   </PageHero>
 
-  <section class="border-b border-line">
+  <section>
     <Reveal>
-      <div class="px-4 pb-12 pt-20 md:px-8 md:pt-24">
+      <div class="px-4 pb-10 pt-16 md:px-8 md:pt-20">
         <SectionHeader
           title="Every product in one place"
           description="Use one part or the whole stack. Each product links to its docs or source."
@@ -32,14 +31,11 @@ import Layout from "../layouts/layout.astro";
           size="lg"
         />
       </div>
-      <div class="grid divide-y divide-line border-y border-line md:grid-cols-3 md:divide-x md:divide-y-0">
-        {products.map((product) => <ProductCard {...product} />)}
-      </div>
+      <ProductGrid products={products} class="px-4 md:px-8" />
       <div class="px-4 py-12 md:px-8">
         <PrinciplesRow />
       </div>
     </Reveal>
   </section>
 
-  <CtaSection />
 </Layout>

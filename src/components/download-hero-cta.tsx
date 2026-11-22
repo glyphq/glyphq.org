@@ -25,9 +25,9 @@ export default function DownloadHeroCta({ platforms, releaseUrl }: Props) {
     <motion.a
       href={href}
       whileTap={{ scale: 0.97 }}
-      className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-base font-medium text-night transition-colors duration-150 hover:bg-white/90"
+      className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 font-display text-base font-semibold text-night transition-colors duration-150 hover:bg-white/90"
     >
-      <img src="/brand/glyph-on-light.png" alt="" width="16" height="16" className="size-4" />
+      <span className="glyph-logo size-4" aria-hidden="true" />
       {label}
     </motion.a>
   );

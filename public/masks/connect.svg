@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240" fill="none">
+  <title>Connect mask</title>
+  <g stroke="#fff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="180" cy="120" rx="132" ry="54" stroke-dasharray="2 9" opacity=".3" />
+    <path d="M64 154 L100 136 L136 154 L100 172 Z" opacity=".9" />
+    <path d="M64 154 L64 166 L100 184 L136 166 L136 154" opacity=".9" />
+    <path d="M224 154 L260 136 L296 154 L260 172 Z" opacity=".9" />
+    <path d="M224 154 L224 166 L260 184 L296 166 L296 154" opacity=".9" />
+    <path d="M100 136 Q180 86 260 136" opacity=".9" />
+    <path d="M100 148 Q180 98 260 148" opacity=".55" />
+    <path d="M130 126 L130 142" opacity=".5" />
+    <path d="M180 112 L180 128" opacity=".5" />
+    <path d="M230 126 L230 142" opacity=".5" />
+    <path d="M100 136 L100 124" opacity=".3" />
+    <path d="M260 136 L260 124" opacity=".3" />
+  </g>
+</svg>

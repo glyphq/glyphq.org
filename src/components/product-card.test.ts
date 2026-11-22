@@ -8,6 +8,7 @@ describe("product card", () => {
     const html = await container.renderToString(ProductCard, {
       props: {
         slug: "wallet",
+        color: "#2563eb",
         name: "Glyph Wallet",
         summary: "Self-custodial desktop wallet for Qubic.",
         href: "https://glyphq.org/download",

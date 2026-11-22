@@ -1,10 +1,9 @@
 ---
 import ButtonLink from "../components/button-link.astro";
-import CtaSection from "../components/cta-section.astro";
+import HeroBackdrop from "../components/hero-backdrop.astro";
 import PageSection from "../components/page-section.astro";
-import PatternWaves from "../components/pattern-waves";
 import PrinciplesSplit from "../components/principles-split.astro";
-import ProductCard from "../components/product-card.astro";
+import ProductGrid from "../components/product-grid.astro";
 import Reveal from "../components/reveal.astro";
 import SectionHeader from "../components/section-header.astro";
 import { products, specs } from "../data/site";
@@ -12,23 +11,24 @@ import Layout from "../layouts/layout.astro";
 ---
 
 <Layout>
-  <section class="relative overflow-hidden border-b border-line p-8">
-    <div class="absolute inset-0 opacity-55">
-      <PatternWaves
-        client:only="react"
-        preset="silk"
-        color="#2563eb"
-        backgroundColor="#0a0a0a"
-        fade="edges"
-        speed={0}
-        intro={false}
-      />
-    </div>
-    <Reveal duration="cinematic" class="relative z-10 py-16 text-center md:py-24">
-      <h1 transition:name="page-title" class="mx-auto max-w-[1080px] text-[2.5rem] leading-[1.02] tracking-[-0.03em] text-ink md:text-[56px]">
-        Everything you need for Qubic.
+  <section class="relative flex min-h-[90dvh] items-center bg-[#0f0f0f] px-4 py-8 md:px-8">
+    <HeroBackdrop />
+    <Reveal duration="cinematic" class="relative z-10 w-full py-20 text-center md:py-28">
+      <h1
+        transition:name="page-title"
+        class="mx-auto max-w-[1080px] text-balance text-[2.75rem] leading-[1.0] tracking-[-0.035em] text-white md:text-[64px]"
+      >
+        Everything you need for <img
+          src="/brand/qubic-symbol.svg"
+          alt=""
+          width="31"
+          height="52"
+          class="mx-2 inline-block h-[0.74em] w-auto align-[-0.06em]"
+        />Qubic.
       </h1>
-      <p class="mx-auto mt-6 max-w-[680px] text-base leading-7 text-muted md:text-[19px] md:leading-[1.4]">
+      <p
+        class="mx-auto mt-6 max-w-[680px] text-pretty text-base leading-7 text-white/75 md:text-[19px] md:leading-[1.5]"
+      >
         A self-custodial desktop wallet, an explorer, and the tools apps use to connect.
       </p>
       <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -40,14 +40,9 @@ import Layout from "../layouts/layout.astro";
     </Reveal>
   </section>
 
-  <div class="border-b border-line px-4 py-3 text-center text-sm md:px-8">
-    <span class="text-muted">New to Qubic? Start with the wallet.</span>
-    <a class="ml-2 font-medium text-accent-soft hover:underline" href="/download">Download Glyph</a>
-  </div>
-
-  <section id="products" class="border-b border-line">
+  <section id="products">
     <Reveal>
-      <div class="px-4 pb-12 pt-20 md:px-8 md:pt-24">
+      <div class="px-4 pb-10 pt-16 md:px-8 md:pt-20">
         <SectionHeader
           title="The Glyph toolchain"
           description="Everything for holding, sending, and exploring Qubic."
@@ -56,19 +51,11 @@ import Layout from "../layouts/layout.astro";
         />
       </div>
 
-      <div class="grid divide-y divide-line border-y border-line md:grid-cols-3 md:divide-x md:divide-y-0">
-        {products.map((product) => <ProductCard {...product} />)}
-      </div>
-
-      <div class="px-4 py-12 md:px-8">
-        <div class="flex justify-center">
-          <ButtonLink href="/products" variant="secondary" icon="solar:widget-linear">View all products</ButtonLink>
-        </div>
-      </div>
+      <ProductGrid products={products} class="px-4 pb-16 md:px-8 md:pb-20" />
     </Reveal>
   </section>
 
-  <section id="principles" class="border-b border-line px-4 py-20 md:px-8 md:py-24">
+  <section id="principles" class="px-4 py-20 md:px-8 md:py-28">
     <Reveal>
       <SectionHeader
         title="Built for everyday use"
@@ -89,8 +76,8 @@ import Layout from "../layouts/layout.astro";
 
   <PageSection id="developers">
     <Reveal>
-      <div class="-mx-4 border-y border-line md:-mx-8">
-        <div class="grid md:grid-cols-2 md:divide-x md:divide-line">
+      <div>
+        <div class="grid md:grid-cols-2">
           <div class="p-8 md:p-12">
             <SectionHeader
               title="For developers"
@@ -104,11 +91,11 @@ import Layout from "../layouts/layout.astro";
           <dl>
             {
               specs.map((spec) => (
-                <div class="grid grid-cols-[7rem_1fr] gap-4 border-b border-line px-6 py-4 last:border-b-0 md:px-8">
-                  <dt class="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+                <div class="grid grid-cols-[7rem_1fr] gap-4 px-6 py-4 md:px-8">
+                  <dt class="font-display text-[11px] uppercase tracking-[0.12em] text-muted">
                     {spec.label}
                   </dt>
-                  <dd class="font-mono text-xs text-ink/80">{spec.value}</dd>
+                  <dd class="font-sans text-xs text-ink/80">{spec.value}</dd>
                 </div>
               ))
             }
@@ -118,5 +105,4 @@ import Layout from "../layouts/layout.astro";
     </Reveal>
   </PageSection>
 
-  <CtaSection />
 </Layout>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240" fill="none">
+  <title>API mask</title>
+  <g stroke="#fff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="180" cy="120" rx="128" ry="52" stroke-dasharray="2 9" opacity=".28" />
+    <path d="M92 186 L180 142 L268 186 L180 230 Z" opacity=".8" />
+    <path d="M92 186 L92 196 L180 240 L268 196 L268 186" opacity=".8" />
+    <path d="M138 154 L180 133 L222 154 L180 175 Z" opacity=".6" />
+    <path d="M120 70 L240 70 L228 164 L132 164 Z" opacity=".95" />
+    <path d="M132 82 L228 82 L218 152 L142 152 Z" opacity=".35" />
+    <path d="M148 100 L212 100" opacity=".6" />
+    <path d="M148 116 L200 116" opacity=".6" />
+    <path d="M148 132 L180 132" opacity=".45" />
+    <path d="M180 164 L180 186" opacity=".6" />
+    <path d="M160 186 L200 186" opacity=".6" />
+    <path d="M160 176 L160 186 M200 176 L200 186" opacity=".35" />
+    <path d="M246 176 L262 168 L278 176 L262 184 Z" opacity=".55" />
+    <path d="M246 176 L246 183 L262 191 L278 183 L278 176" opacity=".55" />
+  </g>
+</svg>

@@ -58,10 +58,10 @@ export default function NavMenu({ pathname }: Props) {
             onClick={() => setProductsOpen((value) => !value)}
             whileTap={{ scale: 0.97 }}
             aria-expanded={productsOpen}
-            className={`flex cursor-pointer items-center gap-1 rounded-full px-3 py-2 text-[15px] font-medium transition-colors duration-150 ${
+            className={`flex cursor-pointer items-center gap-1 rounded-full px-3 py-2 font-display text-[14px] font-medium transition-colors duration-150 ${
               isActive("/products")
                 ? "text-white"
-                : "text-white/70 hover:bg-white/5 hover:text-white"
+                : "text-white/60 hover:bg-white/10 hover:text-white"
             }`}
           >
             Products
@@ -76,7 +76,7 @@ export default function NavMenu({ pathname }: Props) {
 
           <AnimatePresence initial={false}>
             {productsOpen && (
-              <div className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-2">
+              <div className="absolute left-1/2 top-full z-50 w-[21rem] -translate-x-1/2 pt-2">
                 <motion.div
                   initial={{ opacity: 0, y: -8, scale: 0.97, height: 0 }}
                   animate={{ opacity: 1, y: 0, scale: 1, height: "auto" }}
@@ -84,24 +84,34 @@ export default function NavMenu({ pathname }: Props) {
                   transition={transition}
                   className="overflow-hidden"
                 >
-                  <div className="w-64 rounded-lg border border-line bg-surface p-2 shadow-2xl">
+                  <div className="w-full rounded-2xl bg-surface p-2 shadow-2xl shadow-black/50">
                     <ul className="flex flex-col">
                       {products.map((product) => (
                         <li key={product.slug}>
                           <a
                             href={`/products/${product.slug}`}
                             onClick={() => setProductsOpen(false)}
-                            className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-ink/80 transition-colors duration-150 hover:bg-line hover:text-ink"
+                            className="flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors duration-150 hover:bg-line"
                           >
-                            <span className="glyph-mark size-5 shrink-0" aria-hidden="true" />
-                            {product.name}
+                            <span
+                              className="glyph-logo mt-0.5 size-5 shrink-0"
+                              aria-hidden="true"
+                            />
+                            <span className="min-w-0">
+                              <span className="block text-sm font-medium text-ink">
+                                {product.name}
+                              </span>
+                              <span className="mt-0.5 block text-xs leading-5 text-muted">
+                                {product.short}
+                              </span>
+                            </span>
                           </a>
                         </li>
                       ))}
                     </ul>
                     <a
                       href="/products"
-                      className="mt-1 flex items-center gap-2.5 rounded-md border-t border-line px-3 py-2 text-sm font-medium text-ink transition-colors duration-150 hover:bg-line"
+                      className="mt-1 flex items-center gap-2.5 rounded-xl px-3 py-2 font-display text-sm font-medium text-ink transition-colors duration-150 hover:bg-line"
                     >
                       <WidgetIcon size={18} className="text-accent-soft" aria-hidden="true" />
                       All products
@@ -119,8 +129,10 @@ export default function NavMenu({ pathname }: Props) {
             href={item.href}
             whileTap={{ scale: 0.97 }}
             aria-current={isActive(item.href) ? "page" : undefined}
-            className={`rounded-full px-3 py-2 text-[15px] font-medium transition-colors duration-150 ${
-              isActive(item.href) ? "text-white" : "text-white/70 hover:bg-white/5 hover:text-white"
+            className={`rounded-full px-3 py-2 font-display text-[14px] font-medium transition-colors duration-150 ${
+              isActive(item.href)
+                ? "text-white"
+                : "text-white/60 hover:bg-white/10 hover:text-white"
             }`}
           >
             {item.label}
@@ -130,7 +142,7 @@ export default function NavMenu({ pathname }: Props) {
         <span
           aria-disabled="true"
           title="Qubic-focused learning. Coming soon."
-          className="flex cursor-not-allowed items-center rounded-full px-3 py-2 text-[15px] font-medium text-white/35"
+          className="flex cursor-not-allowed items-center rounded-full px-3 py-2 font-display text-[14px] font-medium text-white/30"
         >
           Learn
         </span>
@@ -140,9 +152,9 @@ export default function NavMenu({ pathname }: Props) {
         <motion.a
           href="/download"
           whileTap={{ scale: 0.97 }}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-medium text-white transition-colors duration-150 hover:bg-accent-strong"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-4 py-2 font-display text-sm font-medium text-night transition-colors duration-150 hover:bg-white/90"
         >
-          <img src="/brand/glyph-on-dark.png" alt="" width="16" height="16" className="size-4" />
+          <span className="glyph-logo size-4" aria-hidden="true" />
           Download
         </motion.a>
 
@@ -187,9 +199,9 @@ export default function NavMenu({ pathname }: Props) {
                   onDragEnd={(_, info) => {
                     if (info.offset.y > 100 || info.velocity.y > 500) setMobileOpen(false);
                   }}
-                  className="fixed inset-x-0 bottom-0 z-[60] max-h-[85vh] overflow-y-auto rounded-t-3xl border-t border-white/10 bg-night px-4 pb-[max(2rem,env(safe-area-inset-bottom))] pt-3 md:hidden"
+                  className="fixed inset-x-0 bottom-0 z-[60] max-h-[85vh] overflow-y-auto rounded-t-3xl bg-paper shadow-2xl shadow-black/50 px-4 pb-[max(2rem,env(safe-area-inset-bottom))] pt-3 md:hidden"
                 >
-                  <div className="mx-auto mb-3 h-1.5 w-10 rounded-full bg-white/20" />
+                  <div className="mx-auto mb-3 h-1.5 w-10 rounded-full bg-ink/20" />
                   <div className="flex items-center justify-between pb-4">
                     <span className="text-lg font-medium text-ink">Menu</span>
                     <button
@@ -197,7 +209,7 @@ export default function NavMenu({ pathname }: Props) {
                       type="button"
                       onClick={() => setMobileOpen(false)}
                       aria-label="Close menu"
-                      className="inline-flex size-9 items-center justify-center rounded-full bg-white/10 text-white"
+                      className="inline-flex size-9 items-center justify-center rounded-full bg-surface text-ink"
                     >
                       <CloseIcon size={18} />
                     </button>
@@ -208,7 +220,7 @@ export default function NavMenu({ pathname }: Props) {
                         key={item.href}
                         href={item.href}
                         onClick={() => setMobileOpen(false)}
-                        className="rounded-md px-3 py-2.5 text-sm text-white/70 transition-colors duration-150 hover:bg-white/5 hover:text-white"
+                        className="rounded-xl px-3 py-2.5 font-display text-sm text-ink/70 transition-colors duration-150 hover:bg-ink/5 hover:text-ink"
                       >
                         {item.label}
                       </a>
@@ -216,7 +228,7 @@ export default function NavMenu({ pathname }: Props) {
                     <span
                       aria-disabled="true"
                       title="Qubic-focused learning. Coming soon."
-                      className="flex cursor-not-allowed items-center rounded-md px-3 py-2.5 text-sm text-white/35"
+                      className="flex cursor-not-allowed items-center rounded-xl px-3 py-2.5 font-display text-sm text-ink/35"
                     >
                       Learn
                     </span>
@@ -224,15 +236,9 @@ export default function NavMenu({ pathname }: Props) {
                   <a
                     href="/download"
                     onClick={() => setMobileOpen(false)}
-                    className="mt-4 flex items-center justify-center gap-2 rounded-full bg-accent px-4 py-3 text-sm font-medium text-white"
+                    className="mt-4 flex items-center justify-center gap-2 rounded-full bg-white px-4 py-3 font-display text-sm font-medium text-night hover:bg-white/90"
                   >
-                    <img
-                      src="/brand/glyph-on-dark.png"
-                      alt=""
-                      width="16"
-                      height="16"
-                      className="size-4"
-                    />
+                    <span className="glyph-logo size-4" aria-hidden="true" />
                     Download
                   </a>
                 </motion.div>

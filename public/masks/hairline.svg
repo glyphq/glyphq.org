@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240" fill="none">
+  <title>Hairline card mask</title>
+  <g stroke="#fff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="190" cy="108" rx="132" ry="56" transform="rotate(-16 190 108)" stroke-dasharray="2 9" opacity=".4" />
+    <path d="M112 160 L190 121 L268 160 L190 199 Z" opacity=".95" />
+    <path d="M112 160 L112 186 L190 225 L268 186 L268 160" opacity=".95" />
+    <path d="M132 162 L190 133 L248 162 L190 191 Z" opacity=".35" />
+    <path d="M190 121 L190 153" opacity=".5" />
+    <path d="M112 160 L190 199 L268 160" opacity=".35" />
+    <path d="M242 74 L270 60 L298 74 L270 88 Z" opacity=".8" />
+    <path d="M242 74 L242 90 L270 104 L298 90 L298 74" opacity=".8" />
+    <path d="M270 60 L270 76" opacity=".35" />
+    <path d="M84 82 L104 72 L124 82 L104 92 Z" opacity=".55" />
+    <path d="M84 82 L84 92 L104 102 L124 92 L124 82" opacity=".55" />
+    <path d="M104 72 L104 82" opacity=".3" />
+    <path d="M46 202 L66 192 L86 202 L66 212 Z" opacity=".35" />
+    <path d="M46 202 L46 212 L66 222 L86 212 L86 202" opacity=".35" />
+    <path d="M-40 220 L180 120 L400 220" stroke-dasharray="2 10" opacity=".25" />
+    <path d="M-40 200 L180 100 L400 200" stroke-dasharray="2 10" opacity=".18" />
+  </g>
+</svg>

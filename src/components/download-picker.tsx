@@ -26,45 +26,42 @@ export default function DownloadPicker({ platforms }: Props) {
 
   return (
     <div>
-      <div className="-mx-4 mt-0 grid divide-y divide-line border-y border-line md:-mx-8 md:grid-cols-3 md:divide-x md:divide-y-0">
+      <div className="mt-12 grid gap-10 md:grid-cols-3">
         {platforms.map((platform) => {
           const Icon = icons[platform.id];
           const isActive = platform.id === detected;
           return (
-            <div key={platform.id} className={`p-8 md:p-10 ${isActive ? "bg-surface" : ""}`}>
-              <div className="flex items-center justify-between">
-                <Icon size={28} color="currentColor" aria-hidden="true" />
-                {isActive && (
-                  <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-accent-soft">
-                    Detected
-                  </span>
+            <div key={platform.id} className="relative overflow-hidden">
+              <span className="hairline-mask" aria-hidden="true" />
+              <div className="relative z-10">
+                <div className="flex items-center gap-3">
+                  <Icon size={28} color="currentColor" aria-hidden="true" />
+                  <h3 className="text-xl font-medium text-ink">{platform.name}</h3>
+                  {isActive && (
+                    <span className="rounded-full bg-ink/5 px-2 py-0.5 font-display text-[10px] uppercase tracking-[0.12em] text-accent-soft">
+                      Detected
+                    </span>
+                  )}
+                </div>
+                <p className="mt-3 text-base text-muted">{platform.detail}</p>
+                <motion.a
+                  href={platform.url}
+                  whileTap={{ scale: 0.97 }}
+                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-surface px-4 py-2 font-display text-sm font-semibold text-ink transition-colors duration-150 hover:bg-[#2a2a2a]"
+                >
+                  <span className="glyph-logo size-4" aria-hidden="true" />
+                  Download
+                </motion.a>
+                {platform.extras.length > 0 && (
+                  <div className="mt-4 flex gap-3 text-xs text-muted">
+                    {platform.extras.map((extra) => (
+                      <a key={extra.label} href={extra.url} className="hover:text-ink">
+                        {extra.label}
+                      </a>
+                    ))}
+                  </div>
                 )}
               </div>
-              <h3 className="mt-6 text-xl font-medium text-ink">{platform.name}</h3>
-              <p className="mt-2 text-base text-muted">{platform.detail}</p>
-              <motion.a
-                href={platform.url}
-                whileTap={{ scale: 0.97 }}
-                className="mt-6 inline-flex items-center gap-2 rounded-full bg-line px-4 py-2 text-sm font-medium text-ink transition-colors duration-150 hover:bg-[#2a2a2a]"
-              >
-                <img
-                  src="/brand/glyph-on-dark.png"
-                  alt=""
-                  width="16"
-                  height="16"
-                  className="size-4"
-                />
-                Download
-              </motion.a>
-              {platform.extras.length > 0 && (
-                <div className="mt-4 flex gap-3 text-xs text-muted">
-                  {platform.extras.map((extra) => (
-                    <a key={extra.label} href={extra.url} className="hover:text-ink">
-                      {extra.label}
-                    </a>
-                  ))}
-                </div>
-              )}
             </div>
           );
         })}

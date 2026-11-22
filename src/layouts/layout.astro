@@ -18,7 +18,7 @@ const {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -30,14 +30,14 @@ const {
     <link rel="icon" href="/favicon.png" type="image/png" />
     <ClientRouter />
   </head>
-  <body class="flex min-h-dvh flex-col">
+  <body class="flex min-h-dvh flex-col overflow-x-clip">
     <a
       class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:border focus:border-ink focus:bg-paper focus:px-4 focus:py-2"
       href="#main">Skip to content</a
     >
     <SiteHeader />
     <main id="main" class="flex-1">
-      <div class="mx-auto w-full max-w-[1280px] border-x border-line">
+      <div class="mx-auto w-full max-w-[1280px]">
         <slot />
       </div>
     </main>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240" fill="none">
+  <title>Explorer mask</title>
+  <g stroke="#fff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="180" cy="112" rx="124" ry="50" transform="rotate(-16 180 112)" stroke-dasharray="2 9" opacity=".28" />
+    <path d="M84 178 L108 166 L132 178 L108 190 Z" opacity=".7" />
+    <path d="M84 178 L84 187 L108 199 L132 187 L132 178" opacity=".7" />
+    <path d="M150 194 L180 179 L210 194 L180 209 Z" opacity=".7" />
+    <path d="M150 194 L150 202 L180 217 L210 202 L210 194" opacity=".7" />
+    <path d="M232 176 L258 163 L284 176 L258 189 Z" opacity=".7" />
+    <path d="M232 176 L232 184 L258 197 L284 184 L284 176" opacity=".7" />
+    <path d="M112 184 L180 212 L258 184" stroke-dasharray="2 8" opacity=".3" />
+    <ellipse cx="180" cy="112" rx="72" ry="48" transform="rotate(-16 180 112)" opacity=".95" />
+    <ellipse cx="180" cy="112" rx="62" ry="40" transform="rotate(-16 180 112)" opacity=".35" />
+    <path d="M240 145 L294 187" opacity=".95" />
+    <path d="M180 112 L180 112" opacity=".4" />
+    <path d="M164 104 L196 120" opacity=".25" />
+    <path d="M196 104 L164 120" opacity=".25" />
+  </g>
+</svg>

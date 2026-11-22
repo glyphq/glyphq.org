@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240" fill="none">
+  <title>Wallet mask</title>
+  <g stroke="#fff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="180" cy="120" rx="118" ry="48" transform="rotate(-14 180 120)" stroke-dasharray="2 9" opacity=".4" />
+    <path d="M92 146 L180 103 L268 146 L180 189 Z" opacity=".95" />
+    <path d="M92 146 L92 158 L180 201 L268 158 L268 146" opacity=".95" />
+    <path d="M106 147 L180 111 L254 147 L180 183 Z" opacity=".35" />
+    <path d="M146 123 L180 106 L214 123 L180 140 Z" opacity=".8" />
+    <path d="M146 123 L146 130 L180 147 L214 130 L214 123" opacity=".8" />
+    <path d="M180 106 L180 123" opacity=".35" />
+    <path d="M250 88 L266 80 L282 88 L266 96 Z" opacity=".65" />
+    <path d="M250 88 L250 94 L266 102 L282 94 L282 88" opacity=".65" />
+    <path d="M180 106 L266 80" stroke-dasharray="2 8" opacity=".2" />
+  </g>
+</svg>

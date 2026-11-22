@@ -2,8 +2,8 @@
 
 Landing site for [glyphq.org](https://glyphq.org), built with Astro.
 
-This version is a dark-only front end with the Glyph logo, Space Grotesk, Solar icons, ASCII reveal
-effects, and static PatternWaves backgrounds. It has no custom illustrations.
+This version is dark-only, with page view transitions, Geist Sans and Geist Mono typography, full-width
+ASCII gradient heroes behind the navigation, and hairline masks on cards.
 
 ## Stack
 
@@ -36,8 +36,9 @@ effects, and static PatternWaves backgrounds. It has no custom illustrations.
 | `/404`             | Not found                               |
 
 Navigation uses a client router with view transitions and prefetch. Release data and changelog notes
-come from the public GitHub releases API at build time. The download page uses
-`react-device-detect` to suggest the matching build.
+come from the public GitHub releases API at build time. The download page uses `react-device-detect` to suggest
+the matching build. The support page reads the Qubic donation identity live from the Glyph API at
+`api.glyphq.org`. Showcase thumbnails fall back to GitHub OpenGraph images.
 
 ## Commands
 

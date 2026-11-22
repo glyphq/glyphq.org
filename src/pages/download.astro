@@ -22,12 +22,9 @@ const platforms = buildPlatforms(latest);
     description="The self-custodial desktop wallet for Qubic. Windows, macOS, and Linux."
   >
     <DownloadHeroCta client:load platforms={platforms} releaseUrl={releaseUrl} />
-    <ButtonLink href="/changelog" variant="glass" icon="solar:document-text-linear">
-      Changelog
-    </ButtonLink>
   </PageHero>
 
-  <PageSection>
+  <PageSection class="pb-10 md:pb-12">
     <SectionHeader
       title="Pick your platform"
       description={latest ? `Latest release ${latest.tag}. We detect your system and suggest the right build.` : "We detect your system and suggest the right build."}
@@ -37,7 +34,7 @@ const platforms = buildPlatforms(latest);
     <DownloadPicker client:load platforms={platforms} />
 
     <div
-      class="-mx-4 flex flex-col gap-4 px-4 py-8 md:-mx-8 md:flex-row md:items-center md:justify-between md:px-8"
+      class="mt-12 flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
     >
       <p class="text-base text-muted">Need help installing?</p>
       <div class="flex flex-wrap gap-3">

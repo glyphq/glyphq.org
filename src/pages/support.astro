@@ -1,69 +1,59 @@
 ---
 import ButtonLink from "../components/button-link.astro";
 import CopyButton from "../components/copy-button";
-import CtaSection from "../components/cta-section.astro";
+import DonationProgress from "../components/donation-progress";
 import PageHero from "../components/page-hero.astro";
 import PageSection from "../components/page-section.astro";
 import Reveal from "../components/reveal.astro";
 import SectionHeader from "../components/section-header.astro";
 import Layout from "../layouts/layout.astro";
 
-const donations = [
-  {
-    name: "EVM",
-    detail: "USDC or USDT on Ethereum, Base, Polygon, Arbitrum, or Optimism.",
-    value: "0xbe663600d2a0d9c32f28f5cc0649452584986ad4",
-  },
-  {
-    name: "Solana",
-    detail: "USDC or USDT on Solana.",
-    value: "BSjYcvpVW4tyrGEaj9miH3RFh8gfsEiZTPXUumHtvdzo",
-  },
-  {
-    name: "Qubic",
-    detail: "QU on Qubic mainnet.",
-    value: "XIKAQZMFGQSALEMMJRATPPRESWTBXQVCOHTHCZWDGFXVBMCAHBCRUICFOQBI",
-  },
-];
+const qubicIdentity = "XIKAQZMFGQSALEMMJRATPPRESWTBXQVCOHTHCZWDGFXVBMCAHBCRUICFOQBI";
 ---
 
 <Layout
   title="Support | Glyph"
-  description="Support the Glyph project with USDC, USDT, or QU."
+  description="Support Glyph with QU and follow the live donation balance toward the monthly target."
 >
   <PageHero
     title="Support Glyph"
     description="Glyph is built by a small team. Donations fund development and infrastructure."
   >
-    <ButtonLink href="#donate" variant="light" icon="solar:hand-heart-linear">Donation addresses</ButtonLink>
-    <ButtonLink href="https://github.com/glyphq" variant="glass" icon="solar:code-linear">GitHub</ButtonLink>
+    <ButtonLink href="#donate" variant="light" icon="solar:hand-heart-linear">
+      Donate QU
+    </ButtonLink>
+    <ButtonLink
+      href={`https://explorer.glyphq.org/accounts/${qubicIdentity}`}
+      variant="glass"
+      icon="solar:global-linear"
+    >
+      View on Explorer
+    </ButtonLink>
   </PageHero>
 
-  <PageSection id="donate">
-    <Reveal>
+  <PageSection id="donate" class="pb-10 md:pb-12">
       <SectionHeader
-        title="Donate"
-        description="Send USDC, USDT, or QU to the address for the network."
+        title="Monthly target"
+        description="Help Glyph reach $2,000 every month. Progress is read live from the Qubic donation identity."
         align="center"
         size="lg"
       />
-      <div class="-mx-4 mt-12 grid divide-y divide-line border-y border-line md:-mx-8 md:grid-cols-3 md:divide-x md:divide-y-0">
-        {
-          donations.map((donation) => (
-            <article class="flex flex-col p-8 md:p-10">
-              <h3 class="text-xl font-medium text-ink">{donation.name}</h3>
-              <p class="mt-2 text-base leading-7 text-muted">{donation.detail}</p>
-              <code class="mt-6 block select-all break-all font-mono text-xs leading-5 text-ink/80">
-                {donation.value}
-              </code>
-              <div class="mt-6">
-                <CopyButton value={donation.value} label={donation.name} client:load />
-              </div>
-            </article>
-          ))
-        }
+      <DonationProgress client:load identity={qubicIdentity} target={2000} />
+
+      <div class="mt-12">
+        <div>
+          <h2 class="text-2xl font-medium tracking-tight text-ink">Donate QU</h2>
+          <p class="mt-3 max-w-2xl text-base leading-7 text-muted">
+            Send QU on Qubic mainnet to this identity. Copy it or open it in Glyph Wallet.
+          </p>
+          <div class="mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <code class="select-all break-all font-mono text-xs leading-5 text-ink/80">
+              {qubicIdentity}
+            </code>
+            <CopyButton value={qubicIdentity} label="Qubic" client:load />
+          </div>
+        </div>
       </div>
-    </Reveal>
   </PageSection>
 
   <PageSection>
@@ -74,23 +64,29 @@ const donations = [
         align="center"
         size="lg"
       />
-      <div class="-mx-4 mt-12 border-y border-line md:-mx-8">
-        <div class="flex flex-col gap-6 p-8 md:flex-row md:items-center md:justify-between md:p-12">
+      <div class="mt-12">
+        <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div class="flex items-center gap-4">
-            <img src="/sponsors/minerlab.png" alt="MinerLab" width="96" height="31" class="h-8 w-auto invert" />
+            <img
+              src="/sponsors/minerlab.png"
+              alt="MinerLab"
+              width="96"
+              height="31"
+              class="sponsor-logo h-8 w-auto"
+            />
             <div>
               <p class="text-sm text-muted">$2,000+ donated</p>
             </div>
           </div>
-          <ButtonLink href="https://minerlab.io" variant="secondary" icon="solar:global-linear">Visit MinerLab</ButtonLink>
+          <ButtonLink href="https://minerlab.io" variant="secondary" icon="solar:global-linear">
+            Visit MinerLab
+          </ButtonLink>
         </div>
-        <p class="mt-6 max-w-2xl px-8 text-base leading-7 text-muted md:px-12">
+        <p class="mt-4 max-w-2xl text-base leading-7 text-muted">
           MinerLab runs mining pools for Qubic, Xelis, Abel, and Ore, with transparent payouts and
           live network stats.
         </p>
       </div>
     </Reveal>
   </PageSection>
-
-  <CtaSection />
 </Layout>

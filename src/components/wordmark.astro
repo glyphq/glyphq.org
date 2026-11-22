@@ -1,10 +1,11 @@
 ---
 interface Props {
   class?: string;
+  tone?: "light" | "dark";
   transitionName?: string;
 }
 
-const { class: className, transitionName } = Astro.props;
+const { class: className, tone = "light", transitionName } = Astro.props;
 ---
 
 <a
@@ -13,6 +14,11 @@ const { class: className, transitionName } = Astro.props;
   aria-label="Glyph home"
   transition:name={transitionName}
 >
-  <img src="/brand/glyph-on-dark.png" alt="" width="28" height="28" class="size-7" />
-  <span class="text-lg font-medium tracking-tight text-ink">glyphq</span>
+  <span class="glyph-logo size-7" aria-hidden="true" />
+  <span
+    class:list={[
+      "font-display text-lg font-semibold tracking-tight",
+      tone === "dark" ? "text-white" : "text-ink",
+    ]}>Glyph</span
+  >
 </a>

@@ -3,9 +3,9 @@ import { footerColumns } from "../data/site";
 import Wordmark from "./wordmark.astro";
 ---
 
-<footer class="border-t border-line bg-night">
-  <div class="mx-auto max-w-[1280px] border-x border-line">
-    <div class="px-4 py-16 md:px-8 md:py-20">
+<footer class="bg-paper">
+  <div class="mx-auto max-w-[1280px]">
+    <div class="px-4 py-20 md:px-8 md:py-24">
       <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div class="space-y-4">
           <Wordmark />
@@ -22,7 +22,7 @@ import Wordmark from "./wordmark.astro";
                 {column.links.map((link) => (
                   <li>
                     <a
-                      class="text-base text-white/75 underline-offset-4 transition-colors duration-150 hover:text-white hover:underline"
+                      class="text-base text-ink/75 underline-offset-4 transition-colors duration-150 hover:text-ink hover:underline"
                       href={link.href}
                     >
                       {link.label}
@@ -36,7 +36,7 @@ import Wordmark from "./wordmark.astro";
       </div>
     </div>
 
-    <div class="border-t border-line">
+    <div>
       <div
         class="flex flex-col gap-3 px-4 py-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between md:px-8"
       >

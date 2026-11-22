@@ -7,6 +7,8 @@ export interface ProductLink {
 export interface Product {
   slug: string;
   name: string;
+  short: string;
+  color: string;
   summary: string;
   description: string;
   features: string[];
@@ -21,6 +23,8 @@ export const attributes = ["Qubic mainnet", "Desktop wallet", "Self-custodial", 
 export const products: Product[] = [
   {
     slug: "wallet",
+    short: "Desktop wallet for Qubic",
+    color: "#2563eb",
     name: "Glyph Wallet",
     summary:
       "Self-custodial desktop wallet for Qubic, with Vaults, identities, QU transfers, and reviewed app requests.",
@@ -47,6 +51,8 @@ export const products: Product[] = [
   },
   {
     slug: "connect",
+    short: "Typed wallet request SDK",
+    color: "#3b82f6",
     name: "Glyph Connect",
     summary: "TypeScript SDK for typed glyph:// wallet requests and approvals.",
     description:
@@ -72,6 +78,8 @@ export const products: Product[] = [
   },
   {
     slug: "contracts",
+    short: "Contract ABIs and codecs",
+    color: "#1d4ed8",
     name: "Glyph Contracts",
     summary: "Typed Qubic contract metadata, ABIs, and binary codecs generated from qubic/core.",
     description:
@@ -97,6 +105,8 @@ export const products: Product[] = [
   },
   {
     slug: "relay",
+    short: "Wallet result transport",
+    color: "#4f46e5",
     name: "Glyph Relay",
     summary: "Carries signed results from the wallet back to a dApp over SSE or polling.",
     description:
@@ -122,6 +132,8 @@ export const products: Product[] = [
   },
   {
     slug: "explorer",
+    short: "Qubic network explorer",
+    color: "#0284c7",
     name: "Glyph Explorer",
     summary: "A readable view of Qubic ticks, transactions, identities, tokens, and contracts.",
     description:
@@ -147,6 +159,8 @@ export const products: Product[] = [
   },
   {
     slug: "api",
+    short: "Self-hosted data API",
+    color: "#0891b2",
     name: "Glyph API",
     summary: "Self-hosted Qubic indexer and read API with verification at ingest.",
     description:

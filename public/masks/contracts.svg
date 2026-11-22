@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240" fill="none">
+  <title>Contracts mask</title>
+  <g stroke="#fff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="180" cy="116" rx="124" ry="50" stroke-dasharray="2 9" opacity=".28" />
+    <path d="M80 176 L180 128 L280 176 L180 224 Z" opacity=".75" />
+    <path d="M80 176 L80 188 L180 236 L280 188 L280 176" opacity=".75" />
+    <path d="M104 166 L180 130 L256 166 L180 202 Z" opacity=".9" />
+    <path d="M104 166 L104 174 L180 210 L256 174 L256 166" opacity=".9" />
+    <path d="M116 154 L180 124 L244 154 L180 184 Z" opacity=".9" />
+    <path d="M116 154 L116 162 L180 192 L244 162 L244 154" opacity=".9" />
+    <path d="M128 142 L180 118 L232 142 L180 166 Z" opacity=".9" />
+    <path d="M128 142 L128 149 L180 173 L232 149 L232 142" opacity=".9" />
+    <path d="M150 126 L166 118 L182 126 L166 134 Z" opacity=".7" />
+    <path d="M240 118 L272 103 L304 118 L272 133 Z" opacity=".55" />
+    <path d="M240 118 L240 125 L272 140 L304 125 L304 118" opacity=".55" />
+    <path d="M272 103 L272 110" opacity=".3" />
+  </g>
+</svg>

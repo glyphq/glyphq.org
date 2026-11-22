@@ -1,0 +1,15 @@
+---
+interface Props {
+  variant?: string;
+  class?: string;
+}
+
+const { variant, class: className } = Astro.props;
+const productMasks = new Set(["wallet", "connect", "contracts", "relay", "explorer", "api"]);
+const src = variant && productMasks.has(variant) ? `/masks/${variant}.svg` : "/masks/hairline.svg";
+---
+
+<span
+  class:list={["hairline-mask", className]}
+  style={`--hairline-mask: url("${src}")`}
+  aria-hidden="true"></span>

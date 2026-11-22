@@ -1,13 +1,17 @@
 @import "tailwindcss";
-@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
 
 @theme {
-  --font-sans: "Space Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", monospace;
+  --font-sans: "Geist Variable", "Geist Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Geist Variable", "Geist Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:
+    "Geist Mono Variable", "Geist Mono", ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
   --color-paper: #0a0a0a;
   --color-surface: #121212;
   --color-ink: #f4f4f4;
-  --color-muted: #9a9a9a;
+  --color-muted: #a3a3a3;
   --color-line: #262626;
   --color-accent: #2563eb;
   --color-accent-strong: #1d4ed8;
@@ -26,16 +30,50 @@
     background-color: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    letter-spacing: 0.005em;
+    font-kerning: normal;
+    font-feature-settings:
+      "kern" 1,
+      "liga" 1,
+      "calt" 1;
+    font-optical-sizing: auto;
+    font-synthesis: none;
+    letter-spacing: 0;
+    line-height: 1.6;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1,
   h2,
   h3 {
-    font-weight: 500;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-feature-settings:
+      "kern" 1,
+      "liga" 1,
+      "calt" 1;
     letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  code,
+  kbd,
+  samp,
+  pre,
+  .font-mono {
+    font-family: var(--font-mono);
+    font-feature-settings:
+      "kern" 0,
+      "liga" 0,
+      "calt" 0;
+    font-variant-ligatures: none;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
   }
 
   ::selection {
@@ -58,6 +96,21 @@
     background-color: var(--color-accent-soft);
     -webkit-mask: url("/brand/glyph-on-dark.png") center / contain no-repeat;
     mask: url("/brand/glyph-on-dark.png") center / contain no-repeat;
+  }
+
+  .glyph-logo {
+    display: inline-block;
+    background-color: currentColor;
+    -webkit-mask: url("/brand/glyph-on-dark.png") center / contain no-repeat;
+    mask: url("/brand/glyph-on-dark.png") center / contain no-repeat;
+  }
+
+  .sponsor-logo {
+    filter: none;
+  }
+
+  [data-theme="dark"] .sponsor-logo {
+    filter: invert(1);
   }
 }
 
@@ -89,4 +142,25 @@
   html {
     scroll-behavior: auto;
   }
+}
+
+.hairline-mask {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-color: currentColor;
+  opacity: 0.18;
+  -webkit-mask-image: var(--hairline-mask, url("/masks/hairline.svg"));
+  mask-image: var(--hairline-mask, url("/masks/hairline.svg"));
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: right -30px top -30px;
+  mask-position: right -30px top -30px;
+  -webkit-mask-size: 320px 213px;
+  mask-size: 320px 213px;
+}
+
+.hairline-mask--bottom {
+  -webkit-mask-position: right -30px bottom -40px;
+  mask-position: right -30px bottom -40px;
 }

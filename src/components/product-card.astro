@@ -1,20 +1,22 @@
 ---
 import type { Product } from "../data/site";
+import HairlineMask from "./hairline-mask.astro";
 
-interface Props extends Pick<Product, "slug" | "name" | "summary" | "href"> {
-  class?: string;
-}
+interface Props extends Pick<Product, "slug" | "name" | "summary" | "href"> {}
 
-const { slug, name, summary, href, class: className } = Astro.props;
+const { slug, name, summary, href } = Astro.props;
 ---
 
 <a
   id={slug}
   transition:name={`product-${slug}`}
-  class:list={["flex scroll-mt-24 flex-col p-6 md:p-8", className]}
+  class="group relative block scroll-mt-24 overflow-hidden rounded-2xl bg-surface p-6 transition-colors duration-150 hover:bg-[#171717] md:p-7"
   href={href}
 >
-  <img src="/brand/glyph-on-dark.png" alt="" width="28" height="28" class="size-7" />
-  <h3 class="mt-8 text-xl font-medium tracking-tight text-ink">{name}</h3>
-  <p class="mt-2 text-base leading-7 text-muted">{summary}</p>
+  <HairlineMask variant={slug} />
+  <div class="relative z-10 flex flex-col">
+    <span class="glyph-logo size-6" aria-hidden="true" />
+    <h3 class="mt-6 text-lg font-medium tracking-tight text-ink">{name}</h3>
+    <p class="mt-2 text-sm leading-6 text-muted">{summary}</p>
+  </div>
 </a>

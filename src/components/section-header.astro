@@ -10,7 +10,9 @@ interface Props {
 const { title, description, align = "left", size = "md", class: className } = Astro.props;
 
 const titleSize =
-  size === "lg" ? "text-4xl leading-[1.05] md:text-[56px]" : "text-4xl leading-[1.1] md:text-5xl";
+  size === "lg"
+    ? "text-[2.25rem] leading-[1.05] tracking-[-0.03em] md:text-[3.5rem]"
+    : "text-[2rem] leading-[1.08] tracking-[-0.025em] md:text-[3rem]";
 ---
 
 <div class:list={[align === "center" && "text-center", className]}>
@@ -19,7 +21,7 @@ const titleSize =
     description && (
       <p
         class:list={[
-          "mt-5 text-base leading-7 text-muted md:text-[19px] md:leading-[1.45]",
+          "mt-5 text-pretty text-base leading-8 text-muted md:mt-6 md:text-[1.1875rem] md:leading-[1.55]",
           align === "center" ? "mx-auto max-w-2xl" : "max-w-2xl",
         ]}
       >
