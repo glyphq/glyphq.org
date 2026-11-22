@@ -51,6 +51,7 @@ const productTitles = {
   connect: "@glyph-oss/connect",
   contracts: "@glyph-oss/contracts",
   relay: "relay.glyphq.org",
+  explorer: "explorer.glyphq.org",
   api: "api.glyphq.org",
 } as const;
 
