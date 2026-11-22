@@ -1,7 +1,7 @@
 ---
+import { SiGithub } from "@icons-pack/react-simple-icons";
 import { marked } from "marked";
 import ButtonLink from "../components/button-link.astro";
-import HairlineMask from "../components/hairline-mask.astro";
 import PageHero from "../components/page-hero.astro";
 import PageSection from "../components/page-section.astro";
 import Reveal from "../components/reveal.astro";
@@ -27,22 +27,23 @@ const notes = (body: string) =>
         releases.length > 0 ? (
           <div class="space-y-12">
             {releases.map((release) => (
-              <article class="relative grid gap-6 overflow-hidden md:grid-cols-[0.55fr_1.45fr] md:gap-12">
-                <HairlineMask />
-                <div class="relative z-10">
+              <article data-scroll-reveal class="space-y-4">
+                <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
                   <h2 class="text-2xl font-medium tracking-tight text-ink">{release.name}</h2>
-                  <p class="mt-2 font-mono text-xs text-muted">
+                  <p class="font-mono text-xs text-muted">
                     {release.tag} · {dateFormatter.format(new Date(release.publishedAt))}
                   </p>
                   <a
-                    class="mt-4 inline-flex text-sm font-medium text-accent-soft hover:underline"
+                    class="text-muted transition-colors hover:text-ink"
                     href={release.url}
+                    aria-label={`View ${release.tag} on GitHub`}
+                    title="View on GitHub"
                   >
-                    View on GitHub
+                    <SiGithub size={16} aria-hidden="true" />
                   </a>
                 </div>
                 <div
-                  class="relative z-10 max-w-2xl text-base leading-7 text-muted [&_a]:text-accent-soft [&_a]:underline [&_h1]:mt-6 [&_h1]:text-xl [&_h1]:text-ink [&_h2]:mt-6 [&_h2]:text-lg [&_h2]:text-ink [&_h3]:mt-4 [&_h3]:text-base [&_h3]:text-ink [&_li]:ml-5 [&_li]:list-disc [&_p]:mt-3 [&_pre]:mt-4 [&_pre]:overflow-x-auto [&_pre]:rounded-xl [&_pre]:bg-[#0d0d0d] [&_pre]:p-4 [&_strong]:text-ink"
+                  class="max-w-3xl text-base leading-7 text-muted [&_a]:text-accent-soft [&_a]:underline [&_h1]:mt-6 [&_h1]:text-xl [&_h1]:text-ink [&_h2]:mt-6 [&_h2]:text-lg [&_h2]:text-ink [&_h3]:mt-4 [&_h3]:text-base [&_h3]:text-ink [&_li]:ml-5 [&_li]:list-disc [&_p]:mt-3 [&_pre]:mt-4 [&_pre]:overflow-x-auto [&_pre]:rounded-xl [&_pre]:bg-[#0d0d0d] [&_pre]:p-4 [&_strong]:text-ink"
                   set:html={notes(release.body)}
                 />
               </article>
