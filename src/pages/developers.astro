@@ -1,0 +1,109 @@
+---
+import ButtonLink from "../components/button-link.astro";
+import CodeBlock from "../components/code-block.astro";
+import CtaSection from "../components/cta-section.astro";
+import PageHero from "../components/page-hero.astro";
+import PageSection from "../components/page-section.astro";
+import Reveal from "../components/reveal.astro";
+import SectionHeader from "../components/section-header.astro";
+import { specs } from "../data/site";
+import Layout from "../layouts/layout.astro";
+
+const install = `bun add @glyph-oss/connect
+bun add @glyph-oss/contracts`;
+
+const request = `import {
+  buildGlyphUrl,
+  createEnvelope,
+  createTransferRequest,
+} from "@glyph-oss/connect";
+
+const request = createTransferRequest({
+  type: "transfer",
+  dapp: { name: "My App", origin: "https://my.app" },
+  to: "QUBIC_IDENTITY",
+  amount: "1000",
+});
+
+const envelope = createEnvelope(request, {
+  callback: "https://my.app/api/glyph/callback",
+});
+
+const url = buildGlyphUrl(envelope);`;
+---
+
+<Layout
+  title="Developers | Glyph"
+  description="Install the Glyph Connect SDK, use typed Qubic contracts, and read the docs."
+>
+  <PageHero
+    title="Start with the parts you need"
+    description="Install the SDKs, point the explorer at a Qubic endpoint, or self-host the API."
+  >
+    <ButtonLink href="https://docs.glyphq.org" variant="light" icon="solar:document-text-linear">Read the docs</ButtonLink>
+    <ButtonLink href="https://github.com/glyphq" variant="glass" icon="solar:code-linear">Browse the source</ButtonLink>
+  </PageHero>
+
+  <PageSection>
+    <Reveal>
+      <div class="grid gap-12 md:grid-cols-2 md:gap-16">
+        <div>
+          <h2 class="text-3xl leading-[1.1] tracking-[-0.02em] text-ink md:text-4xl">
+            Install the SDKs
+          </h2>
+          <p class="mt-4 text-base leading-7 text-muted">
+            Connect and Contracts are published to npm under the Glyph scope. Both ship TypeScript
+            types.
+          </p>
+          <div class="mt-6">
+            <CodeBlock code={install} />
+          </div>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <ButtonLink href="https://docs.glyphq.org/docs/reference/request-builders" icon="solar:document-text-linear">
+              Connect reference
+            </ButtonLink>
+            <ButtonLink href="https://github.com/glyphq/contracts" variant="secondary" icon="solar:code-linear">
+              Contracts source
+            </ButtonLink>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-3xl leading-[1.1] tracking-[-0.02em] text-ink md:text-4xl">
+            Send a typed request
+          </h2>
+          <p class="mt-4 text-base leading-7 text-muted">
+            Build a transfer request, wrap it in an envelope, then open it in the desktop wallet.
+          </p>
+          <div class="mt-6">
+            <CodeBlock code={request} lang="ts" />
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  </PageSection>
+
+  <PageSection>
+    <Reveal>
+      <SectionHeader
+        title="Product surfaces"
+        description="The parts you can install, point at your own infrastructure, or run locally."
+        size="lg"
+      />
+      <dl class="mt-10 border-t border-line">
+        {
+          specs.map((spec) => (
+            <div class="grid grid-cols-[8rem_1fr] gap-4 border-b border-line py-4 md:grid-cols-[12rem_1fr]">
+              <dt class="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+                {spec.label}
+              </dt>
+              <dd class="font-mono text-sm text-ink/80">{spec.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </Reveal>
+  </PageSection>
+
+  <CtaSection />
+</Layout>

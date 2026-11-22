@@ -1,0 +1,48 @@
+---
+import ButtonLink from "../components/button-link.astro";
+import CtaSection from "../components/cta-section.astro";
+import PageHero from "../components/page-hero.astro";
+import PageSection from "../components/page-section.astro";
+import PrinciplesRow from "../components/principles-row.astro";
+import Reveal from "../components/reveal.astro";
+import Layout from "../layouts/layout.astro";
+---
+
+<Layout
+  title="About | Glyph"
+  description="Glyph is a self-custodial wallet and toolchain for Qubic."
+>
+  <PageHero
+    title="About Glyph"
+    description="A self-custodial wallet for Qubic, with an explorer and tools for apps."
+  >
+    <ButtonLink href="/products" variant="light" icon="solar:layers-linear">Explore the products</ButtonLink>
+    <ButtonLink href="/support" variant="glass" icon="solar:hand-heart-linear">Support Glyph</ButtonLink>
+  </PageHero>
+
+  <PageSection>
+    <Reveal>
+      <div class="grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
+        <div>
+          <h2 class="text-3xl leading-[1.1] tracking-[-0.02em] text-ink md:text-4xl">
+            Glyph is the toolchain for Qubic.
+          </h2>
+          <p class="mt-4 max-w-lg text-base leading-7 text-muted">
+            Glyph starts with a self-custodial desktop wallet and extends it with a typed SDK,
+            contract codecs, a relay, an explorer, and a self-hosted API. Each product is useful on
+            its own, and they share the same network and data.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <ButtonLink href="/products" icon="solar:layers-linear">View the toolchain</ButtonLink>
+            <ButtonLink href="https://github.com/glyphq" variant="secondary" icon="solar:code-linear">GitHub</ButtonLink>
+          </div>
+        </div>
+        <div>
+          <PrinciplesRow class="border-t-0" />
+        </div>
+      </div>
+    </Reveal>
+  </PageSection>
+
+  <CtaSection />
+</Layout>

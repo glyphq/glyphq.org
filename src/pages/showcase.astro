@@ -1,0 +1,96 @@
+---
+import ButtonLink from "../components/button-link.astro";
+import CtaSection from "../components/cta-section.astro";
+import PageHero from "../components/page-hero.astro";
+import PageSection from "../components/page-section.astro";
+import Reveal from "../components/reveal.astro";
+import SectionHeader from "../components/section-header.astro";
+import Layout from "../layouts/layout.astro";
+
+const posts = [
+  {
+    title: "Glyph Explorer",
+    description:
+      "The explorer uses Glyph Connect for wallet requests and Glyph Contracts to decode contract calls.",
+    tags: ["Explorer", "Connect", "Contracts"],
+    href: "https://explorer.glyphq.org",
+    source: "https://github.com/glyphq/explorer-v2",
+  },
+  {
+    title: "Glyph Starter",
+    description:
+      "A minimal Next.js reference for Qubic wallet connections and reviewed contract actions.",
+    tags: ["Reference app", "Connect", "Relay"],
+    href: "https://github.com/glyphq/starter-dapp",
+    source: "https://github.com/glyphq/starter-dapp",
+  },
+  {
+    title: "Glyph Wallet",
+    description: "The desktop client that reviews and signs glyph:// requests from connected apps.",
+    tags: ["Wallet", "glyph://"],
+    href: "https://glyphq.org/download",
+    source: "https://github.com/glyphq/wallet",
+  },
+];
+---
+
+<Layout
+  title="Showcase | Glyph"
+  description="Projects built with Glyph Wallet, Connect, Contracts, and Relay."
+>
+  <PageHero
+    title="Showcase"
+    description="Projects built with Glyph, from reference apps to the explorer."
+  >
+    <ButtonLink href="/products" variant="light" icon="solar:layers-linear">Explore the products</ButtonLink>
+    <ButtonLink href="https://discord.gg/faKATpcHGf" variant="glass" icon="solar:chat-round-line-linear">Share a project</ButtonLink>
+  </PageHero>
+
+  <PageSection>
+    <Reveal>
+      <SectionHeader
+        title="Built with Glyph"
+        description="A short list while the protocol is new."
+        size="lg"
+      />
+      <div class="-mx-4 mt-10 divide-y divide-line border-y border-line md:-mx-8">
+        {
+          posts.map((post) => (
+            <article class="grid gap-6 px-4 py-10 md:grid-cols-[0.8fr_1.2fr] md:gap-12 md:px-8">
+              <div>
+                <div class="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <span class="rounded-full bg-line px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.08em] text-muted">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <h2 class="mt-4 text-2xl font-medium tracking-tight text-ink md:text-3xl">
+                  {post.title}
+                </h2>
+              </div>
+              <div>
+                <p class="max-w-2xl text-base leading-7 text-muted">{post.description}</p>
+                <div class="mt-5 flex flex-wrap gap-5 text-sm">
+                  <a class="font-medium text-accent-soft hover:underline" href={post.href}>
+                    Open project
+                  </a>
+                  <a class="font-medium text-muted hover:text-ink" href={post.source}>
+                    Source
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+      <div class="mt-10 text-center">
+        <ButtonLink href="https://discord.gg/faKATpcHGf" variant="secondary" icon="solar:chat-round-line-linear">
+          Share a project
+        </ButtonLink>
+      </div>
+    </Reveal>
+  </PageSection>
+
+  <CtaSection />
+</Layout>

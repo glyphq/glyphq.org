@@ -1,7 +1,7 @@
 ---
 import type { Product } from "../data/site";
 
-interface Props extends Product {
+interface Props extends Pick<Product, "slug" | "name" | "summary" | "href"> {
   class?: string;
 }
 
@@ -10,6 +10,7 @@ const { slug, name, summary, href, class: className } = Astro.props;
 
 <a
   id={slug}
+  transition:name={`product-${slug}`}
   class:list={["flex scroll-mt-24 flex-col p-6 md:p-8", className]}
   href={href}
 >

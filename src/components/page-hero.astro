@@ -1,0 +1,36 @@
+---
+import PatternWaves from "./pattern-waves";
+import Reveal from "./reveal.astro";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<section class="relative overflow-hidden border-b border-line p-8">
+  <div class="absolute inset-0 opacity-55">
+    <PatternWaves
+      client:only="react"
+      preset="silk"
+      color="#2563eb"
+      backgroundColor="#0a0a0a"
+      fade="edges"
+      speed={0}
+      intro={false}
+    />
+  </div>
+  <Reveal duration="cinematic" class="relative z-10 py-16 text-center md:py-24">
+    <h1 transition:name="page-title" class="mx-auto max-w-4xl text-4xl leading-[1.05] tracking-[-0.03em] text-ink md:text-[64px]">
+      {title}
+    </h1>
+    <p class="mx-auto mt-5 max-w-2xl text-base leading-7 text-muted md:text-[19px] md:leading-[1.45]">
+      {description}
+    </p>
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+      <slot />
+    </div>
+  </Reveal>
+</section>

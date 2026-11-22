@@ -1,0 +1,42 @@
+"use client";
+
+import { CheckCircleIcon } from "@solar-icons/react/linear/check-circle";
+import { CopyIcon } from "@solar-icons/react/linear/copy";
+import { motion } from "motion/react";
+import { useState } from "react";
+
+interface Props {
+  value: string;
+  label: string;
+}
+
+export default function CopyButton({ value, label }: Props) {
+  const [copied, setCopied] = useState(false);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1500);
+    } catch {
+      setCopied(false);
+    }
+  };
+
+  return (
+    <motion.button
+      type="button"
+      onClick={copy}
+      whileTap={{ scale: 0.97 }}
+      aria-label={`Copy ${label} address`}
+      className="inline-flex items-center gap-1.5 rounded-full bg-line px-3 py-1.5 text-xs font-medium text-ink transition-colors duration-150 hover:bg-[#2a2a2a]"
+    >
+      {copied ? (
+        <CheckCircleIcon size={14} aria-hidden="true" />
+      ) : (
+        <CopyIcon size={14} aria-hidden="true" />
+      )}
+      {copied ? "Copied" : "Copy"}
+    </motion.button>
+  );
+}

@@ -1,0 +1,75 @@
+---
+import { Icon } from "astro-icon/components";
+import ButtonLink from "./button-link.astro";
+import PatternWaves from "./pattern-waves";
+
+const walletPoints = [
+  "Vaults and Qubic identities",
+  "Send and receive QU",
+  "Review every app request before you sign",
+];
+---
+
+<div class="-mx-4 grid border-y border-line md:-mx-8 md:grid-cols-2 md:divide-x md:divide-line">
+  <article class="p-8 md:p-12">
+    <h3 class="text-3xl leading-[1.1] tracking-[-0.02em] text-ink md:text-4xl">
+      Your keys stay on your desktop.
+    </h3>
+    <p class="mt-4 text-base leading-7 text-muted">
+      Glyph Wallet keeps Vaults and wallet data on your machine. You review every request before
+      you sign.
+    </p>
+    <ul class="mt-8 border-t border-line">
+      {
+        walletPoints.map((point) => (
+          <li class="flex gap-3 border-b border-line py-3">
+            <Icon
+              name="solar:check-circle-linear"
+              class="mt-0.5 size-4 shrink-0 text-accent-soft"
+              aria-hidden="true"
+            />
+            <span class="text-base leading-7 text-ink/80">{point}</span>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <ButtonLink href="/download" icon="glyph">Download Glyph</ButtonLink>
+      <ButtonLink
+        href="https://github.com/glyphq/wallet/blob/main/docs/USER_GUIDE.md"
+        variant="secondary"
+        icon="solar:document-text-linear"
+      >
+        User guide
+      </ButtonLink>
+    </div>
+  </article>
+
+  <article class="relative overflow-hidden bg-accent p-8 text-white md:p-12">
+    <div class="absolute inset-0 opacity-55">
+      <PatternWaves
+        client:only="react"
+        preset="mesh"
+        color="#93c5fd"
+        backgroundColor="#2563eb"
+        fade="edges"
+        speed={0}
+        intro={false}
+      />
+    </div>
+    <div class="relative z-10">
+      <h3 class="text-3xl leading-[1.1] tracking-[-0.02em] md:text-4xl">One place for Qubic.</h3>
+      <p class="mt-4 text-base leading-7 text-white/85">
+        Check the network, look up an identity, or move QU from the same toolchain.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <ButtonLink href="https://explorer.glyphq.org" variant="light" icon="solar:global-linear">
+          Open Explorer
+        </ButtonLink>
+        <ButtonLink href="/support" variant="glass" icon="solar:hand-heart-linear">
+          Support Glyph
+        </ButtonLink>
+      </div>
+    </div>
+  </article>
+</div>

@@ -4,14 +4,15 @@ import Wordmark from "./wordmark.astro";
 ---
 
 <footer class="border-t border-line bg-night">
-  <div class="mx-auto max-w-[1200px] px-4 py-16 md:px-8 md:py-20">
-    <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
-      <div class="space-y-4">
-        <Wordmark />
-        <p class="max-w-xs text-base leading-7 text-muted">
-          The Glyph toolchain for Qubic. Wallet, SDKs, relay, explorer, and API.
-        </p>
-      </div>
+  <div class="mx-auto max-w-[1280px] border-x border-line">
+    <div class="px-4 py-16 md:px-8 md:py-20">
+      <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div class="space-y-4">
+          <Wordmark />
+          <p class="max-w-xs text-base leading-7 text-muted">
+            The Glyph toolchain for Qubic. Wallet, explorer, and the tools apps use to connect.
+          </p>
+        </div>
 
         {
           footerColumns.map((column) => (

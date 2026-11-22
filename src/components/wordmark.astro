@@ -1,12 +1,18 @@
 ---
 interface Props {
   class?: string;
+  transitionName?: string;
 }
 
-const { class: className } = Astro.props;
+const { class: className, transitionName } = Astro.props;
 ---
 
-<a class:list={["flex w-fit items-center gap-2", className]} href="/" aria-label="Glyph home">
+<a
+  class:list={["flex w-fit items-center gap-2", className]}
+  href="/"
+  aria-label="Glyph home"
+  transition:name={transitionName}
+>
   <img src="/brand/glyph-on-dark.png" alt="" width="28" height="28" class="size-7" />
   <span class="text-lg font-medium tracking-tight text-ink">glyphq</span>
 </a>

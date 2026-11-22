@@ -6,44 +6,10 @@ const pathname = Astro.url.pathname;
 ---
 
 <header class="sticky top-0 z-40 border-b border-white/10 bg-night/95 text-white backdrop-blur">
-  <div class="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between gap-6 px-4 md:px-6">
-    <Wordmark />
-
-    <nav class="hidden items-center gap-1 md:flex" aria-label="Main">
-      {
-        nav.map((item) => (
-          <a
-            class="rounded-full px-3 py-2 text-[15px] font-medium text-white/70 transition-colors duration-150 hover:bg-white/5 hover:text-white"
-            href={item.href}
-          >
-            {item.label}
-          </a>
-        ))
-      }
-    </nav>
-
-    <div class="flex items-center gap-2">
-      <ButtonLink href="https://docs.glyphq.org" size="sm">Start building</ButtonLink>
-      <details class="relative md:hidden">
-        <summary
-          class="cursor-pointer list-none rounded-full border border-white/20 px-3 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-white/80 [&::-webkit-details-marker]:hidden"
-        >
-          Menu
-        </summary>
-        <div
-          class="absolute right-0 top-[calc(100%+0.75rem)] w-56 rounded-lg border border-white/15 bg-night p-4"
-        >
-          <nav class="flex flex-col gap-3" aria-label="Mobile">
-            {
-              nav.map((item) => (
-                <a class="text-sm text-white/70 hover:text-white" href={item.href}>
-                  {item.label}
-                </a>
-              ))
-            }
-          </nav>
-        </div>
-      </details>
-    </div>
+  <div
+    class="mx-auto flex h-[72px] max-w-[1280px] items-center justify-between gap-6 border-x border-white/10 px-4 md:px-8"
+  >
+    <Wordmark transitionName="wordmark" />
+    <NavMenu client:load pathname={pathname} />
   </div>
 </header>

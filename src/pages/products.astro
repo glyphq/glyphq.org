@@ -1,0 +1,45 @@
+---
+import ButtonLink from "../components/button-link.astro";
+import CtaSection from "../components/cta-section.astro";
+import PageHero from "../components/page-hero.astro";
+import PrinciplesRow from "../components/principles-row.astro";
+import ProductCard from "../components/product-card.astro";
+import Reveal from "../components/reveal.astro";
+import SectionHeader from "../components/section-header.astro";
+import { products } from "../data/site";
+import Layout from "../layouts/layout.astro";
+---
+
+<Layout
+  title="Products | Glyph"
+  description="The Glyph toolchain for Qubic: wallet, Connect SDK, typed contracts, relay, explorer, and self-hosted API."
+>
+  <PageHero
+    title="The Glyph toolchain"
+    description="The wallet, explorer, and the tools that connect Qubic apps."
+  >
+    <ButtonLink href="https://docs.glyphq.org" variant="light" icon="solar:document-text-linear">Read the docs</ButtonLink>
+    <ButtonLink href="/download" variant="glass" icon="glyph">Download Glyph</ButtonLink>
+  </PageHero>
+
+  <section class="border-b border-line">
+    <Reveal>
+      <div class="px-4 pb-12 pt-20 md:px-8 md:pt-24">
+        <SectionHeader
+          title="Every product in one place"
+          description="Use one part or the whole stack. Each product links to its docs or source."
+          align="center"
+          size="lg"
+        />
+      </div>
+      <div class="grid divide-y divide-line border-y border-line md:grid-cols-3 md:divide-x md:divide-y-0">
+        {products.map((product) => <ProductCard {...product} />)}
+      </div>
+      <div class="px-4 py-12 md:px-8">
+        <PrinciplesRow />
+      </div>
+    </Reveal>
+  </section>
+
+  <CtaSection />
+</Layout>

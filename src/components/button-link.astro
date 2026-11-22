@@ -1,19 +1,23 @@
 ---
+import { Icon } from "astro-icon/components";
+
 interface Props {
   href: string;
+  icon?: string;
   variant?: "primary" | "secondary" | "light" | "outline-dark" | "translucent" | "glass";
   size?: "sm" | "md";
   class?: string;
 }
 
-const { href, variant = "primary", size = "md", class: className } = Astro.props;
+const { href, icon, variant = "primary", size = "md", class: className } = Astro.props;
 
 const variants = {
   primary: "bg-accent text-white hover:bg-accent-strong",
-  secondary: "border border-line bg-transparent text-ink hover:border-white/40",
+  secondary: "bg-surface text-ink hover:bg-[#181818]",
   light: "bg-white text-night hover:bg-white/90",
-  "outline-dark": "border border-white/40 text-white hover:bg-white/10",
+  "outline-dark": "bg-white/10 text-white hover:bg-white/15",
   translucent: "bg-white/15 text-white hover:bg-white/20",
+  glass: "bg-[#1f1f1f] text-white hover:bg-[#2a2a2a]",
 };
 
 const sizes = {
@@ -24,12 +28,25 @@ const sizes = {
 
 <a
   class:list={[
-    "inline-flex items-center justify-center rounded-full font-medium transition-colors duration-150",
+    "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-[transform,background-color,color] duration-150 ease-[cubic-bezier(.22,1,.36,1)] active:scale-[0.97] motion-reduce:transform-none",
     variants[variant],
     sizes[size],
     className,
   ]}
   href={href}
 >
+  {
+    icon === "glyph" ? (
+      <img
+        src={variant === "light" ? "/brand/glyph-on-light.png" : "/brand/glyph-on-dark.png"}
+        alt=""
+        width="16"
+        height="16"
+        class="size-4 shrink-0"
+      />
+    ) : (
+      icon && <Icon name={icon} class="size-4 shrink-0" aria-hidden="true" />
+    )
+  }
   <slot />
 </a>

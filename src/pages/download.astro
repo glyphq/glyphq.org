@@ -1,0 +1,61 @@
+---
+import ButtonLink from "../components/button-link.astro";
+import DownloadHeroCta from "../components/download-hero-cta";
+import DownloadPicker from "../components/download-picker";
+import PageHero from "../components/page-hero.astro";
+import PageSection from "../components/page-section.astro";
+import SectionHeader from "../components/section-header.astro";
+import Layout from "../layouts/layout.astro";
+import { buildPlatforms, getReleases, releasesPage } from "../lib/releases";
+
+const [latest] = await getReleases(1);
+const releaseUrl = latest?.url ?? releasesPage;
+const platforms = buildPlatforms(latest);
+---
+
+<Layout
+  title="Download Glyph"
+  description="Download the self-custodial Glyph desktop wallet for Qubic on Windows, macOS, or Linux."
+>
+  <PageHero
+    title="Download Glyph"
+    description="The self-custodial desktop wallet for Qubic. Windows, macOS, and Linux."
+  >
+    <DownloadHeroCta client:load platforms={platforms} releaseUrl={releaseUrl} />
+    <ButtonLink href="/changelog" variant="glass" icon="solar:document-text-linear">
+      Changelog
+    </ButtonLink>
+  </PageHero>
+
+  <PageSection>
+    <SectionHeader
+      title="Pick your platform"
+      description={latest ? `Latest release ${latest.tag}. We detect your system and suggest the right build.` : "We detect your system and suggest the right build."}
+      align="center"
+      size="lg"
+    />
+    <DownloadPicker client:load platforms={platforms} />
+
+    <div
+      class="-mx-4 flex flex-col gap-4 px-4 py-8 md:-mx-8 md:flex-row md:items-center md:justify-between md:px-8"
+    >
+      <p class="text-base text-muted">Need help installing?</p>
+      <div class="flex flex-wrap gap-3">
+        <ButtonLink
+          href="https://github.com/glyphq/wallet/blob/main/docs/USER_GUIDE.md"
+          variant="secondary"
+          icon="solar:document-text-linear"
+        >
+          Install guide
+        </ButtonLink>
+        <ButtonLink
+          href="https://discord.gg/faKATpcHGf"
+          variant="secondary"
+          icon="solar:chat-round-line-linear"
+        >
+          Discord
+        </ButtonLink>
+      </div>
+    </div>
+  </PageSection>
+</Layout>

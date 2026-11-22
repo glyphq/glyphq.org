@@ -1,0 +1,26 @@
+---
+import ButtonLink from "../components/button-link.astro";
+import Layout from "../layouts/layout.astro";
+---
+
+<Layout
+  title="Page not found | Glyph"
+  description="The page you asked for does not exist."
+  noindex
+>
+  <section class="p-8">
+    <div class="py-20 text-center md:py-28">
+      <p class="font-mono text-sm uppercase tracking-[0.12em] text-muted">404</p>
+      <h1 class="mx-auto mt-5 max-w-2xl text-4xl leading-[1.05] tracking-[-0.03em] text-ink md:text-[64px]">
+        This page does not exist.
+      </h1>
+      <p class="mx-auto mt-5 max-w-xl text-base leading-7 text-muted md:text-[19px] md:leading-[1.45]">
+        The link may be old, or the page may have moved. Start from the toolchain or go back home.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <ButtonLink href="/" variant="light" icon="solar:home-smile-linear">Back home</ButtonLink>
+        <ButtonLink href="/products" variant="glass" icon="solar:layers-linear">Browse products</ButtonLink>
+      </div>
+    </div>
+  </section>
+</Layout>

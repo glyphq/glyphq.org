@@ -11,7 +11,6 @@ describe("product card", () => {
         name: "Glyph Wallet",
         summary: "Self-custodial desktop wallet for Qubic.",
         href: "https://glyphq.org/download",
-        icon: "solar:wallet-linear",
       },
     });
 
