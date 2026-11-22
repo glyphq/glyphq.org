@@ -10,6 +10,7 @@ export interface Release {
   publishedAt: string;
   url: string;
   body: string;
+  prerelease: boolean;
   assets: ReleaseAsset[];
 }
 
@@ -36,6 +37,7 @@ interface GitHubRelease {
   html_url: string;
   body: string | null;
   draft: boolean;
+  prerelease: boolean;
   assets: GitHubAsset[];
 }
 
@@ -84,6 +86,7 @@ const fetchReleaseFeed = async (limit: number): Promise<Release[]> => {
           publishedAt,
           url: href,
           body: decodeEntities(content).trim(),
+          prerelease: tag.includes("-"),
           assets: [],
         };
       })
@@ -114,6 +117,7 @@ const fetchReleases = async (limit: number): Promise<Release[]> => {
         publishedAt: release.published_at,
         url: release.html_url,
         body: release.body ?? "",
+        prerelease: release.prerelease,
         assets: release.assets.map((asset) => ({
           name: asset.name,
           url: asset.browser_download_url,
@@ -131,6 +135,11 @@ export const getReleases = (limit = 6): Promise<Release[]> => {
   const request = fetchReleases(limit);
   cache.set(limit, request);
   return request;
+};
+
+export const getChangelogReleases = async (limit = 8): Promise<Release[]> => {
+  const releases = await getReleases(limit + 8);
+  return releases.filter((release) => !release.prerelease).slice(0, limit);
 };
 
 const findAsset = (assets: ReleaseAsset[], extensions: string[]) =>

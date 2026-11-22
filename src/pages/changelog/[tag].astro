@@ -3,10 +3,10 @@ import { SiGithub } from "@icons-pack/react-simple-icons";
 import { marked } from "marked";
 import PageHero from "../../components/page-hero.astro";
 import Layout from "../../layouts/layout.astro";
-import { getReleases } from "../../lib/releases";
+import { getChangelogReleases } from "../../lib/releases";
 
 export async function getStaticPaths() {
-  const releases = await getReleases(8);
+  const releases = await getChangelogReleases(8);
 
   return releases.map((release) => ({
     params: { tag: release.tag },
