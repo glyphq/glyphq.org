@@ -175,7 +175,7 @@ export default function NavMenu({ pathname }: Props) {
             {productsOpen && (
               <div
                 id="products-menu"
-                className="absolute left-1/2 top-full z-50 w-[21rem] -translate-x-1/2 pt-2"
+                className="absolute left-1/2 top-full z-50 w-[38rem] max-w-[calc(100vw-2rem)] -translate-x-1/2 pt-2"
               >
                 <motion.div
                   initial={{ opacity: 0, y: -8, scale: 0.97, height: 0 }}
@@ -185,38 +185,46 @@ export default function NavMenu({ pathname }: Props) {
                   className="overflow-hidden"
                 >
                   <div className="w-full rounded-2xl bg-surface p-2 shadow-2xl shadow-black/50">
-                    {productGroups.map((group) => (
-                      <div key={group.label}>
-                        <p className="px-2.5 pb-1 pt-2 text-[10px] font-medium uppercase tracking-[0.14em] text-muted">
-                          {group.label}
-                        </p>
-                        <ul className="grid grid-cols-2 gap-0.5">
-                          {group.items.map((product) => {
-                            const ProductIcon =
-                              productIcons[product.slug as keyof typeof productIcons] ?? WidgetIcon;
+                    <div className="grid grid-cols-2 items-start gap-3">
+                      {productGroups.map((group) => (
+                        <div key={group.label}>
+                          <p className="px-2.5 pb-1 pt-2 text-[10px] font-medium uppercase tracking-[0.14em] text-muted">
+                            {group.label}
+                          </p>
+                          <ul className="flex flex-col gap-0.5">
+                            {group.items.map((product) => {
+                              const ProductIcon =
+                                productIcons[product.slug as keyof typeof productIcons] ??
+                                WidgetIcon;
 
-                            return (
-                              <li key={product.slug}>
-                                <a
-                                  href={`/products/${product.slug}`}
-                                  onClick={() => setProductsOpen(false)}
-                                  className="group flex items-start gap-2.5 rounded-xl px-2.5 py-2 transition-colors duration-150 hover:bg-line"
-                                >
-                                  <ProductIcon
-                                    size={18}
-                                    className="mt-0.5 shrink-0 text-muted transition-colors group-hover:text-ink"
-                                    aria-hidden="true"
-                                  />
-                                  <span className="block text-sm font-medium text-ink">
-                                    {product.name}
-                                  </span>
-                                </a>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </div>
-                    ))}
+                              return (
+                                <li key={product.slug}>
+                                  <a
+                                    href={`/products/${product.slug}`}
+                                    onClick={() => setProductsOpen(false)}
+                                    className="group flex items-start gap-2.5 rounded-xl px-2.5 py-2 transition-colors duration-150 hover:bg-line"
+                                  >
+                                    <ProductIcon
+                                      size={18}
+                                      className="mt-0.5 shrink-0 text-muted transition-colors group-hover:text-ink"
+                                      aria-hidden="true"
+                                    />
+                                    <span className="min-w-0">
+                                      <span className="block text-sm font-medium text-ink">
+                                        {product.name}
+                                      </span>
+                                      <span className="mt-0.5 block text-xs leading-5 text-muted">
+                                        {product.short}
+                                      </span>
+                                    </span>
+                                  </a>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </motion.div>
               </div>

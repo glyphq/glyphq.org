@@ -32,7 +32,8 @@ const excerpt = (body: string) => {
     <Reveal>
       {
         releases.length > 0 ? (
-          <div class="mx-auto grid max-w-6xl gap-5 sm:grid-cols-2 xl:grid-cols-3">
+          <div class="mx-auto max-w-6xl">
+          <div class="grid max-w-3xl gap-5 sm:grid-cols-2">
             {releases.map((release) => (
               <a
                 href={`/changelog/${release.tag}`}
@@ -57,6 +58,7 @@ const excerpt = (body: string) => {
                 </div>
               </a>
             ))}
+          </div>
           </div>
         ) : (
           <div class="text-center">

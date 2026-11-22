@@ -23,7 +23,8 @@ const qubicIdentity = "XIKAQZMFGQSALEMMJRATPPRESWTBXQVCOHTHCZWDGFXVBMCAHBCRUICFO
 
   <PageSection id="donate">
     <Reveal>
-      <div class="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.05fr_0.95fr] md:gap-12">
+      <div class="mx-auto max-w-6xl">
+      <div class="grid max-w-3xl gap-8 md:grid-cols-[1.05fr_0.95fr] md:gap-12">
         <div>
           <p class="font-display text-[11px] uppercase tracking-[0.16em] text-muted">
             Development window
@@ -56,6 +57,7 @@ const qubicIdentity = "XIKAQZMFGQSALEMMJRATPPRESWTBXQVCOHTHCZWDGFXVBMCAHBCRUICFO
         <div data-scroll-reveal class="rounded-2xl bg-surface p-5 md:p-6">
           <DonationProgress client:load identity={qubicIdentity} target={2000} />
         </div>
+      </div>
       </div>
     </Reveal>
   </PageSection>
