@@ -19,10 +19,6 @@ const notes = (body: string) =>
 
   <PageSection>
     <Reveal>
-      <div class="mb-10 flex flex-wrap gap-x-5 gap-y-2 text-sm">
-        <a class="text-accent-soft hover:underline" href={releasesPage}>All releases</a>
-        <a class="text-accent-soft hover:underline" href="/download">Download Glyph</a>
-      </div>
       {
         releases.length > 0 ? (
           <div class="space-y-12">
