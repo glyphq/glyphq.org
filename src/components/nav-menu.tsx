@@ -47,6 +47,11 @@ const productIcons = {
   api: DatabaseIcon,
 } as const;
 
+const productTitles = {
+  connect: "@glyph-oss/connect",
+  contracts: "@glyph-oss/contracts",
+} as const;
+
 const spring = { type: "spring", stiffness: 520, damping: 34, mass: 0.7 } as const;
 
 export default function NavMenu({ pathname }: Props) {
@@ -213,7 +218,9 @@ export default function NavMenu({ pathname }: Props) {
                                     </span>
                                     <span className="min-w-0">
                                       <span className="block text-sm font-medium text-ink">
-                                        {product.name}
+                                        {productTitles[
+                                          product.slug as keyof typeof productTitles
+                                        ] ?? product.name}
                                       </span>
                                       <span className="mt-0.5 block text-xs leading-5 text-muted">
                                         {product.short}
