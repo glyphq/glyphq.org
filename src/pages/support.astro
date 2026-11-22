@@ -1,6 +1,6 @@
 ---
-import ButtonLink from "../components/button-link.astro";
 import DonateModal from "../components/donate-modal.astro";
+import DonationDonors from "../components/donation-donors";
 import DonationProgress from "../components/donation-progress";
 import PageHero from "../components/page-hero.astro";
 import PageSection from "../components/page-section.astro";
@@ -43,32 +43,38 @@ const qubicIdentity = "XIKAQZMFGQSALEMMJRATPPRESWTBXQVCOHTHCZWDGFXVBMCAHBCRUICFO
     <Reveal>
       <div class="mx-auto max-w-6xl">
         <div class="max-w-3xl">
+          <h2 class="text-2xl font-medium tracking-tight text-ink">Donors</h2>
+          <p class="mt-4 text-base leading-7 text-muted">
+            Identities that sent QU to the current development window.
+          </p>
+          <DonationDonors client:load identity={qubicIdentity} />
+        </div>
+      </div>
+    </Reveal>
+  </PageSection>
+
+  <PageSection>
+    <Reveal>
+      <div class="mx-auto max-w-6xl">
+        <div class="max-w-3xl">
           <h2 class="text-2xl font-medium tracking-tight text-ink">Supporters</h2>
-          <div class="mt-6 rounded-2xl bg-surface p-5 md:p-6">
-          <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-            <div class="flex items-center gap-4">
+          <div class="mt-4 flex flex-wrap gap-2">
+            <a
+              href="https://minerlab.io"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="MinerLab donated $2,000 or more"
+              class="inline-flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 transition-colors duration-150 hover:bg-ink/5"
+            >
               <img
                 src="/sponsors/minerlab.png"
-                alt="MinerLab"
+                alt=""
                 width="96"
                 height="31"
-                class="sponsor-logo h-8 w-auto"
+                class="sponsor-logo h-5 w-auto"
               />
-              <p class="text-sm text-muted">$2,000+ donated</p>
-            </div>
-            <ButtonLink
-              href="https://minerlab.io"
-              variant="secondary"
-              icon="solar:global-linear"
-              class="w-fit"
-            >
-              Visit MinerLab
-            </ButtonLink>
-          </div>
-            <p class="mt-4 text-sm leading-6 text-muted md:text-base md:leading-7">
-              MinerLab runs mining pools for Qubic, Xelis, Abel, and Ore, with transparent payouts and
-              live network stats.
-            </p>
+              <span class="text-xs text-ink">$2,000+</span>
+            </a>
           </div>
         </div>
       </div>

@@ -15,6 +15,12 @@ interface Snapshot {
   priceUsdt: number;
 }
 
+interface Transaction {
+  amount: number;
+  destination: string;
+  status: string;
+}
+
 const quFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
 const milestones = [25, 50, 75, 100];
 
@@ -26,14 +32,6 @@ const formatUsd = (value: number) =>
     maximumFractionDigits: value > 0 && value < 1 ? 6 : 2,
   }).format(value);
 
-const statusFor = (progress: number) => {
-  if (progress >= 100) return "Funded";
-  if (progress >= 75) return "Almost there";
-  if (progress >= 50) return "Halfway";
-  if (progress >= 25) return "Building";
-  return "Kickoff";
-};
-
 export default function DonationProgress({ identity, target = 2000 }: Props) {
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [snapshot, setSnapshot] = useState<Snapshot>({ receivedQu: 0, priceUsdt: 0 });
@@ -41,22 +39,25 @@ export default function DonationProgress({ identity, target = 2000 }: Props) {
   const load = useCallback(async () => {
     setStatus((current) => (current === "ready" ? current : "loading"));
     try {
-      const [walletResponse, priceResponse] = await Promise.all([
-        fetch(`${API}/v1/wallets/${identity}`),
+      const [transactionsResponse, priceResponse] = await Promise.all([
+        fetch(`${API}/v1/identities/${encodeURIComponent(identity)}/transactions?limit=200`),
         fetch(`${API}/v1/prices/latest`),
       ]);
-      if (!walletResponse.ok || !priceResponse.ok) throw new Error("Glyph API request failed");
+      if (!transactionsResponse.ok || !priceResponse.ok) {
+        throw new Error("Glyph API request failed");
+      }
 
-      const wallet = (await walletResponse.json()) as {
-        data?: { entity?: { balance?: number; incoming_amount?: number } };
-      };
+      const transactions = (await transactionsResponse.json()) as { data?: Transaction[] };
       const price = (await priceResponse.json()) as { data?: { price_usdt?: number } };
-      const entity = wallet.data?.entity;
-      const receivedQu = Number(entity?.incoming_amount ?? entity?.balance ?? 0);
+      const receivedQu = (transactions.data ?? [])
+        .filter(
+          (transaction) => transaction.destination === identity && transaction.status === "success",
+        )
+        .reduce((sum, transaction) => sum + Number(transaction.amount ?? 0), 0);
       const priceUsdt = Number(price.data?.price_usdt ?? 0);
 
       if (!Number.isFinite(receivedQu) || !Number.isFinite(priceUsdt)) {
-        throw new Error("Glyph API returned an invalid balance");
+        throw new Error("Glyph API returned invalid donation data");
       }
 
       setSnapshot({ receivedQu, priceUsdt });
@@ -77,33 +78,30 @@ export default function DonationProgress({ identity, target = 2000 }: Props) {
   const fill = progress > 0 ? Math.max(progress, 0.4) : 0;
   const progressLabel = progress > 0 && progress < 0.1 ? "<0.1%" : `${progress.toFixed(1)}%`;
   const nextMilestone = milestones.find((milestone) => progress < milestone) ?? 100;
-  const stateLabel = status === "ready" ? statusFor(progress) : "Live";
+  const isLoading = status === "loading";
 
   return (
-    <div className="w-full rounded-2xl bg-ink/[0.04] p-4 md:p-5">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <div className="flex flex-wrap items-center gap-2">
-            <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted">
-              Development window
-            </p>
-            <span className="rounded-full bg-ink/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.1em] text-accent-soft">
-              {stateLabel}
-            </span>
-          </div>
-          <p className="mt-1 font-mono text-sm text-ink">
-            {status === "ready" ? formatUsd(receivedUsd) : "..."}
-            <span className="text-muted"> / {formatUsd(target)}</span>
-          </p>
+    <div className="w-full" aria-busy={isLoading}>
+      {isLoading ? (
+        <div className="flex items-center justify-between gap-4" aria-hidden="true">
+          <span className="h-3 w-36 animate-pulse rounded-full bg-ink/10" />
+          <span className="h-3 w-12 animate-pulse rounded-full bg-ink/10" />
         </div>
-        <p className="font-mono text-xs text-muted">{status === "ready" ? progressLabel : "..."}</p>
-      </div>
+      ) : (
+        <div className="flex items-center justify-between gap-4 font-mono text-xs text-muted">
+          <span>
+            {status === "ready" ? formatUsd(receivedUsd) : "—"}
+            <span className="text-muted"> / {formatUsd(target)}</span>
+          </span>
+          <span>{status === "ready" ? progressLabel : "—"}</span>
+        </div>
+      )}
 
-      <div className="relative mt-3">
+      <div className="relative mt-2">
         <div
           className="h-2 overflow-hidden rounded-full bg-line"
           role="progressbar"
-          aria-label="Development window progress"
+          aria-label="Donation progress"
           aria-valuetext={progressLabel}
           aria-valuemin={0}
           aria-valuemax={target}
@@ -129,18 +127,23 @@ export default function DonationProgress({ identity, target = 2000 }: Props) {
         </div>
       </div>
 
-      <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
-        <span>
-          {status === "error"
-            ? "Live balance unavailable"
-            : status === "loading"
-              ? "Reading Glyph API..."
+      {isLoading ? (
+        <div className="mt-2 flex items-center justify-between gap-4" aria-hidden="true">
+          <span className="h-3 w-32 animate-pulse rounded-full bg-ink/10" />
+          <span className="h-3 w-16 animate-pulse rounded-full bg-ink/10" />
+        </div>
+      ) : (
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
+          <span>
+            {status === "error"
+              ? "Donation history unavailable"
               : `${quFormatter.format(snapshot.receivedQu)} QU received`}
-        </span>
-        <span>
-          {status === "ready" ? (progress >= 100 ? "Goal reached" : `Next: ${nextMilestone}%`) : ""}
-        </span>
-      </div>
+          </span>
+          <span>
+            {status === "ready" && (progress >= 100 ? "Goal reached" : `Next: ${nextMilestone}%`)}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
