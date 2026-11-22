@@ -147,7 +147,7 @@ export const products: Product[] = [
     href: "/products/explorer",
     icon: "solar:global-linear",
     primary: {
-      label: "Open Explorer",
+      label: "Explorer",
       href: "https://explorer.glyphq.org",
       icon: "solar:global-linear",
     },
