@@ -1,0 +1,135 @@
+---
+import { Icon } from "astro-icon/components";
+import CopyButton from "./copy-button";
+
+interface Props {
+  identity: string;
+}
+
+const { identity } = Astro.props;
+const explorerUrl = `https://explorer.glyphq.org/accounts/${identity}`;
+---
+
+<div data-donate-root>
+  <button
+    type="button"
+    data-donate-open
+    class="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 font-display text-base font-semibold text-night transition-colors duration-150 hover:bg-accent-strong"
+  >
+    <span class="glyph-logo size-4" aria-hidden="true" />
+    Donate QU
+  </button>
+
+  <dialog data-donate-dialog aria-labelledby="donate-title" class="donate-dialog">
+    <div class="w-full rounded-3xl bg-surface p-6 shadow-2xl shadow-black/50">
+      <div class="flex items-start justify-between gap-5">
+        <div>
+          <p class="text-xs font-medium uppercase tracking-[0.14em] text-muted">Support Glyph</p>
+          <h2 id="donate-title" class="mt-2 text-2xl font-medium tracking-tight text-ink">
+            Donate to the development window
+          </h2>
+        </div>
+        <button
+          type="button"
+          data-donate-close
+          aria-label="Close donation dialog"
+          class="inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-ink/10 text-muted transition-colors hover:bg-ink/15 hover:text-ink"
+        >
+          <Icon name="solar:close-linear" class="size-4" aria-hidden="true" />
+        </button>
+      </div>
+
+      <p class="mt-4 text-sm leading-6 text-muted">
+        Send QU on Qubic mainnet to the identity below. The header tracks the current development
+        window.
+      </p>
+
+      <div class="mt-5 rounded-2xl bg-paper p-4">
+        <p class="text-xs font-medium uppercase tracking-[0.12em] text-muted">Donation identity</p>
+        <code class="mt-2 block select-all break-all font-mono text-xs leading-5 text-ink/80">
+          {identity}
+        </code>
+      </div>
+
+      <div class="mt-5 flex flex-wrap items-center gap-3">
+        <CopyButton value={identity} label="Qubic identity" client:load />
+        <a
+          href={explorerUrl}
+          class="text-sm text-accent-soft underline-offset-4 hover:underline"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Open in Explorer
+        </a>
+      </div>
+
+      <p class="mt-5 text-xs leading-5 text-muted">
+        Only send QU on Qubic mainnet. Other assets cannot be recovered.
+      </p>
+    </div>
+  </dialog>
+</div>
+
+<style is:global>
+  .donate-dialog {
+    position: fixed;
+    inset: 0;
+    width: min(92vw, 34rem);
+    max-width: 34rem;
+    max-height: calc(100dvh - 2rem);
+    margin: auto;
+    padding: 0;
+    border: 0;
+    overflow-y: auto;
+    background: transparent;
+    color: var(--color-ink);
+  }
+
+  .donate-dialog::backdrop {
+    background: rgb(21 19 17 / 0.72);
+    backdrop-filter: blur(8px);
+  }
+
+  .donate-dialog[open] {
+    animation: donate-in 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @keyframes donate-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.985);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .donate-dialog[open] {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const initialize = () => {
+    for (const root of document.querySelectorAll<HTMLElement>("[data-donate-root]")) {
+      if (root.dataset.ready) continue;
+
+      const dialog = root.querySelector<HTMLDialogElement>("[data-donate-dialog]");
+      const open = root.querySelector<HTMLButtonElement>("[data-donate-open]");
+      if (!dialog || !open) continue;
+
+      root.dataset.ready = "true";
+
+      open.addEventListener("click", () => dialog.showModal());
+      dialog.querySelectorAll("[data-donate-close]").forEach((button) => {
+        button.addEventListener("click", () => dialog.close());
+      });
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+      dialog.addEventListener("close", () => open.focus());
+    }
+  };
+
+  initialize();
+  document.addEventListener("astro:page-load", initialize);
+</script>
