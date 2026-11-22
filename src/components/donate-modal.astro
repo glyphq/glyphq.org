@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
+import QRCode from "qrcode";
 import CopyButton from "./copy-button";
 
 interface Props {
@@ -8,6 +9,12 @@ interface Props {
 
 const { identity } = Astro.props;
 const explorerUrl = `https://explorer.glyphq.org/accounts/${identity}`;
+const qrSvg = await QRCode.toString(identity, {
+  type: "svg",
+  errorCorrectionLevel: "H",
+  margin: 0,
+  color: { dark: "#151311", light: "#EED3BA" },
+});
 ---
 
 <div data-donate-root>
@@ -40,18 +47,31 @@ const explorerUrl = `https://explorer.glyphq.org/accounts/${identity}`;
       </div>
 
       <p class="mt-4 text-sm leading-6 text-muted">
-        Send QU on Qubic mainnet to the identity below.
+        Scan with a Qubic wallet, or copy the identity below.
       </p>
 
-      <div class="mt-5 rounded-2xl bg-paper p-4">
-        <p class="text-xs font-medium uppercase tracking-[0.12em] text-muted">Donation identity</p>
-        <code class="mt-2 block select-all break-all font-mono text-xs leading-5 text-ink/80">
-          {identity}
-        </code>
+      <div
+        class="relative mt-5 aspect-square w-full overflow-hidden rounded-2xl bg-[#EED3BA] p-2"
+        role="img"
+        aria-label="QR code for the Glyph donation identity"
+      >
+        <div class="h-full w-full [&_svg]:h-full [&_svg]:w-full" set:html={qrSvg} />
+        <span
+          class="absolute inset-0 m-auto flex size-[18%] items-center justify-center rounded-full bg-[#EED3BA]"
+          aria-hidden="true"
+        >
+          <span class="glyph-logo size-1/2 text-[#151311]" />
+        </span>
       </div>
 
-      <div class="mt-5 flex flex-wrap items-center gap-3">
+      <div class="mt-4 flex items-center gap-2 rounded-2xl bg-paper p-2 pl-3">
+        <code class="min-w-0 flex-1 break-all font-mono text-xs leading-5 text-ink/75">
+          {identity}
+        </code>
         <CopyButton value={identity} label="Qubic identity" client:load />
+      </div>
+
+      <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
         <a
           href={explorerUrl}
           class="text-sm text-accent-soft underline-offset-4 hover:underline"
@@ -60,11 +80,8 @@ const explorerUrl = `https://explorer.glyphq.org/accounts/${identity}`;
         >
           Open in Explorer
         </a>
+        <p class="text-xs text-muted">Qubic mainnet only.</p>
       </div>
-
-      <p class="mt-5 text-xs leading-5 text-muted">
-        Only send QU on Qubic mainnet. Other assets cannot be recovered.
-      </p>
     </div>
   </dialog>
 </div>
