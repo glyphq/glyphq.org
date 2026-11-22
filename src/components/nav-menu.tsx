@@ -2,11 +2,17 @@
 
 import { AltArrowDownIcon } from "@solar-icons/react/linear/alt-arrow-down";
 import { CloseIcon } from "@solar-icons/react/linear/close";
+import { CodeIcon } from "@solar-icons/react/linear/code";
+import { DatabaseIcon } from "@solar-icons/react/linear/database";
+import { DocumentTextIcon } from "@solar-icons/react/linear/document-text";
 import { GalleryIcon } from "@solar-icons/react/linear/gallery";
+import { GlobalIcon } from "@solar-icons/react/linear/global";
 import { HamburgerMenuIcon } from "@solar-icons/react/linear/hamburger-menu";
 import { HandHeartIcon } from "@solar-icons/react/linear/hand-heart";
 import { HistoryIcon } from "@solar-icons/react/linear/history";
 import { InfoCircleIcon } from "@solar-icons/react/linear/info-circle";
+import { ServerIcon } from "@solar-icons/react/linear/server";
+import { WalletIcon } from "@solar-icons/react/linear/wallet";
 import { WidgetIcon } from "@solar-icons/react/linear/widget";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
@@ -31,6 +37,15 @@ const productGroups = [
   ...group,
   items: products.filter((product) => group.slugs.includes(product.slug)),
 }));
+
+const productIcons = {
+  wallet: WalletIcon,
+  explorer: GlobalIcon,
+  connect: CodeIcon,
+  contracts: DocumentTextIcon,
+  relay: ServerIcon,
+  api: DatabaseIcon,
+} as const;
 
 const spring = { type: "spring", stiffness: 520, damping: 34, mass: 0.7 } as const;
 
@@ -174,37 +189,36 @@ export default function NavMenu({ pathname }: Props) {
                   <div className="w-full rounded-2xl bg-surface p-2 shadow-2xl shadow-black/50">
                     {productGroups.map((group) => (
                       <div key={group.label}>
-                        <p className="px-3 pb-1 pt-2 text-[10px] font-medium uppercase tracking-[0.14em] text-muted">
+                        <p className="px-2.5 pb-1 pt-2 text-[10px] font-medium uppercase tracking-[0.14em] text-muted">
                           {group.label}
                         </p>
-                        <ul className="flex flex-col">
-                          {group.items.map((product) => (
-                            <li key={product.slug}>
-                              <a
-                                href={`/products/${product.slug}`}
-                                onClick={() => setProductsOpen(false)}
-                                className="flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors duration-150 hover:bg-line"
-                              >
-                                <span
-                                  className="glyph-logo mt-0.5 size-5 shrink-0"
-                                  aria-hidden="true"
-                                />
-                                <span className="block text-sm font-medium text-ink">
-                                  {product.name}
-                                </span>
-                              </a>
-                            </li>
-                          ))}
+                        <ul className="grid grid-cols-2 gap-0.5">
+                          {group.items.map((product) => {
+                            const ProductIcon =
+                              productIcons[product.slug as keyof typeof productIcons] ?? WidgetIcon;
+
+                            return (
+                              <li key={product.slug}>
+                                <a
+                                  href={`/products/${product.slug}`}
+                                  onClick={() => setProductsOpen(false)}
+                                  className="group flex items-start gap-2.5 rounded-xl px-2.5 py-2 transition-colors duration-150 hover:bg-line"
+                                >
+                                  <ProductIcon
+                                    size={18}
+                                    className="mt-0.5 shrink-0 text-muted transition-colors group-hover:text-ink"
+                                    aria-hidden="true"
+                                  />
+                                  <span className="block text-sm font-medium text-ink">
+                                    {product.name}
+                                  </span>
+                                </a>
+                              </li>
+                            );
+                          })}
                         </ul>
                       </div>
                     ))}
-                    <a
-                      href="/products"
-                      className="mt-1 flex items-center gap-2.5 rounded-xl px-3 py-2 font-display text-sm font-medium text-ink transition-colors duration-150 hover:bg-line"
-                    >
-                      <WidgetIcon size={18} className="text-accent-soft" aria-hidden="true" />
-                      All products
-                    </a>
                   </div>
                 </motion.div>
               </div>
