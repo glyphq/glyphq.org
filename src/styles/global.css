@@ -47,6 +47,11 @@
     outline: 2px solid var(--color-accent-soft);
     outline-offset: 2px;
   }
+
+  [data-ascii-reveal] {
+    --ascii-accent: var(--color-accent-soft);
+    --ascii-glyph: var(--color-ink);
+  }
 }
 
 @layer components {

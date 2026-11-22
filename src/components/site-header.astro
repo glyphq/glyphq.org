@@ -1,7 +1,8 @@
 ---
-import { nav } from "../data/site";
-import ButtonLink from "./button-link.astro";
+import NavMenu from "./nav-menu";
 import Wordmark from "./wordmark.astro";
+
+const pathname = Astro.url.pathname;
 ---
 
 <header class="sticky top-0 z-40 border-b border-white/10 bg-night/95 text-white backdrop-blur">

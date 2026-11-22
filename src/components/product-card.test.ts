@@ -7,6 +7,7 @@ describe("product card", () => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(ProductCard, {
       props: {
+        slug: "wallet",
         name: "Glyph Wallet",
         summary: "Self-custodial desktop wallet for Qubic.",
         href: "https://glyphq.org/download",

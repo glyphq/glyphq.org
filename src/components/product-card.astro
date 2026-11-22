@@ -1,31 +1,19 @@
 ---
-import { Icon } from "astro-icon/components";
 import type { Product } from "../data/site";
 
 interface Props extends Product {
   class?: string;
 }
 
-const { name, summary, href, icon, class: className } = Astro.props;
+const { slug, name, summary, href, class: className } = Astro.props;
 ---
 
 <a
-  class:list={[
-    "group flex flex-col bg-surface p-6 transition-colors duration-150 hover:bg-[#181818] md:p-8",
-    className,
-  ]}
+  id={slug}
+  class:list={["flex scroll-mt-24 flex-col p-6 md:p-8", className]}
   href={href}
 >
-  <div class="flex items-start justify-between gap-4">
-    <span class="flex size-10 items-center justify-center rounded-full border border-line text-accent-soft">
-      <Icon name={icon} class="size-5" aria-hidden="true" />
-    </span>
-    <Icon
-      name="solar:arrow-right-linear"
-      class="size-5 text-muted transition-transform duration-150 group-hover:translate-x-1"
-      aria-hidden="true"
-    />
-  </div>
+  <img src="/brand/glyph-on-dark.png" alt="" width="28" height="28" class="size-7" />
   <h3 class="mt-8 text-xl font-medium tracking-tight text-ink">{name}</h3>
   <p class="mt-2 text-base leading-7 text-muted">{summary}</p>
 </a>

@@ -1,0 +1,63 @@
+---
+import { marked } from "marked";
+import ButtonLink from "../components/button-link.astro";
+import PageHero from "../components/page-hero.astro";
+import PageSection from "../components/page-section.astro";
+import Reveal from "../components/reveal.astro";
+import Layout from "../layouts/layout.astro";
+import { getReleases, releasesPage } from "../lib/releases";
+
+const releases = await getReleases(8);
+const dateFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: "medium" });
+const notes = (body: string) =>
+  marked.parse(body || "No notes for this release.", { async: false }) as string;
+---
+
+<Layout title="Changelog | Glyph" description="Release notes for Glyph Wallet.">
+  <PageHero title="Changelog" description="Release notes for Glyph Wallet.">
+    <ButtonLink href={releasesPage} variant="light" icon="solar:code-linear">
+      All releases
+    </ButtonLink>
+    <ButtonLink href="/download" variant="glass" icon="glyph">Download Glyph</ButtonLink>
+  </PageHero>
+
+  <PageSection>
+    <Reveal>
+      {
+        releases.length > 0 ? (
+          <div class="-mx-4 divide-y divide-line border-y border-line md:-mx-8">
+            {releases.map((release) => (
+              <article class="grid gap-6 px-4 py-10 md:grid-cols-[0.55fr_1.45fr] md:gap-12 md:px-8">
+                <div>
+                  <h2 class="text-2xl font-medium tracking-tight text-ink">{release.name}</h2>
+                  <p class="mt-2 font-mono text-xs text-muted">
+                    {release.tag} · {dateFormatter.format(new Date(release.publishedAt))}
+                  </p>
+                  <a
+                    class="mt-4 inline-flex text-sm font-medium text-accent-soft hover:underline"
+                    href={release.url}
+                  >
+                    View on GitHub
+                  </a>
+                </div>
+                <div
+                  class="max-w-2xl text-base leading-7 text-muted [&_a]:text-accent-soft [&_a]:underline [&_h1]:mt-6 [&_h1]:text-xl [&_h1]:text-ink [&_h2]:mt-6 [&_h2]:text-lg [&_h2]:text-ink [&_h3]:mt-4 [&_h3]:text-base [&_h3]:text-ink [&_li]:ml-5 [&_li]:list-disc [&_p]:mt-3 [&_pre]:mt-4 [&_pre]:overflow-x-auto [&_pre]:rounded-lg [&_pre]:border [&_pre]:border-line [&_pre]:bg-[#0d0d0d] [&_pre]:p-4 [&_strong]:text-ink"
+                  set:html={notes(release.body)}
+                />
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div class="text-center">
+            <p class="text-base text-muted">No releases available right now.</p>
+            <div class="mt-6">
+              <ButtonLink href={releasesPage} icon="solar:code-linear">
+                View releases on GitHub
+              </ButtonLink>
+            </div>
+          </div>
+        )
+      }
+    </Reveal>
+  </PageSection>
+</Layout>

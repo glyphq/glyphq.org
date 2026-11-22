@@ -1,0 +1,16 @@
+---
+import { codeToHtml } from "shiki";
+
+interface Props {
+  code: string;
+  lang?: string;
+}
+
+const { code, lang = "bash" } = Astro.props;
+const html = await codeToHtml(code.trim(), { lang, theme: "vesper" });
+---
+
+<div
+  class="overflow-x-auto rounded-lg border border-line bg-[#0d0d0d] p-4 text-sm [&_pre]:!bg-transparent"
+  set:html={html}
+/>

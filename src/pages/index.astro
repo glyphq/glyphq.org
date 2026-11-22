@@ -1,21 +1,13 @@
 ---
-import { Icon } from "astro-icon/components";
 import ButtonLink from "../components/button-link.astro";
 import GridGuides from "../components/grid-guides.astro";
+import CtaSection from "../components/cta-section.astro";
 import PageSection from "../components/page-section.astro";
+import PrinciplesSplit from "../components/principles-split.astro";
 import ProductCard from "../components/product-card.astro";
 import SectionHeader from "../components/section-header.astro";
-import { attributes, principles, products, specs } from "../data/site";
+import { products, specs } from "../data/site";
 import Layout from "../layouts/layout.astro";
-
-const repos = [
-  "glyphq/wallet",
-  "glyphq/connect",
-  "glyphq/contracts",
-  "glyphq/relay",
-  "glyphq/explorer-v2",
-  "glyphq/service",
-];
 ---
 
 <Layout>
@@ -79,12 +71,11 @@ const repos = [
           ))
         }
       </div>
-    </div>
+    </Reveal>
   </section>
 
-  <section id="principles" class="relative border-b border-line bg-paper">
-    <GridGuides />
-    <div class="relative mx-auto max-w-[1200px] px-4 py-20 md:px-8 md:py-28">
+  <section id="principles" class="border-b border-line px-4 py-20 md:px-8 md:py-24">
+    <Reveal>
       <SectionHeader
         title="Built for the whole stack"
         description="A wallet for people. SDKs and services for the apps around it."
@@ -92,26 +83,9 @@ const repos = [
         size="lg"
       />
 
-      <div class="mt-14 grid md:grid-cols-2">
-        <article class="border border-line bg-surface p-8 md:p-12">
-          <h3 class="text-3xl leading-[1.1] tracking-[-0.02em] text-ink md:text-4xl">
-            Read the code before you trust it.
-          </h3>
-          <p class="mt-4 text-base leading-7 text-muted">
-            The wallet, SDKs, relay, explorer, and API are open source. Read the implementation
-            before you depend on it.
-          </p>
-          <ul class="mt-10 border-t border-line">
-            {
-              repos.map((repo) => (
-                <li class="flex items-center justify-between border-b border-line py-3 font-mono text-sm">
-                  <span class="text-ink">{repo}</span>
-                  <span class="text-muted">public</span>
-                </li>
-              ))
-            }
-          </ul>
-        </article>
+      <div class="mt-14">
+        <PrinciplesSplit />
+      </div>
 
         <article class="bg-accent p-8 text-white md:p-12">
           <h3 class="text-3xl leading-[1.1] tracking-[-0.02em] md:text-4xl">
@@ -127,7 +101,7 @@ const repos = [
           </div>
         </article>
       </div>
-    </div>
+    </Reveal>
   </section>
 
   <PageSection id="developers">
@@ -145,20 +119,8 @@ const repos = [
             </ButtonLink>
           </div>
         </div>
-        <dl class="border-t border-line md:border-l md:border-t-0">
-          {
-            specs.map((spec) => (
-              <div class="grid grid-cols-[7rem_1fr] gap-4 border-b border-line px-6 py-4 last:border-b-0 md:px-8">
-                <dt class="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
-                  {spec.label}
-                </dt>
-                <dd class="font-mono text-xs text-ink/80">{spec.value}</dd>
-              </div>
-            ))
-          }
-        </dl>
       </div>
-    </div>
+    </Reveal>
   </PageSection>
 
   <section class="px-2 pb-2">
