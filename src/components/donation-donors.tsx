@@ -12,9 +12,18 @@ interface Profile {
   displayName: string;
 }
 
+interface StaticSupporter {
+  amount: string;
+  ariaLabel: string;
+  href: string;
+  label: string;
+  timestamp: string;
+}
+
 interface Props {
   identity: string;
   profiles?: Profile[];
+  staticSupporter?: StaticSupporter;
 }
 
 interface Transaction {
@@ -38,7 +47,7 @@ const quFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 })
 const shortIdentity = (identity: string) =>
   identity.length > 14 ? `${identity.slice(0, 6)}…${identity.slice(-4)}` : identity;
 
-export default function DonationDonors({ identity, profiles = [] }: Props) {
+export default function DonationDonors({ identity, profiles = [], staticSupporter }: Props) {
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [donations, setDonations] = useState<Donation[]>([]);
 
@@ -80,9 +89,28 @@ export default function DonationDonors({ identity, profiles = [] }: Props) {
     };
   }, [identity]);
 
+  const staticChip = staticSupporter ? (
+    <a
+      href={staticSupporter.href}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={staticSupporter.ariaLabel}
+      className="inline-flex w-fit items-center rounded-full bg-surface px-4 py-1.5 text-sm transition-colors duration-150 hover:bg-ink/5"
+    >
+      <span className="flex flex-col">
+        <span className="flex items-baseline gap-2">
+          <span className="text-muted">{staticSupporter.label}</span>
+          <span className="text-ink">{staticSupporter.amount}</span>
+        </span>
+        <span className="text-xs text-muted">{staticSupporter.timestamp}</span>
+      </span>
+    </a>
+  ) : null;
+
   if (status === "loading") {
     return (
       <div className="mt-5 flex flex-wrap gap-2" aria-busy="true">
+        {staticChip}
         {[84, 112, 96].map((width) => (
           <span
             key={width}
@@ -100,13 +128,14 @@ export default function DonationDonors({ identity, profiles = [] }: Props) {
   }
 
   if (!donations.length) {
-    return null;
+    return staticChip ? <div className="mt-5 flex flex-wrap gap-2.5">{staticChip}</div> : null;
   }
 
   const names = new Map(profiles.map((profile) => [profile.identity, profile.displayName]));
 
   return (
     <div className="mt-5 flex flex-wrap gap-2.5">
+      {staticChip}
       {donations.map((donation) => {
         const name = names.get(donation.identity) ?? shortIdentity(donation.identity);
 

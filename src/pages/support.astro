@@ -47,30 +47,20 @@ try {
           <p class="mt-4 text-base leading-7 text-muted md:text-lg md:leading-8">
             Projects and identities backing Glyph.
           </p>
-          <div class="mt-5 flex flex-wrap gap-2.5">
-            <a
-              href="https://minerlab.io"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="MinerLab donated $2,000 or more"
-              class="inline-flex items-center gap-2.5 rounded-full bg-surface px-4 py-2 transition-colors duration-150 hover:bg-ink/5"
-            >
-              <img
-                src="/sponsors/minerlab.png"
-                alt=""
-                width="96"
-                height="31"
-                class="sponsor-logo h-6 w-auto"
-              />
-              <span class="flex flex-col">
-                <span class="text-sm text-ink">$2,000+</span>
-                <span class="text-xs text-muted">{minerLabLast}</span>
-              </span>
-            </a>
-          </div>
         </div>
         <div class="mt-6 w-full">
-          <DonationDonors client:load identity={qubicIdentity} profiles={profiles} />
+          <DonationDonors
+            client:load
+            identity={qubicIdentity}
+            profiles={profiles}
+            staticSupporter={{
+              amount: "$2,000+",
+              ariaLabel: "MinerLab donated $2,000 or more",
+              href: "https://minerlab.io",
+              label: "minerlab.io",
+              timestamp: minerLabLast,
+            }}
+          />
         </div>
       </div>
     </Reveal>
