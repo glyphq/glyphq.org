@@ -6,7 +6,7 @@ import satori from "satori";
 import { type OgPage, ogImageSize, ogPages } from "../../lib/seo";
 
 const font = readFileSync(`${process.cwd()}/src/assets/og/space-grotesk.ttf`);
-const logo = readFileSync(`${process.cwd()}/public/brand/glyph-on-dark.png`);
+const logo = readFileSync(`${process.cwd()}/public/brand/glyph-on-lime.png`);
 const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
 const productMaskSlugs = new Set(["wallet", "connect", "contracts", "relay", "explorer", "api"]);
 const maskCache = new Map<string, string>();
@@ -17,7 +17,7 @@ const maskSrcFor = (slug: string) => {
 
   const svg = readFileSync(`${process.cwd()}/public/masks/${name}.svg`)
     .toString()
-    .replaceAll("#fff", "#eed3ba");
+    .replaceAll("#fff", "#94adff");
   const png = new Resvg(svg, { fitTo: { mode: "width", value: 620 } }).render().asPng();
   const src = `data:image/png;base64,${Buffer.from(png).toString("base64")}`;
   maskCache.set(name, src);
@@ -44,8 +44,8 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
           position: "relative",
           boxSizing: "border-box",
           padding: "64px 72px",
-          background: "#151311",
-          color: "#f6e2ce",
+          background: "#2b438d",
+          color: "#e8fd94",
           fontFamily: "Space Grotesk",
         },
       },
@@ -70,7 +70,7 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
           left: "0",
           right: "0",
           height: "1px",
-          background: "linear-gradient(90deg, transparent, #eed3ba, transparent)",
+          background: "linear-gradient(90deg, transparent, #e8fd94, transparent)",
           opacity: 0.25,
         },
       }),
@@ -118,7 +118,7 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
               display: "flex",
               fontSize: 30,
               lineHeight: 1.25,
-              color: "#9b9ca1",
+              color: "#94adff",
               maxWidth: "920px",
             },
           },

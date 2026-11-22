@@ -10,15 +10,15 @@
     "Geist Mono Variable", "Geist Mono", ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas,
     "Liberation Mono", monospace;
   --font-space: "Space Grotesk Variable", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --color-paper: #151311;
-  --color-surface: #211a1b;
-  --color-ink: #eed3ba;
-  --color-muted: #b49c8c;
-  --color-line: #3a2a2d;
-  --color-accent: #eed3ba;
-  --color-accent-strong: #f6e2ce;
-  --color-accent-soft: #eed3ba;
-  --color-night: #151311;
+  --color-paper: #2b438d;
+  --color-surface: #243a7e;
+  --color-ink: #e8fd94;
+  --color-muted: #94adff;
+  --color-line: #4a64b5;
+  --color-accent: #e8fd94;
+  --color-accent-strong: #f2ffb0;
+  --color-accent-soft: #94adff;
+  --color-night: #2b438d;
 }
 
 @layer base {
