@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { LEGACY_GLYPH_DONATION_IDENTITY } from "../lib/donations";
 import IdentityAvatar from "./identity-avatar";
 
 const API = "https://api.glyphq.org";
@@ -54,7 +53,6 @@ export default function DonationDonors({ identity, profiles = [] }: Props) {
         const next = (payload.data ?? [])
           .filter((transaction) => transaction.destination === identity)
           .filter((transaction) => transaction.status === "success")
-          .filter((transaction) => transaction.source !== LEGACY_GLYPH_DONATION_IDENTITY)
           .map((transaction) => ({
             amount: Number(transaction.amount),
             hash: transaction.hash,
