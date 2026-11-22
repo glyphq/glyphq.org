@@ -2,7 +2,7 @@
 
 import Avatar from "boring-avatars";
 
-const COLORS = ["#e8fd94", "#94adff", "#f2ffb0", "#6e8be0", "#c6d4ff", "#2b438d", "#a9beff"];
+const COLORS = ["#a9c7ff", "#b6d0ff", "#c6daff", "#8c97a8", "#edf2fa", "#6f8fc7", "#d8e5ff"];
 
 interface Props {
   value: string;
