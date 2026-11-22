@@ -180,3 +180,10 @@
     transition: none;
   }
 }
+
+@media (min-width: 1024px) {
+  #mobile-menu,
+  [aria-controls="mobile-menu"] {
+    display: none;
+  }
+}

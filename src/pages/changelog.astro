@@ -27,9 +27,9 @@ const notes = (body: string) =>
         releases.length > 0 ? (
           <div class="space-y-12">
             {releases.map((release) => (
-              <article data-scroll-reveal class="space-y-4">
-                <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                  <h2 class="text-2xl font-medium tracking-tight text-ink">{release.name}</h2>
+              <article data-scroll-reveal class="space-y-3">
+                <h2 class="text-2xl font-medium tracking-tight text-ink">{release.name}</h2>
+                <div class="flex items-center gap-3">
                   <p class="font-mono text-xs text-muted">
                     {release.tag} · {dateFormatter.format(new Date(release.publishedAt))}
                   </p>

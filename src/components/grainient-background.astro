@@ -2,7 +2,12 @@
 import Grainient from "./grainient";
 ---
 
-<div class="pointer-events-none absolute inset-y-0 left-1/2 w-screen -translate-x-1/2 overflow-hidden rounded-b-[2rem] opacity-20" aria-hidden="true">
+<div class="pointer-events-none absolute inset-y-0 left-1/2 w-screen -translate-x-1/2 overflow-hidden rounded-b-[2rem] opacity-15" aria-hidden="true">
+  <div
+    class="absolute inset-0"
+    style="background: radial-gradient(70% 120% at 12% 0%, rgba(250,252,204,0.14) 0%, rgba(250,252,204,0) 60%), radial-gradient(60% 100% at 88% 10%, rgba(168,173,107,0.2) 0%, rgba(168,173,107,0) 70%), linear-gradient(115deg, #0d0e0a 0%, #16180e 48%, #20230f 100%)"
+  >
+  </div>
   <Grainient
     client:load
     colors={["#0d0e0a", "#1a1c0e", "#4d5327", "#aab06a", "#fafccc"]}
@@ -11,6 +16,11 @@ import Grainient from "./grainient";
     silk={0.35}
     grainAmount={0.08}
     intro={false}
-    className="h-full w-full"
+    className="relative z-10 h-full w-full"
   />
+  <div
+    class="absolute inset-0 z-20 opacity-[0.05] mix-blend-overlay"
+    style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E&quot;); background-size: 180px 180px"
+  >
+  </div>
 </div>

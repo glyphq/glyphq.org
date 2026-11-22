@@ -57,9 +57,11 @@ export default function NavMenu({ pathname }: Props) {
     };
     onChange();
     desktop.addEventListener("change", onChange);
+    window.addEventListener("resize", onChange);
     return () => {
       document.removeEventListener("astro:page-load", close);
       desktop.removeEventListener("change", onChange);
+      window.removeEventListener("resize", onChange);
     };
   }, []);
 
