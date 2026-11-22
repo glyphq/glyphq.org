@@ -81,10 +81,10 @@ export default function DonationProgress({ identity, target = 2000 }: Props) {
     : null;
 
   return (
-    <div className="mt-12">
+    <div>
       <div className="flex flex-col gap-8 py-8 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-sm text-muted">Monthly target</p>
+          <p className="text-sm text-muted">Development window</p>
           <p className="mt-2 text-4xl font-medium tracking-tight text-ink">{formatUsd(target)}</p>
         </div>
         <div className="md:text-right" aria-live="polite">
@@ -101,7 +101,8 @@ export default function DonationProgress({ identity, target = 2000 }: Props) {
       <div
         className="mt-8 h-3 overflow-hidden rounded-full bg-line"
         role="progressbar"
-        aria-label="Donation progress"
+        aria-label="Development window progress"
+        aria-valuetext={progressLabel}
         aria-valuemin={0}
         aria-valuemax={target}
         aria-valuenow={Math.round(receivedUsd)}
@@ -118,7 +119,7 @@ export default function DonationProgress({ identity, target = 2000 }: Props) {
         <span>
           {status === "error"
             ? "Live balance unavailable"
-            : `${progressLabel} of the monthly target`}
+            : `${progressLabel} of the development window`}
         </span>
         <span>
           {status === "ready" && updated
@@ -139,9 +140,7 @@ export default function DonationProgress({ identity, target = 2000 }: Props) {
           <RefreshIcon size={16} aria-hidden="true" />
           Refresh
         </motion.button>
-        <span className="text-xs text-muted">
-          Progress uses incoming QU to the Qubic donation identity.
-        </span>
+        <span className="text-xs text-muted">USD value of incoming QU at the current price.</span>
       </div>
     </div>
   );

@@ -26,6 +26,7 @@ export default function NavMenu({ pathname }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const reduced = useReducedMotion();
   const closeRef = useRef<HTMLButtonElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const transition = reduced ? { duration: 0 } : spring;
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
@@ -44,8 +45,44 @@ export default function NavMenu({ pathname }: Props) {
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     closeRef.current?.focus();
+
+    const background = [
+      document.querySelector("header"),
+      document.querySelector("main"),
+      document.querySelector("footer"),
+      document.querySelector('a[href="#main"]'),
+    ].filter((element): element is HTMLElement => element instanceof HTMLElement);
+    background.forEach((element) => {
+      element.setAttribute("inert", "");
+    });
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== "Tab") return;
+      const menu = document.getElementById("mobile-menu");
+      if (!menu) return;
+      const focusable = Array.from(
+        menu.querySelectorAll<HTMLElement>("a[href], button:not([disabled])"),
+      );
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+
     return () => {
       document.body.style.overflow = previous;
+      background.forEach((element) => {
+        element.removeAttribute("inert");
+      });
+      document.removeEventListener("keydown", onKey);
+      menuButtonRef.current?.focus();
     };
   }, [mobileOpen]);
 
@@ -138,31 +175,25 @@ export default function NavMenu({ pathname }: Props) {
             {item.label}
           </motion.a>
         ))}
-
-        <span
-          aria-disabled="true"
-          title="Qubic-focused learning. Coming soon."
-          className="flex cursor-not-allowed items-center rounded-full px-3 py-2 font-display text-[14px] font-medium text-white/30"
-        >
-          Learn
-        </span>
       </nav>
 
       <div className="relative flex items-center gap-2">
         <motion.a
           href="/download"
           whileTap={{ scale: 0.97 }}
-          className="hidden items-center justify-center gap-2 rounded-full bg-white px-4 py-2 font-display text-sm font-medium text-night transition-colors duration-150 hover:bg-white/90 md:inline-flex"
+          className="hidden items-center justify-center gap-2 rounded-full bg-accent px-4 py-2 font-display text-sm font-medium text-night transition-colors duration-150 hover:bg-accent-strong md:inline-flex"
         >
           <span className="glyph-logo size-4" aria-hidden="true" />
           Download
         </motion.a>
 
         <motion.button
+          ref={menuButtonRef}
           type="button"
           onClick={() => setMobileOpen((value) => !value)}
           whileTap={{ scale: 0.97 }}
           aria-expanded={mobileOpen}
+          aria-controls="mobile-menu"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           className="inline-flex size-9 items-center justify-center rounded-full bg-white/10 text-white md:hidden"
         >
@@ -176,6 +207,7 @@ export default function NavMenu({ pathname }: Props) {
             {mobileOpen && (
               <motion.div
                 key="menu"
+                id="mobile-menu"
                 role="dialog"
                 aria-modal="true"
                 aria-label="Menu"
@@ -187,7 +219,14 @@ export default function NavMenu({ pathname }: Props) {
                 }
                 className="fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-paper px-4 pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))] md:hidden"
               >
-                <div className="flex items-center justify-between">
+                <motion.div
+                  initial={reduced ? false : { opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={
+                    reduced ? { duration: 0 } : { duration: 0.2, ease: [0.22, 1, 0.36, 1] }
+                  }
+                  className="flex items-center justify-between"
+                >
                   <a
                     href="/"
                     onClick={() => setMobileOpen(false)}
@@ -205,38 +244,56 @@ export default function NavMenu({ pathname }: Props) {
                   >
                     <CloseIcon size={20} />
                   </button>
-                </div>
+                </motion.div>
 
                 <nav className="mt-12 flex flex-col gap-1" aria-label="Mobile">
-                  {[{ label: "Products", href: "/products" }, ...links].map((item) => (
-                    <a
+                  {[{ label: "Products", href: "/products" }, ...links].map((item, index) => (
+                    <motion.a
                       key={item.href}
                       href={item.href}
                       onClick={() => setMobileOpen(false)}
+                      aria-current={isActive(item.href) ? "page" : undefined}
+                      initial={reduced ? false : { opacity: 0, y: 14 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={
+                        reduced
+                          ? { duration: 0 }
+                          : {
+                              duration: 0.24,
+                              delay: 0.08 + index * 0.04,
+                              ease: [0.22, 1, 0.36, 1],
+                            }
+                      }
                       className="rounded-2xl px-4 py-4 font-display text-2xl font-medium text-ink/80 transition-colors duration-150 hover:bg-white/5 hover:text-ink"
                     >
                       {item.label}
-                    </a>
+                    </motion.a>
                   ))}
-                  <span
-                    aria-disabled="true"
-                    title="Qubic-focused learning. Coming soon."
-                    className="flex cursor-not-allowed items-center rounded-2xl px-4 py-4 font-display text-2xl font-medium text-ink/30"
-                  >
-                    Learn
-                  </span>
                 </nav>
 
-                <div className="mt-auto pt-10">
+                <motion.div
+                  className="mt-auto pt-10"
+                  initial={reduced ? false : { opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={
+                    reduced
+                      ? { duration: 0 }
+                      : {
+                          duration: 0.26,
+                          delay: 0.08 + (links.length + 1) * 0.04,
+                          ease: [0.22, 1, 0.36, 1],
+                        }
+                  }
+                >
                   <a
                     href="/download"
                     onClick={() => setMobileOpen(false)}
-                    className="flex w-full items-center justify-center gap-2 rounded-full bg-white px-4 py-4 font-display text-base font-medium text-night hover:bg-white/90"
+                    className="flex w-full items-center justify-center gap-2 rounded-full bg-accent px-4 py-4 font-display text-base font-medium text-night hover:bg-accent-strong"
                   >
                     <span className="glyph-logo size-4" aria-hidden="true" />
                     Download Glyph
                   </a>
-                </div>
+                </motion.div>
               </motion.div>
             )}
           </AnimatePresence>,

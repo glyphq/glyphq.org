@@ -1,5 +1,4 @@
 ---
-import ButtonLink from "../components/button-link.astro";
 import PageHero from "../components/page-hero.astro";
 import PageSection from "../components/page-section.astro";
 import ProjectCard from "../components/project-card.astro";
@@ -7,57 +6,48 @@ import Reveal from "../components/reveal.astro";
 import SectionHeader from "../components/section-header.astro";
 import Layout from "../layouts/layout.astro";
 
+const discord = "https://discord.gg/faKATpcHGf";
+
 const posts = [
   {
-    title: "Glyph Explorer",
+    title: "Q+Pay",
     description:
-      "The explorer uses Glyph Connect for wallet requests and Glyph Contracts to decode contract calls.",
-    href: "https://explorer.glyphq.org",
-    image: "https://opengraph.githubassets.com/1/glyphq/explorer-v2",
+      "Accept Qubic payments with invoices, point-of-sale checkout, tip jars, and plugins for WooCommerce and Shopify. Non-custodial.",
+    href: "https://useqpay.com/",
+    image: "https://useqpay.com/media/og-image-logo.png",
   },
   {
-    title: "Glyph Starter",
+    title: "QubicSwap",
     description:
-      "A minimal Next.js reference for Qubic wallet connections and reviewed contract actions.",
-    href: "https://github.com/glyphq/starter-dapp",
-    image: "https://opengraph.githubassets.com/1/glyphq/starter-dapp",
-  },
-  {
-    title: "Glyph Wallet",
-    description: "The desktop client that reviews and signs glyph:// requests from connected apps.",
-    href: "https://glyphq.org/download",
-    image: "https://opengraph.githubassets.com/1/glyphq/wallet",
+      "Trade Qubic tokens and shares through a decentralized exchange interface with order books and liquidity pools.",
+    href: "https://qubicswap.com/",
+    image: "https://qubicswap.com/images/og/og-tokens.png",
   },
 ];
 ---
 
-<Layout
-  title="Showcase | Glyph"
-  description="Projects built with Glyph Wallet, Connect, Contracts, and Relay."
->
+<Layout title="Showcase | Glyph" description="Apps using Glyph Wallet and the Glyph toolchain.">
   <PageHero
     title="Showcase"
-    description="Projects built with Glyph, from reference apps to the explorer."
-  >
-    <ButtonLink href="/products" variant="light" icon="solar:layers-linear">
-      Explore the products
-    </ButtonLink>
-    <ButtonLink href="https://discord.gg/faKATpcHGf" variant="glass" icon="solar:chat-round-line-linear">
-      Share a project
-    </ButtonLink>
-  </PageHero>
+    description="Apps using Glyph Wallet and the Glyph toolchain."
+  />
 
   <PageSection>
     <Reveal>
       <SectionHeader
         title="Built with Glyph"
-        description="A short list while the protocol is new."
+        description="Apps integrating Glyph Wallet, Connect, Contracts, or Relay."
+        align="center"
         size="lg"
       />
-      <div class="mt-10 grid gap-10 md:grid-cols-3">
+
+      <div class="mt-10 grid gap-4 md:grid-cols-2">
         {posts.map((post) => <ProjectCard {...post} />)}
       </div>
+
+      <p class="mx-auto mt-10 max-w-2xl text-center text-sm leading-6 text-muted">
+        Built something with Glyph? <a class="text-accent-soft hover:underline" href={discord}>Share it in Discord</a>.
+      </p>
     </Reveal>
   </PageSection>
-
 </Layout>

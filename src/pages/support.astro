@@ -13,47 +13,50 @@ const qubicIdentity = "XIKAQZMFGQSALEMMJRATPPRESWTBXQVCOHTHCZWDGFXVBMCAHBCRUICFO
 
 <Layout
   title="Support | Glyph"
-  description="Support Glyph with QU and follow the live donation balance toward the monthly target."
+  description="Support Glyph with QU and follow the current development window from the Qubic donation identity."
 >
   <PageHero
     title="Support Glyph"
-    description="Glyph is built by a small team. Donations fund development and infrastructure."
-  >
-    <ButtonLink href="#donate" variant="light" icon="solar:hand-heart-linear">
-      Donate QU
-    </ButtonLink>
-    <ButtonLink
-      href={`https://explorer.glyphq.org/accounts/${qubicIdentity}`}
-      variant="glass"
-      icon="solar:global-linear"
-    >
-      View on Explorer
-    </ButtonLink>
-  </PageHero>
+    description="Glyph is maintained by a small team. Donations pay for development and infrastructure."
+  />
 
-  <PageSection id="donate" class="pb-10 md:pb-12">
-      <SectionHeader
-        title="Monthly target"
-        description="Help Glyph reach $2,000 every month. Progress is read live from the Qubic donation identity."
-        align="center"
-        size="lg"
-      />
-      <DonationProgress client:load identity={qubicIdentity} target={2000} />
-
-      <div class="mt-12">
+  <PageSection id="donate">
+    <Reveal>
+      <div class="grid gap-8 md:grid-cols-[1.05fr_0.95fr] md:gap-12">
         <div>
-          <h2 class="text-2xl font-medium tracking-tight text-ink">Donate QU</h2>
-          <p class="mt-3 max-w-2xl text-base leading-7 text-muted">
-            Send QU on Qubic mainnet to this identity. Copy it or open it in Glyph Wallet.
+          <p class="font-display text-[11px] uppercase tracking-[0.16em] text-muted">
+            Development window
           </p>
-          <div class="mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <code class="select-all break-all font-mono text-xs leading-5 text-ink/80">
+          <h2 class="mt-4 max-w-[16ch] text-3xl leading-[1.08] tracking-[-0.025em] text-ink md:text-[44px]">
+            Fund the next development window.
+          </h2>
+          <p class="mt-5 max-w-xl text-base leading-7 text-muted md:text-[19px] md:leading-[1.55]">
+            The current window pays for development and infrastructure. The bar shows the USD value
+            of incoming QU at the current price.
+          </p>
+
+          <div data-scroll-reveal class="mt-8 rounded-2xl bg-surface p-5 md:p-6">
+            <p class="text-sm text-muted">Send QU on Qubic mainnet</p>
+            <code class="mt-3 block select-all break-all font-mono text-xs leading-5 text-ink/80">
               {qubicIdentity}
             </code>
-            <CopyButton value={qubicIdentity} label="Qubic" client:load />
+            <div class="mt-4 flex flex-wrap items-center gap-3">
+              <CopyButton value={qubicIdentity} label="Qubic identity" client:load />
+              <a
+                href={`https://explorer.glyphq.org/accounts/${qubicIdentity}`}
+                class="text-sm text-accent-soft hover:underline"
+              >
+                View on Explorer
+              </a>
+            </div>
           </div>
         </div>
+
+        <div data-scroll-reveal class="rounded-2xl bg-surface p-5 md:p-6">
+          <DonationProgress client:load identity={qubicIdentity} target={2000} />
+        </div>
       </div>
+    </Reveal>
   </PageSection>
 
   <PageSection>
@@ -64,28 +67,36 @@ const qubicIdentity = "XIKAQZMFGQSALEMMJRATPPRESWTBXQVCOHTHCZWDGFXVBMCAHBCRUICFO
         align="center"
         size="lg"
       />
-      <div class="mt-12">
-        <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          <div class="flex items-center gap-4">
-            <img
-              src="/sponsors/minerlab.png"
-              alt="MinerLab"
-              width="96"
-              height="31"
-              class="sponsor-logo h-8 w-auto"
-            />
-            <div>
-              <p class="text-sm text-muted">$2,000+ donated</p>
+
+      <div class="mx-auto mt-12 max-w-3xl">
+        <div data-scroll-reveal class="rounded-2xl bg-surface p-5 md:p-6">
+          <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div class="flex items-center gap-4">
+              <img
+                src="/sponsors/minerlab.png"
+                alt="MinerLab"
+                width="96"
+                height="31"
+                class="sponsor-logo h-8 w-auto"
+              />
+              <div>
+                <p class="text-sm text-muted">$2,000+ donated</p>
+              </div>
             </div>
+            <ButtonLink
+              href="https://minerlab.io"
+              variant="secondary"
+              icon="solar:global-linear"
+              class="w-fit"
+            >
+              Visit MinerLab
+            </ButtonLink>
           </div>
-          <ButtonLink href="https://minerlab.io" variant="secondary" icon="solar:global-linear">
-            Visit MinerLab
-          </ButtonLink>
+          <p class="mt-4 max-w-2xl text-sm leading-6 text-muted md:text-base md:leading-7">
+            MinerLab runs mining pools for Qubic, Xelis, Abel, and Ore, with transparent payouts and
+            live network stats.
+          </p>
         </div>
-        <p class="mt-4 max-w-2xl text-base leading-7 text-muted">
-          MinerLab runs mining pools for Qubic, Xelis, Abel, and Ore, with transparent payouts and
-          live network stats.
-        </p>
       </div>
     </Reveal>
   </PageSection>

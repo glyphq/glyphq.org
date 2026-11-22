@@ -26,19 +26,22 @@ export default function DownloadPicker({ platforms }: Props) {
 
   return (
     <div>
-      <div className="mt-12 grid gap-10 md:grid-cols-3">
+      <div className="mt-12 grid gap-4 md:grid-cols-3">
         {platforms.map((platform) => {
           const Icon = icons[platform.id];
           const isActive = platform.id === detected;
           return (
-            <div key={platform.id} className="relative overflow-hidden">
+            <div
+              key={platform.id}
+              className="relative overflow-hidden rounded-2xl bg-surface p-5 md:p-6"
+            >
               <span className="hairline-mask" aria-hidden="true" />
               <div className="relative z-10">
                 <div className="flex items-center gap-3">
                   <Icon size={28} color="currentColor" aria-hidden="true" />
                   <h3 className="text-xl font-medium text-ink">{platform.name}</h3>
                   {isActive && (
-                    <span className="rounded-full bg-ink/5 px-2 py-0.5 font-display text-[10px] uppercase tracking-[0.12em] text-accent-soft">
+                    <span className="rounded-full bg-paper px-2 py-0.5 font-display text-[10px] uppercase tracking-[0.12em] text-accent-soft">
                       Detected
                     </span>
                   )}
@@ -47,7 +50,7 @@ export default function DownloadPicker({ platforms }: Props) {
                 <motion.a
                   href={platform.url}
                   whileTap={{ scale: 0.97 }}
-                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-surface px-4 py-2 font-display text-sm font-semibold text-ink transition-colors duration-150 hover:bg-[#2a2a2a]"
+                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 font-display text-sm font-semibold text-night transition-colors duration-150 hover:bg-accent-strong"
                 >
                   <span className="glyph-logo size-4" aria-hidden="true" />
                   Download

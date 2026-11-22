@@ -37,7 +37,7 @@ export const faqs: FaqItem[] = [
   {
     question: "How do connected app requests work?",
     answer:
-      "Connected Qubic apps can open supported glyph:// requests in Glyph. Glyph shows the request details so you can approve or decline it. Manage connected apps and their permissions in Settings → Connected apps.",
+      "Connected Qubic apps can open supported glyph:// requests in Glyph. Glyph shows the request details so you can approve or decline it. Manage connected apps and their permissions in Settings, then Connected apps.",
   },
   {
     question: "Do scheduled transfers send automatically?",

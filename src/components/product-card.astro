@@ -8,6 +8,7 @@ const { slug, name, summary, href } = Astro.props;
 ---
 
 <a
+  data-scroll-reveal
   id={slug}
   transition:name={`product-${slug}`}
   class="group relative block scroll-mt-24 overflow-hidden rounded-2xl bg-surface p-6 transition-colors duration-150 hover:bg-[#171717] md:p-7"

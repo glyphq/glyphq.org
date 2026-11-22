@@ -1,5 +1,5 @@
 ---
-import HeroBackdrop from "./hero-backdrop.astro";
+import ButtonLink from "./button-link.astro";
 import Reveal from "./reveal.astro";
 
 interface Props {
@@ -10,9 +10,8 @@ interface Props {
 const { title, description } = Astro.props;
 ---
 
-<section class="relative bg-[#0f0f0f] px-4 py-8 md:px-8">
-  <HeroBackdrop />
-  <Reveal duration="cinematic" class="relative z-10 py-12 text-center md:py-20">
+<section class="relative flex min-h-[75dvh] items-center px-4 py-8 md:px-8">
+  <Reveal duration="cinematic" class="relative z-10 w-full py-12 text-center md:py-20">
     <h1
       transition:name="page-title"
       class="mx-auto max-w-4xl text-balance text-[2.75rem] leading-[1.0] tracking-[-0.035em] text-white md:text-[64px]"
@@ -24,8 +23,10 @@ const { title, description } = Astro.props;
     >
       {description}
     </p>
-    <div class="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
-      <slot />
+    <div class="mt-8 flex justify-center">
+      <slot>
+        <ButtonLink href="/download" variant="primary" icon="glyph">Download Glyph</ButtonLink>
+      </slot>
     </div>
   </Reveal>
 </section>

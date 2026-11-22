@@ -21,16 +21,7 @@ const related = products.filter((item) => item.slug !== product.slug).slice(0, 3
 ---
 
 <Layout title={`${product.name} | Glyph`} description={product.summary}>
-  <PageHero title={product.name} description={product.summary}>
-    <ButtonLink href={product.primary.href} variant="light" icon={product.primary.icon}>{product.primary.label}</ButtonLink>
-    {
-      product.secondary && (
-        <ButtonLink href={product.secondary.href} variant="glass" icon={product.secondary.icon}>
-          {product.secondary.label}
-        </ButtonLink>
-      )
-    }
-  </PageHero>
+  <PageHero title={product.name} description={product.summary} />
 
   <PageSection>
     <Reveal>

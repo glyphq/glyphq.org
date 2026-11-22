@@ -11,6 +11,11 @@ import { buildPlatforms, getReleases, releasesPage } from "../lib/releases";
 const [latest] = await getReleases(1);
 const releaseUrl = latest?.url ?? releasesPage;
 const platforms = buildPlatforms(latest);
+const userGuide = "https://github.com/glyphq/wallet/blob/main/docs/USER_GUIDE.md";
+const discord = "https://discord.gg/s5qNRNGu96";
+const published = latest
+  ? new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(new Date(latest.publishedAt))
+  : null;
 ---
 
 <Layout
@@ -24,32 +29,93 @@ const platforms = buildPlatforms(latest);
     <DownloadHeroCta client:load platforms={platforms} releaseUrl={releaseUrl} />
   </PageHero>
 
-  <PageSection class="pb-10 md:pb-12">
-    <SectionHeader
-      title="Pick your platform"
-      description={latest ? `Latest release ${latest.tag}. We detect your system and suggest the right build.` : "We detect your system and suggest the right build."}
-      align="center"
-      size="lg"
-    />
-    <DownloadPicker client:load platforms={platforms} />
+  <PageSection>
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="font-display text-[11px] uppercase tracking-[0.16em] text-muted">Latest release</p>
+      <h2 class="mt-2 text-3xl leading-tight tracking-[-0.03em] text-ink">
+        {latest?.tag ?? "Glyph Wallet"}
+      </h2>
+      {published && <p class="mt-1 text-sm text-muted">Released {published}</p>}
+      <div class="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm">
+        <a class="text-accent-soft hover:underline" href={releasesPage}>All releases</a>
+        <a class="text-accent-soft hover:underline" href="/changelog">Changelog</a>
+        {
+          latest && (
+            <a class="text-accent-soft hover:underline" href={latest.url}>
+              Release notes
+            </a>
+          )
+        }
+      </div>
+    </div>
+
+    <div class="mt-16">
+      <SectionHeader
+        title="Pick your platform"
+        description={
+          latest
+            ? `Latest release ${latest.tag}. We detect your system and suggest the right build.`
+            : "We detect your system and suggest the right build."
+        }
+        align="center"
+        size="lg"
+      />
+      <DownloadPicker client:load platforms={platforms} />
+    </div>
 
     <div
-      class="mt-12 flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+      data-scroll-reveal
+      class="mx-auto mt-10 max-w-3xl rounded-2xl bg-surface p-5 md:p-6"
     >
+      <h2 class="font-display text-[11px] uppercase tracking-[0.16em] text-muted">
+        System requirements
+      </h2>
+      <ul class="mt-4 grid gap-2 text-sm leading-6 text-muted sm:grid-cols-2">
+        <li>Windows x64</li>
+        <li>macOS, Apple Silicon and Intel</li>
+        <li>Linux x86_64: AppImage, Debian, RPM</li>
+        <li>Desktop only; no browser or mobile build</li>
+      </ul>
+      <p class="mt-4 text-sm leading-6 text-muted">
+        Glyph does not run on 32-bit systems.
+      </p>
+      <a class="mt-4 inline-flex text-sm text-accent-soft hover:underline" href={userGuide}>
+        Install guide
+      </a>
+    </div>
+
+    {
+      latest && latest.assets.length > 0 && (
+        <details
+          data-scroll-reveal
+          class="mx-auto mt-4 max-w-3xl rounded-2xl bg-surface p-5 md:p-6"
+        >
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-5 text-left [&::-webkit-details-marker]:hidden">
+            <span class="text-base font-medium text-ink">All files in {latest.tag}</span>
+            <span class="text-xl leading-none text-muted" aria-hidden="true">
+              +
+            </span>
+          </summary>
+          <ul class="mt-4 space-y-2">
+            {latest.assets.map((asset) => (
+              <li>
+                <a class="break-all text-sm text-accent-soft hover:underline" href={asset.url}>
+                  {asset.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )
+    }
+
+    <div class="mt-12 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <p class="text-base text-muted">Need help installing?</p>
       <div class="flex flex-wrap gap-3">
-        <ButtonLink
-          href="https://github.com/glyphq/wallet/blob/main/docs/USER_GUIDE.md"
-          variant="secondary"
-          icon="solar:document-text-linear"
-        >
+        <ButtonLink href={userGuide} variant="secondary" icon="solar:document-text-linear">
           Install guide
         </ButtonLink>
-        <ButtonLink
-          href="https://discord.gg/faKATpcHGf"
-          variant="secondary"
-          icon="solar:chat-round-line-linear"
-        >
+        <ButtonLink href={discord} variant="secondary" icon="solar:chat-round-line-linear">
           Discord
         </ButtonLink>
       </div>

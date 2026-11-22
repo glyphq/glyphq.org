@@ -2,8 +2,8 @@
 
 Landing site for [glyphq.org](https://glyphq.org), built with Astro.
 
-This version is dark-only, with page view transitions, Geist Sans and Geist Mono typography, full-width
-ASCII gradient heroes behind the navigation, and hairline masks on cards.
+This version is dark-only, with page view transitions, Geist Sans and Geist Mono typography,
+dark page heroes, and hairline masks on cards.
 
 ## Stack
 

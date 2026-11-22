@@ -1,6 +1,4 @@
 ---
-import HairlineMask from "./hairline-mask.astro";
-
 interface Props {
   title: string;
   description: string;
@@ -12,17 +10,16 @@ const { title, description, href, image } = Astro.props;
 ---
 
 <a
+  data-scroll-reveal
   href={href}
   target="_blank"
   rel="noreferrer"
-  class="group relative flex flex-col overflow-hidden transition-colors duration-150 hover:bg-ink/5 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-accent-soft"
+  class="group relative flex h-full flex-col overflow-hidden rounded-2xl bg-surface p-5 transition-colors duration-150 hover:bg-[#171717] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-accent-soft md:p-6"
 >
-  <HairlineMask class="hairline-mask--bottom" />
   <div class="relative z-10 flex flex-col">
-    <div class="relative aspect-[1.91/1] overflow-hidden rounded-2xl bg-[#0f1b33]">
-      <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-white/70">
-        <span class="glyph-logo size-10" aria-hidden="true" />
-        <span class="text-sm font-medium">{title}</span>
+    <div class="relative aspect-[1.91/1] overflow-hidden rounded-xl bg-paper">
+      <div class="absolute inset-0 flex items-center justify-center px-6 text-center text-sm font-medium text-muted">
+        {title}
       </div>
       {
         image && (
@@ -35,7 +32,7 @@ const { title, description, href, image } = Astro.props;
         )
       }
     </div>
-    <h2 class="mt-6 text-2xl font-medium tracking-tight text-ink">{title}</h2>
+    <h2 class="mt-5 text-2xl font-medium tracking-tight text-ink">{title}</h2>
     <p class="mt-2 text-base leading-7 text-muted">{description}</p>
   </div>
 </a>

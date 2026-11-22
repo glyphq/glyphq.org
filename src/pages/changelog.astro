@@ -15,15 +15,14 @@ const notes = (body: string) =>
 ---
 
 <Layout title="Changelog | Glyph" description="Release notes for Glyph Wallet.">
-  <PageHero title="Changelog" description="Release notes for Glyph Wallet.">
-    <ButtonLink href={releasesPage} variant="light" icon="solar:code-linear">
-      All releases
-    </ButtonLink>
-    <ButtonLink href="/download" variant="glass" icon="glyph">Download Glyph</ButtonLink>
-  </PageHero>
+  <PageHero title="Changelog" description="Release notes for Glyph Wallet." />
 
   <PageSection>
     <Reveal>
+      <div class="mb-10 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+        <a class="text-accent-soft hover:underline" href={releasesPage}>All releases</a>
+        <a class="text-accent-soft hover:underline" href="/download">Download Glyph</a>
+      </div>
       {
         releases.length > 0 ? (
           <div class="space-y-12">

@@ -28,6 +28,14 @@ const {
     {noindex && <meta name="robots" content="noindex" />}
     <meta name="theme-color" content="#0a0a0a" />
     <link rel="icon" href="/favicon.png" type="image/png" />
+    <noscript>
+      <style>
+        [data-scroll-reveal] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
     <ClientRouter />
   </head>
   <body class="flex min-h-dvh flex-col overflow-x-clip">
@@ -44,6 +52,7 @@ const {
     <SiteFooter />
     <script>
       import "../scripts/ascii-reveal";
+      import "../scripts/scroll-reveal";
     </script>
   </body>
 </html>
