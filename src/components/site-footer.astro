@@ -1,5 +1,4 @@
 ---
-import { Icon } from "astro-icon/components";
 import { footerColumns } from "../data/site";
 import Wordmark from "./wordmark.astro";
 ---
@@ -26,25 +25,20 @@ import Wordmark from "./wordmark.astro";
             Glyph is a desktop wallet and explorer for Qubic, with tools for connected apps.
           </p>
           <div class="flex flex-col items-start gap-2 pt-2">
-            <span class="text-xs text-muted">Listed on</span>
+            <span class="font-space text-xs text-muted">Listed on</span>
             <a
               href="https://qubicmap.org/p/glyph"
               target="_blank"
               rel="noreferrer"
               aria-label="View Glyph on qubicmap.org"
-              class="group inline-flex items-center gap-2 rounded-xl bg-surface px-3.5 py-2 text-xs text-ink/70 ring-1 ring-line transition-colors duration-150 hover:bg-ink/5 hover:text-ink"
+              class="inline-flex items-center gap-2 rounded-xl bg-surface px-3.5 py-2 text-xs text-ink/70 transition-colors duration-150 hover:bg-ink/5 hover:text-ink"
             >
               <span
                 class="size-3.5 shrink-0 bg-accent-soft"
                 style="mask-image: url('/chains/qubic.svg'); -webkit-mask-image: url('/chains/qubic.svg'); mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-size: contain; -webkit-mask-size: contain; mask-position: center; -webkit-mask-position: center;"
                 aria-hidden="true"
               ></span>
-              <span class="whitespace-nowrap font-mono text-[11px]">qubicmap.org</span>
-              <Icon
-                name="solar:arrow-right-up-linear"
-                class="size-3 text-muted transition-transform duration-150 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                aria-hidden="true"
-              />
+              <span class="whitespace-nowrap font-space text-[12px]">qubicmap.org</span>
             </a>
           </div>
         </div>

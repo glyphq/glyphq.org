@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/geist-mono";
+@import "@fontsource-variable/space-grotesk";
 
 @theme {
   --font-sans: "Geist Variable", "Geist Sans", ui-sans-serif, system-ui, sans-serif;
@@ -8,6 +9,7 @@
   --font-mono:
     "Geist Mono Variable", "Geist Mono", ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas,
     "Liberation Mono", monospace;
+  --font-space: "Space Grotesk Variable", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --color-paper: #151311;
   --color-surface: #211a1b;
   --color-ink: #eed3ba;
