@@ -12,7 +12,7 @@ dark page heroes, and hairline masks on cards.
 | Framework | Astro 7 with React islands            |
 | Styling   | Tailwind CSS 4                        |
 | Motion    | Motion (Framer Motion) for navigation |
-| Effects   | ascii-reveal and PatternWaves (OGL)   |
+| Effects   | PatternWaves (OGL)                    |
 | Code      | Shiki                                 |
 | Runtime   | Bun 1.4.4                             |
 | Lint      | Biome and `astro check`               |

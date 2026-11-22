@@ -2,7 +2,11 @@
 
 import { AltArrowDownIcon } from "@solar-icons/react/linear/alt-arrow-down";
 import { CloseIcon } from "@solar-icons/react/linear/close";
+import { GalleryIcon } from "@solar-icons/react/linear/gallery";
 import { HamburgerMenuIcon } from "@solar-icons/react/linear/hamburger-menu";
+import { HandHeartIcon } from "@solar-icons/react/linear/hand-heart";
+import { HistoryIcon } from "@solar-icons/react/linear/history";
+import { InfoCircleIcon } from "@solar-icons/react/linear/info-circle";
 import { WidgetIcon } from "@solar-icons/react/linear/widget";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
@@ -14,9 +18,10 @@ interface Props {
 }
 
 const links = [
-  { label: "Showcase", href: "/showcase" },
-  { label: "Support", href: "/support" },
-  { label: "About", href: "/about" },
+  { label: "Showcase", href: "/showcase", icon: GalleryIcon },
+  { label: "Support", href: "/support", icon: HandHeartIcon },
+  { label: "Changelog", href: "/changelog", icon: HistoryIcon },
+  { label: "About", href: "/about", icon: InfoCircleIcon },
 ];
 
 const spring = { type: "spring", stiffness: 520, damping: 34, mass: 0.7 } as const;
@@ -88,19 +93,20 @@ export default function NavMenu({ pathname }: Props) {
 
   return (
     <>
-      <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
+      <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
         <div className="relative">
           <motion.button
             type="button"
             onClick={() => setProductsOpen((value) => !value)}
             whileTap={{ scale: 0.97 }}
             aria-expanded={productsOpen}
-            className={`flex cursor-pointer items-center gap-1 rounded-full px-3 py-2 font-display text-[14px] font-medium transition-colors duration-150 ${
+            className={`flex cursor-pointer items-center gap-2 rounded-full px-3 py-2 font-display text-[14px] font-medium transition-colors duration-150 ${
               isActive("/products")
                 ? "text-white"
                 : "text-white/60 hover:bg-white/10 hover:text-white"
             }`}
           >
+            <WidgetIcon size={16} aria-hidden="true" />
             Products
             <motion.span
               animate={{ rotate: productsOpen ? 180 : 0 }}
@@ -160,28 +166,32 @@ export default function NavMenu({ pathname }: Props) {
           </AnimatePresence>
         </div>
 
-        {links.map((item) => (
-          <motion.a
-            key={item.href}
-            href={item.href}
-            whileTap={{ scale: 0.97 }}
-            aria-current={isActive(item.href) ? "page" : undefined}
-            className={`rounded-full px-3 py-2 font-display text-[14px] font-medium transition-colors duration-150 ${
-              isActive(item.href)
-                ? "text-white"
-                : "text-white/60 hover:bg-white/10 hover:text-white"
-            }`}
-          >
-            {item.label}
-          </motion.a>
-        ))}
+        {links.map((item) => {
+          const RouteIcon = item.icon;
+          return (
+            <motion.a
+              key={item.href}
+              href={item.href}
+              whileTap={{ scale: 0.97 }}
+              aria-current={isActive(item.href) ? "page" : undefined}
+              className={`inline-flex items-center gap-2 rounded-full px-3 py-2 font-display text-[14px] font-medium transition-colors duration-150 ${
+                isActive(item.href)
+                  ? "text-white"
+                  : "text-white/60 hover:bg-white/10 hover:text-white"
+              }`}
+            >
+              <RouteIcon size={16} aria-hidden="true" />
+              {item.label}
+            </motion.a>
+          );
+        })}
       </nav>
 
       <div className="relative flex items-center gap-2">
         <motion.a
           href="/download"
           whileTap={{ scale: 0.97 }}
-          className="hidden items-center justify-center gap-2 rounded-full bg-accent px-4 py-2 font-display text-sm font-medium text-night transition-colors duration-150 hover:bg-accent-strong md:inline-flex"
+          className="hidden items-center justify-center gap-2 rounded-full bg-accent px-4 py-2 font-display text-sm font-medium text-night transition-colors duration-150 hover:bg-accent-strong lg:inline-flex"
         >
           <span className="glyph-logo size-4" aria-hidden="true" />
           Download
@@ -195,7 +205,7 @@ export default function NavMenu({ pathname }: Props) {
           aria-expanded={mobileOpen}
           aria-controls="mobile-menu"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          className="inline-flex size-9 items-center justify-center rounded-full bg-white/10 text-white md:hidden"
+          className="inline-flex size-9 items-center justify-center rounded-full bg-white/10 text-white lg:hidden"
         >
           {mobileOpen ? <CloseIcon size={18} /> : <HamburgerMenuIcon size={18} />}
         </motion.button>
@@ -217,7 +227,7 @@ export default function NavMenu({ pathname }: Props) {
                 transition={
                   reduced ? { duration: 0 } : { duration: 0.22, ease: [0.22, 1, 0.36, 1] }
                 }
-                className="fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-paper px-4 pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))] md:hidden"
+                className="fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-paper px-4 pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))] lg:hidden"
               >
                 <motion.div
                   initial={reduced ? false : { opacity: 0, y: -8 }}
@@ -247,28 +257,38 @@ export default function NavMenu({ pathname }: Props) {
                 </motion.div>
 
                 <nav className="mt-12 flex flex-col gap-1" aria-label="Mobile">
-                  {[{ label: "Products", href: "/products" }, ...links].map((item, index) => (
-                    <motion.a
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setMobileOpen(false)}
-                      aria-current={isActive(item.href) ? "page" : undefined}
-                      initial={reduced ? false : { opacity: 0, y: 14 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={
-                        reduced
-                          ? { duration: 0 }
-                          : {
-                              duration: 0.24,
-                              delay: 0.08 + index * 0.04,
-                              ease: [0.22, 1, 0.36, 1],
-                            }
-                      }
-                      className="rounded-2xl px-4 py-4 font-display text-2xl font-medium text-ink/80 transition-colors duration-150 hover:bg-white/5 hover:text-ink"
-                    >
-                      {item.label}
-                    </motion.a>
-                  ))}
+                  {[{ label: "Products", href: "/products", icon: WidgetIcon }, ...links].map(
+                    (item, index) => {
+                      const RouteIcon = item.icon;
+                      return (
+                        <motion.a
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setMobileOpen(false)}
+                          aria-current={isActive(item.href) ? "page" : undefined}
+                          initial={reduced ? false : { opacity: 0, y: 14 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={
+                            reduced
+                              ? { duration: 0 }
+                              : {
+                                  duration: 0.24,
+                                  delay: 0.08 + index * 0.04,
+                                  ease: [0.22, 1, 0.36, 1],
+                                }
+                          }
+                          className="flex items-center gap-3 rounded-2xl px-4 py-4 font-display text-2xl font-medium text-ink/80 transition-colors duration-150 hover:bg-white/5 hover:text-ink"
+                        >
+                          <RouteIcon
+                            size={20}
+                            aria-hidden="true"
+                            className="shrink-0 text-accent-soft"
+                          />
+                          {item.label}
+                        </motion.a>
+                      );
+                    },
+                  )}
                 </nav>
 
                 <motion.div

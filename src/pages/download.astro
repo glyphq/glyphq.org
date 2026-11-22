@@ -16,6 +16,9 @@ const discord = "https://discord.gg/s5qNRNGu96";
 const published = latest
   ? new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(new Date(latest.publishedAt))
   : null;
+const version = latest?.tag.replace(/^v/, "") ?? "";
+const digests = latest?.assets.filter((asset) => asset.digest) ?? [];
+const manifests = latest?.assets.filter((asset) => asset.name.startsWith("SHA256SUMS")) ?? [];
 ---
 
 <Layout
@@ -26,17 +29,17 @@ const published = latest
     title="Download Glyph"
     description="The self-custodial desktop wallet for Qubic. Windows, macOS, and Linux."
   >
-    <DownloadHeroCta client:load platforms={platforms} releaseUrl={releaseUrl} />
-  </PageHero>
-
-  <PageSection>
-    <div class="mx-auto max-w-3xl text-center">
-      <p class="font-display text-[11px] uppercase tracking-[0.16em] text-muted">Latest release</p>
-      <h2 class="mt-2 text-3xl leading-tight tracking-[-0.03em] text-ink">
-        {latest?.tag ?? "Glyph Wallet"}
-      </h2>
-      {published && <p class="mt-1 text-sm text-muted">Released {published}</p>}
-      <div class="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm">
+    <div class="flex flex-col items-center gap-2">
+      <DownloadHeroCta client:load platforms={platforms} releaseUrl={releaseUrl} />
+      {
+        latest && (
+          <p class="text-sm text-muted">
+            Latest release <span class="font-medium text-ink">{latest.tag}</span>
+            {published && <> · Released {published}</>}
+          </p>
+        )
+      }
+      <div class="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm">
         <a class="text-accent-soft hover:underline" href={releasesPage}>All releases</a>
         <a class="text-accent-soft hover:underline" href="/changelog">Changelog</a>
         {
@@ -48,7 +51,9 @@ const published = latest
         }
       </div>
     </div>
+  </PageHero>
 
+  <PageSection>
     <div class="mt-16">
       <SectionHeader
         title="Pick your platform"
@@ -63,10 +68,7 @@ const published = latest
       <DownloadPicker client:load platforms={platforms} />
     </div>
 
-    <div
-      data-scroll-reveal
-      class="mx-auto mt-10 max-w-3xl rounded-2xl bg-surface p-5 md:p-6"
-    >
+    <div data-scroll-reveal class="mx-auto mt-10 max-w-3xl rounded-2xl bg-surface p-5 md:p-6">
       <h2 class="font-display text-[11px] uppercase tracking-[0.16em] text-muted">
         System requirements
       </h2>
@@ -76,20 +78,67 @@ const published = latest
         <li>Linux x86_64: AppImage, Debian, RPM</li>
         <li>Desktop only; no browser or mobile build</li>
       </ul>
-      <p class="mt-4 text-sm leading-6 text-muted">
-        Glyph does not run on 32-bit systems.
-      </p>
+      <p class="mt-4 text-sm leading-6 text-muted">Glyph does not run on 32-bit systems.</p>
       <a class="mt-4 inline-flex text-sm text-accent-soft hover:underline" href={userGuide}>
         Install guide
       </a>
     </div>
 
+    <div data-scroll-reveal class="mx-auto mt-4 max-w-3xl rounded-2xl bg-surface p-5 md:p-6">
+      <h2 class="font-display text-[11px] uppercase tracking-[0.16em] text-muted">
+        Verify your download
+      </h2>
+      <p class="mt-3 text-sm leading-6 text-muted">
+        The release publishes SHA256SUMS files. Download the manifest for your platform, compute the
+        SHA-256 digest of the file you downloaded, and compare the values.
+      </p>
+      <pre class="mt-4 overflow-x-auto rounded-xl bg-paper p-4 font-mono text-xs leading-5 text-ink/80"># macOS or Linux
+shasum -a 256 Glyph.Wallet_{version}_universal.dmg
+sha256sum Glyph.Wallet_{version}_amd64.AppImage
+
+# Windows PowerShell
+Get-FileHash .\Glyph.Wallet_{version}_x64-setup.exe -Algorithm SHA256</pre>
+      {
+        manifests.length > 0 && (
+          <div class="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+            {manifests.map((asset) => (
+              <a class="text-accent-soft hover:underline" href={asset.url}>
+                {asset.name}
+              </a>
+            ))}
+          </div>
+        )
+      }
+      {
+        digests.length > 0 && (
+          <details class="mt-4 rounded-xl bg-paper p-4">
+            <summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+              <span class="text-sm font-medium text-ink">Show SHA-256 digests</span>
+            </summary>
+            <ul class="mt-3 space-y-2">
+              {digests.map((asset) => (
+                <li class="break-all font-mono text-xs leading-5 text-muted">
+                  {asset.name}: {asset.digest}
+                </li>
+              ))}
+            </ul>
+          </details>
+        )
+      }
+      <p class="mt-4 text-sm leading-6 text-muted">
+        If the digests differ, delete the file and download it again from the release page.
+      </p>
+      <a
+        class="mt-3 inline-flex text-sm text-accent-soft hover:underline"
+        href={latest?.url ?? releasesPage}
+      >
+        Open the release page
+      </a>
+    </div>
+
     {
       latest && latest.assets.length > 0 && (
-        <details
-          data-scroll-reveal
-          class="mx-auto mt-4 max-w-3xl rounded-2xl bg-surface p-5 md:p-6"
-        >
+        <details data-scroll-reveal class="mx-auto mt-4 max-w-3xl rounded-2xl bg-surface p-5 md:p-6">
           <summary class="flex cursor-pointer list-none items-center justify-between gap-5 text-left [&::-webkit-details-marker]:hidden">
             <span class="text-base font-medium text-ink">All files in {latest.tag}</span>
             <span class="text-xl leading-none text-muted" aria-hidden="true">

@@ -1,18 +1,11 @@
 ---
 interface Props {
-  duration?: "fast" | "cinematic";
-  preset?: "decode" | "dither" | "terminal" | "blueprint";
   class?: string;
 }
 
-const { duration = "fast", preset = "decode", class: className } = Astro.props;
+const { class: className } = Astro.props;
 ---
 
-<div
-  class:list={["relative", className]}
-  data-ascii-reveal
-  data-reveal-duration={duration}
-  data-reveal-preset={preset}
->
+<div class:list={["relative", className]}>
   <slot />
 </div>

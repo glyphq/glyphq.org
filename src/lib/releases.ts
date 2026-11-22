@@ -1,6 +1,7 @@
 export interface ReleaseAsset {
   name: string;
   url: string;
+  digest?: string;
 }
 
 export interface Release {
@@ -25,6 +26,7 @@ export interface DownloadPlatform {
 interface GitHubAsset {
   name: string;
   browser_download_url: string;
+  digest?: string | null;
 }
 
 interface GitHubRelease {
@@ -65,6 +67,7 @@ const fetchReleases = async (limit: number): Promise<Release[]> => {
         assets: release.assets.map((asset) => ({
           name: asset.name,
           url: asset.browser_download_url,
+          digest: asset.digest ?? undefined,
         })),
       }));
   } catch {

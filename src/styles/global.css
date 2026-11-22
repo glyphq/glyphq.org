@@ -86,11 +86,6 @@
     outline-offset: 2px;
   }
 
-  [data-ascii-reveal] {
-    --ascii-accent: var(--color-accent-soft);
-    --ascii-glyph: var(--color-ink);
-  }
-
   .glyph-mark {
     display: inline-block;
     background-color: var(--color-accent-soft);

@@ -10,8 +10,9 @@ interface Props {
 const { title, description } = Astro.props;
 ---
 
-<section class="relative flex min-h-[75dvh] items-center px-4 py-8 md:px-8">
-  <Reveal duration="cinematic" class="relative z-10 w-full py-12 text-center md:py-20">
+<section class="relative flex min-h-[75dvh] items-center px-4 pb-8 pt-24 md:px-8 md:pt-28">
+  <Reveal class="relative z-10 w-full py-12 text-center md:py-20">
+    <span class="glyph-logo mx-auto mb-5 block size-9 text-white md:size-11" aria-hidden="true" />
     <h1
       transition:name="page-title"
       class="mx-auto max-w-4xl text-balance text-[2.75rem] leading-[1.0] tracking-[-0.035em] text-white md:text-[64px]"
