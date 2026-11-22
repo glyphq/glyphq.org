@@ -1,9 +1,9 @@
 # glyphq landing
 
-Landing page for [glyphq.org](https://glyphq.org), built with Astro.
+Landing site for [glyphq.org](https://glyphq.org), built with Astro.
 
-This version is a dark-only wireframe. It uses the Glyph logo from the existing site, Space Grotesk, Solar icons, and
-text-only placeholder content, with no custom illustrations.
+This version is a dark-only front end with the Glyph logo, Space Grotesk, Solar icons, ASCII reveal
+effects, and static PatternWaves backgrounds. It has no custom illustrations.
 
 ## Stack
 
@@ -38,7 +38,8 @@ Deploys run on `.github/workflows/deploy.yml`. The workflow needs:
 - `secrets.CLOUDFLARE_API_TOKEN`
 
 `bun run deploy` builds `dist/` and uploads it as static assets for the `glyphq-landing` Worker.
-Set a custom domain in `wrangler.jsonc` when the DNS cutover is approved.
+Set a custom domain in `wrangler.jsonc` when the DNS cutover is approved. The Worker serves
+`dist/404.html` for unknown routes.
 
 ## Commits
 
