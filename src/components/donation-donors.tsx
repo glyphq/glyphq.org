@@ -194,7 +194,7 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
               <span className="relative shrink-0">
                 {index === 0 && (
                   <span
-                    className="absolute -right-1 -top-1 z-20 text-accent-soft"
+                    className="absolute inset-0 z-20 flex items-center justify-center text-accent-soft"
                     aria-hidden="true"
                   >
                     <CrownIcon size={12} aria-hidden="true" />
