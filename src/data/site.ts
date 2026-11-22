@@ -159,12 +159,12 @@ export const products: Product[] = [
   },
   {
     slug: "api",
-    short: "Self-hosted data API",
+    short: "Hosted Qubic data API",
     color: "#0891b2",
     name: "Glyph API",
-    summary: "Self-hosted Qubic indexer and read API with verification at ingest.",
+    summary: "A verified Qubic indexer and read API, hosted for public use.",
     description:
-      "Glyph API connects to Qubic peers over TCP, verifies what they return, stores normalized history in ClickHouse, and serves a resource-oriented HTTP API.",
+      "Glyph API connects to Qubic peers over TCP, verifies what they return, stores normalized history in ClickHouse, and serves a public HTTP API.",
     features: [
       "Direct Qubic peers over the native TCP protocol",
       "Quorum and data verification at ingest",
@@ -174,14 +174,14 @@ export const products: Product[] = [
     href: "/products/api",
     icon: "solar:database-linear",
     primary: {
+      label: "Open the API",
+      href: "https://api.glyphq.org/docs",
+      icon: "solar:document-text-linear",
+    },
+    secondary: {
       label: "View the source",
       href: "https://github.com/glyphq/service",
       icon: "solar:code-linear",
-    },
-    secondary: {
-      label: "Read the docs",
-      href: "https://docs.glyphq.org",
-      icon: "solar:document-text-linear",
     },
   },
 ];
@@ -210,7 +210,7 @@ export const specs = [
   { label: "Contracts", value: "@glyph-oss/contracts" },
   { label: "Relay", value: "SSE + polling" },
   { label: "Explorer", value: "explorer.glyphq.org" },
-  { label: "API", value: "self-hosted" },
+  { label: "API", value: "api.glyphq.org" },
 ];
 
 export const footerColumns = [
