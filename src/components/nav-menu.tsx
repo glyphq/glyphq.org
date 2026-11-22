@@ -10,7 +10,6 @@ import { GlobalIcon } from "@solar-icons/react/linear/global";
 import { HamburgerMenuIcon } from "@solar-icons/react/linear/hamburger-menu";
 import { HandHeartIcon } from "@solar-icons/react/linear/hand-heart";
 import { HistoryIcon } from "@solar-icons/react/linear/history";
-import { InfoCircleIcon } from "@solar-icons/react/linear/info-circle";
 import { ServerIcon } from "@solar-icons/react/linear/server";
 import { WalletIcon } from "@solar-icons/react/linear/wallet";
 import { WidgetIcon } from "@solar-icons/react/linear/widget";
@@ -27,7 +26,6 @@ const links = [
   { label: "Showcase", href: "/showcase", icon: GalleryIcon },
   { label: "Support", href: "/support", icon: HandHeartIcon },
   { label: "Changelog", href: "/changelog", icon: HistoryIcon },
-  { label: "About", href: "/about", icon: InfoCircleIcon },
 ];
 
 const productGroups = [

@@ -28,7 +28,6 @@ dark page heroes, and hairline masks on cards.
 | `/products/[slug]` | One page per product                    |
 | `/showcase`        | Projects built with Glyph               |
 | `/support`         | Donations                               |
-| `/about`           | About Glyph                             |
 | `/download`        | OS detection, release assets, changelog |
 | `/changelog`       | Wallet release notes                    |
 | `/principles`      | Supporting page                         |

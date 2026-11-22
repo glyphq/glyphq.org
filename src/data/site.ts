@@ -226,7 +226,6 @@ export const footerColumns = [
     links: [
       { label: "Showcase", href: "/showcase" },
       { label: "Support", href: "/support" },
-      { label: "About", href: "/about" },
       { label: "Download", href: "/download" },
     ],
   },
