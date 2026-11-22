@@ -1,0 +1,51 @@
+---
+interface Props {
+  kicker: string;
+  title: string;
+  description?: string;
+  align?: "left" | "center";
+  tone?: "light" | "dark";
+  class?: string;
+}
+
+const {
+  kicker,
+  title,
+  description,
+  align = "left",
+  tone = "light",
+  class: className,
+} = Astro.props;
+---
+
+<div class:list={[align === "center" && "text-center", className]}>
+  <p
+    class:list={[
+      "font-mono text-[11px] uppercase tracking-[0.12em]",
+      tone === "dark" ? "text-[#93c5fd]" : "text-accent-strong",
+    ]}
+  >
+    {kicker}
+  </p>
+  <h2
+    class:list={[
+      "mt-3 text-3xl tracking-tight md:text-4xl",
+      tone === "dark" ? "text-white" : "text-ink",
+    ]}
+  >
+    {title}
+  </h2>
+  {
+    description && (
+      <p
+        class:list={[
+          "mt-4 text-sm leading-6 md:text-base md:leading-7",
+          tone === "dark" ? "text-white/70" : "text-muted",
+          align === "center" ? "mx-auto max-w-2xl" : "max-w-2xl",
+        ]}
+      >
+        {description}
+      </p>
+    )
+  }
+</div>

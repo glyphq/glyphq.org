@@ -1,0 +1,32 @@
+---
+import { stack } from "../data/site";
+---
+
+<div class="mx-auto mt-6 w-full overflow-hidden rounded-lg border border-white/15">
+  <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/15 px-4 py-3">
+    <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-white/50">The Glyph stack</p>
+    <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-white/50">Qubic mainnet</p>
+  </div>
+  <ol class="grid gap-px bg-white/10 md:grid-cols-[1fr_auto_1fr_auto_1fr]">
+    {
+      stack.map((item, index) => (
+        <>
+          {index > 0 && (
+            <li
+              class="hidden items-center justify-center bg-night px-3 py-5 font-mono text-white/30 md:flex"
+              aria-hidden="true"
+            >
+              →
+            </li>
+          )}
+          <li class="bg-night px-5 py-6">
+            <p class="text-sm font-medium text-white">{item.label}</p>
+            <p class="mt-1 font-mono text-[11px] uppercase tracking-[0.12em] text-white/50">
+              {item.detail}
+            </p>
+          </li>
+        </>
+      ))
+    }
+  </ol>
+</div>

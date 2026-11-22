@@ -1,0 +1,48 @@
+---
+import type { Product } from "../data/site";
+
+interface Props extends Product {
+  class?: string;
+}
+
+const {
+  tag,
+  title,
+  description,
+  href,
+  features = [],
+  wide = false,
+  class: className,
+} = Astro.props;
+---
+
+<article
+  class:list={[
+    "flex flex-col justify-between gap-8 bg-surface p-6 transition-colors duration-150 hover:bg-[#fafafa] md:p-8",
+    wide && "md:col-span-2",
+    className,
+  ]}
+>
+  <div class="space-y-3">
+    <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">{tag}</p>
+    <h3 class="text-xl font-medium tracking-tight">{title}</h3>
+    <p class="max-w-md text-sm leading-6 text-muted">{description}</p>
+    {
+      features.length > 0 && (
+        <ul class="flex flex-wrap gap-2 pt-2">
+          {features.map((feature) => (
+            <li class="rounded-full border border-line px-2.5 py-1 font-mono text-[11px] uppercase tracking-wide text-muted">
+              {feature}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+  <a
+    class="w-fit font-mono text-[11px] uppercase tracking-[0.12em] text-accent-strong underline-offset-4 hover:underline"
+    href={href}
+  >
+    Learn more
+  </a>
+</article>
