@@ -73,7 +73,7 @@ export default function DonationDonors({ profiles = [], staticSupporter }: Props
       target="_blank"
       rel="noreferrer"
       aria-label={staticSupporter.ariaLabel}
-      className="inline-grid w-fit min-w-[200px] grid-cols-1 items-center"
+      className="mb-2.5 grid w-fit max-w-full break-inside-avoid grid-cols-1 items-center md:mb-0"
     >
       <span className="z-10 w-fit max-w-[calc(16ch+1.5rem)] justify-self-start truncate rounded-t-2xl bg-surface px-3 py-1 text-left font-mono text-[11px] tracking-[0.04em] text-muted">
         {staticSupporter.label}
@@ -121,7 +121,9 @@ export default function DonationDonors({ profiles = [], staticSupporter }: Props
   }
 
   if (!donations.length) {
-    return staticChip ? <div className="mt-5 flex flex-wrap gap-2.5">{staticChip}</div> : null;
+    return staticChip ? (
+      <div className="mt-5 columns-2 gap-2.5 md:flex md:flex-wrap">{staticChip}</div>
+    ) : null;
   }
 
   const names = new Map(profiles.map((profile) => [profile.identity, profile.displayName]));
@@ -133,7 +135,7 @@ export default function DonationDonors({ profiles = [], staticSupporter }: Props
   const ordered = [...podium, ...recent];
 
   return (
-    <div className="mt-5 flex flex-wrap gap-2.5">
+    <div className="mt-5 columns-2 gap-2.5 md:flex md:flex-wrap">
       {ordered.map((donation, index) => {
         const name = names.get(donation.identity) ?? shortIdentity(donation.identity);
         const chipLabel = name.length > 16 ? `${name.slice(0, 16)}…` : name;
@@ -155,7 +157,7 @@ export default function DonationDonors({ profiles = [], staticSupporter }: Props
             rel="noreferrer"
             aria-label={`${name} donated ${quFormatter.format(donation.amount)} QU.${index === 0 ? " Top donation." : ""} Open transaction.`}
             title={donation.identity}
-            className="relative inline-grid w-fit min-w-[200px] grid-cols-1 items-center"
+            className="relative mb-2.5 grid w-fit max-w-full break-inside-avoid grid-cols-1 items-center md:mb-0"
           >
             <span className="relative z-10 w-fit max-w-[calc(16ch+1.5rem)] justify-self-start">
               <span
