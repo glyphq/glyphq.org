@@ -7,11 +7,26 @@ text-only placeholder content, with no custom illustrations.
 
 ## Stack
 
-Inside of your Astro project, you'll see the following folders and files:
+| Layer     | Choice                  |
+| --------- | ----------------------- |
+| Framework | Astro 7                 |
+| Styling   | Tailwind CSS 4          |
+| Runtime   | Bun 1.4.4               |
+| Lint      | Biome and `astro check` |
+| Tests     | Vitest                  |
+| Deploy    | Workers static assets   |
 
 ## Commands
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+| Command             | What it does                              |
+| ------------------- | ----------------------------------------- |
+| `bun install`       | Install dependencies and git hooks        |
+| `bun dev`           | Start the dev server on port 4321         |
+| `bun run check`     | Run Biome and Astro type checks           |
+| `bun run check:fix` | Apply Biome fixes                         |
+| `bun run test`      | Run Vitest                                |
+| `bun run build`     | Build the static site to `dist/`          |
+| `bun run deploy`    | Build and deploy the Worker with Wrangler |
 
 Start the dev server in the background with `astro dev --background`.
 
