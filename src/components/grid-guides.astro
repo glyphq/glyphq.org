@@ -1,0 +1,20 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div
+  aria-hidden="true"
+  class:list={[
+    "pointer-events-none absolute inset-0 mx-auto hidden max-w-[1200px] grid-cols-4 px-4 md:grid md:px-8",
+    className,
+  ]}
+>
+  <div class="border-l border-dashed border-white/10"></div>
+  <div class="border-l border-dashed border-white/10"></div>
+  <div class="border-l border-dashed border-white/10"></div>
+  <div class="border-l border-r border-dashed border-white/10"></div>
+</div>

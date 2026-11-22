@@ -1,46 +1,25 @@
 ---
 interface Props {
-  kicker: string;
   title: string;
   description?: string;
   align?: "left" | "center";
-  tone?: "light" | "dark";
+  size?: "md" | "lg";
   class?: string;
 }
 
-const {
-  kicker,
-  title,
-  description,
-  align = "left",
-  tone = "light",
-  class: className,
-} = Astro.props;
+const { title, description, align = "left", size = "md", class: className } = Astro.props;
+
+const titleSize =
+  size === "lg" ? "text-4xl leading-[1.05] md:text-[56px]" : "text-4xl leading-[1.1] md:text-5xl";
 ---
 
 <div class:list={[align === "center" && "text-center", className]}>
-  <p
-    class:list={[
-      "font-mono text-[11px] uppercase tracking-[0.12em]",
-      tone === "dark" ? "text-[#93c5fd]" : "text-accent-strong",
-    ]}
-  >
-    {kicker}
-  </p>
-  <h2
-    class:list={[
-      "mt-3 text-3xl tracking-tight md:text-4xl",
-      tone === "dark" ? "text-white" : "text-ink",
-    ]}
-  >
-    {title}
-  </h2>
+  <h2 class:list={["tracking-[-0.025em] text-ink", titleSize]}>{title}</h2>
   {
     description && (
       <p
         class:list={[
-          "mt-4 text-sm leading-6 md:text-base md:leading-7",
-          tone === "dark" ? "text-white/70" : "text-muted",
+          "mt-5 text-base leading-7 text-muted md:text-[19px] md:leading-[1.45]",
           align === "center" ? "mx-auto max-w-2xl" : "max-w-2xl",
         ]}
       >

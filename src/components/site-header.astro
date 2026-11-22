@@ -22,7 +22,7 @@ import Wordmark from "./wordmark.astro";
       {
         nav.map((item) => (
           <a
-            class="rounded-full px-3 py-2 text-sm text-white/65 transition-colors duration-150 hover:bg-white/5 hover:text-white"
+            class="rounded-full px-3 py-2 text-[15px] font-medium text-white/70 transition-colors duration-150 hover:bg-white/5 hover:text-white"
             href={item.href}
           >
             {item.label}
@@ -31,10 +31,8 @@ import Wordmark from "./wordmark.astro";
       }
     </nav>
 
-    <div class="flex items-center gap-3">
-      <ButtonLink href="https://glyphq.org/download" variant="light" size="sm">
-        Get the wallet
-      </ButtonLink>
+    <div class="flex items-center gap-2">
+      <ButtonLink href="https://docs.glyphq.org" size="sm">Start building</ButtonLink>
       <details class="relative md:hidden">
         <summary
           class="cursor-pointer list-none rounded-full border border-white/20 px-3 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-white/80 [&::-webkit-details-marker]:hidden"

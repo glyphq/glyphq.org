@@ -2,42 +2,48 @@
 import { footerColumns } from "../data/site";
 ---
 
-<footer class="border-t border-line bg-surface">
-  <div class="mx-auto grid max-w-[1120px] gap-10 px-4 py-14 md:grid-cols-[1.5fr_1fr_1fr_1fr] md:px-6">
-    <div class="space-y-3">
-      <Wordmark />
-      <p class="max-w-xs text-sm leading-6 text-muted">
-        Open-source tools for Qubic. Wallet, explorer, SDK, contracts, and API.
-      </p>
-    </div>
+<footer class="border-t border-line bg-night">
+  <div class="mx-auto max-w-[1200px] px-4 py-16 md:px-8 md:py-20">
+    <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div class="space-y-4">
+        <Wordmark />
+        <p class="max-w-xs text-base leading-7 text-muted">
+          The Glyph toolchain for Qubic. Wallet, SDKs, relay, explorer, and API.
+        </p>
+      </div>
 
-    {
-      footerColumns.map((column) => (
-        <div class="space-y-3">
-          <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">{column.title}</p>
-          <ul class="space-y-2">
-            {column.links.map((link) => (
-              <li>
-                <a
-                  class="text-sm text-muted underline-offset-4 transition-colors duration-150 hover:text-accent-strong hover:underline"
-                  href={link.href}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))
-    }
+      {
+        footerColumns.map((column) => (
+          <div class="space-y-4">
+            <p class="text-sm text-muted">{column.title}</p>
+            <ul class="space-y-2.5">
+              {column.links.map((link) => (
+                <li>
+                  <a
+                    class="text-base text-white/75 underline-offset-4 transition-colors duration-150 hover:text-white hover:underline"
+                    href={link.href}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
   </div>
 
   <div class="border-t border-line">
     <div
-      class="mx-auto flex max-w-[1120px] flex-col gap-2 px-4 py-4 font-mono text-[11px] uppercase tracking-[0.12em] text-muted sm:flex-row sm:items-center sm:justify-between md:px-6"
+      class="mx-auto flex max-w-[1200px] flex-col gap-3 px-4 py-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between md:px-8"
     >
       <p>© 2026 Glyph</p>
-      <p>Qubic mainnet</p>
+      <div class="flex flex-wrap gap-x-5 gap-y-2">
+        <a class="hover:text-ink" href="https://github.com/glyphq">GitHub</a>
+        <a class="hover:text-ink" href="https://docs.glyphq.org">Documentation</a>
+        <a class="hover:text-ink" href="https://glyphq.org/about">About</a>
+      </div>
     </div>
   </div>
 </footer>

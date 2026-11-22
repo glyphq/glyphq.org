@@ -1,7 +1,7 @@
 ---
 interface Props {
   href: string;
-  variant?: "primary" | "secondary" | "light" | "outline-dark";
+  variant?: "primary" | "secondary" | "light" | "outline-dark" | "translucent";
   size?: "sm" | "md";
   class?: string;
 }
@@ -10,20 +10,21 @@ const { href, variant = "primary", size = "md", class: className } = Astro.props
 
 const variants = {
   primary: "bg-accent text-white hover:bg-accent-strong",
-  secondary: "border border-line bg-surface text-ink hover:border-ink",
-  light: "bg-white text-ink hover:bg-white/90",
-  "outline-dark": "border border-white/30 text-white hover:bg-white/10",
+  secondary: "border border-line bg-transparent text-ink hover:border-white/40",
+  light: "bg-white text-night hover:bg-white/90",
+  "outline-dark": "border border-white/40 text-white hover:bg-white/10",
+  translucent: "bg-white/15 text-white hover:bg-white/20",
 };
 
 const sizes = {
-  sm: "px-4 py-2",
-  md: "px-5 py-3",
+  sm: "px-4 py-2 text-sm",
+  md: "px-6 py-3 text-base",
 };
 ---
 
 <a
   class:list={[
-    "inline-flex items-center justify-center rounded-full text-sm font-medium transition-colors duration-150",
+    "inline-flex items-center justify-center rounded-full font-medium transition-colors duration-150",
     variants[variant],
     sizes[size],
     className,

@@ -1,19 +1,12 @@
 ---
 interface Props {
-  tone?: "light" | "dark";
   class?: string;
 }
 
-const { tone = "light", class: className } = Astro.props;
-const src = tone === "dark" ? "/brand/glyph-on-dark.png" : "/brand/glyph-on-light.png";
+const { class: className } = Astro.props;
 ---
 
 <a class:list={["flex w-fit items-center gap-2", className]} href="/" aria-label="Glyph home">
-  <img src={src} alt="" width="28" height="28" class="size-7" />
-  <span
-    class:list={[
-      "text-lg font-medium tracking-tight",
-      tone === "dark" ? "text-white" : "text-ink",
-    ]}>glyphq</span
-  >
+  <img src="/brand/glyph-on-dark.png" alt="" width="28" height="28" class="size-7" />
+  <span class="text-lg font-medium tracking-tight text-ink">glyphq</span>
 </a>

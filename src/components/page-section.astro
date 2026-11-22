@@ -1,22 +1,18 @@
 ---
+import GridGuides from "./grid-guides.astro";
+
 interface Props {
   id?: string;
-  tone?: "light" | "dark";
+  guides?: boolean;
   class?: string;
 }
 
-const { id, tone = "light", class: className } = Astro.props;
+const { id, guides = true, class: className } = Astro.props;
 ---
 
-<section
-  id={id}
-  class:list={[
-    "border-b",
-    tone === "dark" ? "border-white/10 bg-night text-white" : "border-line bg-paper",
-    className,
-  ]}
->
-  <div class="mx-auto max-w-[1120px] px-4 py-20 md:px-6 md:py-24">
+<section id={id} class:list={["relative border-b border-line bg-paper", className]}>
+  {guides && <GridGuides />}
+  <div class="relative mx-auto max-w-[1200px] px-4 py-20 md:px-8 md:py-28">
     <slot />
   </div>
 </section>
