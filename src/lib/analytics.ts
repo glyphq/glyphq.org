@@ -1,5 +1,5 @@
 const configuredUrl = import.meta.env.PUBLIC_ANALYTICS_URL;
-const defaultUrl = import.meta.env.DEV ? "http://127.0.0.1:8787" : "https://analytics.glyphq.org";
+const defaultUrl = import.meta.env.DEV ? "http://127.0.0.1:8787" : "/api";
 
 export const ANALYTICS_URL = (configuredUrl || defaultUrl).replace(/\/$/, "");
 

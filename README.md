@@ -65,9 +65,9 @@ Deploys run on `.github/workflows/deploy.yml`. The workflow needs:
 `glyphq-landing` Worker, its static assets, and the `glyphq.org` custom domain. The Worker serves
 `dist/404.html` for unknown routes.
 
-Download and support analytics live in the separate `analytics-worker` project at
-`https://analytics.glyphq.org`. It exposes `GET /downloads`, `POST /downloads`, and
-`GET /support?ttl=120`. The Worker seeds the historical wallet-installer total from GitHub
+Download and support analytics live in the separate `analytics-worker` project. The landing
+calls it same-origin at `/api`, routed to that Worker; `/api/downloads` and
+`/api/support?ttl=120` are the public endpoints. The Worker seeds the historical wallet-installer total from GitHub
 once, calculates development-window progress, caches support data, and rate-limits tracked
 downloads per IP. The navbar uses a five-minute cache; support components use two minutes.
 Override the endpoint with `PUBLIC_ANALYTICS_URL` if needed.
