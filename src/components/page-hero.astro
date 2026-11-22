@@ -1,5 +1,6 @@
 ---
 import ButtonLink from "./button-link.astro";
+import GrainientBackground from "./grainient-background.astro";
 import Reveal from "./reveal.astro";
 
 interface Props {
@@ -11,6 +12,7 @@ const { title, description } = Astro.props;
 ---
 
 <section class="relative flex min-h-[75dvh] items-center px-4 pb-8 pt-24 md:px-8 md:pt-28">
+  <GrainientBackground />
   <Reveal class="relative z-10 w-full py-12 text-center md:py-20">
     <span class="glyph-logo mx-auto mb-5 block size-9 text-white md:size-11" aria-hidden="true" />
     <h1

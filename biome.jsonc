@@ -45,7 +45,7 @@
       }
     },
     {
-      "includes": ["**/gradient-ascii.tsx"],
+      "includes": ["**/gradient-ascii.tsx", "**/grainient.tsx"],
       "linter": {
         "rules": {
           "correctness": {

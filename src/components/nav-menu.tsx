@@ -46,6 +46,24 @@ export default function NavMenu({ pathname }: Props) {
   }, []);
 
   useEffect(() => {
+    const close = () => {
+      setMobileOpen(false);
+      setProductsOpen(false);
+    };
+    document.addEventListener("astro:page-load", close);
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const onChange = () => {
+      if (desktop.matches) close();
+    };
+    onChange();
+    desktop.addEventListener("change", onChange);
+    return () => {
+      document.removeEventListener("astro:page-load", close);
+      desktop.removeEventListener("change", onChange);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!mobileOpen) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
