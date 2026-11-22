@@ -28,7 +28,7 @@ const qrSvg = await QRCode.toString(identity, {
   </button>
 
   <dialog data-donate-dialog aria-labelledby="donate-title" class="donate-dialog">
-    <div class="w-full rounded-3xl bg-surface p-6 shadow-2xl shadow-black/50">
+    <div class="h-full w-full overflow-y-auto rounded-3xl bg-surface p-6 shadow-2xl shadow-black/50">
       <div class="flex items-start justify-between gap-5">
         <div>
           <p class="text-xs font-medium uppercase tracking-[0.14em] text-muted">Support Glyph</p>
@@ -56,12 +56,6 @@ const qrSvg = await QRCode.toString(identity, {
         aria-label="QR code for the Glyph donation identity"
       >
         <div class="h-full w-full [&_svg]:h-full [&_svg]:w-full" set:html={qrSvg} />
-        <span
-          class="absolute inset-0 m-auto flex size-[18%] items-center justify-center rounded-full bg-[#EED3BA]"
-          aria-hidden="true"
-        >
-          <span class="glyph-logo size-1/2 text-[#151311]" />
-        </span>
       </div>
 
       <div class="mt-4 flex items-center gap-2 rounded-2xl bg-paper p-2 pl-3">
@@ -90,8 +84,9 @@ const qrSvg = await QRCode.toString(identity, {
   .donate-dialog {
     position: fixed;
     inset: 0;
-    width: min(92vw, 34rem);
-    max-width: 34rem;
+    width: min(92vw, 28rem);
+    max-width: 28rem;
+    height: min(92dvh, 42rem);
     max-height: calc(100dvh - 2rem);
     margin: auto;
     padding: 0;
