@@ -50,6 +50,8 @@ const productIcons = {
 const productTitles = {
   connect: "@glyph-oss/connect",
   contracts: "@glyph-oss/contracts",
+  relay: "relay.glyphq.org",
+  api: "api.glyphq.org",
 } as const;
 
 const spring = { type: "spring", stiffness: 520, damping: 34, mass: 0.7 } as const;
