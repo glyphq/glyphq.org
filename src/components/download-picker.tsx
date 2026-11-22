@@ -50,7 +50,7 @@ export default function DownloadPicker({ platforms }: Props) {
                 <motion.a
                   href={platform.url}
                   whileTap={{ scale: 0.97 }}
-                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 font-display text-sm font-semibold text-night transition-colors duration-150 hover:bg-accent-strong"
+                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 font-display text-sm font-semibold text-white transition-colors duration-150 hover:bg-accent-strong"
                 >
                   <span className="glyph-logo size-4" aria-hidden="true" />
                   Download

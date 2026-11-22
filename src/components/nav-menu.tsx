@@ -206,7 +206,7 @@ export default function NavMenu({ pathname }: Props) {
         <motion.a
           href="/download"
           whileTap={{ scale: 0.97 }}
-          className="hidden items-center justify-center gap-2 rounded-full bg-accent px-4 py-2 font-display text-sm font-medium text-night transition-colors duration-150 hover:bg-accent-strong lg:inline-flex"
+          className="hidden items-center justify-center gap-2 rounded-full bg-accent px-4 py-2 font-display text-sm font-medium text-white transition-colors duration-150 hover:bg-accent-strong lg:inline-flex"
         >
           <span className="glyph-logo size-4" aria-hidden="true" />
           Download
@@ -323,7 +323,7 @@ export default function NavMenu({ pathname }: Props) {
                   <a
                     href="/download"
                     onClick={() => setMobileOpen(false)}
-                    className="flex w-full items-center justify-center gap-2 rounded-full bg-accent px-4 py-4 font-display text-base font-medium text-night hover:bg-accent-strong"
+                    className="flex w-full items-center justify-center gap-2 rounded-full bg-accent px-4 py-4 font-display text-base font-medium text-white hover:bg-accent-strong"
                   >
                     <span className="glyph-logo size-4" aria-hidden="true" />
                     Download Glyph

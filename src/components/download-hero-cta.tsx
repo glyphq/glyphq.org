@@ -25,7 +25,7 @@ export default function DownloadHeroCta({ platforms, releaseUrl }: Props) {
     <motion.a
       href={href}
       whileTap={{ scale: 0.97 }}
-      className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 font-display text-base font-semibold text-night transition-colors duration-150 hover:bg-accent-strong"
+      className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 font-display text-base font-semibold text-white transition-colors duration-150 hover:bg-accent-strong"
     >
       <span className="glyph-logo size-4" aria-hidden="true" />
       {label}

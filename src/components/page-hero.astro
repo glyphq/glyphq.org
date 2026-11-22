@@ -24,7 +24,7 @@ const isArticle = variant === "article";
   <Reveal
     class:list={[
       "relative z-10 w-full",
-      isArticle ? "mx-auto max-w-3xl text-left" : "py-12 text-center md:py-20",
+      isArticle ? "mx-auto max-w-3xl text-center" : "py-12 text-center md:py-20",
     ]}
   >
     {
@@ -40,7 +40,7 @@ const isArticle = variant === "article";
       class:list={[
         "text-balance text-white",
         isArticle
-          ? "max-w-3xl text-[2.5rem] leading-[1.08] tracking-[-0.03em] md:text-[52px]"
+          ? "mx-auto max-w-3xl text-[2.5rem] leading-[1.08] tracking-[-0.03em] md:text-[52px]"
           : "mx-auto max-w-4xl text-[2.75rem] leading-[1.0] tracking-[-0.035em] md:text-[64px]",
       ]}
     >
@@ -50,7 +50,7 @@ const isArticle = variant === "article";
       class:list={[
         "text-pretty text-white/75",
         isArticle
-          ? "mt-4 max-w-2xl text-base leading-7 md:text-[19px] md:leading-[1.5]"
+          ? "mx-auto mt-4 max-w-2xl text-base leading-7 md:text-[19px] md:leading-[1.5]"
           : "mx-auto mt-5 max-w-2xl text-base leading-7 md:text-[19px] md:leading-[1.5]",
       ]}
     >
