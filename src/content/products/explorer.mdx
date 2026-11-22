@@ -37,6 +37,19 @@ The tick view is useful when you need to check whether the network is moving bef
   An identity page usually answers the first question: whether a balance changed and which transactions caused it. From there, the transaction and tick pages fill in the rest.
 </Callout>
 
+## Link to a record
+
+The explorer routes are predictable, so an app can link someone straight to an identity, transaction, tick, or contract:
+
+```ts
+const explorer = "https://explorer.glyphq.org";
+
+const accountUrl = (identity: string) => `${explorer}/accounts/${identity}`;
+const transactionUrl = (hash: string) => `${explorer}/transactions/${hash}`;
+const tickUrl = (tick: number) => `${explorer}/ticks/${tick}`;
+const contractUrl = (name: string) => `${explorer}/contracts/${name.toLowerCase()}`;
+```
+
 ## For development
 
 The explorer is a quick way to inspect what a contract call or transfer did before writing a query against an index. For repeated reads, streams, or historical analysis, use [Glyph API](/products/api), which is the self-hosted data service in the same stack.

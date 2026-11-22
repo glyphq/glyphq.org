@@ -41,6 +41,44 @@ A Vault is the local container for one or more Qubic identities. The wallet uses
   ]}
 />
 
+## Run the desktop app
+
+Download the release for your platform, then start it. The Linux build is a single AppImage:
+
+```bash
+chmod +x Glyph_*_amd64.AppImage
+./Glyph_*_amd64.AppImage
+```
+
+Windows uses the per-user setup executable, and macOS uses the universal DMG.
+
+## Open a request from an app
+
+A connected app builds a Qubic transfer with Glyph Connect, wraps it in an envelope, and opens it from a click. The wallet receives the request for review.
+
+```ts
+import {
+  createEnvelope,
+  createTransferRequest,
+  launchGlyphRequest,
+} from "@glyph-oss/connect";
+
+const request = createTransferRequest({
+  type: "transfer",
+  dapp: { name: "Example", origin: "https://example.app" },
+  to: recipientIdentity,
+  amount: "1000",
+});
+
+const envelope = createEnvelope(request, {
+  callback: "https://example.app/api/glyph/callback",
+});
+
+launchGlyphRequest(envelope);
+```
+
+The callback URL must use HTTPS and match the dApp origin. The wallet shows the recipient and amount before the user approves or rejects the transfer.
+
 <LinkCard
   title="Download Glyph"
   description="Current builds for Windows, macOS, and Linux."

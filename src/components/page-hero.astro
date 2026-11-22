@@ -1,35 +1,67 @@
 ---
-import ButtonLink from "./button-link.astro";
 import GrainientBackground from "./grainient-background.astro";
 import Reveal from "./reveal.astro";
 
 interface Props {
   title: string;
   description: string;
+  variant?: "default" | "article";
 }
 
-const { title, description } = Astro.props;
+const { title, description, variant = "default" } = Astro.props;
+const isArticle = variant === "article";
 ---
 
-<section class="relative flex min-h-[75dvh] items-center px-4 pb-8 pt-24 md:px-8 md:pt-28">
+<section
+  class:list={[
+    "relative flex px-4 md:px-8",
+    isArticle
+      ? "pb-8 pt-28 md:pt-32"
+      : "min-h-[75dvh] items-center pb-8 pt-24 md:pt-28",
+  ]}
+>
   <GrainientBackground />
-  <Reveal class="relative z-10 w-full py-12 text-center md:py-20">
-    <span class="glyph-logo mx-auto mb-5 block size-9 text-white md:size-11" aria-hidden="true" />
+  <Reveal
+    class:list={[
+      "relative z-10 w-full",
+      isArticle ? "mx-auto max-w-3xl text-left" : "py-12 text-center md:py-20",
+    ]}
+  >
+    {
+      !isArticle && (
+        <span
+          class="glyph-logo mx-auto mb-5 block size-9 text-white md:size-11"
+          aria-hidden="true"
+        />
+      )
+    }
     <h1
       transition:name="page-title"
-      class="mx-auto max-w-4xl text-balance text-[2.75rem] leading-[1.0] tracking-[-0.035em] text-white md:text-[64px]"
+      class:list={[
+        "text-balance text-white",
+        isArticle
+          ? "max-w-3xl text-[2.5rem] leading-[1.08] tracking-[-0.03em] md:text-[52px]"
+          : "mx-auto max-w-4xl text-[2.75rem] leading-[1.0] tracking-[-0.035em] md:text-[64px]",
+      ]}
     >
       {title}
     </h1>
     <p
-      class="mx-auto mt-5 max-w-2xl text-pretty text-base leading-7 text-white/75 md:text-[19px] md:leading-[1.5]"
+      class:list={[
+        "text-pretty text-white/75",
+        isArticle
+          ? "mt-4 max-w-2xl text-base leading-7 md:text-[19px] md:leading-[1.5]"
+          : "mx-auto mt-5 max-w-2xl text-base leading-7 md:text-[19px] md:leading-[1.5]",
+      ]}
     >
       {description}
     </p>
-    <div class="mt-8 flex justify-center">
-      <slot>
-        <ButtonLink href="/download" variant="primary" icon="glyph">Download Glyph</ButtonLink>
-      </slot>
-    </div>
+    {
+      Astro.slots.has("default") && (
+        <div class:list={["mt-8 flex", !isArticle && "justify-center"]}>
+          <slot />
+        </div>
+      )
+    }
   </Reveal>
 </section>

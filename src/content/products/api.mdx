@@ -28,6 +28,25 @@ REST resources cover the records an application reads on demand. SSE and WebSock
 
 The API is resource oriented. A request names the resource and its identifiers, and the response carries the normalized record. That keeps the HTTP layer separate from the peer protocol and the storage schema.
 
+## Run it locally
+
+The repository includes a development runner that starts ClickHouse, applies the schema, and launches the API and indexer:
+
+```bash
+scripts/dev-up.sh
+scripts/smoke.sh
+```
+
+The API listens on `127.0.0.1:8080` by default. The health check and a tick query are a quick way to confirm the stack:
+
+```bash
+curl -sS localhost:8080/healthz
+curl -sS localhost:8080/v1/status
+curl -sS 'localhost:8080/v1/ticks?epoch=240&limit=25'
+```
+
+The API reference is at `http://127.0.0.1:8080/docs`, and the OpenAPI document is available there. Set `QUBIC_PEERS` to choose the peers the indexer follows. Stop the stack with `scripts/dev-down.sh`.
+
 ## Why self-host
 
 A hosted index is convenient until you need a different retention window, a private network path, or a query that the public service does not expose. A self-hosted node keeps those decisions in your infrastructure.

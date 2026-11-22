@@ -35,6 +35,32 @@ A typical call resolves the contract by name, selects a procedure or function, e
   ]}
 />
 
+## Encode a QX procedure
+
+Install the package:
+
+```bash
+bun add @glyph-oss/contracts
+```
+
+The typed handle encodes procedure input and decodes the output with the generated layout:
+
+```ts
+import { QX } from "@glyph-oss/contracts";
+
+const payload = QX.encodeProcedure("IssueAsset", {
+  assetName: 1n,
+  numberOfShares: 1_000_000n,
+  unitOfMeasurement: 1n,
+  numberOfDecimalPlaces: 0,
+});
+
+const issued = QX.decodeProcedureOutput("IssueAsset", outputBytes);
+console.log(issued.issuedNumberOfShares);
+```
+
+`outputBytes` is the raw output struct returned by the contract. Function outputs use `QX.decodeFunctionOutput("Fees", feesBytes)`.
+
 <Callout type="warning" title="Use the generated codecs at the contract boundary">
   Qubic contract layouts include padding and fixed field widths. Hand-written offsets can look correct for one contract and fail on another. The generated codecs keep the encoding and decoding in one place and follow the source definitions.
 </Callout>

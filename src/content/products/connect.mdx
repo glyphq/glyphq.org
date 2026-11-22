@@ -22,6 +22,52 @@ Each builder produces a typed request for one operation. The transfer builder de
 
 Requests use the `glyph://` scheme. Version 2 of the envelope includes a canonical hash of the request, which gives the app and the wallet a stable reference for the same payload.
 
+## Build and launch a transfer
+
+Install the package in the app:
+
+```bash
+bun add @glyph-oss/connect
+```
+
+A transfer request needs a recipient, a positive integer amount, and the dApp origin. The origin must be a canonical HTTPS origin.
+
+```ts
+import {
+  createEnvelope,
+  createTransferRequest,
+  launchGlyphRequest,
+} from "@glyph-oss/connect";
+
+const request = createTransferRequest({
+  type: "transfer",
+  dapp: { name: "Example", origin: "https://example.app" },
+  to: recipientIdentity,
+  amount: "1000",
+});
+
+const envelope = createEnvelope(request, {
+  callback: "https://example.app/api/glyph/callback",
+});
+
+launchGlyphRequest(envelope);
+```
+
+The envelope adds the protocol version, network binding, and request hash. The wallet posts a signed callback to the callback URL after the user acts.
+
+A server callback can parse the body with the request nonce and type:
+
+```ts
+import { parseCallbackResponse } from "@glyph-oss/connect";
+
+const result = parseCallbackResponse(await callbackRequest.json(), {
+  nonce: request.nonce,
+  type: request.type,
+});
+```
+
+`parseCallbackResponse` checks the shape and binding. For a signed callback envelope, use `verifyCallbackEnvelope` before trusting the result.
+
 ## Choosing a result path
 
 A callback works when the app controls the page that started the request. The wallet returns the result to that page, and the app can update its own state without a server round trip.

@@ -32,6 +32,43 @@ Polling works when a stream is inconvenient, for example behind a proxy that buf
 
 Glyph Connect has a relay result path alongside callbacks and redirects. The app creates the relay session, starts listening, and opens the `glyph://` request. The wallet posts the signed result to the relay, and the app consumes it from the session.
 
+## Relay in code
+
+A Relay session is prepared before the wallet opens. The callback URL goes into the envelope; the read URL stays inside the dApp.
+
+```ts
+import { k12, verify } from "@qubic.org/crypto";
+import {
+  createEnvelope,
+  launchGlyphRequest,
+  prepareRelaySession,
+  subscribeViaRelayV2,
+} from "@glyph-oss/connect";
+
+const session = await prepareRelaySession();
+const envelope = createEnvelope(request, {
+  callback: session.callbackUrl,
+});
+
+const resultPromise = subscribeViaRelayV2(request, session, {
+  verification: {
+    requireSigned: true,
+    expectedRequestHash: envelope.request_hash,
+    expectedNetwork: envelope.network,
+    expectedDappOrigin: request.dapp.origin,
+    expectedExp: request.exp ?? null,
+    expectedCallbackUrl: session.callbackUrl,
+    verifySignature: ({ payload, signature, publicKey }) =>
+      verify(k12(payload, 32), signature, publicKey),
+  },
+});
+
+launchGlyphRequest(envelope);
+const result = await resultPromise;
+```
+
+`prepareRelaySession()` registers the session with `https://relay.glyphq.org`. `subscribeViaRelayV2()` reads from the stream URL, while the wallet receives only the callback URL. The verification options bind the result to the request hash, network, origin, expiry, and callback URL.
+
 <Callout type="warning" title="Do not treat the relay as permanent storage">
   The session expires after ten minutes and accepts one result. If the app needs an audit trail, write the result to its own storage as soon as it is read.
 </Callout>
