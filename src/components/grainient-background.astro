@@ -1,22 +1,7 @@
 ---
-import Grainient from "./grainient";
 ---
 
 <div class="pointer-events-none absolute inset-y-0 left-1/2 w-screen -translate-x-1/2 overflow-hidden rounded-b-[2rem] opacity-15" aria-hidden="true">
-  <Grainient
-    client:load
-    colors={["#060708", "#0d1015", "#090b0f", "#a9c7ff", "#b6d0ff"]}
-    angle={55}
-    flow={0.8}
-    silk={0.35}
-    grainAmount={0.08}
-    intro={false}
-    speed={0}
-    grainAnimated={false}
-    interactive={false}
-    dpr={1}
-    className="relative z-10 h-full w-full"
-  />
   <div
     class="absolute inset-0 z-20 opacity-[0.05] mix-blend-overlay"
     style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E&quot;); background-size: 180px 180px"
