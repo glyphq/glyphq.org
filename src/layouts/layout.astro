@@ -4,7 +4,7 @@ import SiteFooter from "../components/site-footer.astro";
 import SiteHeader from "../components/site-header.astro";
 import { faqs } from "../data/faq";
 import { products } from "../data/site";
-import { canonicalUrlForPath, ogImageSize, ogSlugForPath } from "../lib/seo";
+import { canonicalUrlForPath, ogImageSize, ogImageVersion, ogSlugForPath } from "../lib/seo";
 import "../styles/global.css";
 
 interface Props {
@@ -29,7 +29,7 @@ const site = Astro.site ?? new URL("https://glyphq.org");
 const pathname = Astro.url.pathname;
 const cleanPath = pathname.replace(/^\/+|\/+$/g, "");
 const canonical = canonicalUrlForPath(pathname, site);
-const ogImage = new URL(`/og/${ogSlugForPath(pathname)}.png`, site).href;
+const ogImage = new URL(`/og/${ogSlugForPath(pathname)}.png?v=${ogImageVersion}`, site).href;
 const logo = new URL("/brand/glyph-on-dark.png", site).href;
 const product = products.find((item) => cleanPath === `products/${item.slug}`);
 

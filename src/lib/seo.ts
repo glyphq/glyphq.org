@@ -58,6 +58,7 @@ const productPages: OgPage[] = products.map((product) => ({
 export const ogPages: OgPage[] = [...topLevelPages, ...productPages];
 
 export const ogImageSize = { width: 1200, height: 630 } as const;
+export const ogImageVersion = "2026-11-22-2";
 
 export const ogSlugForPath = (pathname: string) => {
   const clean = pathname.replace(/^\/+|\/+$/g, "");
