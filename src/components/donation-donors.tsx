@@ -1,5 +1,6 @@
 "use client";
 
+import { CrownIcon } from "@solar-icons/react/linear/crown";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import IdentityAvatar from "./identity-avatar";
@@ -95,8 +96,9 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
       target="_blank"
       rel="noreferrer"
       aria-label={staticSupporter.ariaLabel}
-      className="inline-flex w-fit items-center rounded-full bg-surface px-4 py-1.5 text-sm transition-colors duration-150 hover:bg-ink/5"
+      className="inline-flex w-fit items-center gap-2.5 rounded-full bg-surface py-1.5 pl-1.5 pr-4 text-sm transition-colors duration-150 hover:bg-ink/5"
     >
+      <IdentityAvatar value={staticSupporter.label} size={28} />
       <span className="flex flex-col">
         <span className="flex items-baseline gap-2">
           <span className="text-muted">{staticSupporter.label}</span>
@@ -132,12 +134,16 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
   }
 
   const names = new Map(profiles.map((profile) => [profile.identity, profile.displayName]));
+  const biggestAmount = Math.max(...donations.map((donation) => donation.amount), 0);
+  const sortedDonations = [...donations].sort(
+    (a, b) => moment(b.timestamp).valueOf() - moment(a.timestamp).valueOf(),
+  );
 
   return (
     <div className="mt-5 flex flex-wrap gap-2.5">
-      {staticChip}
-      {donations.map((donation) => {
+      {sortedDonations.map((donation) => {
         const name = names.get(donation.identity) ?? shortIdentity(donation.identity);
+        const isBiggest = donation.amount === biggestAmount;
 
         return (
           <a
@@ -145,21 +151,36 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
             href={`${EXPLORER}/transactions/${donation.hash}`}
             target="_blank"
             rel="noreferrer"
-            aria-label={`${name} donated ${quFormatter.format(donation.amount)} QU. Open transaction.`}
+            aria-label={`${name} donated ${quFormatter.format(donation.amount)} QU.${isBiggest ? " Top donation." : ""} Open transaction.`}
             title={donation.identity}
-            className="inline-flex w-fit items-center gap-2.5 rounded-full bg-surface py-1.5 pl-1.5 pr-4 text-sm transition-colors duration-150 hover:bg-ink/5"
+            className={`inline-flex w-fit items-center gap-2.5 rounded-full py-1.5 pl-1.5 pr-4 text-sm transition-colors duration-150 hover:bg-ink/5 ${
+              isBiggest ? "bg-accent/15" : "bg-surface"
+            }`}
           >
-            <IdentityAvatar value={donation.identity} size={28} />
+            <span className="relative shrink-0">
+              {isBiggest && (
+                <span
+                  className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-accent-soft"
+                  aria-hidden="true"
+                >
+                  <CrownIcon size={14} aria-hidden="true" />
+                </span>
+              )}
+              <IdentityAvatar value={donation.identity} size={28} />
+            </span>
             <span className="flex min-w-0 flex-col">
               <span className="flex items-baseline gap-2">
                 <span className="max-w-[12rem] truncate text-muted">{name}</span>
-                <span className="text-ink">{quFormatter.format(donation.amount)} QU</span>
+                <span className={isBiggest ? "text-accent-soft" : "text-ink"}>
+                  {quFormatter.format(donation.amount)} QU
+                </span>
               </span>
               <span className="text-xs text-muted">{moment(donation.timestamp).fromNow()}</span>
             </span>
           </a>
         );
       })}
+      {staticChip}
     </div>
   );
 }
