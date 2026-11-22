@@ -15,7 +15,7 @@ export const glyphShikiTheme = {
     {
       scope: ["comment", "punctuation.definition.comment"],
       settings: {
-        foreground: "#9C8374",
+        foreground: "#8F7A6E",
         fontStyle: "italic",
       },
     },
@@ -23,25 +23,29 @@ export const glyphShikiTheme = {
       scope: [
         "keyword",
         "keyword.control",
+        "keyword.other",
+        "keyword.other.import",
+        "keyword.control.import",
+        "keyword.control.from",
         "storage",
         "storage.type",
         "storage.modifier",
         "keyword.operator.new",
       ],
       settings: {
-        foreground: "#EED3BA",
+        foreground: "#F2A6A0",
       },
     },
     {
       scope: ["string", "string.template", "constant.character.escape"],
       settings: {
-        foreground: "#F6E2CE",
+        foreground: "#EDC78F",
       },
     },
     {
       scope: ["constant.numeric", "constant.language", "constant.other.symbol", "constant.other"],
       settings: {
-        foreground: "#D8B79D",
+        foreground: "#D8A66B",
       },
     },
     {
@@ -52,7 +56,7 @@ export const glyphShikiTheme = {
         "meta.function-call",
       ],
       settings: {
-        foreground: "#F2DFCC",
+        foreground: "#F8E6D2",
       },
     },
     {
@@ -64,7 +68,7 @@ export const glyphShikiTheme = {
         "storage.type.interface",
       ],
       settings: {
-        foreground: "#E8CBB6",
+        foreground: "#E7B7B0",
       },
     },
     {
@@ -76,19 +80,19 @@ export const glyphShikiTheme = {
         "punctuation.terminator",
       ],
       settings: {
-        foreground: "#9B8477",
+        foreground: "#9B8174",
       },
     },
     {
       scope: ["entity.name.tag", "support.type.property-name", "meta.object-literal.key"],
       settings: {
-        foreground: "#EED3BA",
+        foreground: "#E7B486",
       },
     },
     {
       scope: ["invalid", "invalid.illegal"],
       settings: {
-        foreground: "#E58F8F",
+        foreground: "#F58A8A",
       },
     },
   ],

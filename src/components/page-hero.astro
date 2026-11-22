@@ -24,13 +24,13 @@ const isArticle = variant === "article";
   <Reveal
     class:list={[
       "relative z-10 w-full",
-      isArticle ? "mx-auto max-w-3xl text-center" : "py-12 text-center md:py-20",
+      isArticle ? "mx-auto max-w-6xl text-left" : "py-12 text-left md:py-20",
     ]}
   >
     {
       !isArticle && (
         <span
-          class="glyph-logo mx-auto mb-5 block size-9 text-ink md:size-11"
+          class="glyph-logo mb-5 block size-9 text-ink md:size-11"
           aria-hidden="true"
         />
       )
@@ -40,7 +40,7 @@ const isArticle = variant === "article";
       class:list={[
         "text-balance text-ink",
         isArticle
-          ? "mx-auto max-w-3xl text-[2.5rem] leading-[1.08] tracking-[-0.03em] md:text-[52px]"
+          ? "max-w-3xl text-[2.5rem] leading-[1.08] tracking-[-0.03em] md:text-[52px]"
           : "mx-auto max-w-4xl text-[2.75rem] leading-[1.0] tracking-[-0.035em] md:text-[64px]",
       ]}
     >
@@ -50,7 +50,7 @@ const isArticle = variant === "article";
       class:list={[
         "text-pretty text-ink/75",
         isArticle
-          ? "mx-auto mt-4 max-w-2xl text-base leading-7 md:text-[19px] md:leading-[1.5]"
+          ? "mt-4 max-w-3xl text-base leading-7 md:text-[19px] md:leading-[1.5]"
           : "mx-auto mt-5 max-w-2xl text-base leading-7 md:text-[19px] md:leading-[1.5]",
       ]}
     >
@@ -58,7 +58,7 @@ const isArticle = variant === "article";
     </p>
     {
       Astro.slots.has("default") && (
-        <div class:list={["mt-8 flex", !isArticle && "justify-center"]}>
+        <div class="mt-8 flex">
           <slot />
         </div>
       )

@@ -1,0 +1,31 @@
+---
+interface Props {
+  tag: string;
+  class?: string;
+}
+
+const { tag, class: className } = Astro.props;
+---
+
+<div
+  class:list={[
+    "relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-[#4B262F] via-[#2A1A1D] to-[#151311] p-5",
+    className,
+  ]}
+>
+  <span
+    class="glyph-logo absolute -bottom-10 -right-6 size-36 text-ink/[0.06]"
+    aria-hidden="true"
+  />
+  <div class="relative flex h-full flex-col justify-between">
+    <span class="glyph-logo size-6 text-ink" aria-hidden="true" />
+    <div>
+      <span class="block font-mono text-[10px] uppercase tracking-[0.18em] text-ink/45">
+        Release
+      </span>
+      <span class="mt-1 block font-mono text-2xl font-medium tracking-tight text-ink">
+        {tag}
+      </span>
+    </div>
+  </div>
+</div>

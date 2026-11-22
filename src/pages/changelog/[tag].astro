@@ -1,0 +1,56 @@
+---
+import { SiGithub } from "@icons-pack/react-simple-icons";
+import { marked } from "marked";
+import PageHero from "../../components/page-hero.astro";
+import Layout from "../../layouts/layout.astro";
+import { getReleases } from "../../lib/releases";
+
+export async function getStaticPaths() {
+  const releases = await getReleases(8);
+
+  return releases.map((release) => ({
+    params: { tag: release.tag },
+    props: { release },
+  }));
+}
+
+const { release } = Astro.props;
+const dateFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: "medium" });
+const published = dateFormatter.format(new Date(release.publishedAt));
+const notes = (body: string) =>
+  marked.parse(body || "No notes for this release.", { async: false }) as string;
+---
+
+<Layout
+  title={`${release.name} | Changelog | Glyph`}
+  description={`${release.tag} release notes for Glyph Wallet.`}
+>
+  <PageHero
+    variant="article"
+    title={release.name}
+    description={`${release.tag} · ${published}`}
+  />
+
+  <section class="bg-paper px-4 pb-20 pt-10 md:px-8 md:pb-28 md:pt-12">
+    <div class="mx-auto max-w-6xl">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <a class="text-sm text-muted transition-colors hover:text-ink" href="/changelog">
+          ← All releases
+        </a>
+        <a
+          class="text-muted transition-colors hover:text-ink"
+          href={release.url}
+          aria-label={`View ${release.tag} on GitHub`}
+          title="View on GitHub"
+        >
+          <SiGithub size={18} aria-hidden="true" />
+        </a>
+      </div>
+
+      <article
+        class="mt-8 text-base leading-8 text-muted [&_a]:text-accent-soft [&_a]:underline [&_a]:underline-offset-4 [&_h1]:mt-8 [&_h1]:text-2xl [&_h1]:font-medium [&_h1]:text-ink [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-medium [&_h2]:text-ink [&_h3]:mt-6 [&_h3]:text-lg [&_h3]:text-ink [&_li]:ml-5 [&_li]:mt-1 [&_li]:list-disc [&_p]:mt-4 [&_pre]:mt-6 [&_pre]:overflow-x-auto [&_pre]:rounded-2xl [&_pre]:bg-[#1A1513] [&_pre]:p-4 [&_strong]:font-medium [&_strong]:text-ink"
+        set:html={notes(release.body)}
+      />
+    </div>
+  </section>
+</Layout>

@@ -42,6 +42,56 @@ interface GitHubRelease {
 export const releasesPage = "https://github.com/glyphq/wallet/releases";
 
 const cache = new Map<number, Promise<Release[]>>();
+const releasesFeed = "https://github.com/glyphq/wallet/releases.atom";
+
+const decodeEntities = (value: string) =>
+  value.replace(/&(lt|gt|quot|#39|amp);/g, (_, entity: string) => {
+    const map: Record<string, string> = {
+      lt: "<",
+      gt: ">",
+      quot: '"',
+      "#39": "'",
+      amp: "&",
+    };
+    return map[entity] ?? `&${entity};`;
+  });
+
+const fetchReleaseFeed = async (limit: number): Promise<Release[]> => {
+  try {
+    const response = await fetch(releasesFeed, {
+      headers: { "User-Agent": "glyphq-landing" },
+    });
+    if (!response.ok) return [];
+    const xml = await response.text();
+    const entries = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].slice(0, limit);
+
+    return entries
+      .map(([, entry]) => {
+        const href =
+          entry.match(/<link[^>]*href="([^"]+)"[^>]*rel="alternate"[^>]*\/>/)?.[1] ??
+          entry.match(/<link[^>]*rel="alternate"[^>]*href="([^"]+)"[^>]*\/>/)?.[1] ??
+          "";
+        const tag = decodeEntities(href.split("/tag/")[1] ?? "");
+        const name = decodeEntities(
+          entry.match(/<title[^>]*>([\s\S]*?)<\/title>/)?.[1]?.trim() ?? tag,
+        );
+        const publishedAt = entry.match(/<updated>([^<]+)<\/updated>/)?.[1] ?? "";
+        const content = entry.match(/<content[^>]*>([\s\S]*?)<\/content>/)?.[1] ?? "";
+
+        return {
+          tag,
+          name: name || tag,
+          publishedAt,
+          url: href,
+          body: decodeEntities(content).trim(),
+          assets: [],
+        };
+      })
+      .filter((release) => release.tag && release.url);
+  } catch {
+    return fetchReleaseFeed(limit);
+  }
+};
 
 const fetchReleases = async (limit: number): Promise<Release[]> => {
   try {
@@ -54,7 +104,7 @@ const fetchReleases = async (limit: number): Promise<Release[]> => {
         },
       },
     );
-    if (!response.ok) return [];
+    if (!response.ok) return fetchReleaseFeed(limit);
     const data = (await response.json()) as GitHubRelease[];
     return data
       .filter((release) => !release.draft)
@@ -71,7 +121,7 @@ const fetchReleases = async (limit: number): Promise<Release[]> => {
         })),
       }));
   } catch {
-    return [];
+    return fetchReleaseFeed(limit);
   }
 };
 

@@ -1,17 +1,28 @@
 ---
-import { SiGithub } from "@icons-pack/react-simple-icons";
-import { marked } from "marked";
 import ButtonLink from "../components/button-link.astro";
 import PageHero from "../components/page-hero.astro";
 import PageSection from "../components/page-section.astro";
+import ReleaseThumbnail from "../components/release-thumbnail.astro";
 import Reveal from "../components/reveal.astro";
 import Layout from "../layouts/layout.astro";
 import { getReleases, releasesPage } from "../lib/releases";
 
 const releases = await getReleases(8);
 const dateFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: "medium" });
-const notes = (body: string) =>
-  marked.parse(body || "No notes for this release.", { async: false }) as string;
+
+const excerpt = (body: string) => {
+  const text = body
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/`[^`]+`/g, " ")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[#>*_~-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!text) return "No notes for this release.";
+  return text.length > 140 ? `${text.slice(0, 140).trimEnd()}...` : text;
+};
 ---
 
 <Layout title="Changelog | Glyph" description="Release notes for Glyph Wallet.">
@@ -21,28 +32,30 @@ const notes = (body: string) =>
     <Reveal>
       {
         releases.length > 0 ? (
-          <div class="space-y-12">
+          <div class="mx-auto grid max-w-6xl gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {releases.map((release) => (
-              <article data-scroll-reveal class="space-y-3">
-                <h2 class="text-2xl font-medium tracking-tight text-ink">{release.name}</h2>
-                <div class="flex items-center gap-3">
-                  <a
-                    class="text-muted transition-colors hover:text-ink"
-                    href={release.url}
-                    aria-label={`View ${release.tag} on GitHub`}
-                    title="View on GitHub"
-                  >
-                    <SiGithub size={16} aria-hidden="true" />
-                  </a>
-                  <p class="font-mono text-xs text-muted">
-                    {dateFormatter.format(new Date(release.publishedAt))}
+              <a
+                href={`/changelog/${release.tag}`}
+                class="group flex h-full flex-col overflow-hidden rounded-2xl bg-surface transition-colors duration-150 hover:bg-[#2A1F21]"
+              >
+                <ReleaseThumbnail tag={release.tag} class="rounded-none" />
+                <div class="flex flex-1 flex-col p-5">
+                  <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+                    <time datetime={release.publishedAt}>
+                      {dateFormatter.format(new Date(release.publishedAt))}
+                    </time>
                   </p>
+                  <h2 class="mt-3 text-xl font-medium tracking-tight text-ink">
+                    {release.name}
+                  </h2>
+                  <p class="mt-2 line-clamp-3 text-sm leading-6 text-muted">
+                    {excerpt(release.body)}
+                  </p>
+                  <span class="mt-auto pt-5 text-sm font-medium text-accent-soft">
+                    Read release notes
+                  </span>
                 </div>
-                <div
-                  class="max-w-3xl text-base leading-7 text-muted [&_a]:text-accent-soft [&_a]:underline [&_h1]:mt-6 [&_h1]:text-xl [&_h1]:text-ink [&_h2]:mt-6 [&_h2]:text-lg [&_h2]:text-ink [&_h3]:mt-4 [&_h3]:text-base [&_h3]:text-ink [&_li]:ml-5 [&_li]:list-disc [&_p]:mt-3 [&_pre]:mt-4 [&_pre]:overflow-x-auto [&_pre]:rounded-xl [&_pre]:bg-[#1A1513] [&_pre]:p-4 [&_strong]:text-ink"
-                  set:html={notes(release.body)}
-                />
-              </article>
+              </a>
             ))}
           </div>
         ) : (
