@@ -206,7 +206,7 @@ export default function NavMenu({ pathname }: Props) {
                                   >
                                     <span className="flex size-[42px] shrink-0 items-center justify-center rounded-xl bg-ink/5">
                                       <ProductIcon
-                                        size={18}
+                                        size={24}
                                         className="text-muted transition-colors group-hover:text-ink"
                                         aria-hidden="true"
                                       />
