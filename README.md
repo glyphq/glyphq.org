@@ -7,14 +7,37 @@ effects, and static PatternWaves backgrounds. It has no custom illustrations.
 
 ## Stack
 
-| Layer     | Choice                  |
-| --------- | ----------------------- |
-| Framework | Astro 7                 |
-| Styling   | Tailwind CSS 4          |
-| Runtime   | Bun 1.4.4               |
-| Lint      | Biome and `astro check` |
-| Tests     | Vitest                  |
-| Deploy    | Workers static assets   |
+| Layer     | Choice                                |
+| --------- | ------------------------------------- |
+| Framework | Astro 7 with React islands            |
+| Styling   | Tailwind CSS 4                        |
+| Motion    | Motion (Framer Motion) for navigation |
+| Effects   | ascii-reveal and PatternWaves (OGL)   |
+| Code      | Shiki                                 |
+| Runtime   | Bun 1.4.4                             |
+| Lint      | Biome and `astro check`               |
+| Tests     | Vitest                                |
+| Deploy    | Workers static assets                 |
+
+## Routes
+
+| Route              | Page                                    |
+| ------------------ | --------------------------------------- |
+| `/`                | Home                                    |
+| `/products`        | Product index                           |
+| `/products/[slug]` | One page per product                    |
+| `/showcase`        | Projects built with Glyph               |
+| `/support`         | Donations                               |
+| `/about`           | About Glyph                             |
+| `/download`        | OS detection, release assets, changelog |
+| `/changelog`       | Wallet release notes                    |
+| `/principles`      | Supporting page                         |
+| `/developers`      | Supporting page                         |
+| `/404`             | Not found                               |
+
+Navigation uses a client router with view transitions and prefetch. Release data and changelog notes
+come from the public GitHub releases API at build time. The download page uses
+`react-device-detect` to suggest the matching build.
 
 ## Commands
 
