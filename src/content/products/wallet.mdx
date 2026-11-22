@@ -1,13 +1,13 @@
 ---
 title: Glyph Wallet
-description: The desktop wallet for Qubic, with local Vaults and reviewed requests from connected apps.
+description: Keep Qubic keys on your desktop and review every request from a connected app before you sign.
 ---
 
-Glyph Wallet is the desktop app for holding Qubic assets and approving requests from connected apps. It runs as a native application on Windows, macOS, and Linux, and is built with Tauri v2, React, TypeScript, and Rust.
+A browser wallet asks you to trust a tab. Glyph Wallet is a native desktop app that keeps your Vaults on your machine and turns each request from a connected app into a separate review.
 
-Vaults and wallet data stay on your machine. A Vault holds your Qubic identities, and the app uses them to send transfers, sign data, and answer contract calls. Private material does not leave the desktop app, so connected apps have to ask the wallet to act.
+The wallet has two jobs. It stores the Qubic identities you use and it signs only after you approve a specific request. The app is built with Tauri v2, React, TypeScript, and Rust, with builds for Windows, macOS, and Linux.
 
-## What the app handles
+## What runs on your machine
 
 <FeatureList
   items={[
@@ -18,43 +18,13 @@ Vaults and wallet data stay on your machine. A Vault holds your Qubic identities
   ]}
 />
 
-Transfers work like you would expect from a desktop wallet. You can keep regular recipients as contacts, reuse a payment as a template, and check the activity for an identity without opening a separate explorer.
+A Vault holds one or more Qubic identities. Those identities can send QU, sign data, or answer a contract call, and the private material stays in the local Vault. Glyph does not keep a hosted account that can recover it for you.
 
-Connected apps use the request flow to act through the wallet. A dApp builds a typed request with Glyph Connect and opens it in the wallet. The wallet shows the request details, and you approve or reject it. The result goes back through the path the app chose: a callback, a redirect, or Glyph Relay. A connection request is separate from a transfer or signature request, so each action can be reviewed on its own.
+The desktop model matters when an app asks for a signature. The wallet can show the recipient, amount, contract input, or message beside the account that will sign it. You approve or reject that request, and the result goes back to the app through a callback, a redirect, or Glyph Relay.
 
-## Vaults and identities
+## A request from an app
 
-A Vault is the local container for one or more Qubic identities. The wallet uses those identities for every operation, from a simple QU transfer to a contract input request. Keeping the Vault local means the app does not depend on a hosted account, and the same Vault can serve multiple apps that connect to Glyph.
-
-<Callout type="tip" title="Keep the desktop app with your other local data">
-  The wallet stores its data on your machine. Treat the app and its data the way you treat any other local tool that holds important material, including your normal desktop backup routine.
-</Callout>
-
-## Getting started
-
-<Steps
-  items={[
-    "Download the build for your platform from the Glyph download page.",
-    "Open the wallet and create or open a Vault.",
-    "Add the Qubic identities you want to use.",
-    "Connect an app when it asks for access, then review each request as it arrives.",
-  ]}
-/>
-
-## Run the desktop app
-
-Download the release for your platform, then start it. The Linux build is a single AppImage:
-
-```bash
-chmod +x Glyph_*_amd64.AppImage
-./Glyph_*_amd64.AppImage
-```
-
-Windows uses the per-user setup executable, and macOS uses the universal DMG.
-
-## Open a request from an app
-
-A connected app builds a Qubic transfer with Glyph Connect, wraps it in an envelope, and opens it from a click. The wallet receives the request for review.
+Glyph Connect builds a transfer request, wraps it in an envelope, and opens the wallet. The wallet receives the envelope and presents the details for review.
 
 ```ts
 import {
@@ -77,7 +47,33 @@ const envelope = createEnvelope(request, {
 launchGlyphRequest(envelope);
 ```
 
-The callback URL must use HTTPS and match the dApp origin. The wallet shows the recipient and amount before the user approves or rejects the transfer.
+The callback URL must use HTTPS and match the dApp origin. The request is separate from a connection request, so a dApp can ask for a connection once and still require approval for each transfer or signature.
+
+## Install and create a Vault
+
+<Steps
+  items={[
+    "Download the build for your platform from the Glyph download page.",
+    "Create a Vault or import a Qubic seed, then add the identities you want to use.",
+    "Back up the seed offline before you add funds or connect an app.",
+    "Open a Glyph request and review the account, action, and amount before approving it.",
+  ]}
+/>
+
+The Linux build is a single AppImage:
+
+```bash
+chmod +x Glyph_*_amd64.AppImage
+./Glyph_*_amd64.AppImage
+```
+
+Windows uses the per-user setup executable, and macOS uses the universal DMG.
+
+<Callout type="warning" title="The seed is the recovery path">
+  Glyph cannot recover a seed or reset a forgotten Vault password. Store the seed offline and test a backup before you need it.
+</Callout>
+
+The wallet is the point where a request becomes a decision. The rest of the stack prepares the request and carries the result; the approval happens here.
 
 <LinkCard
   title="Download Glyph"
@@ -85,4 +81,8 @@ The callback URL must use HTTPS and match the dApp origin. The wallet shows the 
   href="/download"
 />
 
-The rest of the toolchain builds on the wallet. Glyph Connect defines the requests, Glyph Contracts supplies the contract metadata and codecs, and Glyph Relay carries results back to apps that cannot receive a direct callback.
+<LinkCard
+  title="Connect requests"
+  description="Read how a dApp builds and launches a Glyph request."
+  href="/products/connect"
+/>

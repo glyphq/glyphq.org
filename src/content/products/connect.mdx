@@ -1,13 +1,13 @@
 ---
 title: Glyph Connect
-description: A typed TypeScript SDK for building glyph:// wallet requests and handling their results.
+description: Turn a wallet action into a typed request, launch it, and handle a signed result with a binding you can check.
 ---
 
-Glyph Connect is the TypeScript package for building requests that Glyph Wallet can open and sign. It covers the request format, the envelope, and the browser helpers, so a dApp can ask for a transfer, contract input, signature, verification, or connection without inventing its own wallet protocol.
+Most wallet integrations start with a custom message format and end with a parser that trusts whatever came back. Glyph Connect makes the request and the result one typed contract.
 
-The package is published as `@glyph-oss/connect`. It has no runtime dependencies, which keeps it easy to add to a web app or a small script.
+The SDK builds a request for a transfer, contract call, signature, verification, or connection. It wraps the request in a versioned envelope with a canonical hash, then gives you a way to launch it and check the response against the request you sent.
 
-## Request builders
+## The request builders
 
 <FeatureList
   items={[
@@ -18,19 +18,19 @@ The package is published as `@glyph-oss/connect`. It has no runtime dependencies
   ]}
 />
 
-Each builder produces a typed request for one operation. The transfer builder describes a QU payment. Contract input carries the contract and procedure data. The signing and verification builders work with data rather than a transaction. A connect request asks the wallet for an identity and the permissions the app needs.
+Each builder creates a request for one operation. A transfer carries a recipient and an amount. A contract input carries the contract index, input type, and payload. Sign and verify work with a message. A connect request asks for an identity and the permissions the app needs.
 
-Requests use the `glyph://` scheme. Version 2 of the envelope includes a canonical hash of the request, which gives the app and the wallet a stable reference for the same payload.
+The envelope adds the protocol version, network binding, and request hash. The hash is calculated over the canonical request, so the wallet and the app can refer to the same payload when they exchange a result.
 
 ## Build and launch a transfer
 
-Install the package in the app:
+Install the package:
 
 ```bash
 bun add @glyph-oss/connect
 ```
 
-A transfer request needs a recipient, a positive integer amount, and the dApp origin. The origin must be a canonical HTTPS origin.
+The dApp origin must be a canonical HTTPS origin. The callback must also use HTTPS and match that origin.
 
 ```ts
 import {
@@ -53,9 +53,9 @@ const envelope = createEnvelope(request, {
 launchGlyphRequest(envelope);
 ```
 
-The envelope adds the protocol version, network binding, and request hash. The wallet posts a signed callback to the callback URL after the user acts.
+`launchGlyphRequest` opens the `glyph://` request from a user action. The wallet shows the request, the user approves or rejects it, and the result goes to the callback you selected.
 
-A server callback can parse the body with the request nonce and type:
+A server callback can parse the body with the nonce and type from the original request:
 
 ```ts
 import { parseCallbackResponse } from "@glyph-oss/connect";
@@ -66,28 +66,24 @@ const result = parseCallbackResponse(await callbackRequest.json(), {
 });
 ```
 
-`parseCallbackResponse` checks the shape and binding. For a signed callback envelope, use `verifyCallbackEnvelope` before trusting the result.
+`parseCallbackResponse` checks the shape and binding. For a signed callback envelope, use `verifyCallbackEnvelope` and verify the Qubic signature before you trust the decoded result.
 
-## Choosing a result path
+## Pick the result path first
 
-A callback works when the app controls the page that started the request. The wallet returns the result to that page, and the app can update its own state without a server round trip.
+A callback fits a dApp that controls the page or server that receives the result. A redirect fits a flow that leaves the app and returns through a URL. The Glyph relay fits a dApp that cannot receive a direct callback or needs the result on a server.
 
-A redirect works when the request leaves the app, for example when the wallet opens from a link and the browser returns to a different page.
+The request can stay the same across those paths. Decide where the result should land before you build the launch step.
 
-The Glyph relay works when the app cannot receive a direct callback, or when the result needs to reach a server. The app creates a relay session and listens there while the wallet posts the signed result. Relay sessions are short lived and accept one result, so the app still needs to handle a timeout or a rejected request.
-
-<Callout type="tip" title="Decide where the result lands before building the request">
-  The request payload can stay the same across the three paths. Pick the result path first, then keep the request and the handling code together.
+<Callout type="tip" title="Keep the request and its result handler together">
+  A request is only half of the integration. Store the nonce and request hash beside the handler that will check the result, or the app will have no way to reject a mismatched response.
 </Callout>
-
-## Getting started
 
 <Steps
   items={[
     "Install @glyph-oss/connect in the app.",
-    "Choose the builder for the operation you need and fill in the request fields.",
-    "Open the glyph:// request from the page or from the relay session.",
-    "Handle the returned result and verify it before changing app state.",
+    "Choose the builder for the operation and fill in the typed fields.",
+    "Launch the envelope from a user action.",
+    "Parse or verify the result, then check the nonce and request hash before changing app state.",
   ]}
 />
 
@@ -105,4 +101,4 @@ The Glyph relay works when the app cannot receive a direct callback, or when the
   external
 />
 
-For a server-side result path, continue with [Glyph Relay](/products/relay). For contract calls, pair the request with the contract metadata in [Glyph Contracts](/products/contracts).
+For a result that has to cross a server without a public callback route, continue with [Glyph Relay](/products/relay). For a contract call, pair the request with [Glyph Contracts](/products/contracts).

@@ -1,43 +1,30 @@
 ---
 title: Glyph Relay
-description: Carries signed wallet results back to apps that cannot receive a direct callback.
+description: Hold one signed wallet result between the wallet and an app that cannot receive a direct callback.
 ---
 
-Glyph Relay moves a signed result from Glyph Wallet back to a dApp. It is useful when the wallet cannot return the result directly to the page that started the request, or when the result needs to reach a server before the app can act on it.
+A wallet approval is a one-time event. The signed result has to reach a process that may not be listening when the user clicks approve, and the wallet should not have to retry until that process appears.
 
-Each relay session runs in its own Durable Object. The dApp reads from the session and the wallet posts a result with the callback token. The read and callback tokens are separate, so a page that listens cannot submit a result, and a callback cannot read the session.
+Glyph Relay is a short-lived mailbox between the two. The app creates a session, gives the wallet only a callback URL, and reads the result from a separate URL. The read capability stays inside the app.
 
-## One result, short window
+## The session model
 
 <FeatureList
   items={[
     "A Durable Object per session",
-    "Read and callback tokens are separate",
-    "Results are accepted once and deleted after ten minutes",
+    "Read and callback capabilities are separate",
+    "One accepted result per session",
     "SSE streaming or polling",
   ]}
 />
 
-A result is accepted once. After that, the session is finished. The ten minute window is enough for a person to review a request in the wallet, but it is not a durable queue. A result that arrives after the window is gone, and a network retry cannot recover it.
+Each session runs in its own Durable Object. `prepareRelaySession()` registers the callback and read capabilities with the official relay before the wallet opens. The callback capability goes into the request envelope. The read capability stays in the dApp and is used by the subscription or the polling call.
 
-Keep the Relay result on the server when the app needs to act on it more than once. The relay can deliver the signed payload, and the app can record what it received before updating its own state.
+A result is accepted once. The relay stores it for up to ten minutes, the SSE wait is five minutes, and a session supports at most five listeners. A second callback for the same session is rejected.
 
-## Transports
-
-SSE works well when the listening page stays open and can keep a stream. The connection receives the result as soon as the wallet posts it, so the app does not need to poll.
-
-Polling works when a stream is inconvenient, for example behind a proxy that buffers responses or in a short-lived process. The tradeoff is a small delay between the wallet posting the result and the app reading it.
-
-## In a Connect flow
-
-Glyph Connect has a relay result path alongside callbacks and redirects. The app creates the relay session, starts listening, and opens the `glyph://` request. The wallet posts the signed result to the relay, and the app consumes it from the session.
-
-## Relay in code
-
-A Relay session is prepared before the wallet opens. The callback URL goes into the envelope; the read URL stays inside the dApp.
+## Prepare, subscribe, launch
 
 ```ts
-import { k12, verify } from "@qubic.org/crypto";
 import {
   createEnvelope,
   launchGlyphRequest,
@@ -46,20 +33,13 @@ import {
 } from "@glyph-oss/connect";
 
 const session = await prepareRelaySession();
-const envelope = createEnvelope(request, {
-  callback: session.callbackUrl,
-});
+const envelope = createEnvelope(request, { callback: session.callbackUrl });
 
 const resultPromise = subscribeViaRelayV2(request, session, {
+  requestHash: envelope.request_hash,
   verification: {
     requireSigned: true,
-    expectedRequestHash: envelope.request_hash,
-    expectedNetwork: envelope.network,
-    expectedDappOrigin: request.dapp.origin,
-    expectedExp: request.exp ?? null,
-    expectedCallbackUrl: session.callbackUrl,
-    verifySignature: ({ payload, signature, publicKey }) =>
-      verify(k12(payload, 32), signature, publicKey),
+    verifySignature: schnorrqVerify,
   },
 });
 
@@ -67,26 +47,44 @@ launchGlyphRequest(envelope);
 const result = await resultPromise;
 ```
 
-`prepareRelaySession()` registers the session with `https://relay.glyphq.org`. `subscribeViaRelayV2()` reads from the stream URL, while the wallet receives only the callback URL. The verification options bind the result to the request hash, network, origin, expiry, and callback URL.
+The subscription uses `session.streamUrl`. The wallet receives `session.callbackUrl`, which carries a different capability. Pass a Qubic SchnorrQ verifier as `verifySignature`; the SDK checks the envelope binding before it calls that function.
 
-<Callout type="warning" title="Do not treat the relay as permanent storage">
-  The session expires after ten minutes and accepts one result. If the app needs an audit trail, write the result to its own storage as soon as it is read.
+<Callout type="warning" title="Do not put the read URL in the envelope">
+  The read capability is not a delivery URL. Keep `streamUrl` and `resultUrl` inside the dApp, and give the wallet only `callbackUrl`. A wallet callback with a read capability should be rejected.
 </Callout>
 
-## Getting started
+## Read without SSE
+
+A server can poll `session.resultUrl` when a stream does not fit the deployment. Before a result arrives, the relay returns `404` with a pending status. After delivery, it returns the result.
+
+```ts
+const response = await fetch(session.resultUrl);
+
+if (response.status === 404) {
+  return { status: "pending" };
+}
+
+return response.json();
+```
+
+Polling does not remove the signature check. The result still has to pass the same envelope and binding verification as an SSE result.
+
+## One session per request
 
 <Steps
   items={[
-    "Create a relay session for the request.",
-    "Start listening with the read token.",
-    "Open the wallet request and let the person review it.",
-    "Consume the result from the session and store it where the app needs it.",
+    "Create the request with a Connect builder.",
+    "Prepare a relay session and put callbackUrl into the envelope.",
+    "Subscribe with the session before you launch the wallet.",
+    "Consume one result, store what the app needs, and create a fresh session for the next request.",
   ]}
 />
 
+The relay is a delivery mechanism, not a queue and not a database. A result that arrives after the window is gone cannot be recovered. Write the result to the app's own storage as soon as it is read.
+
 <LinkCard
   title="Relay v2 guide"
-  description="The session flow, tokens, and transport options."
+  description="The session lifecycle, capabilities, and transport details."
   href="https://docs.glyphq.org/docs/guides/relay-v2"
   external
 />

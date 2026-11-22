@@ -1,15 +1,15 @@
 ---
 title: Glyph API
-description: A self-hosted Qubic indexer and read API with verification at ingest.
+description: Run a verified Qubic indexer and read API on your own infrastructure.
 ---
 
-Glyph API is the self-hosted data service for Qubic. It connects to Qubic peers over the native TCP protocol, verifies what they return, stores normalized history in ClickHouse, and serves reads over HTTP.
+Every query against a remote index inherits the remote's choices: which peers it trusts, how long it keeps history, and what it does when a peer returns bad data.
 
-Running the service yourself gives you control over the index and the query surface. You choose the peers, keep the history that matters to you, and expose the API to your own applications.
+Glyph API puts those choices in your infrastructure. It connects to Qubic peers over TCP, verifies what they return, stores normalized history in ClickHouse, and serves reads from the verified local head.
 
 ## The data path
 
-Peers are the source. The service connects over TCP, receives ticks and the records that come with them, and checks the data before it reaches storage. Verification at ingest means a peer response is not written to ClickHouse just because it arrived.
+The service starts with peers. It receives ticks and the records that come with them over the native TCP protocol, checks quorum vote groups, and writes a tick only after it reaches a verification tier.
 
 <FeatureList
   items={[
@@ -20,24 +20,20 @@ Peers are the source. The service connects over TCP, receives ticks and the reco
   ]}
 />
 
-ClickHouse holds the normalized history. The API reads from that store and returns resources for identities, transactions, ticks, tokens, and contracts. The same store supports analytical queries that would be awkward to run against a live peer.
+ClickHouse holds the normalized history. The API reads that store and returns resources for identities, transactions, ticks, tokens, contracts, and network status. The same store supports analytical queries that would be slow against a live peer.
 
-## Interfaces
-
-REST resources cover the records an application reads on demand. SSE and WebSocket streams cover changes that a client wants to follow. The OpenAPI 3.1 description documents the HTTP surface, so you can generate a client or inspect the available resources before writing integration code.
-
-The API is resource oriented. A request names the resource and its identifiers, and the response carries the normalized record. That keeps the HTTP layer separate from the peer protocol and the storage schema.
+The index starts at the current epoch on its first run and moves forward. It can catch up within that epoch, follow the live network, and serve reads while ingestion continues.
 
 ## Run it locally
 
-The repository includes a development runner that starts ClickHouse, applies the schema, and launches the API and indexer:
+Requirements are Rust 1.85 or newer, Bash, and `curl`. The first script installs ClickHouse if it is missing.
 
 ```bash
 scripts/dev-up.sh
 scripts/smoke.sh
 ```
 
-The API listens on `127.0.0.1:8080` by default. The health check and a tick query are a quick way to confirm the stack:
+The API listens on `127.0.0.1:8080` by default. The health check and a tick query confirm the stack:
 
 ```bash
 curl -sS localhost:8080/healthz
@@ -45,37 +41,42 @@ curl -sS localhost:8080/v1/status
 curl -sS 'localhost:8080/v1/ticks?epoch=240&limit=25'
 ```
 
-The API reference is at `http://127.0.0.1:8080/docs`, and the OpenAPI document is available there. Set `QUBIC_PEERS` to choose the peers the indexer follows. Stop the stack with `scripts/dev-down.sh`.
+The OpenAPI document and the status dashboard are served from the same process:
 
-## Why self-host
+```bash
+open http://127.0.0.1:8080/docs
+open http://127.0.0.1:8080/status
+```
 
-A hosted index is convenient until you need a different retention window, a private network path, or a query that the public service does not expose. A self-hosted node keeps those decisions in your infrastructure.
+Set `QUBIC_PEERS` to choose the peers the indexer follows. `BIND` changes the listen address, `CLICKHOUSE_URL` and `CLICKHOUSE_DB` point at storage, and `ALLOW_BROADCAST` controls the optional transaction broadcast route. Stop the stack with `scripts/dev-down.sh`; add `--wipe` to delete local ClickHouse data.
 
-The service also fits an application that already runs Qubic infrastructure. It can use the peers you trust and write into a ClickHouse instance you already operate, so the data path stays inside your network.
+<Callout type="note" title="Ingest is the trust boundary">
+  The service verifies peer data before writing it. Once a tick is in ClickHouse, the read path serves it without repeating the peer check. Review the peers and verification settings when you deploy, not on every query.
+</Callout>
+
+## From setup to a read
 
 <Steps
   items={[
     "Choose the Qubic peers the service should connect to.",
     "Run the indexer and point it at ClickHouse.",
-    "Open the HTTP API and confirm the OpenAPI document loads.",
-    "Connect your application to the resources or streams it needs.",
+    "Open the OpenAPI document and confirm the resources you need.",
+    "Connect the application to REST resources or streams, and leave broadcast disabled unless the service should submit transactions.",
   ]}
 />
 
-<Callout type="note" title="Ingest is the trust boundary">
-  The service verifies peer data before writing it. Once a record is in ClickHouse, the read path serves it without repeating the peer check. Keep that in mind when you choose peers and review the verification settings.
-</Callout>
+A self-hosted index is useful when you need a different retention window, a private network path, or a query surface that a public service does not expose. The tradeoff is operational: peers, storage, and migrations become your responsibility.
 
 <LinkCard
   title="Glyph API source"
-  description="The indexer and HTTP service on GitHub."
+  description="The indexer, HTTP service, and deployment scripts on GitHub."
   href="https://github.com/glyphq/service"
   external
 />
 
 <LinkCard
   title="Glyph documentation"
-  description="Setup notes and API reference."
+  description="Setup notes and the API reference."
   href="https://docs.glyphq.org"
   external
 />

@@ -1,13 +1,13 @@
 ---
 title: Glyph Contracts
-description: Typed Qubic contract metadata, ABIs, and binary codecs for TypeScript.
+description: Use generated Qubic contract metadata and byte codecs instead of hand-written offsets.
 ---
 
-Glyph Contracts packages Qubic contract metadata, ABI descriptors, and binary codecs for TypeScript. The package is generated from `qubic/core`, so its types follow the contract definitions instead of a hand-maintained copy.
+A Qubic contract call is a byte string. One wrong offset can still produce a well-formed call, and the contract may accept it and write the wrong value.
 
-It is published as `@glyph-oss/contracts`.
+Glyph Contracts generates the metadata, ABI descriptors, and binary codecs from `qubic/core`. The TypeScript package gives application code the same layouts the contracts use on chain.
 
-## What the package includes
+## What the package contains
 
 <FeatureList
   items={[
@@ -18,24 +18,11 @@ It is published as `@glyph-oss/contracts`.
   ]}
 />
 
-Contract calls in Qubic are binary. A procedure has an input layout, a function returns a value with its own layout, and notifications and structs have shapes that need to match the chain. The package carries those layouts so application code can work with typed fields.
+The generated metadata records the procedures and functions in each contract, along with the structs, enums, and fields they use. The codecs turn typed values into the bytes a contract expects, including the padding that C++ alignment adds.
 
-The metadata also makes it possible to inspect a contract before calling it. You can see which procedures and functions exist, what arguments they take, and which structs or enums they use.
+The package is published as `@glyph-oss/contracts` and is regenerated from `qubic/core` once a week. A pull request is opened only when the ABI hash changes.
 
-## Encoding and decoding
-
-A typical call resolves the contract by name, selects a procedure or function, encodes the input, sends it to the network, and decodes the result. The generated codecs handle byte order, padding, arrays, and nested structs.
-
-<Steps
-  items={[
-    "Find the contract and the procedure or function in the generated metadata.",
-    "Encode the input with the generated codec.",
-    "Send the encoded call through the Qubic client or API you already use.",
-    "Decode the returned bytes with the matching output codec.",
-  ]}
-/>
-
-## Encode a QX procedure
+## Encode a QX call
 
 Install the package:
 
@@ -43,7 +30,7 @@ Install the package:
 bun add @glyph-oss/contracts
 ```
 
-The typed handle encodes procedure input and decodes the output with the generated layout:
+The typed handle keeps the contract name, call name, and field layout together:
 
 ```ts
 import { QX } from "@glyph-oss/contracts";
@@ -59,13 +46,33 @@ const issued = QX.decodeProcedureOutput("IssueAsset", outputBytes);
 console.log(issued.issuedNumberOfShares);
 ```
 
-`outputBytes` is the raw output struct returned by the contract. Function outputs use `QX.decodeFunctionOutput("Fees", feesBytes)`.
+`outputBytes` is the raw output struct returned by the contract. The decoder applies the same field order and padding used by the encoder, so the result arrives as typed values instead of an offset map.
 
-<Callout type="warning" title="Use the generated codecs at the contract boundary">
-  Qubic contract layouts include padding and fixed field widths. Hand-written offsets can look correct for one contract and fail on another. The generated codecs keep the encoding and decoding in one place and follow the source definitions.
+<Callout type="warning" title="Keep the codec at the contract boundary">
+  Qubic structs include fixed widths and padding. A hand-written offset can look correct for one contract and fail on another. Use the generated codec where the bytes enter or leave your application.
 </Callout>
 
-It fits a TypeScript service that already talks to Qubic. A test suite can use it to build contract calls, and a read-only tool can decode contract state and notifications. It does not replace a Qubic client; it supplies the contract definitions and byte handling around that client.
+## A working sequence
+
+<Steps
+  items={[
+    "Find the contract and call in the generated metadata.",
+    "Encode the input with the typed handle or the low-level contract call helper.",
+    "Send the payload through the Qubic client your service already uses.",
+    "Decode the returned bytes with the matching output codec.",
+  ]}
+/>
+
+The low-level helpers accept a contract definition and call ordinal when the metadata comes from an external source. Application code should use the typed handles such as `QX`; they reduce the chance of pairing the wrong input with the wrong output.
+
+Function results work the same way:
+
+```ts
+const fees = QX.decodeFunctionOutput("Fees", feesBytes);
+console.log(fees.assetIssuanceFee, fees.transferFee, fees.tradeFee);
+```
+
+The package does not replace a Qubic client. It supplies the contract definitions and byte handling around the client, so the call you build matches the contract that will execute it.
 
 <LinkCard
   title="@glyph-oss/contracts on npm"

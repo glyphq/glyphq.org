@@ -1,11 +1,11 @@
 ---
 title: Glyph Explorer
-description: A readable view of Qubic ticks, transactions, identities, tokens, and contracts.
+description: Trace a Qubic identity, transaction, tick, token, or contract through linked records instead of raw RPC responses.
 ---
 
-Glyph Explorer shows public Qubic data in a form you can read. It covers network health, ticks, transactions, identities, tokens, and contracts, and it presents that data without raw RPC responses.
+A transaction looks wrong. You have a hash, but the useful question is what happened before and after it: which identity sent it, which tick included it, and which contract call it touched.
 
-The explorer is a hosted app, so a lookup does not require a local index or a running Qubic client. Open the site, search for an identity or a transaction, and follow the links between records.
+Glyph Explorer answers that with linked pages over public Qubic data. It shows network health, ticks, transactions, identities, tokens, and contracts in a readable form, without exposing raw RPC responses.
 
 ## What you can open
 
@@ -18,28 +18,26 @@ The explorer is a hosted app, so a lookup does not require a local index or a ru
   ]}
 />
 
-An identity page collects the balances and activity for one address. A transaction page shows the transaction and the tick it belongs to. Token and contract pages connect the visible state to the contract metadata that generated it.
+An identity page collects balances and activity for one address. A transaction page shows the transaction and its tick. A contract page connects the visible state to the generated metadata for that contract.
 
-The tick view is useful when you need to check whether the network is moving before you investigate a specific transaction. If the latest ticks look healthy and your transaction is not there, the problem is more likely in the transaction path than in the network as a whole.
+Start with the identity when you need to know whether a balance changed and which transactions caused it. Start with the tick when you need to know whether the network was moving around the time a transaction should have landed.
 
-## Looking up a record
+## Trace a payment
 
 <Steps
   items={[
-    "Search for an identity, transaction, token, or contract.",
-    "Use the linked records to move from the result to the surrounding context.",
-    "Check the tick and the timestamp together when a result looks out of place.",
-    "Open the contract metadata when a transaction includes a contract call.",
+    "Search for the identity or transaction hash.",
+    "Open the identity page and check the balance and recent activity.",
+    "Follow the transaction to its tick and read the surrounding records.",
+    "Open the contract metadata when the transaction includes a contract call.",
   ]}
 />
 
-<Callout type="tip" title="Start with the identity page">
-  An identity page usually answers the first question: whether a balance changed and which transactions caused it. From there, the transaction and tick pages fill in the rest.
-</Callout>
+The tick view is a useful sanity check before a deeper investigation. If the latest ticks are healthy and the transaction is missing, the problem is more likely in the transaction path than in the network as a whole.
 
 ## Link to a record
 
-The explorer routes are predictable, so an app can link someone straight to an identity, transaction, tick, or contract:
+The explorer routes are predictable, so an app can send someone directly to a record:
 
 ```ts
 const explorer = "https://explorer.glyphq.org";
@@ -50,9 +48,15 @@ const tickUrl = (tick: number) => `${explorer}/ticks/${tick}`;
 const contractUrl = (name: string) => `${explorer}/contracts/${name.toLowerCase()}`;
 ```
 
+Keep the link beside the record it describes. A user who receives a transaction notification can open the transaction page and move to the identity or tick without searching again.
+
+<Callout type="tip" title="Use the identity page as the starting point">
+  Most questions about a payment resolve on the identity page: whether the balance changed and which transactions touched it. The transaction and tick pages supply the surrounding detail.
+</Callout>
+
 ## For development
 
-The explorer is a quick way to inspect what a contract call or transfer did before writing a query against an index. For repeated reads, streams, or historical analysis, use [Glyph API](/products/api), which is the self-hosted data service in the same stack.
+The explorer is a quick way to check what a transfer or contract call did before you write a query against an index. For repeated reads, streams, or historical analysis, use [Glyph API](/products/api), which is the self-hosted data service in the same stack.
 
 <LinkCard
   title="Open Glyph Explorer"
