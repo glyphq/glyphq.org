@@ -1,17 +1,31 @@
 ---
 import { footerColumns } from "../data/site";
+import Aurora from "./aurora";
 import Wordmark from "./wordmark.astro";
 ---
 
 <footer class="relative overflow-hidden rounded-t-[2rem] bg-[#090b0f]">
   <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+    <Aurora
+      client:load
+      colorStops={["#A9C7FF", "#B6D0FF", "#6F8FC7"]}
+      amplitude={0.7}
+      blend={0.5}
+      height={0.45}
+      speed={0.3}
+      glow={0.5}
+      opacity={0.26}
+      intro={false}
+      mouseInteraction={false}
+      dpr={1}
+    />
     <div
       class="absolute inset-0 opacity-[0.05] mix-blend-overlay"
       style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E&quot;); background-size: 180px 180px"
     >
     </div>
   </div>
-  <div class="relative mx-auto max-w-[1280px]">
+  <div class="relative z-10 mx-auto max-w-[1280px]">
     <div class="px-4 py-20 md:px-8 md:py-24">
       <div class="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-10">
         <div class="col-span-2 space-y-4 md:col-span-1">
