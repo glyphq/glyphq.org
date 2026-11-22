@@ -74,7 +74,7 @@ const STIR_LIFE = 1.3;
 const STIR_STEP = 0.06;
 const TWIRL_LIFE = 2.6;
 const INTRO_SECONDS = 1.6;
-const DEFAULT_COLORS = ["#050f0b", "#081812", "#0f4a32", "#18e299", "#a7f5d4"];
+const DEFAULT_COLORS = ["#050f0b", "#081812", "#0f4a32", "#7be6c1", "#c7f9e4"];
 const TYPES: Record<string, number> = { linear: 0, radial: 1 };
 const LIFT = 0.2;
 

@@ -15,7 +15,7 @@ export const glyphShikiTheme = {
     {
       scope: ["comment", "punctuation.definition.comment"],
       settings: {
-        foreground: "#6f8a7f",
+        foreground: "#7c9b8f",
         fontStyle: "italic",
       },
     },
@@ -29,19 +29,19 @@ export const glyphShikiTheme = {
         "keyword.operator.new",
       ],
       settings: {
-        foreground: "#5ff0bb",
+        foreground: "#a8f5dc",
       },
     },
     {
       scope: ["string", "string.template", "constant.character.escape"],
       settings: {
-        foreground: "#a7f5d4",
+        foreground: "#c7f9e4",
       },
     },
     {
       scope: ["constant.numeric", "constant.language", "constant.other.symbol", "constant.other"],
       settings: {
-        foreground: "#6fe0b3",
+        foreground: "#8be5c6",
       },
     },
     {
@@ -52,7 +52,7 @@ export const glyphShikiTheme = {
         "meta.function-call",
       ],
       settings: {
-        foreground: "#d5ffe9",
+        foreground: "#e0fff2",
       },
     },
     {
@@ -64,7 +64,7 @@ export const glyphShikiTheme = {
         "storage.type.interface",
       ],
       settings: {
-        foreground: "#8ff0c8",
+        foreground: "#b5f0d9",
       },
     },
     {
@@ -82,7 +82,7 @@ export const glyphShikiTheme = {
     {
       scope: ["entity.name.tag", "support.type.property-name", "meta.object-literal.key"],
       settings: {
-        foreground: "#5ff0bb",
+        foreground: "#a8f5dc",
       },
     },
     {

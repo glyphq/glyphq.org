@@ -24,6 +24,14 @@ const links = [
   { label: "About", href: "/about", icon: InfoCircleIcon },
 ];
 
+const productGroups = [
+  { label: "Products", slugs: ["wallet", "explorer"] },
+  { label: "Integrations", slugs: ["connect", "contracts", "relay", "api"] },
+].map((group) => ({
+  ...group,
+  items: products.filter((product) => group.slugs.includes(product.slug)),
+}));
+
 const spring = { type: "spring", stiffness: 520, damping: 34, mass: 0.7 } as const;
 
 export default function NavMenu({ pathname }: Props) {
@@ -114,12 +122,25 @@ export default function NavMenu({ pathname }: Props) {
   return (
     <>
       <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
-        <div className="relative">
+        {/* biome-ignore lint/a11y/noStaticElementInteractions: hover and focus container for the products menu */}
+        <div
+          className="relative"
+          onMouseEnter={() => setProductsOpen(true)}
+          onMouseLeave={() => setProductsOpen(false)}
+          onFocus={() => setProductsOpen(true)}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+              setProductsOpen(false);
+            }
+          }}
+        >
           <motion.button
             type="button"
-            onClick={() => setProductsOpen((value) => !value)}
+            onClick={() => setProductsOpen(true)}
             whileTap={{ scale: 0.97 }}
             aria-expanded={productsOpen}
+            aria-controls="products-menu"
+            aria-haspopup="true"
             className={`flex cursor-pointer items-center gap-2 rounded-full px-3 py-2 font-display text-[14px] font-medium transition-colors duration-150 ${
               isActive("/products")
                 ? "text-white"
@@ -139,7 +160,10 @@ export default function NavMenu({ pathname }: Props) {
 
           <AnimatePresence initial={false}>
             {productsOpen && (
-              <div className="absolute left-1/2 top-full z-50 w-[21rem] -translate-x-1/2 pt-2">
+              <div
+                id="products-menu"
+                className="absolute left-1/2 top-full z-50 w-[21rem] -translate-x-1/2 pt-2"
+              >
                 <motion.div
                   initial={{ opacity: 0, y: -8, scale: 0.97, height: 0 }}
                   animate={{ opacity: 1, y: 0, scale: 1, height: "auto" }}
@@ -148,25 +172,32 @@ export default function NavMenu({ pathname }: Props) {
                   className="overflow-hidden"
                 >
                   <div className="w-full rounded-2xl bg-surface p-2 shadow-2xl shadow-black/50">
-                    <ul className="flex flex-col">
-                      {products.map((product) => (
-                        <li key={product.slug}>
-                          <a
-                            href={`/products/${product.slug}`}
-                            onClick={() => setProductsOpen(false)}
-                            className="flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors duration-150 hover:bg-line"
-                          >
-                            <span
-                              className="glyph-logo mt-0.5 size-5 shrink-0"
-                              aria-hidden="true"
-                            />
-                            <span className="block text-sm font-medium text-ink">
-                              {product.name}
-                            </span>
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
+                    {productGroups.map((group) => (
+                      <div key={group.label}>
+                        <p className="px-3 pb-1 pt-2 text-[10px] font-medium uppercase tracking-[0.14em] text-muted">
+                          {group.label}
+                        </p>
+                        <ul className="flex flex-col">
+                          {group.items.map((product) => (
+                            <li key={product.slug}>
+                              <a
+                                href={`/products/${product.slug}`}
+                                onClick={() => setProductsOpen(false)}
+                                className="flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors duration-150 hover:bg-line"
+                              >
+                                <span
+                                  className="glyph-logo mt-0.5 size-5 shrink-0"
+                                  aria-hidden="true"
+                                />
+                                <span className="block text-sm font-medium text-ink">
+                                  {product.name}
+                                </span>
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
                     <a
                       href="/products"
                       className="mt-1 flex items-center gap-2.5 rounded-xl px-3 py-2 font-display text-sm font-medium text-ink transition-colors duration-150 hover:bg-line"
