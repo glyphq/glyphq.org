@@ -1,4 +1,5 @@
 ---
+import moment from "moment";
 import DonateModal from "../components/donate-modal.astro";
 import DonationDonors from "../components/donation-donors";
 import DonationProgress from "../components/donation-progress";
@@ -7,6 +8,7 @@ import Reveal from "../components/reveal.astro";
 import Layout from "../layouts/layout.astro";
 
 const qubicIdentity = "LOGCQXSJIQFNNFHFBADRFLVNNXGBVKZGJXOPZSHTQDKNRIIFWXXPYVUCUSTD";
+const minerLabLast = moment().subtract(4, "months").fromNow();
 let profiles: { identity: string; displayName: string }[] = [];
 try {
   const response = await fetch("https://explorer.glyphq.org/api/profiles/known");
@@ -60,7 +62,10 @@ try {
                 height="31"
                 class="sponsor-logo h-6 w-auto"
               />
-              <span class="text-sm text-ink">$2,000+</span>
+              <span class="flex flex-col">
+                <span class="text-sm text-ink">$2,000+</span>
+                <span class="text-xs text-muted">{minerLabLast}</span>
+              </span>
             </a>
           </div>
         </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import moment from "moment";
 import { useEffect, useState } from "react";
 import IdentityAvatar from "./identity-avatar";
 
@@ -22,12 +23,14 @@ interface Transaction {
   hash: string;
   source: string;
   status: string;
+  timestamp: string;
 }
 
 interface Donation {
   amount: number;
   hash: string;
   identity: string;
+  timestamp: string;
 }
 
 const quFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
@@ -57,6 +60,7 @@ export default function DonationDonors({ identity, profiles = [] }: Props) {
             amount: Number(transaction.amount),
             hash: transaction.hash,
             identity: transaction.source,
+            timestamp: transaction.timestamp,
           }))
           .filter((donation) => Number.isFinite(donation.amount) && donation.amount > 0);
 
@@ -117,8 +121,13 @@ export default function DonationDonors({ identity, profiles = [] }: Props) {
             className="inline-flex w-fit items-center gap-2.5 rounded-full bg-surface py-1.5 pl-1.5 pr-4 text-sm transition-colors duration-150 hover:bg-ink/5"
           >
             <IdentityAvatar value={donation.identity} size={28} />
-            <span className="max-w-[12rem] truncate text-muted">{name}</span>
-            <span className="text-ink">{quFormatter.format(donation.amount)} QU</span>
+            <span className="flex min-w-0 flex-col">
+              <span className="flex items-baseline gap-2">
+                <span className="max-w-[12rem] truncate text-muted">{name}</span>
+                <span className="text-ink">{quFormatter.format(donation.amount)} QU</span>
+              </span>
+              <span className="text-xs text-muted">{moment(donation.timestamp).fromNow()}</span>
+            </span>
           </a>
         );
       })}
