@@ -2,25 +2,20 @@
 
 import { motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
-import { LEGACY_GLYPH_DONATION_IDENTITY } from "../lib/donations";
-
-const API = "https://api.glyphq.org";
+import { ANALYTICS_URL } from "../lib/analytics";
+import { DONATION_TARGET_USD } from "../lib/donations";
 
 interface Props {
-  identity: string;
   target?: number;
 }
 
-interface Snapshot {
+interface SupportProgress {
   receivedQu: number;
   priceUsdt: number;
-}
-
-interface Transaction {
-  amount: number;
-  destination: string;
-  source: string;
-  status: string;
+  receivedUsd: number;
+  target: number;
+  percent: number;
+  label: string;
 }
 
 const quFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
@@ -33,54 +28,34 @@ const formatUsd = (value: number) =>
     maximumFractionDigits: value > 0 && value < 1 ? 6 : 2,
   }).format(value);
 
-export default function DonationProgress({ identity, target = 2000 }: Props) {
+export default function DonationProgress({ target = DONATION_TARGET_USD }: Props) {
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
-  const [snapshot, setSnapshot] = useState<Snapshot>({ receivedQu: 0, priceUsdt: 0 });
+  const [progress, setProgress] = useState<SupportProgress | null>(null);
 
   const load = useCallback(async () => {
     setStatus((current) => (current === "ready" ? current : "loading"));
     try {
-      const [transactionsResponse, priceResponse] = await Promise.all([
-        fetch(`${API}/v1/identities/${encodeURIComponent(identity)}/transactions?limit=200`),
-        fetch(`${API}/v1/prices/latest`),
-      ]);
-      if (!transactionsResponse.ok || !priceResponse.ok) {
-        throw new Error("Glyph API request failed");
-      }
-
-      const transactions = (await transactionsResponse.json()) as { data?: Transaction[] };
-      const price = (await priceResponse.json()) as { data?: { price_usdt?: number } };
-      const receivedQu = (transactions.data ?? [])
-        .filter(
-          (transaction) =>
-            transaction.destination === identity &&
-            transaction.status === "success" &&
-            transaction.source !== LEGACY_GLYPH_DONATION_IDENTITY,
-        )
-        .reduce((sum, transaction) => sum + Number(transaction.amount ?? 0), 0);
-      const priceUsdt = Number(price.data?.price_usdt ?? 0);
-
-      if (!Number.isFinite(receivedQu) || !Number.isFinite(priceUsdt)) {
-        throw new Error("Glyph API returned invalid donation data");
-      }
-
-      setSnapshot({ receivedQu, priceUsdt });
+      const response = await fetch(`${ANALYTICS_URL}/support?ttl=120`);
+      if (!response.ok) throw new Error("Support analytics request failed");
+      const data = (await response.json()) as { progress?: SupportProgress };
+      if (!data.progress) throw new Error("Support analytics returned no progress");
+      setProgress(data.progress);
       setStatus("ready");
     } catch {
       setStatus("error");
     }
-  }, [identity]);
+  }, []);
 
   useEffect(() => {
     void load();
-    const timer = window.setInterval(() => void load(), 60_000);
+    const timer = window.setInterval(() => void load(), 2 * 60_000);
     return () => window.clearInterval(timer);
   }, [load]);
 
-  const receivedUsd = snapshot.receivedQu * snapshot.priceUsdt;
-  const progress = target > 0 ? Math.min(100, (receivedUsd / target) * 100) : 0;
-  const fill = progress > 0 ? Math.max(progress, 0.4) : 0;
-  const progressLabel = progress > 0 && progress < 0.1 ? "<0.1%" : `${progress.toFixed(1)}%`;
+  const receivedUsd = progress?.receivedUsd ?? 0;
+  const percent = progress?.percent ?? 0;
+  const fill = percent > 0 ? Math.max(percent, 0.4) : 0;
+  const progressLabel = progress?.label ?? "—";
   const isLoading = status === "loading";
 
   return (
@@ -127,7 +102,7 @@ export default function DonationProgress({ identity, target = 2000 }: Props) {
         <div className="mt-2 text-xs text-muted">
           {status === "error"
             ? "Donation history unavailable"
-            : `${quFormatter.format(snapshot.receivedQu)} QU received`}
+            : `${quFormatter.format(progress?.receivedQu ?? 0)} QU received`}
         </div>
       )}
     </div>

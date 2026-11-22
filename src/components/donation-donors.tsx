@@ -3,9 +3,9 @@
 import { CrownIcon } from "@solar-icons/react/linear/crown";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import { ANALYTICS_URL } from "../lib/analytics";
 import IdentityAvatar from "./identity-avatar";
 
-const API = "https://api.glyphq.org";
 const EXPLORER = "https://explorer.glyphq.org";
 
 interface Profile {
@@ -23,18 +23,8 @@ interface StaticSupporter {
 }
 
 interface Props {
-  identity: string;
   profiles?: Profile[];
   staticSupporter?: StaticSupporter;
-}
-
-interface Transaction {
-  amount: number;
-  destination: string;
-  hash: string;
-  source: string;
-  status: string;
-  timestamp: string;
 }
 
 interface Donation {
@@ -49,7 +39,7 @@ const quFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 })
 const shortIdentity = (identity: string) =>
   identity.length > 14 ? `${identity.slice(0, 6)}…${identity.slice(-4)}` : identity;
 
-export default function DonationDonors({ identity, profiles = [], staticSupporter }: Props) {
+export default function DonationDonors({ profiles = [], staticSupporter }: Props) {
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [donations, setDonations] = useState<Donation[]>([]);
 
@@ -58,25 +48,11 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
 
     const load = async () => {
       try {
-        const response = await fetch(
-          `${API}/v1/identities/${encodeURIComponent(identity)}/transactions?limit=200`,
-        );
-        if (!response.ok) throw new Error("Glyph API request failed");
-
-        const payload = (await response.json()) as { data?: Transaction[] };
-        const next = (payload.data ?? [])
-          .filter((transaction) => transaction.destination === identity)
-          .filter((transaction) => transaction.status === "success")
-          .map((transaction) => ({
-            amount: Number(transaction.amount),
-            hash: transaction.hash,
-            identity: transaction.source,
-            timestamp: transaction.timestamp,
-          }))
-          .filter((donation) => Number.isFinite(donation.amount) && donation.amount > 0);
-
+        const response = await fetch(`${ANALYTICS_URL}/support?ttl=120`);
+        if (!response.ok) throw new Error("Support analytics request failed");
+        const payload = (await response.json()) as { donations?: Donation[] };
         if (!active) return;
-        setDonations(next);
+        setDonations(payload.donations ?? []);
         setStatus("ready");
       } catch {
         if (active) setStatus("error");
@@ -84,12 +60,12 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
     };
 
     void load();
-    const timer = window.setInterval(() => void load(), 60_000);
+    const timer = window.setInterval(() => void load(), 2 * 60_000);
     return () => {
       active = false;
       window.clearInterval(timer);
     };
-  }, [identity]);
+  }, []);
 
   const staticChip = staticSupporter ? (
     <a

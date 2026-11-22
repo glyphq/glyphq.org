@@ -1,5 +1,6 @@
 ---
 import ButtonLink from "../components/button-link.astro";
+import DownloadCount from "../components/download-count";
 import DownloadHeroCta from "../components/download-hero-cta";
 import DownloadPicker from "../components/download-picker";
 import PageHero from "../components/page-hero.astro";
@@ -13,9 +14,6 @@ const releaseUrl = latest?.url ?? releasesPage;
 const platforms = buildPlatforms(latest);
 const userGuide = "https://github.com/glyphq/wallet/blob/main/docs/USER_GUIDE.md";
 const discord = "https://discord.gg/s5qNRNGu96";
-const published = latest
-  ? new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(new Date(latest.publishedAt))
-  : null;
 const version = latest?.tag.replace(/^v/, "") ?? "";
 const digests = latest?.assets.filter((asset) => asset.digest) ?? [];
 const manifests = latest?.assets.filter((asset) => asset.name.startsWith("SHA256SUMS")) ?? [];
@@ -28,29 +26,25 @@ const manifests = latest?.assets.filter((asset) => asset.name.startsWith("SHA256
   <PageHero
     title="Download Glyph"
     description="The self-custodial desktop wallet for Qubic. Windows, macOS, and Linux."
+    align="center"
+    compact
   >
     <div class="flex flex-col items-center gap-2">
-      <DownloadHeroCta client:load platforms={platforms} releaseUrl={releaseUrl} />
-      {
-        latest && (
-          <p class="text-sm text-muted">
-            Latest release <span class="font-medium text-ink">{latest.tag}</span>
-            {published && <> · Released {published}</>}
-          </p>
-        )
-      }
+      <DownloadHeroCta
+        client:load
+        platforms={platforms}
+        releaseUrl={releaseUrl}
+        version={latest?.tag ?? ""}
+      />
+      <p class="text-sm text-muted"><DownloadCount client:load /> total downloads</p>
     </div>
   </PageHero>
 
-  <PageSection>
-    <div class="mt-16">
+  <PageSection spacing="compact">
+    <div class="mt-4">
       <SectionHeader
         title="Pick your platform"
-        description={
-          latest
-            ? `Latest release ${latest.tag}. We detect your system and suggest the right build.`
-            : "We detect your system and suggest the right build."
-        }
+        description="We detect your system and suggest the right build."
         align="center"
         size="lg"
       />

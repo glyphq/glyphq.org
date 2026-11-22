@@ -258,6 +258,13 @@ export default function NavMenu({ pathname }: Props) {
             >
               <RouteIcon size={16} aria-hidden="true" />
               {item.label}
+              {item.href === "/support" && (
+                <span
+                  data-support-progress
+                  hidden
+                  className="rounded-full bg-ink/5 px-1.5 py-0.5 font-mono text-[9px] font-normal leading-none text-ink/40"
+                />
+              )}
             </motion.a>
           );
         })}
@@ -361,6 +368,13 @@ export default function NavMenu({ pathname }: Props) {
                             className="shrink-0 text-accent-soft"
                           />
                           {item.label}
+                          {item.href === "/support" && (
+                            <span
+                              data-support-progress
+                              hidden
+                              className="rounded-full bg-ink/5 px-1.5 py-0.5 font-mono text-[9px] font-normal leading-none text-ink/40"
+                            />
+                          )}
                         </motion.a>
                       );
                     },

@@ -4,6 +4,7 @@ import { SiApple, SiLinux } from "@icons-pack/react-simple-icons";
 import { MonitorIcon } from "@solar-icons/react/linear/monitor";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
+import { trackDownload } from "../lib/analytics";
 import { detectPlatform } from "../lib/platform";
 import type { DownloadPlatform } from "../lib/releases";
 
@@ -49,6 +50,7 @@ export default function DownloadPicker({ platforms }: Props) {
                 <p className="mt-3 text-base text-muted">{platform.detail}</p>
                 <motion.a
                   href={platform.url}
+                  onClick={() => trackDownload(platform.id)}
                   whileTap={{ scale: 0.97 }}
                   className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 font-display text-sm font-semibold text-night transition-colors duration-150 hover:bg-accent-strong"
                 >
@@ -58,7 +60,12 @@ export default function DownloadPicker({ platforms }: Props) {
                 {platform.extras.length > 0 && (
                   <div className="mt-4 flex gap-3 text-xs text-muted">
                     {platform.extras.map((extra) => (
-                      <a key={extra.label} href={extra.url} className="hover:text-ink">
+                      <a
+                        key={extra.label}
+                        href={extra.url}
+                        onClick={() => trackDownload(`${platform.id}-${extra.label}`)}
+                        className="hover:text-ink"
+                      >
                         {extra.label}
                       </a>
                     ))}

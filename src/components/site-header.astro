@@ -13,3 +13,39 @@ const pathname = Astro.url.pathname;
     <NavMenu client:load pathname={pathname} />
   </div>
 </header>
+
+<script>
+  import { ANALYTICS_URL } from "../lib/analytics";
+
+  let progress: string | null = null;
+
+  const render = () => {
+    document.querySelectorAll<HTMLElement>("[data-support-progress]").forEach((chip) => {
+      if (!progress) {
+        chip.hidden = true;
+        return;
+      }
+      if (chip.textContent !== progress) chip.textContent = progress;
+      chip.title = `Development window ${progress} funded`;
+      chip.hidden = false;
+    });
+  };
+
+  const load = async () => {
+    try {
+      const response = await fetch(`${ANALYTICS_URL}/support?ttl=300`);
+      if (!response.ok) throw new Error("Support analytics request failed");
+      const data = (await response.json()) as { progress?: { label?: string } };
+      progress = data.progress?.label ?? null;
+    } catch {
+      progress = null;
+    }
+    render();
+  };
+
+  void load();
+  window.setInterval(load, 5 * 60_000);
+  new MutationObserver((mutations) => {
+    if (mutations.some((mutation) => mutation.addedNodes.length > 0)) render();
+  }).observe(document.body, { childList: true, subtree: true });
+</script>

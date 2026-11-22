@@ -2,14 +2,19 @@
 interface Props {
   id?: string;
   class?: string;
+  spacing?: "default" | "compact";
 }
 
-const { id, class: className } = Astro.props;
+const { id, class: className, spacing = "default" } = Astro.props;
 ---
 
 <section
   id={id}
-  class:list={["bg-paper px-4 py-20 md:px-8 md:py-28", className]}
+  class:list={[
+    "bg-paper px-4 md:px-8",
+    spacing === "compact" ? "pb-20 pt-8 md:pb-28 md:pt-12" : "py-20 md:py-28",
+    className,
+  ]}
 >
   <slot />
 </section>

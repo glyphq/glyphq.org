@@ -6,8 +6,9 @@ import DonationProgress from "../components/donation-progress";
 import PageHero from "../components/page-hero.astro";
 import Reveal from "../components/reveal.astro";
 import Layout from "../layouts/layout.astro";
+import { DONATION_TARGET_USD, GLYPH_DONATION_IDENTITY } from "../lib/donations";
 
-const qubicIdentity = "LOGCQXSJIQFNNFHFBADRFLVNNXGBVKZGJXOPZSHTQDKNRIIFWXXPYVUCUSTD";
+const qubicIdentity = GLYPH_DONATION_IDENTITY;
 const minerLabLast = moment().subtract(4, "months").fromNow();
 let profiles: { identity: string; displayName: string }[] = [];
 try {
@@ -33,7 +34,7 @@ try {
     description="A small team maintains Glyph. Donations fund development and infrastructure."
   >
     <div class="flex w-full flex-col items-start gap-4">
-      <DonationProgress client:load identity={qubicIdentity} target={2000} />
+      <DonationProgress client:load target={DONATION_TARGET_USD} />
       <DonateModal identity={qubicIdentity} />
     </div>
   </PageHero>
@@ -51,7 +52,6 @@ try {
         <div class="mt-6 w-full">
           <DonationDonors
             client:load
-            identity={qubicIdentity}
             profiles={profiles}
             staticSupporter={{
               amount: "$2,000+",

@@ -65,6 +65,13 @@ Deploys run on `.github/workflows/deploy.yml`. The workflow needs:
 Set a custom domain in `wrangler.jsonc` when the DNS cutover is approved. The Worker serves
 `dist/404.html` for unknown routes.
 
+Download and support analytics live in the separate `analytics-worker` project at
+`https://analytics.glyphq.org`. It exposes `GET /downloads`, `POST /downloads`, and
+`GET /support?ttl=120`. The Worker seeds the historical wallet-installer total from GitHub
+once, calculates development-window progress, caches support data, and rate-limits tracked
+downloads per IP. The navbar uses a five-minute cache; support components use two minutes.
+Override the endpoint with `PUBLIC_ANALYTICS_URL` if needed.
+
 ## Commits
 
 Commits follow Conventional Commits through `commitlint` and `lefthook`:
