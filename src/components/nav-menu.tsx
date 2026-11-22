@@ -29,8 +29,8 @@ const links = [
 ];
 
 const productGroups = [
-  { label: "Products", slugs: ["wallet", "explorer"] },
-  { label: "Integrations", slugs: ["connect", "contracts", "relay", "api"] },
+  { label: "Products", slugs: ["wallet", "explorer", "relay", "api"] },
+  { label: "Integrations", slugs: ["connect", "contracts"] },
 ].map((group) => ({
   ...group,
   items: products.filter((product) => group.slugs.includes(product.slug)),
