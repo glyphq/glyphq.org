@@ -152,7 +152,7 @@ export default function NavMenu({ pathname }: Props) {
         <motion.a
           href="/download"
           whileTap={{ scale: 0.97 }}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-4 py-2 font-display text-sm font-medium text-night transition-colors duration-150 hover:bg-white/90"
+          className="hidden items-center justify-center gap-2 rounded-full bg-white px-4 py-2 font-display text-sm font-medium text-night transition-colors duration-150 hover:bg-white/90 md:inline-flex"
         >
           <span className="glyph-logo size-4" aria-hidden="true" />
           Download
@@ -174,75 +174,70 @@ export default function NavMenu({ pathname }: Props) {
         createPortal(
           <AnimatePresence>
             {mobileOpen && (
-              <>
-                <motion.div
-                  key="backdrop"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={reduced ? { duration: 0 } : { duration: 0.18 }}
-                  className="fixed inset-0 z-50 bg-night/70 md:hidden"
-                  onClick={() => setMobileOpen(false)}
-                />
-                <motion.div
-                  key="sheet"
-                  role="dialog"
-                  aria-modal="true"
-                  aria-label="Menu"
-                  initial={{ y: "100%" }}
-                  animate={{ y: 0 }}
-                  exit={{ y: "100%" }}
-                  transition={transition}
-                  drag="y"
-                  dragConstraints={{ top: 0, bottom: 0 }}
-                  dragElastic={{ top: 0, bottom: 0.5 }}
-                  onDragEnd={(_, info) => {
-                    if (info.offset.y > 100 || info.velocity.y > 500) setMobileOpen(false);
-                  }}
-                  className="fixed inset-x-0 bottom-0 z-[60] max-h-[85vh] overflow-y-auto rounded-t-3xl bg-paper shadow-2xl shadow-black/50 px-4 pb-[max(2rem,env(safe-area-inset-bottom))] pt-3 md:hidden"
-                >
-                  <div className="mx-auto mb-3 h-1.5 w-10 rounded-full bg-ink/20" />
-                  <div className="flex items-center justify-between pb-4">
-                    <span className="text-lg font-medium text-ink">Menu</span>
-                    <button
-                      ref={closeRef}
-                      type="button"
+              <motion.div
+                key="menu"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Menu"
+                initial={reduced ? false : { opacity: 0, y: -12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduced ? { opacity: 0 } : { opacity: 0, y: -12 }}
+                transition={
+                  reduced ? { duration: 0 } : { duration: 0.22, ease: [0.22, 1, 0.36, 1] }
+                }
+                className="fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-paper px-4 pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))] md:hidden"
+              >
+                <div className="flex items-center justify-between">
+                  <a
+                    href="/"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-2"
+                  >
+                    <span className="glyph-logo size-7" aria-hidden="true" />
+                    <span className="font-display text-lg font-semibold text-ink">Glyph</span>
+                  </a>
+                  <button
+                    ref={closeRef}
+                    type="button"
+                    onClick={() => setMobileOpen(false)}
+                    aria-label="Close menu"
+                    className="inline-flex size-10 items-center justify-center rounded-full bg-surface text-ink"
+                  >
+                    <CloseIcon size={20} />
+                  </button>
+                </div>
+
+                <nav className="mt-12 flex flex-col gap-1" aria-label="Mobile">
+                  {[{ label: "Products", href: "/products" }, ...links].map((item) => (
+                    <a
+                      key={item.href}
+                      href={item.href}
                       onClick={() => setMobileOpen(false)}
-                      aria-label="Close menu"
-                      className="inline-flex size-9 items-center justify-center rounded-full bg-surface text-ink"
+                      className="rounded-2xl px-4 py-4 font-display text-2xl font-medium text-ink/80 transition-colors duration-150 hover:bg-white/5 hover:text-ink"
                     >
-                      <CloseIcon size={18} />
-                    </button>
-                  </div>
-                  <nav className="flex flex-col" aria-label="Mobile">
-                    {[{ label: "Products", href: "/products" }, ...links].map((item) => (
-                      <a
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => setMobileOpen(false)}
-                        className="rounded-xl px-3 py-2.5 font-display text-sm text-ink/70 transition-colors duration-150 hover:bg-ink/5 hover:text-ink"
-                      >
-                        {item.label}
-                      </a>
-                    ))}
-                    <span
-                      aria-disabled="true"
-                      title="Qubic-focused learning. Coming soon."
-                      className="flex cursor-not-allowed items-center rounded-xl px-3 py-2.5 font-display text-sm text-ink/35"
-                    >
-                      Learn
-                    </span>
-                  </nav>
+                      {item.label}
+                    </a>
+                  ))}
+                  <span
+                    aria-disabled="true"
+                    title="Qubic-focused learning. Coming soon."
+                    className="flex cursor-not-allowed items-center rounded-2xl px-4 py-4 font-display text-2xl font-medium text-ink/30"
+                  >
+                    Learn
+                  </span>
+                </nav>
+
+                <div className="mt-auto pt-10">
                   <a
                     href="/download"
                     onClick={() => setMobileOpen(false)}
-                    className="mt-4 flex items-center justify-center gap-2 rounded-full bg-white px-4 py-3 font-display text-sm font-medium text-night hover:bg-white/90"
+                    className="flex w-full items-center justify-center gap-2 rounded-full bg-white px-4 py-4 font-display text-base font-medium text-night hover:bg-white/90"
                   >
                     <span className="glyph-logo size-4" aria-hidden="true" />
-                    Download
+                    Download Glyph
                   </a>
-                </motion.div>
-              </>
+                </div>
+              </motion.div>
             )}
           </AnimatePresence>,
           document.body,
