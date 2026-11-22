@@ -17,6 +17,7 @@ interface StaticSupporter {
   amount: string;
   ariaLabel: string;
   href: string;
+  image?: string;
   label: string;
   timestamp: string;
 }
@@ -98,7 +99,19 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
       aria-label={staticSupporter.ariaLabel}
       className="inline-flex w-fit items-center gap-2.5 rounded-full bg-surface py-1.5 pl-1.5 pr-4 text-sm transition-colors duration-150 hover:bg-ink/5"
     >
-      <IdentityAvatar value={staticSupporter.label} size={28} />
+      {staticSupporter.image ? (
+        <span className="flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-ink/5 ring-1 ring-ink/10">
+          <img
+            src={staticSupporter.image}
+            alt=""
+            width="20"
+            height="20"
+            className="size-5 object-contain"
+          />
+        </span>
+      ) : (
+        <IdentityAvatar value={staticSupporter.label} size={28} />
+      )}
       <span className="flex flex-col">
         <span className="flex items-baseline gap-2">
           <span className="text-muted">{staticSupporter.label}</span>
@@ -134,16 +147,26 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
   }
 
   const names = new Map(profiles.map((profile) => [profile.identity, profile.displayName]));
-  const biggestAmount = Math.max(...donations.map((donation) => donation.amount), 0);
-  const sortedDonations = [...donations].sort(
-    (a, b) => moment(b.timestamp).valueOf() - moment(a.timestamp).valueOf(),
-  );
+  const byAmount = [...donations].sort((a, b) => b.amount - a.amount);
+  const podium = byAmount.slice(0, 3);
+  const recent = byAmount
+    .slice(3)
+    .sort((a, b) => moment(b.timestamp).valueOf() - moment(a.timestamp).valueOf());
+  const ordered = [...podium, ...recent];
 
   return (
     <div className="mt-5 flex flex-wrap gap-2.5">
-      {sortedDonations.map((donation) => {
+      {ordered.map((donation, index) => {
         const name = names.get(donation.identity) ?? shortIdentity(donation.identity);
-        const isBiggest = donation.amount === biggestAmount;
+        const isPodium = index < 3;
+        const chipTone =
+          index === 0
+            ? "bg-accent/20"
+            : index === 1
+              ? "bg-accent/10"
+              : index === 2
+                ? "bg-ink/5"
+                : "bg-surface";
 
         return (
           <a
@@ -151,14 +174,12 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
             href={`${EXPLORER}/transactions/${donation.hash}`}
             target="_blank"
             rel="noreferrer"
-            aria-label={`${name} donated ${quFormatter.format(donation.amount)} QU.${isBiggest ? " Top donation." : ""} Open transaction.`}
+            aria-label={`${name} donated ${quFormatter.format(donation.amount)} QU.${index === 0 ? " Top donation." : ""} Open transaction.`}
             title={donation.identity}
-            className={`inline-flex w-fit items-center gap-2.5 rounded-full py-1.5 pl-1.5 pr-4 text-sm transition-colors duration-150 hover:bg-ink/5 ${
-              isBiggest ? "bg-accent/15" : "bg-surface"
-            }`}
+            className={`inline-flex w-fit items-center gap-2.5 rounded-full py-1.5 pl-1.5 pr-4 text-sm transition-colors duration-150 hover:bg-ink/5 ${chipTone}`}
           >
             <span className="relative shrink-0">
-              {isBiggest && (
+              {index === 0 && (
                 <span
                   className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-accent-soft"
                   aria-hidden="true"
@@ -171,7 +192,7 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
             <span className="flex min-w-0 flex-col">
               <span className="flex items-baseline gap-2">
                 <span className="max-w-[12rem] truncate text-muted">{name}</span>
-                <span className={isBiggest ? "text-accent-soft" : "text-ink"}>
+                <span className={isPodium ? "text-accent-soft" : "text-ink"}>
                   {quFormatter.format(donation.amount)} QU
                 </span>
               </span>
