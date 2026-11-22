@@ -2,8 +2,8 @@
 
 Landing page for [glyphq.org](https://glyphq.org), built with Astro.
 
-This version is a monochrome wireframe. It uses the Glyph logo from the existing site and text-only
-placeholder content, with no custom illustrations.
+This version is a dark-only wireframe. It uses the Glyph logo from the existing site, Space Grotesk, Solar icons, and
+text-only placeholder content, with no custom illustrations.
 
 ## Stack
 
