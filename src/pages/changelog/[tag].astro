@@ -17,6 +17,22 @@ export async function getStaticPaths() {
 const { release } = Astro.props;
 const dateFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: "medium" });
 const published = dateFormatter.format(new Date(release.publishedAt));
+const canonical = new URL(`/changelog/${release.tag}/`, Astro.site ?? "https://glyphq.org").href;
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: release.name,
+  description: `${release.tag} release notes for Glyph Wallet.`,
+  datePublished: release.publishedAt,
+  author: { "@type": "Organization", name: "Glyph", url: "https://glyphq.org" },
+  publisher: {
+    "@type": "Organization",
+    name: "Glyph",
+    logo: { "@type": "ImageObject", url: "https://glyphq.org/brand/glyph-on-dark.png" },
+  },
+  mainEntityOfPage: canonical,
+  image: "https://glyphq.org/og/changelog.png",
+};
 const notes = (body: string) =>
   marked.parse(body || "No notes for this release.", { async: false }) as string;
 ---
@@ -24,6 +40,9 @@ const notes = (body: string) =>
 <Layout
   title={`${release.name} | Changelog | Glyph`}
   description={`${release.tag} release notes for Glyph Wallet.`}
+  type="article"
+  publishedTime={release.publishedAt}
+  schema={articleSchema}
 >
   <PageHero
     variant="article"

@@ -1,20 +1,87 @@
 ---
 import { ClientRouter } from "astro:transitions";
-import "../styles/global.css";
 import SiteFooter from "../components/site-footer.astro";
 import SiteHeader from "../components/site-header.astro";
+import { faqs } from "../data/faq";
+import { products } from "../data/site";
+import { canonicalUrlForPath, ogImageSize, ogSlugForPath } from "../lib/seo";
+import "../styles/global.css";
 
 interface Props {
   title?: string;
   description?: string;
   noindex?: boolean;
+  type?: "website" | "article";
+  publishedTime?: string;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
   title = "Glyph: a wallet and toolchain for Qubic",
   description = "Glyph is a self-custodial wallet and toolchain for Qubic.",
   noindex = false,
+  type = "website",
+  publishedTime,
+  schema: pageSchema,
 } = Astro.props;
+
+const site = Astro.site ?? new URL("https://glyphq.org");
+const pathname = Astro.url.pathname;
+const cleanPath = pathname.replace(/^\/+|\/+$/g, "");
+const canonical = canonicalUrlForPath(pathname, site);
+const ogImage = new URL(`/og/${ogSlugForPath(pathname)}.png`, site).href;
+const logo = new URL("/brand/glyph-on-dark.png", site).href;
+const product = products.find((item) => cleanPath === `products/${item.slug}`);
+
+const schemas: Record<string, unknown>[] = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Glyph",
+    url: site.href,
+    logo,
+    sameAs: ["https://github.com/glyphq", "https://discord.gg/s5qNRNGu96"],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Glyph",
+    url: site.href,
+    description: "A self-custodial wallet and toolchain for Qubic.",
+    inLanguage: "en",
+    publisher: { "@type": "Organization", name: "Glyph" },
+  },
+];
+
+if (cleanPath === "") {
+  schemas.push({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  });
+}
+
+if (product) {
+  schemas.push({
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: product.name,
+    description: product.summary,
+    applicationCategory: "DeveloperApplication",
+    operatingSystem: product.slug === "wallet" ? "Windows, macOS, Linux" : "Any",
+    url: canonical,
+    image: ogImage,
+    publisher: { "@type": "Organization", name: "Glyph", url: site.href },
+  });
+}
+
+if (pageSchema) {
+  schemas.push(...(Array.isArray(pageSchema) ? pageSchema : [pageSchema]));
+}
 ---
 
 <!doctype html>
@@ -25,9 +92,39 @@ const {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex" />}
+    <meta
+      name="robots"
+      content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"}
+    />
+    <link rel="canonical" href={canonical} />
     <meta name="theme-color" content="#151311" />
     <link rel="icon" href="/favicon.png" type="image/png" />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="Glyph" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content={String(ogImageSize.width)} />
+    <meta property="og:image:height" content={String(ogImageSize.height)} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content={`${title} — Glyph`} />
+    {publishedTime && type === "article" && (
+      <meta property="article:published_time" content={publishedTime} />
+    )}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={`${title} — Glyph`} />
+
+    {schemas.length > 0 && (
+      <script type="application/ld+json" set:html={JSON.stringify(schemas)} />
+    )}
+
     <noscript>
       <style>
         [data-scroll-reveal] {
