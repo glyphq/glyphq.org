@@ -1,46 +1,35 @@
-# Astro Starter Kit: Basics
+# glyphq landing
 
-```sh
-bun create astro@latest -- --template basics
-```
+Landing page for [glyphq.org](https://glyphq.org), built with Astro.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+This version is a monochrome wireframe. It uses the Glyph logo from the existing site and text-only
+placeholder content, with no custom illustrations.
 
-## 🚀 Project Structure
+## Stack
 
 Inside of your Astro project, you'll see the following folders and files:
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+## Commands
 
 To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
 
-## 🧞 Commands
+Start the dev server in the background with `astro dev --background`.
 
-All commands are run from the root of the project, from a terminal:
+## Deployment
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+Deploys run on `.github/workflows/deploy.yml`. The workflow needs:
 
-## 👀 Want to learn more?
+- `vars.CLOUDFLARE_ACCOUNT_ID`
+- `secrets.CLOUDFLARE_API_TOKEN`
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+`bun run deploy` builds `dist/` and uploads it as static assets for the `glyphq-landing` Worker.
+Set a custom domain in `wrangler.jsonc` when the DNS cutover is approved.
+
+## Commits
+
+Commits follow Conventional Commits through `commitlint` and `lefthook`:
+
+- `type(scope): subject`
+- lower-case scope and subject
+- one of `build`, `chore`, `ci`, `docs`, `feat`, `fix`, `perf`, `refactor`, `revert`, `style`, `test`
+- no body or footer
