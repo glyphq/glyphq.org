@@ -1,23 +1,33 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import IdentityAvatar from "./identity-avatar";
 
 const API = "https://api.glyphq.org";
+const EXPLORER = "https://explorer.glyphq.org";
+
+interface Profile {
+  identity: string;
+  displayName: string;
+}
 
 interface Props {
   identity: string;
+  profiles?: Profile[];
 }
 
 interface Transaction {
-  source: string;
-  destination: string;
   amount: number;
+  destination: string;
+  hash: string;
+  source: string;
   status: string;
 }
 
-interface Donor {
+interface Donation {
+  amount: number;
+  hash: string;
   identity: string;
-  total: number;
 }
 
 const quFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
@@ -25,9 +35,9 @@ const quFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 })
 const shortIdentity = (identity: string) =>
   identity.length > 14 ? `${identity.slice(0, 6)}…${identity.slice(-4)}` : identity;
 
-export default function DonationDonors({ identity }: Props) {
+export default function DonationDonors({ identity, profiles = [] }: Props) {
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
-  const [donors, setDonors] = useState<Donor[]>([]);
+  const [donations, setDonations] = useState<Donation[]>([]);
 
   useEffect(() => {
     let active = true;
@@ -35,26 +45,23 @@ export default function DonationDonors({ identity }: Props) {
     const load = async () => {
       try {
         const response = await fetch(
-          `${API}/v1/identities/${encodeURIComponent(identity)}/transactions?limit=100`,
+          `${API}/v1/identities/${encodeURIComponent(identity)}/transactions?limit=200`,
         );
         if (!response.ok) throw new Error("Glyph API request failed");
 
         const payload = (await response.json()) as { data?: Transaction[] };
-        const totals = new Map<string, number>();
-
-        for (const transaction of payload.data ?? []) {
-          if (transaction.destination !== identity || transaction.status !== "success") continue;
-          const amount = Number(transaction.amount);
-          if (!Number.isFinite(amount) || amount <= 0) continue;
-          totals.set(transaction.source, (totals.get(transaction.source) ?? 0) + amount);
-        }
+        const next = (payload.data ?? [])
+          .filter((transaction) => transaction.destination === identity)
+          .filter((transaction) => transaction.status === "success")
+          .map((transaction) => ({
+            amount: Number(transaction.amount),
+            hash: transaction.hash,
+            identity: transaction.source,
+          }))
+          .filter((donation) => Number.isFinite(donation.amount) && donation.amount > 0);
 
         if (!active) return;
-        setDonors(
-          Array.from(totals, ([source, total]) => ({ identity: source, total })).sort(
-            (a, b) => b.total - a.total,
-          ),
-        );
+        setDonations(next);
         setStatus("ready");
       } catch {
         if (active) setStatus("error");
@@ -88,26 +95,33 @@ export default function DonationDonors({ identity }: Props) {
     return <p className="mt-4 text-sm text-muted">Donor history is unavailable right now.</p>;
   }
 
-  if (!donors.length) {
-    return <p className="mt-4 text-sm text-muted">No indexed donations yet.</p>;
+  if (!donations.length) {
+    return null;
   }
+
+  const names = new Map(profiles.map((profile) => [profile.identity, profile.displayName]));
 
   return (
     <div className="mt-5 flex flex-wrap gap-2">
-      {donors.map((donor) => (
-        <a
-          key={donor.identity}
-          href={`https://explorer.glyphq.org/accounts/${donor.identity}`}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={`${donor.identity} donated ${quFormatter.format(donor.total)} QU`}
-          title={donor.identity}
-          className="inline-flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 text-xs transition-colors duration-150 hover:bg-ink/5"
-        >
-          <span className="font-mono text-muted">{shortIdentity(donor.identity)}</span>
-          <span className="text-ink">{quFormatter.format(donor.total)} QU</span>
-        </a>
-      ))}
+      {donations.map((donation) => {
+        const name = names.get(donation.identity) ?? shortIdentity(donation.identity);
+
+        return (
+          <a
+            key={donation.hash}
+            href={`${EXPLORER}/transactions/${donation.hash}`}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`${name} donated ${quFormatter.format(donation.amount)} QU. Open transaction.`}
+            title={donation.identity}
+            className="inline-flex items-center gap-2 rounded-full bg-surface py-1 pl-1 pr-3 text-xs transition-colors duration-150 hover:bg-ink/5"
+          >
+            <IdentityAvatar value={donation.identity} size={22} />
+            <span className="max-w-[11rem] truncate text-muted">{name}</span>
+            <span className="text-ink">{quFormatter.format(donation.amount)} QU</span>
+          </a>
+        );
+      })}
     </div>
   );
 }

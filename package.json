@@ -31,6 +31,7 @@
     "@tailwindcss/vite": "^4.3.5",
     "astro": "^7.4.13",
     "astro-icon": "^1.2.0",
+    "boring-avatars": "^2.0.4",
     "marked": "^18.2.1",
     "motion": "^14.14.0",
     "ogl": "^1.0.11",

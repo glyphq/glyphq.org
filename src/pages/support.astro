@@ -8,6 +8,19 @@ import Reveal from "../components/reveal.astro";
 import Layout from "../layouts/layout.astro";
 
 const qubicIdentity = "LOGCQXSJIQFNNFHFBADRFLVNNXGBVKZGJXOPZSHTQDKNRIIFWXXPYVUCUSTD";
+
+let profiles: { identity: string; displayName: string }[] = [];
+try {
+  const response = await fetch("https://explorer.glyphq.org/api/profiles/known");
+  if (response.ok) {
+    const payload = (await response.json()) as {
+      profiles?: { identity: string; displayName: string }[];
+    };
+    profiles = payload.profiles ?? [];
+  }
+} catch {
+  profiles = [];
+}
 ---
 
 <Layout
@@ -43,21 +56,10 @@ const qubicIdentity = "LOGCQXSJIQFNNFHFBADRFLVNNXGBVKZGJXOPZSHTQDKNRIIFWXXPYVUCU
     <Reveal>
       <div class="mx-auto max-w-6xl">
         <div class="max-w-3xl">
-          <h2 class="text-2xl font-medium tracking-tight text-ink">Donors</h2>
-          <p class="mt-4 text-base leading-7 text-muted">
-            Identities that sent QU to the current development window.
-          </p>
-          <DonationDonors client:load identity={qubicIdentity} />
-        </div>
-      </div>
-    </Reveal>
-  </PageSection>
-
-  <PageSection>
-    <Reveal>
-      <div class="mx-auto max-w-6xl">
-        <div class="max-w-3xl">
           <h2 class="text-2xl font-medium tracking-tight text-ink">Supporters</h2>
+          <p class="mt-4 text-base leading-7 text-muted">
+            Projects and identities backing Glyph.
+          </p>
           <div class="mt-4 flex flex-wrap gap-2">
             <a
               href="https://minerlab.io"
@@ -76,8 +78,10 @@ const qubicIdentity = "LOGCQXSJIQFNNFHFBADRFLVNNXGBVKZGJXOPZSHTQDKNRIIFWXXPYVUCU
               <span class="text-xs text-ink">$2,000+</span>
             </a>
           </div>
+          <DonationDonors client:load identity={qubicIdentity} profiles={profiles} />
         </div>
       </div>
     </Reveal>
   </PageSection>
+
 </Layout>
