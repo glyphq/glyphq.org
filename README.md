@@ -61,8 +61,8 @@ Deploys run on `.github/workflows/deploy.yml`. The workflow needs:
 - `vars.CLOUDFLARE_ACCOUNT_ID`
 - `secrets.CLOUDFLARE_API_TOKEN`
 
-`bun run deploy` builds `dist/` and uploads it as static assets for the `glyphq-landing` Worker.
-Set a custom domain in `wrangler.jsonc` when the DNS cutover is approved. The Worker serves
+`bun run deploy` builds the site and applies the Alchemy stack in `alchemy.run.ts`. It owns the
+`glyphq-landing` Worker, its static assets, and the `glyphq.org` custom domain. The Worker serves
 `dist/404.html` for unknown routes.
 
 Download and support analytics live in the separate `analytics-worker` project at

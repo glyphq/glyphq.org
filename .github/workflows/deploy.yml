@@ -16,6 +16,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
+      ALCHEMY_STAGE: live_alez
       CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
@@ -30,5 +31,5 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Deploy to Workers
+      - name: Deploy with Alchemy
         run: bun run deploy

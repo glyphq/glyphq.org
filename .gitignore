@@ -1,6 +1,9 @@
 # build output
 dist/
 
+# alchemy state
+.alchemy/
+
 # generated types
 .astro/
 
