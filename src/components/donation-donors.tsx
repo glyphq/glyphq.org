@@ -99,10 +99,10 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
       aria-label={staticSupporter.ariaLabel}
       className="inline-grid w-fit min-w-[200px] grid-cols-1 items-center"
     >
-      <span className="z-10 w-fit max-w-[calc(16ch+1.5rem)] justify-self-center truncate rounded-t-2xl bg-surface px-3 py-1 text-center font-mono text-[11px] tracking-[0.04em] text-muted">
+      <span className="z-10 w-fit max-w-[calc(16ch+1.5rem)] justify-self-start truncate rounded-t-2xl bg-surface px-3 py-1 text-left font-mono text-[11px] tracking-[0.04em] text-muted">
         {staticSupporter.label}
       </span>
-      <span className="flex w-full items-center gap-2.5 rounded-2xl bg-surface py-1.5 pl-1.5 pr-4 text-sm">
+      <span className="flex w-full items-center gap-2.5 rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl bg-surface py-1.5 pl-1.5 pr-4 text-sm">
         {staticSupporter.image ? (
           <span className="flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-ink/5 ring-1 ring-ink/10">
             <img
@@ -181,23 +181,27 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
             title={donation.identity}
             className="relative inline-grid w-fit min-w-[200px] grid-cols-1 items-center"
           >
-            {index === 0 && (
+            <span className="relative z-10 w-fit max-w-[calc(16ch+1.5rem)] justify-self-start">
               <span
-                className="absolute -top-3 left-1/2 z-20 -translate-x-1/2 text-accent-soft"
-                aria-hidden="true"
+                className={`block truncate rounded-t-2xl px-3 py-1 text-left font-mono text-[11px] tracking-[0.04em] text-muted ${chipTone}`}
               >
-                <CrownIcon size={14} aria-hidden="true" />
+                {chipLabel}
               </span>
-            )}
-            <span
-              className={`relative z-10 w-fit max-w-[calc(16ch+1.5rem)] justify-self-center truncate rounded-t-2xl px-3 py-1 text-center font-mono text-[11px] tracking-[0.04em] text-muted ${chipTone}`}
-            >
-              {chipLabel}
             </span>
             <span
-              className={`flex w-full items-center gap-2.5 rounded-2xl py-1.5 pl-1.5 pr-4 text-sm ${chipTone}`}
+              className={`flex w-full items-center gap-2.5 rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl py-1.5 pl-1.5 pr-4 text-sm ${chipTone}`}
             >
-              <IdentityAvatar value={donation.identity} size={28} />
+              <span className="relative shrink-0">
+                {index === 0 && (
+                  <span
+                    className="absolute -right-1 -top-1 z-20 text-accent-soft"
+                    aria-hidden="true"
+                  >
+                    <CrownIcon size={12} aria-hidden="true" />
+                  </span>
+                )}
+                <IdentityAvatar value={donation.identity} size={28} />
+              </span>
               <span className="flex flex-col">
                 <span className={isPodium ? "text-accent-soft" : "text-ink"}>
                   {quFormatter.format(donation.amount)} QU
