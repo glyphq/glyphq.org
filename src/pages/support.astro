@@ -3,12 +3,10 @@ import DonateModal from "../components/donate-modal.astro";
 import DonationDonors from "../components/donation-donors";
 import DonationProgress from "../components/donation-progress";
 import PageHero from "../components/page-hero.astro";
-import PageSection from "../components/page-section.astro";
 import Reveal from "../components/reveal.astro";
 import Layout from "../layouts/layout.astro";
 
 const qubicIdentity = "LOGCQXSJIQFNNFHFBADRFLVNNXGBVKZGJXOPZSHTQDKNRIIFWXXPYVUCUSTD";
-
 let profiles: { identity: string; displayName: string }[] = [];
 try {
   const response = await fetch("https://explorer.glyphq.org/api/profiles/known");
@@ -32,56 +30,45 @@ try {
     title="Support Glyph"
     description="A small team maintains Glyph. Donations fund development and infrastructure."
   >
-    <div class="flex w-full max-w-3xl flex-col items-start gap-4">
+    <div class="flex w-full flex-col items-start gap-4">
       <DonationProgress client:load identity={qubicIdentity} target={2000} />
       <DonateModal identity={qubicIdentity} />
     </div>
   </PageHero>
 
-  <PageSection>
-    <Reveal>
-      <div class="mx-auto max-w-6xl">
-        <div class="max-w-3xl">
-          <h2 class="text-2xl font-medium tracking-tight text-ink">What it funds</h2>
-          <p class="mt-4 text-base leading-7 text-muted">
-            Donations fund development, infrastructure, and releases. The dialog has the Qubic
-            identity and a direct link to the Explorer.
-          </p>
-        </div>
-      </div>
-    </Reveal>
-  </PageSection>
 
-  <PageSection>
+  <section class="bg-paper px-4 pb-20 pt-10 md:px-8 md:pb-28 md:pt-12">
     <Reveal>
       <div class="mx-auto max-w-6xl">
         <div class="max-w-3xl">
-          <h2 class="text-2xl font-medium tracking-tight text-ink">Supporters</h2>
-          <p class="mt-4 text-base leading-7 text-muted">
+          <h2 class="text-3xl font-medium tracking-tight text-ink md:text-4xl">Supporters</h2>
+          <p class="mt-4 text-base leading-7 text-muted md:text-lg md:leading-8">
             Projects and identities backing Glyph.
           </p>
-          <div class="mt-4 flex flex-wrap gap-2">
+          <div class="mt-5 flex flex-wrap gap-2.5">
             <a
               href="https://minerlab.io"
               target="_blank"
               rel="noreferrer"
               aria-label="MinerLab donated $2,000 or more"
-              class="inline-flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 transition-colors duration-150 hover:bg-ink/5"
+              class="inline-flex items-center gap-2.5 rounded-full bg-surface px-4 py-2 transition-colors duration-150 hover:bg-ink/5"
             >
               <img
                 src="/sponsors/minerlab.png"
                 alt=""
                 width="96"
                 height="31"
-                class="sponsor-logo h-5 w-auto"
+                class="sponsor-logo h-6 w-auto"
               />
-              <span class="text-xs text-ink">$2,000+</span>
+              <span class="text-sm text-ink">$2,000+</span>
             </a>
           </div>
+        </div>
+        <div class="mt-6 w-full">
           <DonationDonors client:load identity={qubicIdentity} profiles={profiles} />
         </div>
       </div>
     </Reveal>
-  </PageSection>
+  </section>
 
 </Layout>

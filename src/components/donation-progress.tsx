@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
+import { LEGACY_GLYPH_DONATION_IDENTITY } from "../lib/donations";
 
 const API = "https://api.glyphq.org";
 
@@ -18,11 +19,11 @@ interface Snapshot {
 interface Transaction {
   amount: number;
   destination: string;
+  source: string;
   status: string;
 }
 
 const quFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
-const milestones = [25, 50, 75, 100];
 
 const formatUsd = (value: number) =>
   new Intl.NumberFormat("en-US", {
@@ -51,7 +52,10 @@ export default function DonationProgress({ identity, target = 2000 }: Props) {
       const price = (await priceResponse.json()) as { data?: { price_usdt?: number } };
       const receivedQu = (transactions.data ?? [])
         .filter(
-          (transaction) => transaction.destination === identity && transaction.status === "success",
+          (transaction) =>
+            transaction.destination === identity &&
+            transaction.status === "success" &&
+            transaction.source !== LEGACY_GLYPH_DONATION_IDENTITY,
         )
         .reduce((sum, transaction) => sum + Number(transaction.amount ?? 0), 0);
       const priceUsdt = Number(price.data?.price_usdt ?? 0);
@@ -77,7 +81,6 @@ export default function DonationProgress({ identity, target = 2000 }: Props) {
   const progress = target > 0 ? Math.min(100, (receivedUsd / target) * 100) : 0;
   const fill = progress > 0 ? Math.max(progress, 0.4) : 0;
   const progressLabel = progress > 0 && progress < 0.1 ? "<0.1%" : `${progress.toFixed(1)}%`;
-  const nextMilestone = milestones.find((milestone) => progress < milestone) ?? 100;
   const isLoading = status === "loading";
 
   return (
@@ -114,34 +117,17 @@ export default function DonationProgress({ identity, target = 2000 }: Props) {
             transition={{ type: "spring", stiffness: 90, damping: 20 }}
           />
         </div>
-        <div className="pointer-events-none absolute inset-0 flex items-center">
-          {[25, 50, 75].map((milestone) => (
-            <span
-              key={milestone}
-              className={`absolute size-1.5 -translate-x-1/2 rounded-full ${
-                progress >= milestone ? "bg-night/60" : "bg-ink/25"
-              }`}
-              style={{ left: `${milestone}%` }}
-            />
-          ))}
-        </div>
       </div>
 
       {isLoading ? (
-        <div className="mt-2 flex items-center justify-between gap-4" aria-hidden="true">
-          <span className="h-3 w-32 animate-pulse rounded-full bg-ink/10" />
-          <span className="h-3 w-16 animate-pulse rounded-full bg-ink/10" />
+        <div className="mt-2" aria-hidden="true">
+          <span className="block h-3 w-32 animate-pulse rounded-full bg-ink/10" />
         </div>
       ) : (
-        <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
-          <span>
-            {status === "error"
-              ? "Donation history unavailable"
-              : `${quFormatter.format(snapshot.receivedQu)} QU received`}
-          </span>
-          <span>
-            {status === "ready" && (progress >= 100 ? "Goal reached" : `Next: ${nextMilestone}%`)}
-          </span>
+        <div className="mt-2 text-xs text-muted">
+          {status === "error"
+            ? "Donation history unavailable"
+            : `${quFormatter.format(snapshot.receivedQu)} QU received`}
         </div>
       )}
     </div>

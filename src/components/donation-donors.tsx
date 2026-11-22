@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { LEGACY_GLYPH_DONATION_IDENTITY } from "../lib/donations";
 import IdentityAvatar from "./identity-avatar";
 
 const API = "https://api.glyphq.org";
@@ -53,6 +54,7 @@ export default function DonationDonors({ identity, profiles = [] }: Props) {
         const next = (payload.data ?? [])
           .filter((transaction) => transaction.destination === identity)
           .filter((transaction) => transaction.status === "success")
+          .filter((transaction) => transaction.source !== LEGACY_GLYPH_DONATION_IDENTITY)
           .map((transaction) => ({
             amount: Number(transaction.amount),
             hash: transaction.hash,
@@ -102,7 +104,7 @@ export default function DonationDonors({ identity, profiles = [] }: Props) {
   const names = new Map(profiles.map((profile) => [profile.identity, profile.displayName]));
 
   return (
-    <div className="mt-5 flex flex-wrap gap-2">
+    <div className="mt-5 flex flex-wrap gap-2.5">
       {donations.map((donation) => {
         const name = names.get(donation.identity) ?? shortIdentity(donation.identity);
 
@@ -114,10 +116,10 @@ export default function DonationDonors({ identity, profiles = [] }: Props) {
             rel="noreferrer"
             aria-label={`${name} donated ${quFormatter.format(donation.amount)} QU. Open transaction.`}
             title={donation.identity}
-            className="inline-flex items-center gap-2 rounded-full bg-surface py-1 pl-1 pr-3 text-xs transition-colors duration-150 hover:bg-ink/5"
+            className="inline-flex w-fit items-center gap-2.5 rounded-full bg-surface py-1.5 pl-1.5 pr-4 text-sm transition-colors duration-150 hover:bg-ink/5"
           >
-            <IdentityAvatar value={donation.identity} size={22} />
-            <span className="max-w-[11rem] truncate text-muted">{name}</span>
+            <IdentityAvatar value={donation.identity} size={28} />
+            <span className="max-w-[12rem] truncate text-muted">{name}</span>
             <span className="text-ink">{quFormatter.format(donation.amount)} QU</span>
           </a>
         );
