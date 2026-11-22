@@ -23,7 +23,13 @@ export function getStaticPaths() {
 const { product } = Astro.props;
 const related = products.filter((item) => item.slug !== product.slug).slice(0, 3);
 const articles = await getCollection("products");
-const article = articles.find((entry) => entry.id.replace(/\.mdx?$/, "") === product.slug);
+const article = articles.find(
+  (entry) =>
+    entry.id
+      .split("/")
+      .pop()
+      ?.replace(/\.mdx?$/, "") === product.slug,
+);
 
 if (!article) {
   throw new Error(`No MDX article found for product "${product.slug}".`);
