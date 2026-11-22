@@ -97,20 +97,20 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
       target="_blank"
       rel="noreferrer"
       aria-label={staticSupporter.ariaLabel}
-      className="flex w-fit flex-col items-center"
+      className="inline-grid w-fit min-w-[200px] grid-cols-1 items-center"
     >
-      <span className="z-10 max-w-[14rem] truncate rounded-t-2xl bg-surface px-3 py-1 font-mono text-[11px] tracking-[0.04em] text-muted">
+      <span className="z-10 w-fit max-w-[calc(16ch+1.5rem)] justify-self-center truncate rounded-t-2xl bg-surface px-3 py-1 text-center font-mono text-[11px] tracking-[0.04em] text-muted">
         {staticSupporter.label}
       </span>
-      <span className="flex items-center gap-2.5 rounded-2xl bg-surface py-1.5 pl-1.5 pr-4 text-sm">
+      <span className="flex w-full items-center gap-2.5 rounded-2xl bg-surface py-1.5 pl-1.5 pr-4 text-sm">
         {staticSupporter.image ? (
           <span className="flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-ink/5 ring-1 ring-ink/10">
             <img
               src={staticSupporter.image}
               alt=""
-              width="20"
-              height="20"
-              className="size-5 object-contain"
+              width="28"
+              height="28"
+              className="size-full object-contain"
             />
           </span>
         ) : (
@@ -160,6 +160,7 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
     <div className="mt-5 flex flex-wrap gap-2.5">
       {ordered.map((donation, index) => {
         const name = names.get(donation.identity) ?? shortIdentity(donation.identity);
+        const chipLabel = name.length > 16 ? `${name.slice(0, 16)}…` : name;
         const isPodium = index < 3;
         const chipTone =
           index === 0
@@ -178,7 +179,7 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
             rel="noreferrer"
             aria-label={`${name} donated ${quFormatter.format(donation.amount)} QU.${index === 0 ? " Top donation." : ""} Open transaction.`}
             title={donation.identity}
-            className="relative flex w-fit flex-col items-center"
+            className="relative inline-grid w-fit min-w-[200px] grid-cols-1 items-center"
           >
             {index === 0 && (
               <span
@@ -189,12 +190,12 @@ export default function DonationDonors({ identity, profiles = [], staticSupporte
               </span>
             )}
             <span
-              className={`relative z-10 max-w-[14rem] truncate rounded-t-2xl px-3 py-1 font-mono text-[11px] tracking-[0.04em] text-muted ${chipTone}`}
+              className={`relative z-10 w-fit max-w-[calc(16ch+1.5rem)] justify-self-center truncate rounded-t-2xl px-3 py-1 text-center font-mono text-[11px] tracking-[0.04em] text-muted ${chipTone}`}
             >
-              {name}
+              {chipLabel}
             </span>
             <span
-              className={`flex items-center gap-2.5 rounded-2xl py-1.5 pl-1.5 pr-4 text-sm ${chipTone}`}
+              className={`flex w-full items-center gap-2.5 rounded-2xl py-1.5 pl-1.5 pr-4 text-sm ${chipTone}`}
             >
               <IdentityAvatar value={donation.identity} size={28} />
               <span className="flex flex-col">
