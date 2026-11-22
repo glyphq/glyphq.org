@@ -8,6 +8,21 @@ import { type OgPage, ogImageSize, ogPages } from "../../lib/seo";
 const font = readFileSync(`${process.cwd()}/src/assets/og/geist.ttf`);
 const logo = readFileSync(`${process.cwd()}/public/brand/glyph-on-dark.png`);
 const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
+const productMaskSlugs = new Set(["wallet", "connect", "contracts", "relay", "explorer", "api"]);
+const maskCache = new Map<string, string>();
+const maskSrcFor = (slug: string) => {
+  const name = productMaskSlugs.has(slug) ? slug : "hairline";
+  const cached = maskCache.get(name);
+  if (cached) return cached;
+
+  const svg = readFileSync(`${process.cwd()}/public/masks/${name}.svg`)
+    .toString()
+    .replaceAll("#fff", "#eed3ba");
+  const png = new Resvg(svg, { fitTo: { mode: "width", value: 620 } }).render().asPng();
+  const src = `data:image/png;base64,${Buffer.from(png).toString("base64")}`;
+  maskCache.set(name, src);
+  return src;
+};
 
 export function getStaticPaths() {
   return ogPages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
@@ -34,16 +49,18 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
           fontFamily: "Geist",
         },
       },
-      h("div", {
+      h("img", {
+        src: maskSrcFor(props.page.slug),
+        width: 620,
+        height: 413,
+        alt: "",
         style: {
           position: "absolute",
-          top: "-220px",
-          right: "-160px",
-          width: "560px",
-          height: "560px",
-          borderRadius: "280px",
-          background: "#4b262f",
-          opacity: 0.55,
+          top: "-72px",
+          right: "-88px",
+          width: "620px",
+          height: "413px",
+          opacity: 0.2,
         },
       }),
       h("div", {
@@ -67,8 +84,8 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
             position: "relative",
           },
         },
-        h("img", { src: logoSrc, width: 48, height: 48, alt: "" }),
-        h("span", { style: { fontSize: 28, fontWeight: 600, letterSpacing: "-0.03em" } }, "Glyph"),
+        h("img", { src: logoSrc, width: 56, height: 56, alt: "" }),
+        h("span", { style: { fontSize: 32, fontWeight: 600, letterSpacing: "-0.03em" } }, "Glyph"),
       ),
       h(
         "div",
