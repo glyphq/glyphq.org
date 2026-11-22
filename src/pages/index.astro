@@ -5,123 +5,181 @@ import GridGuides from "../components/grid-guides.astro";
 import PageSection from "../components/page-section.astro";
 import ProductCard from "../components/product-card.astro";
 import SectionHeader from "../components/section-header.astro";
-import StackMap from "../components/stack-map.astro";
 import { attributes, principles, products, specs } from "../data/site";
+import Layout from "../layouts/layout.astro";
+
+const repos = [
+  "glyphq/wallet",
+  "glyphq/connect",
+  "glyphq/contracts",
+  "glyphq/relay",
+  "glyphq/explorer-v2",
+  "glyphq/service",
+];
 ---
 
 <Layout>
-  <section class="bg-night px-4 pb-10 pt-6 md:px-6">
-    <div class="mx-auto max-w-[1352px] rounded-2xl bg-accent px-6 py-16 text-center text-white md:py-24">
-      <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-white/70">
-        Open-source stack for Qubic
-      </p>
-      <h1
-        class="mx-auto mt-5 max-w-4xl text-[2.5rem] leading-[1.05] tracking-[-0.03em] md:text-[3.5rem]"
-      >
-        Build on Qubic without rebuilding the basics.
-      </h1>
-      <p class="mx-auto mt-5 max-w-2xl text-sm leading-6 text-white/80 md:text-base md:leading-7">
-        Glyph is an open-source wallet, explorer, SDK, and API layer for Qubic. One stack, one data
-        model, self-custodial by default.
-      </p>
-      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <ButtonLink href="https://docs.glyphq.org" variant="light">Start building</ButtonLink>
-        <ButtonLink href="#products" variant="outline-dark">See the products</ButtonLink>
-      </div>
-    </div>
-  </section>
-
-  <section aria-label="Platform attributes" class="border-b border-line bg-surface">
-    <ul class="mx-auto grid max-w-[1120px] grid-cols-2 gap-px bg-line md:grid-cols-4">
-      {
-        attributes.map((attribute) => (
-          <li class="bg-surface px-4 py-4 text-center font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
-            {attribute}
-          </li>
-        ))
-      }
-    </ul>
-  </section>
-
-  <PageSection id="products">
-    <SectionHeader
-      kicker="Products"
-      title="One stack for the whole network."
-      description="Use one product or all of them. Each one shares the same addresses, types, and data model."
-    />
-    <div class="mt-10 grid gap-px overflow-hidden rounded-lg border border-line bg-line md:grid-cols-4">
-      {products.map((product) => <ProductCard {...product} />)}
-    </div>
-  </PageSection>
-
-  <PageSection id="principles">
-    <div class="grid gap-10 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
-      <div class="md:sticky md:top-24 md:self-start">
-        <SectionHeader
-          kicker="Principles"
-          title="Boring infrastructure, open internals."
-          description="The stack is built to be read, audited, and replaced piece by piece."
-        />
-      </div>
-      <div class="border-t border-line">
-        {
-          principles.map((principle) => (
-            <article class="border-b border-line py-6 md:grid md:grid-cols-[7rem_1fr] md:gap-6">
-              <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
-                {principle.tag}
-              </p>
-              <div class="mt-2 space-y-2 md:mt-0">
-                <h3 class="text-base font-medium">{principle.title}</h3>
-                <p class="text-sm leading-6 text-muted">{principle.description}</p>
-              </div>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-  </PageSection>
-
-  <PageSection id="developers" tone="dark">
-    <div class="grid gap-12 md:grid-cols-2 md:gap-16">
-      <div>
-        <SectionHeader
-          kicker="Developers"
-          title="Install the parts you need."
-          description="Start with the Connect SDK, then add typed contracts or the indexed API. The docs include examples for each product."
-          tone="dark"
-        />
-        <div class="mt-8 flex flex-wrap gap-3">
-          <ButtonLink href="https://docs.glyphq.org">Read the docs</ButtonLink>
-          <ButtonLink href="https://github.com/glyphq" variant="outline-dark">
-            Browse the source
+  <section class="px-2 pt-2">
+    <div
+      class="hero-surface flex min-h-[560px] flex-col items-center justify-center rounded-xl bg-accent px-6 py-20 text-center text-white md:min-h-[740px]"
+    >
+      <div class="relative z-10">
+        <h1
+          class="mx-auto max-w-[1080px] text-[2.5rem] leading-[1.02] tracking-[-0.03em] md:text-[56px]"
+        >
+          Everything you need to build on Qubic.
+        </h1>
+        <p class="mx-auto mt-6 max-w-[680px] text-base leading-7 text-white/85 md:text-[19px] md:leading-[1.4]">
+          Glyph is the toolchain for Qubic: a self-custodial wallet, typed SDKs, an explorer, a
+          relay, and a self-hosted API.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <ButtonLink href="https://docs.glyphq.org" variant="light">Start building</ButtonLink>
+          <ButtonLink href="https://glyphq.org/download" variant="translucent">
+            Download Glyph
           </ButtonLink>
         </div>
       </div>
-      <dl class="self-start overflow-hidden rounded-lg border border-white/15">
+    </div>
+  </section>
+
+  <div class="border-b border-line">
+    <p
+      class="mx-auto flex max-w-[1200px] flex-wrap items-center justify-center gap-x-2 gap-y-1 px-4 py-3 text-center text-sm md:px-8"
+    >
+      <span class="text-muted">The Glyph toolchain is open source.</span>
+      <a class="font-medium text-accent-soft hover:underline" href="https://github.com/glyphq">
+        Browse the repositories
+      </a>
+    </p>
+  </div>
+
+  <section id="products" class="relative border-b border-line bg-paper">
+    <GridGuides />
+    <div class="relative mx-auto max-w-[1200px] px-4 py-20 md:px-8 md:py-28">
+      <SectionHeader
+        title="The Glyph toolchain"
+        description="Six products for building, signing, and reading Qubic."
+        align="center"
+        size="lg"
+      />
+
+      <div class="mt-12 grid gap-px overflow-hidden rounded-lg border border-line bg-line md:grid-cols-3">
+        {products.map((product) => <ProductCard {...product} />)}
+      </div>
+
+      <div class="mt-16 grid border-t border-line md:grid-cols-3 md:divide-x md:divide-line">
         {
-          specs.map((spec) => (
-            <div class="grid grid-cols-[7rem_1fr] gap-4 border-b border-white/10 px-4 py-3 last:border-b-0">
-              <dt class="font-mono text-[11px] uppercase tracking-[0.12em] text-white/50">
-                {spec.label}
-              </dt>
-              <dd class="font-mono text-xs text-white/80">{spec.value}</dd>
+          principles.map((principle) => (
+            <div class="py-10 md:px-8 md:first:pl-0 md:last:pr-0">
+              <Icon name={principle.icon} class="size-6 text-accent-soft" aria-hidden="true" />
+              <h3 class="mt-4 text-base font-medium text-ink">{principle.title}</h3>
+              <p class="mt-2 text-base leading-7 text-muted">{principle.description}</p>
             </div>
           ))
         }
-      </dl>
+      </div>
+    </div>
+  </section>
+
+  <section id="principles" class="relative border-b border-line bg-paper">
+    <GridGuides />
+    <div class="relative mx-auto max-w-[1200px] px-4 py-20 md:px-8 md:py-28">
+      <SectionHeader
+        title="Built for the whole stack"
+        description="A wallet for people. SDKs and services for the apps around it."
+        align="center"
+        size="lg"
+      />
+
+      <div class="mt-14 grid md:grid-cols-2">
+        <article class="border border-line bg-surface p-8 md:p-12">
+          <h3 class="text-3xl leading-[1.1] tracking-[-0.02em] text-ink md:text-4xl">
+            Read the code before you trust it.
+          </h3>
+          <p class="mt-4 text-base leading-7 text-muted">
+            The wallet, SDKs, relay, explorer, and API are open source. Read the implementation
+            before you depend on it.
+          </p>
+          <ul class="mt-10 border-t border-line">
+            {
+              repos.map((repo) => (
+                <li class="flex items-center justify-between border-b border-line py-3 font-mono text-sm">
+                  <span class="text-ink">{repo}</span>
+                  <span class="text-muted">public</span>
+                </li>
+              ))
+            }
+          </ul>
+        </article>
+
+        <article class="bg-accent p-8 text-white md:p-12">
+          <h3 class="text-3xl leading-[1.1] tracking-[-0.02em] md:text-4xl">
+            Keys stay on your desktop.
+          </h3>
+          <p class="mt-4 text-base leading-7 text-white/80">
+            Glyph Wallet keeps Vaults and wallet data on your machine. It cannot recover a seed or
+            reset a forgotten Vault password, so keep an offline backup.
+          </p>
+          <div class="mt-10 border border-white/25 p-4">
+            <p class="text-sm font-medium">Desktop builds</p>
+            <p class="mt-1 text-base text-white/75">Windows, macOS, and Linux.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <PageSection id="developers">
+    <div class="overflow-hidden rounded-xl border border-line bg-surface">
+      <div class="grid md:grid-cols-2">
+        <div class="p-8 md:p-12">
+          <SectionHeader
+            title="Start with the parts you need."
+            description="Install the SDKs, point the explorer at a Qubic endpoint, or self-host the API."
+          />
+          <div class="mt-8 flex flex-wrap gap-3">
+            <ButtonLink href="https://docs.glyphq.org">Read the docs</ButtonLink>
+            <ButtonLink href="https://github.com/glyphq" variant="outline-dark">
+              Browse the source
+            </ButtonLink>
+          </div>
+        </div>
+        <dl class="border-t border-line md:border-l md:border-t-0">
+          {
+            specs.map((spec) => (
+              <div class="grid grid-cols-[7rem_1fr] gap-4 border-b border-line px-6 py-4 last:border-b-0 md:px-8">
+                <dt class="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+                  {spec.label}
+                </dt>
+                <dd class="font-mono text-xs text-ink/80">{spec.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
     </div>
   </PageSection>
 
-  <PageSection>
-    <SectionHeader
-      kicker="Open source"
-      title="Build on the open stack."
-      description="The wallet, SDK, explorer, and API are ready for your next Qubic app."
-      align="center"
-    />
-    <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-      <ButtonLink href="https://docs.glyphq.org">Start building</ButtonLink>
-      <ButtonLink href="https://glyphq.org/download" variant="secondary">Get the wallet</ButtonLink>
+  <section class="px-2 pb-2">
+    <div class="rounded-xl bg-accent px-6 py-20 text-center text-white md:py-28">
+      <h2 class="mx-auto max-w-3xl text-4xl leading-[1.05] tracking-[-0.025em] md:text-[56px]">
+        Build without boundaries.
+      </h2>
+      <p class="mx-auto mt-5 max-w-xl text-base leading-7 text-white/80 md:text-[19px] md:leading-[1.45]">
+        Start with the wallet, the SDKs, or the self-hosted API. The docs cover each product.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <ButtonLink href="https://docs.glyphq.org" variant="light">Read the docs</ButtonLink>
+        <ButtonLink href="https://glyphq.org/download" variant="translucent">
+          Download Glyph
+        </ButtonLink>
+      </div>
     </div>
-  </PageSection>
+    <div
+      class="mt-2 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 rounded-lg bg-accent-strong px-6 py-3 text-center font-mono text-[11px] uppercase tracking-[0.12em] text-white/80"
+    >
+      {attributes.map((attribute) => <span>{attribute}</span>)}
+    </div>
+  </section>
 </Layout>

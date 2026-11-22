@@ -1,20 +1,23 @@
+@import "tailwindcss";
 @import "@fontsource-variable/space-grotesk";
 
 @theme {
   --font-sans: "Space Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", monospace;
-  --color-paper: #ffffff;
-  --color-surface: #ffffff;
-  --color-ink: #1f1f1f;
-  --color-muted: #6c757d;
-  --color-line: #e8e8e8;
+  --color-paper: #0a0a0a;
+  --color-surface: #121212;
+  --color-ink: #f4f4f4;
+  --color-muted: #9a9a9a;
+  --color-line: #262626;
   --color-accent: #2563eb;
   --color-accent-strong: #1d4ed8;
-  --color-night: #0b0b0b;
+  --color-accent-soft: #60a5fa;
+  --color-night: #0a0a0a;
 }
 
 @layer base {
   html {
+    color-scheme: dark;
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
   }
@@ -23,7 +26,6 @@
     background-color: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-feature-settings: "ss01" 1;
     letter-spacing: 0.005em;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -37,18 +39,67 @@
   }
 
   ::selection {
-    background-color: var(--color-accent);
-    color: #ffffff;
+    background-color: var(--color-accent-soft);
+    color: var(--color-night);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-accent-soft);
     outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .hero-surface {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .hero-surface::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1.5px);
+    background-size: 18px 18px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 65% at 50% 100%, #000 0%, transparent 72%);
+    mask-image: radial-gradient(ellipse 80% 65% at 50% 100%, #000 0%, transparent 72%);
+    opacity: 0.5;
+  }
+
+  .hero-surface::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    left: 50%;
+    bottom: -45%;
+    width: min(1000px, 120vw);
+    aspect-ratio: 1;
+    transform: translateX(-50%);
+    border-radius: 9999px;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.24) 0%,
+      rgba(255, 255, 255, 0.08) 35%,
+      transparent 65%
+    );
+    filter: blur(8px);
+    animation: hero-drift 16s ease-in-out infinite alternate;
+  }
+
+  @keyframes hero-drift {
+    to {
+      transform: translate(-48%, -6%) scale(1.08);
+    }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .hero-surface::after {
+    animation: none;
   }
 }
