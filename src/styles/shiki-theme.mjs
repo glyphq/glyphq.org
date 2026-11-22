@@ -1,21 +1,21 @@
 /** @type {import("shiki").ThemeRegistration} */
 export const glyphShikiTheme = {
-  name: "glyph-dark",
-  type: "dark",
+  name: "glyph-light",
+  type: "light",
   colors: {
-    "editor.background": "#090B0F",
-    "editor.foreground": "#EDF2FA",
+    "editor.background": "#F1F3F7",
+    "editor.foreground": "#0A0C10",
   },
   tokenColors: [
     {
       settings: {
-        foreground: "#EDF2FA",
+        foreground: "#0A0C10",
       },
     },
     {
       scope: ["comment", "punctuation.definition.comment"],
       settings: {
-        foreground: "#A9C7FF",
+        foreground: "#0052FF",
         fontStyle: "italic",
       },
     },
@@ -33,19 +33,19 @@ export const glyphShikiTheme = {
         "keyword.operator.new",
       ],
       settings: {
-        foreground: "#A9C7FF",
+        foreground: "#0052FF",
       },
     },
     {
       scope: ["string", "string.template", "constant.character.escape"],
       settings: {
-        foreground: "#EDF2FA",
+        foreground: "#0A0C10",
       },
     },
     {
       scope: ["constant.numeric", "constant.language", "constant.other.symbol", "constant.other"],
       settings: {
-        foreground: "#C6DAFF",
+        foreground: "#0043D6",
       },
     },
     {
@@ -56,7 +56,7 @@ export const glyphShikiTheme = {
         "meta.function-call",
       ],
       settings: {
-        foreground: "#EDF2FA",
+        foreground: "#0A0C10",
       },
     },
     {
@@ -68,7 +68,7 @@ export const glyphShikiTheme = {
         "storage.type.interface",
       ],
       settings: {
-        foreground: "#B6D0FF",
+        foreground: "#0052FF",
       },
     },
     {
@@ -80,19 +80,19 @@ export const glyphShikiTheme = {
         "punctuation.terminator",
       ],
       settings: {
-        foreground: "#8C97A8",
+        foreground: "#5F6775",
       },
     },
     {
       scope: ["entity.name.tag", "support.type.property-name", "meta.object-literal.key"],
       settings: {
-        foreground: "#A9C7FF",
+        foreground: "#0052FF",
       },
     },
     {
       scope: ["invalid", "invalid.illegal"],
       settings: {
-        foreground: "#FF9A9A",
+        foreground: "#B42318",
       },
     },
   ],

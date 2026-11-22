@@ -6,7 +6,7 @@ import satori from "satori";
 import { type OgPage, ogImageSize, ogPages } from "../../lib/seo";
 
 const font = readFileSync(`${process.cwd()}/src/assets/og/space-grotesk.ttf`);
-const logo = readFileSync(`${process.cwd()}/public/brand/glyph-on-pastel.png`);
+const logo = readFileSync(`${process.cwd()}/public/brand/glyph-on-accent.png`);
 const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
 const productMaskSlugs = new Set(["wallet", "connect", "contracts", "relay", "explorer", "api"]);
 const maskCache = new Map<string, string>();
@@ -17,7 +17,7 @@ const maskSrcFor = (slug: string) => {
 
   const svg = readFileSync(`${process.cwd()}/public/masks/${name}.svg`)
     .toString()
-    .replaceAll("#fff", "#a9c7ff");
+    .replaceAll("#fff", "#0052ff");
   const png = new Resvg(svg, { fitTo: { mode: "width", value: 620 } }).render().asPng();
   const src = `data:image/png;base64,${Buffer.from(png).toString("base64")}`;
   maskCache.set(name, src);
@@ -44,8 +44,8 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
           position: "relative",
           boxSizing: "border-box",
           padding: "64px 72px",
-          background: "#060708",
-          color: "#edf2fa",
+          background: "#F6F7F9",
+          color: "#0A0C10",
           fontFamily: "Space Grotesk",
         },
       },
@@ -70,7 +70,7 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
           left: "0",
           right: "0",
           height: "1px",
-          background: "linear-gradient(90deg, transparent, #a9c7ff, transparent)",
+          background: "linear-gradient(90deg, transparent, #0052ff, transparent)",
           opacity: 0.25,
         },
       }),
@@ -87,7 +87,7 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
         h("img", { src: logoSrc, width: 112, height: 112, alt: "" }),
         h(
           "span",
-          { style: { fontSize: 64, fontWeight: 600, letterSpacing: "-0.04em", color: "#a9c7ff" } },
+          { style: { fontSize: 64, fontWeight: 600, letterSpacing: "-0.04em", color: "#0052FF" } },
           "Glyph",
         ),
       ),
@@ -122,7 +122,7 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
               display: "flex",
               fontSize: 30,
               lineHeight: 1.25,
-              color: "#8c97a8",
+              color: "#5F6775",
               maxWidth: "920px",
             },
           },

@@ -1,0 +1,52 @@
+---
+interface Props {
+  variant?: "page" | "footer";
+}
+
+const { variant = "page" } = Astro.props;
+---
+
+<div
+  class:list={[
+    "pointer-events-none absolute overflow-hidden",
+    variant === "page"
+      ? "inset-y-0 left-1/2 w-screen -translate-x-1/2 rounded-b-[2rem] [mask-image:linear-gradient(to_bottom,transparent_0%,black_16%,black_72%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_16%,black_72%,transparent_100%)]"
+      : "inset-0 [mask-image:linear-gradient(to_bottom,transparent_0%,black_18%,black_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_18%,black_100%)]",
+  ]}
+  aria-hidden="true"
+>
+  <div class="ambient-glow"></div>
+  <div
+    class="absolute inset-0 opacity-[0.04] mix-blend-overlay"
+    style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E&quot;); background-size: 180px 180px"
+  >
+  </div>
+</div>
+
+<style>
+  .ambient-glow {
+    position: absolute;
+    inset: -35%;
+    background:
+      radial-gradient(42% 46% at 22% 28%, rgba(0, 82, 255, 0.10) 0%, rgba(0, 82, 255, 0) 72%),
+      radial-gradient(36% 42% at 76% 12%, rgba(0, 82, 255, 0.06) 0%, rgba(0, 82, 255, 0) 74%),
+      radial-gradient(46% 52% at 58% 76%, rgba(0, 82, 255, 0.035) 0%, rgba(0, 82, 255, 0) 76%);
+    animation: ambient-drift 28s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  @keyframes ambient-drift {
+    from {
+      transform: translate3d(-1.5%, 0, 0) scale(1.03) rotate(-1deg);
+    }
+    to {
+      transform: translate3d(1.5%, -1%, 0) scale(1.07) rotate(1deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ambient-glow {
+      animation: none;
+    }
+  }
+</style>

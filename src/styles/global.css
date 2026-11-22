@@ -10,20 +10,20 @@
     "Geist Mono Variable", "Geist Mono", ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas,
     "Liberation Mono", monospace;
   --font-space: "Space Grotesk Variable", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --color-paper: #060708;
-  --color-surface: #0d1015;
-  --color-ink: #edf2fa;
-  --color-muted: #8c97a8;
-  --color-line: #1e2530;
-  --color-accent: #a9c7ff;
-  --color-accent-strong: #c6daff;
-  --color-accent-soft: #b6d0ff;
-  --color-night: #060708;
+  --color-paper: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-ink: #0a0c10;
+  --color-muted: #5f6775;
+  --color-line: #e3e6ec;
+  --color-accent: #0052ff;
+  --color-accent-strong: #0043d6;
+  --color-accent-soft: #0052ff;
+  --color-night: #ffffff;
 }
 
 @layer base {
   html {
-    color-scheme: dark;
+    color-scheme: light;
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
   }
@@ -104,10 +104,6 @@
 
   .sponsor-logo {
     filter: none;
-  }
-
-  [data-theme="dark"] .sponsor-logo {
-    filter: invert(1);
   }
 }
 
