@@ -202,13 +202,15 @@ export default function NavMenu({ pathname }: Props) {
                                   <a
                                     href={`/products/${product.slug}`}
                                     onClick={() => setProductsOpen(false)}
-                                    className="group flex items-start gap-2.5 rounded-xl px-2.5 py-2 transition-colors duration-150 hover:bg-line"
+                                    className="group flex items-center gap-2.5 rounded-xl px-2.5 py-2 transition-colors duration-150 hover:bg-line"
                                   >
-                                    <ProductIcon
-                                      size={18}
-                                      className="mt-0.5 shrink-0 text-muted transition-colors group-hover:text-ink"
-                                      aria-hidden="true"
-                                    />
+                                    <span className="flex size-[42px] shrink-0 items-center justify-center rounded-xl bg-ink/5">
+                                      <ProductIcon
+                                        size={18}
+                                        className="text-muted transition-colors group-hover:text-ink"
+                                        aria-hidden="true"
+                                      />
+                                    </span>
                                     <span className="min-w-0">
                                       <span className="block text-sm font-medium text-ink">
                                         {product.name}
