@@ -6,23 +6,31 @@ import satori from "satori";
 import { type OgPage, ogImageSize, ogPages } from "../../lib/seo";
 
 const font = readFileSync(`${process.cwd()}/src/assets/og/space-grotesk.ttf`);
+const mono = readFileSync(
+  `${process.cwd()}/node_modules/@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2`,
+);
 const logo = readFileSync(`${process.cwd()}/public/brand/glyph-on-dark.png`);
 const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
-const productMaskSlugs = new Set(["wallet", "connect", "contracts", "relay", "explorer", "api"]);
-const maskCache = new Map<string, string>();
-const maskSrcFor = (slug: string) => {
-  const name = productMaskSlugs.has(slug) ? slug : "hairline";
-  const cached = maskCache.get(name);
-  if (cached) return cached;
+const fieldGlyphs = " .:-=+*#";
 
-  const svg = readFileSync(`${process.cwd()}/public/masks/${name}.svg`)
-    .toString()
-    .replaceAll("#fff", "#ECEEEE");
-  const png = new Resvg(svg, { fitTo: { mode: "width", value: 620 } }).render().asPng();
-  const src = `data:image/png;base64,${Buffer.from(png).toString("base64")}`;
-  maskCache.set(name, src);
-  return src;
-};
+const asciiRows = (rows: number, columns: number, offset: number) =>
+  Array.from({ length: rows }, (_, y) =>
+    Array.from({ length: columns }, (_, x) => {
+      const value =
+        (Math.sin(x * 0.075 + y * 0.9 + offset) +
+          Math.sin(x * 0.031 - y * 1.4 + offset * 0.7) +
+          1.8) /
+        3.6;
+      const glyph = Math.min(
+        fieldGlyphs.length - 1,
+        Math.max(0, Math.floor(value * fieldGlyphs.length)),
+      );
+      return fieldGlyphs[glyph];
+    }).join(""),
+  );
+
+const topRows = asciiRows(5, 180, 0.4);
+const bottomRows = asciiRows(4, 180, 2.1);
 
 export function getStaticPaths() {
   return ogPages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
@@ -39,7 +47,6 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
           overflow: "hidden",
           position: "relative",
           boxSizing: "border-box",
@@ -49,52 +56,125 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
           fontFamily: "Space Grotesk",
         },
       },
-      h("img", {
-        src: maskSrcFor(props.page.slug),
-        width: 620,
-        height: 413,
-        alt: "",
-        style: {
-          position: "absolute",
-          top: "-72px",
-          right: "-88px",
-          width: "620px",
-          height: "413px",
-          opacity: 0.2,
-        },
-      }),
-      h("div", {
-        style: {
-          position: "absolute",
-          bottom: "0",
-          left: "0",
-          right: "0",
-          height: "1px",
-          background: "#5C6164",
-          opacity: 0.25,
-        },
-      }),
       h(
         "div",
         {
+          key: "field-top",
           style: {
+            position: "absolute",
+            top: "-6px",
+            left: "-8px",
+            right: "-8px",
             display: "flex",
-            alignItems: "center",
-            gap: "18px",
-            position: "relative",
+            flexDirection: "column",
+            overflow: "hidden",
+            color: "#8F8D86",
+            fontFamily: "Geist Mono",
+            fontSize: "11px",
+            lineHeight: "13px",
+            opacity: 0.16,
+            whiteSpace: "pre",
           },
         },
-        h("img", { src: logoSrc, width: 112, height: 112, alt: "" }),
-        h("span", { style: { fontSize: 64, fontWeight: 600, letterSpacing: "-0.04em" } }, "Glyph"),
+        ...topRows.map((row, index) => h("div", { key: `top-${index}` }, row)),
       ),
       h(
         "div",
         {
+          key: "field-bottom",
           style: {
+            position: "absolute",
+            bottom: "-6px",
+            left: "-8px",
+            right: "-8px",
             display: "flex",
             flexDirection: "column",
-            gap: "20px",
+            overflow: "hidden",
+            color: "#8F8D86",
+            fontFamily: "Geist Mono",
+            fontSize: "11px",
+            lineHeight: "13px",
+            opacity: 0.16,
+            whiteSpace: "pre",
+          },
+        },
+        ...bottomRows.map((row, index) => h("div", { key: `bottom-${index}` }, row)),
+      ),
+      h("div", {
+        key: "corner-tl",
+        style: {
+          position: "absolute",
+          top: "26px",
+          left: "26px",
+          width: "18px",
+          height: "18px",
+          borderTop: "1px solid #5C6164",
+          borderLeft: "1px solid #5C6164",
+        },
+      }),
+      h("div", {
+        key: "corner-tr",
+        style: {
+          position: "absolute",
+          top: "26px",
+          right: "26px",
+          width: "18px",
+          height: "18px",
+          borderTop: "1px solid #5C6164",
+          borderRight: "1px solid #5C6164",
+        },
+      }),
+      h("div", {
+        key: "corner-bl",
+        style: {
+          position: "absolute",
+          bottom: "26px",
+          left: "26px",
+          width: "18px",
+          height: "18px",
+          borderBottom: "1px solid #5C6164",
+          borderLeft: "1px solid #5C6164",
+        },
+      }),
+      h("div", {
+        key: "corner-br",
+        style: {
+          position: "absolute",
+          bottom: "26px",
+          right: "26px",
+          width: "18px",
+          height: "18px",
+          borderBottom: "1px solid #5C6164",
+          borderRight: "1px solid #5C6164",
+        },
+      }),
+      h(
+        "div",
+        {
+          key: "header",
+          style: {
+            display: "flex",
+            alignItems: "center",
+            gap: "16px",
             position: "relative",
+          },
+        },
+        h("img", { src: logoSrc, width: 56, height: 56, alt: "" }),
+        h("span", { style: { fontSize: 40, fontWeight: 700, letterSpacing: "-0.04em" } }, "Glyph"),
+      ),
+      h(
+        "div",
+        {
+          key: "main",
+          style: {
+            display: "flex",
+            flex: 1,
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "center",
+            position: "relative",
+            gap: "24px",
+            textAlign: "left",
           },
         },
         h(
@@ -102,11 +182,12 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
           {
             style: {
               display: "flex",
+              maxWidth: "1000px",
               fontSize: 76,
               fontWeight: 700,
               letterSpacing: "-0.06em",
               lineHeight: 1.02,
-              maxWidth: "1020px",
+              textAlign: "left",
             },
           },
           title,
@@ -116,10 +197,11 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
           {
             style: {
               display: "flex",
-              fontSize: 30,
-              lineHeight: 1.25,
+              maxWidth: "880px",
+              fontSize: 28,
+              lineHeight: 1.35,
               color: "#A0A4A5",
-              maxWidth: "920px",
+              textAlign: "left",
             },
           },
           description,
@@ -131,6 +213,7 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
       fonts: [
         { name: "Space Grotesk", data: font, weight: 400, style: "normal" },
         { name: "Space Grotesk", data: font, weight: 700, style: "normal" },
+        { name: "Geist Mono", data: mono, weight: 400, style: "normal" },
       ],
     },
   );

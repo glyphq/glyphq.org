@@ -150,33 +150,42 @@ const findAsset = (assets: ReleaseAsset[], extensions: string[]) =>
 export const buildPlatforms = (release?: Release): DownloadPlatform[] => {
   const assets = release?.assets ?? [];
   const fallback = release?.url ?? releasesPage;
+  const version = release?.tag.replace(/^v/, "");
+  const directAsset = (name: string) =>
+    release && version
+      ? `https://github.com/glyphq/wallet/releases/download/${release.tag}/${name}`
+      : fallback;
+
   const windows = findAsset(assets, [".exe"]);
   const windowsMsi = findAsset(assets, [".msi"]);
   const macos = findAsset(assets, [".dmg"]);
   const linux = findAsset(assets, [".appimage"]);
   const linuxDeb = findAsset(assets, [".deb"]);
   const linuxRpm = findAsset(assets, [".rpm"]);
+  const windowsUrl = windows?.url ?? directAsset(`Glyph.Wallet_${version}_x64-setup.exe`);
+  const macosUrl = macos?.url ?? directAsset(`Glyph.Wallet_${version}_universal.dmg`);
+  const linuxUrl = linux?.url ?? directAsset(`Glyph.Wallet_${version}_amd64.AppImage`);
 
   return [
     {
       id: "windows",
       name: "Windows",
-      detail: windows ? "x64 installer" : "See all builds",
-      url: windows?.url ?? fallback,
+      detail: version ? "x64 installer" : "See all builds",
+      url: windowsUrl,
       extras: windowsMsi ? [{ label: "MSI", url: windowsMsi.url }] : [],
     },
     {
       id: "macos",
       name: "macOS",
-      detail: macos ? "Universal build" : "See all builds",
-      url: macos?.url ?? fallback,
+      detail: version ? "Universal build" : "See all builds",
+      url: macosUrl,
       extras: [],
     },
     {
       id: "linux",
       name: "Linux",
-      detail: linux ? "AppImage" : "See all builds",
-      url: linux?.url ?? fallback,
+      detail: version ? "AppImage" : "See all builds",
+      url: linuxUrl,
       extras: [
         ...(linuxDeb ? [{ label: "deb", url: linuxDeb.url }] : []),
         ...(linuxRpm ? [{ label: "rpm", url: linuxRpm.url }] : []),

@@ -27,13 +27,17 @@ export default function DownloadHeroCta({ platforms, releaseUrl, version }: Prop
   }, []);
 
   const active = platforms.find((platform) => platform.id === detected) ?? null;
-  const href = active?.url ?? releaseUrl;
+  const directFallback = platforms.find((platform) => platform.url !== releaseUrl) ?? null;
+  const href = active?.url ?? directFallback?.url ?? releaseUrl;
   const label = version ? `Glyph Wallet ${version}` : "Glyph Wallet";
   const PlatformIcon = detected ? icons[detected] : null;
+  const platformUrls = JSON.stringify(platforms.map(({ id, url }) => ({ id, url })));
 
   return (
     <motion.a
       href={href}
+      data-download-primary
+      data-download-platforms={platformUrls}
       onClick={() => active && trackDownload(active.id)}
       aria-label={active ? `${label} for ${active.name}` : label}
       whileTap={{ scale: 0.97 }}

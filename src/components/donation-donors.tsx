@@ -1,6 +1,5 @@
 "use client";
 
-import { CrownDiamond } from "@gravity-ui/icons";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { ANALYTICS_URL } from "../lib/analytics";
@@ -75,10 +74,10 @@ export default function DonationDonors({ profiles = [], staticSupporter }: Props
       aria-label={staticSupporter.ariaLabel}
       className="mb-2.5 grid w-fit max-w-full break-inside-avoid grid-cols-1 items-center md:mb-0"
     >
-      <span className="z-10 w-fit max-w-[calc(16ch+1.5rem)] justify-self-start truncate rounded-t-[4px] bg-surface px-3 py-1 text-left font-mono text-[11px] tracking-[0.04em] text-muted">
+      <span className="z-10 w-fit max-w-[calc(16ch+1.5rem)] justify-self-center truncate rounded-t-[4px] bg-surface px-3 py-1 text-center font-mono text-[11px] tracking-[0.04em] text-muted">
         {staticSupporter.label}
       </span>
-      <span className="flex w-full items-center gap-2.5 rounded-tl-none rounded-tr-[4px] rounded-br-[4px] rounded-bl-[4px] bg-surface py-1.5 pl-1.5 pr-4 text-sm">
+      <span className="flex w-full items-center gap-2.5 rounded-tl-[4px] rounded-tr-[4px] rounded-br-[4px] rounded-bl-[4px] bg-surface py-1.5 pl-1.5 pr-4 text-sm">
         {staticSupporter.image ? (
           <span className="flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-ink/5 ring-1 ring-ink/10">
             <img
@@ -86,7 +85,7 @@ export default function DonationDonors({ profiles = [], staticSupporter }: Props
               alt=""
               width="28"
               height="28"
-              className="size-full object-contain grayscale"
+              className="size-full object-contain"
             />
           </span>
         ) : (
@@ -163,27 +162,17 @@ export default function DonationDonors({ profiles = [], staticSupporter }: Props
             title={donation.identity}
             className="relative mb-2.5 grid w-fit max-w-full break-inside-avoid grid-cols-1 items-center md:mb-0"
           >
-            <span className="relative z-10 w-fit max-w-[calc(16ch+1.5rem)] justify-self-start">
+            <span className="relative z-10 w-fit max-w-[calc(16ch+1.5rem)] justify-self-center">
               <span
-                className={`block truncate rounded-t-[4px] px-3 py-1 text-left font-mono text-[11px] tracking-[0.04em] text-muted ${chipTone}`}
+                className={`block truncate rounded-t-[4px] px-3 py-1 text-center font-mono text-[11px] tracking-[0.04em] text-muted ${chipTone}`}
               >
                 {chipLabel}
               </span>
             </span>
             <span
-              className={`flex w-full items-center gap-2.5 rounded-tl-none rounded-tr-[4px] rounded-br-[4px] rounded-bl-[4px] py-1.5 pl-1.5 pr-4 text-sm ${chipTone}`}
+              className={`flex w-full items-center gap-2.5 rounded-tl-[4px] rounded-tr-[4px] rounded-br-[4px] rounded-bl-[4px] py-1.5 pl-1.5 pr-4 text-sm ${chipTone}`}
             >
-              <span className="relative shrink-0">
-                {index === 0 && (
-                  <span
-                    className="absolute inset-0 z-20 flex items-center justify-center text-accent-soft"
-                    aria-hidden="true"
-                  >
-                    <CrownDiamond width={12} height={12} aria-hidden="true" />
-                  </span>
-                )}
-                <IdentityAvatar value={donation.identity} size={28} />
-              </span>
+              <IdentityAvatar value={donation.identity} size={28} />
               <span className="flex flex-col">
                 <span className={isPodium ? "text-accent-soft" : "text-ink"}>
                   {quFormatter.format(donation.amount)} QU

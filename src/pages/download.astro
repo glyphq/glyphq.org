@@ -158,4 +158,66 @@ Get-FileHash .\Glyph.Wallet_{version}_x64-setup.exe -Algorithm SHA256</pre>
       </div>
     </div>
   </PageSection>
+
+  <script is:inline>
+    (() => {
+      const storageKey = "glyph-platform-v2";
+
+      const applyPlatformHref = () => {
+        const link = document.querySelector("[data-download-primary]");
+        if (!link) return;
+
+        let platform = null;
+        try {
+          const cached = localStorage.getItem(storageKey);
+          if (cached === "windows" || cached === "macos" || cached === "linux") {
+            platform = cached;
+          }
+        } catch {
+          // Storage can be unavailable in privacy-restricted contexts.
+        }
+
+        if (!platform) {
+          const navPlatform =
+            (navigator.userAgentData && navigator.userAgentData.platform) ||
+            navigator.platform ||
+            "";
+          const agent = navigator.userAgent;
+          const isMobile =
+            /android|iphone|ipad|ipod|iemobile|mobile/i.test(agent) ||
+            (/mac/i.test(navPlatform) && navigator.maxTouchPoints > 1);
+
+          if (!isMobile) {
+            if (/win/i.test(navPlatform)) platform = "windows";
+            else if (/mac/i.test(navPlatform)) platform = "macos";
+            else if (/linux/i.test(navPlatform)) platform = "linux";
+            else if (/windows/i.test(agent)) platform = "windows";
+            else if (/mac os x/i.test(agent)) platform = "macos";
+            else if (/linux/i.test(agent)) platform = "linux";
+          }
+
+          if (platform) {
+            try {
+              localStorage.setItem(storageKey, platform);
+            } catch {
+              // The direct link still works for this page.
+            }
+          }
+        }
+
+        if (!platform) return;
+        let urls = [];
+        try {
+          urls = JSON.parse(link.getAttribute("data-download-platforms") || "[]");
+        } catch {
+          return;
+        }
+        const match = urls.find((item) => item.id === platform);
+        if (match && match.url) link.setAttribute("href", match.url);
+      };
+
+      applyPlatformHref();
+      document.addEventListener("astro:page-load", applyPlatformHref);
+    })();
+  </script>
 </Layout>
