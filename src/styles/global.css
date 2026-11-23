@@ -10,12 +10,12 @@
     "Liberation Mono", monospace;
   --color-paper: #080808;
   --color-surface: #111111;
-  --color-ink: #f2ede6;
-  --color-muted: #a39c92;
-  --color-line: #282525;
-  --color-accent: #e8d2b8;
-  --color-accent-strong: #f4e3d0;
-  --color-accent-soft: #e8d2b8;
+  --color-ink: #e8e2db;
+  --color-muted: #948d85;
+  --color-line: #242121;
+  --color-accent: #dec9b2;
+  --color-accent-strong: #ead9c5;
+  --color-accent-soft: #dec9b2;
   --color-night: #080808;
 }
 
