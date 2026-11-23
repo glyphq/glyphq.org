@@ -55,10 +55,10 @@ const url = buildGlyphUrl(envelope);`;
             <CodeBlock code={install} />
           </div>
           <div class="mt-8 flex flex-wrap gap-3">
-            <ButtonLink href="https://docs.glyphq.org/docs/reference/request-builders" icon="solar:document-text-linear">
+            <ButtonLink href="https://docs.glyphq.org/docs/reference/request-builders" icon="document">
               Connect reference
             </ButtonLink>
-            <ButtonLink href="https://github.com/glyphq/contracts" variant="secondary" icon="solar:code-linear">
+            <ButtonLink href="https://github.com/glyphq/contracts" variant="secondary" icon="code">
               Contracts source
             </ButtonLink>
           </div>
@@ -90,7 +90,7 @@ const url = buildGlyphUrl(envelope);`;
         {
           specs.map((spec) => (
             <div class="grid grid-cols-[8rem_1fr] gap-4 py-2 md:grid-cols-[12rem_1fr]">
-              <dt class="font-display text-[11px] uppercase tracking-[0.12em] text-muted">
+              <dt class="font-mono text-[10px] tracking-[0.06em] text-faint">
                 {spec.label}
               </dt>
               <dd class="font-sans text-sm text-ink/80">{spec.value}</dd>

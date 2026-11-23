@@ -1,7 +1,6 @@
 "use client";
 
-import { CheckCircleIcon } from "@solar-icons/react/linear/check-circle";
-import { CopyIcon } from "@solar-icons/react/linear/copy";
+import { CircleCheck, Copy } from "@gravity-ui/icons";
 import { motion } from "motion/react";
 import { useState } from "react";
 
@@ -33,10 +32,10 @@ export default function CopyButton({
   };
 
   const className = iconOnly
-    ? "inline-flex size-9 items-center justify-center rounded-full bg-surface text-ink transition-colors duration-150 hover:bg-[#2A1F21]"
+    ? "corner-frame inline-flex size-9 items-center justify-center rounded-[3px] bg-surface text-ink transition-colors duration-150 hover:bg-raised"
     : fullWidth
-      ? "inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-accent px-4 py-3 font-display text-sm font-semibold text-night transition-colors duration-150 hover:bg-accent-strong"
-      : "inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 font-display text-xs font-semibold text-ink transition-colors duration-150 hover:bg-[#2A1F21]";
+      ? "corner-frame inline-flex w-full items-center justify-center gap-1.5 rounded-[3px] bg-accent px-4 py-3 font-mono text-sm font-medium text-night transition-colors duration-150 hover:bg-accent-strong"
+      : "corner-frame inline-flex items-center gap-1.5 rounded-[3px] bg-surface px-3 py-1.5 font-mono text-xs font-medium text-ink transition-colors duration-150 hover:bg-raised";
 
   return (
     <motion.button
@@ -48,9 +47,17 @@ export default function CopyButton({
       className={className}
     >
       {copied ? (
-        <CheckCircleIcon size={iconOnly ? 16 : fullWidth ? 16 : 14} aria-hidden="true" />
+        <CircleCheck
+          width={iconOnly ? 16 : fullWidth ? 16 : 14}
+          height={iconOnly ? 16 : fullWidth ? 16 : 14}
+          aria-hidden="true"
+        />
       ) : (
-        <CopyIcon size={iconOnly ? 16 : fullWidth ? 16 : 14} aria-hidden="true" />
+        <Copy
+          width={iconOnly ? 16 : fullWidth ? 16 : 14}
+          height={iconOnly ? 16 : fullWidth ? 16 : 14}
+          aria-hidden="true"
+        />
       )}
       {!iconOnly && (copied ? "Copied" : text)}
     </motion.button>

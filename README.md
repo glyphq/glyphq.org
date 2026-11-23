@@ -2,8 +2,11 @@
 
 Landing site for [glyphq.org](https://glyphq.org), built with Astro.
 
-This version is dark-only, with page view transitions, Geist Sans and Geist Mono typography,
-dark page heroes, and hairline masks on cards.
+This version uses a monochrome Graphite theme with semantic theme tokens, Space Grotesk display
+type, Geist Sans body copy, Geist Mono interface labels, flat surfaces, a full-width header,
+hairline section frames, and corner-only borders on interactive elements and cards. Page heroes use
+the Asciify Drift field with a text-shaped clear map. The route shell swaps instantly; only
+content-level reveal animations remain.
 
 ## Stack
 
@@ -12,7 +15,9 @@ dark page heroes, and hairline masks on cards.
 | Framework | Astro 7 with React islands            |
 | Styling   | Tailwind CSS 4                        |
 | Motion    | Motion (Framer Motion) for navigation |
-| Effects   | PatternWaves (OGL)                    |
+| Icons     | Gravity UI Icons                      |
+| Hero      | Asciify Engine (Drift)                |
+| Effects   | CSS corner frames and hairline masks  |
 | Code      | Shiki                                 |
 | Runtime   | Bun 1.4.4                             |
 | Lint      | Biome and `astro check`               |
@@ -34,9 +39,9 @@ dark page heroes, and hairline masks on cards.
 | `/developers`      | Supporting page                         |
 | `/404`             | Not found                               |
 
-Navigation uses a client router with view transitions and prefetch. Release data and changelog notes
-come from the public GitHub releases API at build time. The download page uses `react-device-detect` to suggest
-the matching build. The support page reads the Qubic donation identity live from the Glyph API at
+Navigation uses a client router with prefetch. Release data and changelog notes
+come from the public GitHub releases API at build time. The download page uses the browser platform
+to suggest the matching build. The support page reads the Qubic donation identity live from the Glyph API at
 `api.glyphq.org`. Showcase thumbnails fall back to GitHub OpenGraph images.
 
 ## Commands

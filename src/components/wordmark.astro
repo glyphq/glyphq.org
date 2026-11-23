@@ -2,23 +2,23 @@
 interface Props {
   class?: string;
   tone?: "light" | "dark";
-  transitionName?: string;
+  label?: string;
+  showMark?: boolean;
 }
 
-const { class: className, tone = "light", transitionName } = Astro.props;
+const { class: className, tone = "light", label = "Glyph", showMark = true } = Astro.props;
 ---
 
 <a
   class:list={["flex w-fit items-center gap-2", className]}
   href="/"
-  aria-label="Glyph home"
-  transition:name={transitionName}
+  aria-label={`${label} home`}
 >
-  <span class="glyph-logo size-7" aria-hidden="true" />
+  {showMark && <span class="glyph-logo size-7" aria-hidden="true" />}
   <span
     class:list={[
-      "font-display text-lg font-semibold tracking-tight",
+      "whitespace-nowrap font-display text-lg font-semibold tracking-tight",
       tone === "dark" ? "text-ink" : "text-ink",
-    ]}>Glyph</span
+    ]}>{label}</span
   >
 </a>

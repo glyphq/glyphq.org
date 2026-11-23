@@ -15,11 +15,11 @@ const items = headings.filter((heading) => heading.depth === 2 || heading.depth 
   items.length > 0 &&
   (variant === "mobile" ? (
     <details
-      class:list={["rounded-2xl bg-ink/[0.03] p-4", className]}
+      class:list={["corner-frame corner-frame-card rounded-[4px] bg-ink/[0.03] p-4", className]}
       data-toc-nav
     >
-      <summary class="cursor-pointer text-sm font-medium text-ink">On this page</summary>
-      <ol class="mt-3 space-y-2 text-sm">
+      <summary class="cursor-pointer font-mono text-[11px] text-ink">On this page</summary>
+      <ol class="mt-3 space-y-2 font-mono text-[12px]">
         {items.map((heading) => (
           <li class:list={["leading-5", heading.depth === 3 && "pl-3"]}>
             <a
@@ -34,8 +34,12 @@ const items = headings.filter((heading) => heading.depth === 2 || heading.depth 
       </ol>
     </details>
   ) : (
-    <nav class:list={["text-sm", className]} aria-label="Table of contents" data-toc-nav>
-      <p class="text-xs font-medium uppercase tracking-[0.14em] text-muted">On this page</p>
+    <nav
+      class:list={["font-mono text-[12px]", className]}
+      aria-label="Table of contents"
+      data-toc-nav
+    >
+      <p class="font-mono text-[10px] tracking-[0.06em] text-faint">On this page</p>
       <div class="relative mt-3">
         <span class="absolute inset-y-0 left-0 w-px bg-ink/10" aria-hidden="true" />
         <span

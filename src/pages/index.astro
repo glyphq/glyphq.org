@@ -1,8 +1,6 @@
 ---
 import ButtonLink from "../components/button-link.astro";
 import Faq from "../components/faq";
-import GrainientBackground from "../components/grainient-background.astro";
-import HeroProductMarquee from "../components/hero-product-marquee.astro";
 import PageSection from "../components/page-section.astro";
 import ProductGrid from "../components/product-grid.astro";
 import Reveal from "../components/reveal.astro";
@@ -14,44 +12,47 @@ const userGuide = "https://github.com/glyphq/wallet/blob/main/docs/USER_GUIDE.md
 ---
 
 <Layout>
-  <section class="relative flex min-h-[75dvh] items-center px-4 py-8 md:px-8">
-      <GrainientBackground />
+  <section
+    data-asciify-hero
+    class="relative isolate flex min-h-[75dvh] items-center px-4 py-8 md:px-8"
+  >
       <Reveal class="relative z-10 w-full py-20 text-center md:py-28">
-      <h1 transition:name="page-title" class="flex flex-col items-center">
-        <span class="glyph-logo mb-5 block size-10 text-ink md:size-12" aria-hidden="true" />
-        <span class="flex flex-col items-center gap-2 md:flex-row md:gap-3">
-          <span class="text-[2.5rem] leading-none tracking-[-0.04em] text-ink md:text-[88px]">
-            Glyph
-          </span>
+      <div class="asciify-copy" data-asciify-clear>
+        <h1 class="flex flex-col items-center">
+          <span class="glyph-logo mb-5 block size-10 text-ink md:size-12" aria-hidden="true" />
           <span
-            class="inline-block rounded-2xl bg-accent px-4 py-1 text-[2.5rem] leading-none tracking-[-0.04em] text-night md:rounded-3xl md:px-6 md:py-2 md:text-[88px]"
+            transition:name="page-title"
+            class="flex flex-col items-center gap-2 md:flex-row md:gap-3"
           >
-            Ecosystem
+            <span class="text-[2.5rem] leading-none tracking-[-0.04em] text-ink md:text-[88px]">
+              Glyph
+            </span>
+            <span
+              class="corner-frame corner-frame-xl inline-block rounded-[4px] bg-accent px-4 py-1 text-[2.5rem] leading-none tracking-[-0.04em] text-night md:rounded-[6px] md:px-6 md:py-2 md:text-[88px]"
+            >
+              Ecosystem
+            </span>
           </span>
-        </span>
-      </h1>
-      <p
-        class="mx-auto mt-6 max-w-[620px] text-pretty text-base leading-7 text-ink/75 md:text-[19px] md:leading-[1.5]"
-      >
-        A self-custodial desktop wallet and explorer for <img
-          src="/brand/qubic-symbol.svg"
-          alt=""
-          width="31"
-          height="52"
-          class="mx-1 inline-block h-[1.15em] w-auto align-[-0.16em]"
-        /> Qubic, with tools for connected apps.
-      </p>
+        </h1>
+        <p
+          transition:name="page-description"
+          class="mx-auto mt-6 max-w-[620px] text-pretty text-base leading-7 text-ink/75 md:text-[19px] md:leading-[1.5]"
+        >
+          A self-custodial desktop wallet and explorer for <span
+            class="qubic-symbol mx-1 h-[1.15em] align-[-0.16em] text-ink"
+            aria-hidden="true"></span> Qubic, with tools for connected apps.
+        </p>
+      </div>
       <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
         <ButtonLink href="/download" variant="primary" icon="glyph">Download Glyph</ButtonLink>
-        <ButtonLink href="https://explorer.glyphq.org" variant="glass" icon="solar:global-linear">
+        <ButtonLink href="https://explorer.glyphq.org" variant="glass" icon="globe">
           Explorer
         </ButtonLink>
       </div>
-      <HeroProductMarquee />
     </Reveal>
   </section>
 
-  <section id="products">
+  <section id="products" class="border-t border-line">
     <Reveal>
       <div class="px-4 pb-10 pt-16 md:px-8 md:pt-20">
         <SectionHeader

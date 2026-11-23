@@ -85,7 +85,7 @@ if (pageSchema) {
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="graphite">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -98,7 +98,7 @@ if (pageSchema) {
     />
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#151311" />
+    <meta name="theme-color" content="#0D0E0F" />
     <link rel="icon" href="/favicon.png" type="image/png" />
 
     <meta property="og:type" content={type} />
@@ -143,12 +143,13 @@ if (pageSchema) {
     >
     <SiteHeader />
     <main id="main" class="flex-1">
-      <div class="mx-auto w-full max-w-[1280px]">
+      <div class="mx-auto w-full max-w-[1280px] border-x border-line">
         <slot />
       </div>
     </main>
     <SiteFooter />
     <script>
+      import "../scripts/asciify-hero";
       import "../scripts/code-copy";
       import "../scripts/scroll-reveal";
     </script>

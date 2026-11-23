@@ -3,55 +3,40 @@ import { footerColumns } from "../data/site";
 import Wordmark from "./wordmark.astro";
 ---
 
-<footer class="relative overflow-hidden rounded-t-[2rem] bg-paper">
-  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-    <div
-      class="absolute inset-0 opacity-45"
-      style="background: radial-gradient(70% 120% at 12% 0%, rgba(238,211,186,0.10) 0%, rgba(238,211,186,0) 60%), radial-gradient(60% 100% at 88% 10%, rgba(75,38,47,0.45) 0%, rgba(75,38,47,0) 70%), linear-gradient(115deg, #151311 0%, #24181b 48%, #4b262f 100%)"
-    >
-    </div>
-    <div
-      class="absolute inset-0 opacity-[0.05] mix-blend-overlay"
-      style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E&quot;); background-size: 180px 180px"
-    >
-    </div>
-  </div>
-  <div class="relative mx-auto max-w-[1280px]">
-    <div class="px-4 py-20 md:px-8 md:py-24">
-      <div class="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-10">
-        <div class="col-span-2 space-y-4 md:col-span-1">
-          <Wordmark />
+<footer class="relative overflow-hidden border-t border-line bg-paper">
+  <div class="relative mx-auto w-full max-w-[1280px] border-x border-line">
+    <div class="px-4 py-16 md:px-8 md:py-20">
+      <div
+        class="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-x-0 md:divide-x md:divide-line"
+      >
+        <div class="col-span-2 space-y-4 md:col-span-1 md:pr-8">
+          <Wordmark showMark={false} />
           <p class="max-w-xs text-base leading-7 text-muted">
             Glyph is a desktop wallet and explorer for Qubic, with tools for connected apps.
           </p>
           <div class="flex flex-col items-start gap-2 pt-2">
-            <span class="font-space text-xs text-muted">Listed on</span>
+            <span class="font-mono text-[10px] tracking-[0.06em] text-faint">Listed on</span>
             <a
               href="https://qubicmap.org/p/glyph"
               target="_blank"
               rel="noreferrer"
               aria-label="View Glyph on qubicmap.org"
-              class="inline-flex items-center gap-2 rounded-xl bg-surface px-3.5 py-2 text-xs text-ink/70 transition-colors duration-150 hover:bg-ink/5 hover:text-ink"
+              class="corner-frame inline-flex items-center rounded-[3px] bg-surface px-3.5 py-2 text-xs text-ink/70 transition-colors duration-150 hover:bg-raised hover:text-ink"
             >
-              <span
-                class="size-3.5 shrink-0 bg-accent-soft"
-                style="mask-image: url('/chains/qubic.svg'); -webkit-mask-image: url('/chains/qubic.svg'); mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-size: contain; -webkit-mask-size: contain; mask-position: center; -webkit-mask-position: center;"
-                aria-hidden="true"
-              ></span>
-              <span class="whitespace-nowrap font-space text-[12px]">qubicmap.org</span>
+              <span class="whitespace-nowrap font-mono text-[11px]">qubicmap.org</span>
             </a>
           </div>
         </div>
 
         {
           footerColumns.map((column) => (
-            <div class="space-y-4">
-              <p class="text-sm text-muted">{column.title}</p>
+            <div class="space-y-4 md:pl-8">
+              <p class="font-mono text-[11px] tracking-[0.04em] text-faint">{column.title}</p>
               <ul class="space-y-2.5">
                 {column.links.map((link) => (
                   <li>
                     <a
-                      class="text-base text-ink/75 underline-offset-4 transition-colors duration-150 hover:text-ink hover:underline"
+                      class="font-mono text-[13px] text-ink/70 underline-offset-4 transition-colors duration-150 hover:text-ink hover:underline"
                       href={link.href}
                     >
                       {link.label}
@@ -65,9 +50,9 @@ import Wordmark from "./wordmark.astro";
       </div>
     </div>
 
-    <div>
+    <div class="border-t border-line">
       <div
-        class="flex flex-col gap-3 px-4 py-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between md:px-8"
+        class="flex flex-col gap-3 px-4 py-5 font-mono text-[11px] text-faint sm:flex-row sm:items-center sm:justify-between md:px-8"
       >
         <p>© 2026 Glyph</p>
         <div class="flex flex-wrap gap-x-5 gap-y-2">

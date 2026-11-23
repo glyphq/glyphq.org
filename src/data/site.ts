@@ -1,19 +1,20 @@
+import type { IconName } from "../lib/icons";
+
 export interface ProductLink {
   label: string;
   href: string;
-  icon: string;
+  icon: IconName | "glyph";
 }
 
 export interface Product {
   slug: string;
   name: string;
   short: string;
-  color: string;
   summary: string;
   description: string;
   features: string[];
   href: string;
-  icon: string;
+  icon: IconName;
   primary: ProductLink;
   secondary?: ProductLink;
 }
@@ -24,7 +25,6 @@ export const products: Product[] = [
   {
     slug: "wallet",
     short: "Desktop wallet for Qubic",
-    color: "#2563eb",
     name: "Glyph Wallet",
     summary:
       "Self-custodial desktop wallet for Qubic, with Vaults, identities, QU transfers, and reviewed app requests.",
@@ -37,7 +37,7 @@ export const products: Product[] = [
       "Windows, macOS, and Linux builds",
     ],
     href: "/products/wallet",
-    icon: "solar:wallet-linear",
+    icon: "wallet",
     primary: {
       label: "Download Glyph",
       href: "/download",
@@ -46,13 +46,12 @@ export const products: Product[] = [
     secondary: {
       label: "Source",
       href: "https://github.com/glyphq/wallet",
-      icon: "solar:code-linear",
+      icon: "code",
     },
   },
   {
     slug: "connect",
     short: "Typed wallet request SDK",
-    color: "#3b82f6",
     name: "Glyph Connect",
     summary: "TypeScript SDK for typed glyph:// wallet requests and approvals.",
     description:
@@ -64,22 +63,21 @@ export const products: Product[] = [
       "Zero runtime dependencies and browser helpers",
     ],
     href: "/products/connect",
-    icon: "solar:code-linear",
+    icon: "code",
     primary: {
       label: "Read the docs",
       href: "https://docs.glyphq.org/docs/reference/request-builders",
-      icon: "solar:document-text-linear",
+      icon: "document",
     },
     secondary: {
       label: "Source",
       href: "https://github.com/glyphq/connect",
-      icon: "solar:code-linear",
+      icon: "code",
     },
   },
   {
     slug: "contracts",
     short: "Contract ABIs and codecs",
-    color: "#1d4ed8",
     name: "Glyph Contracts",
     summary: "Typed Qubic contract metadata, ABIs, and binary codecs generated from qubic/core.",
     description:
@@ -91,22 +89,21 @@ export const products: Product[] = [
       "Encoders and decoders for procedure and function inputs and outputs",
     ],
     href: "/products/contracts",
-    icon: "solar:document-text-linear",
+    icon: "document",
     primary: {
       label: "View the package",
       href: "https://github.com/glyphq/contracts",
-      icon: "solar:box-linear",
+      icon: "box",
     },
     secondary: {
       label: "npm",
       href: "https://www.npmjs.com/package/@glyph-oss/contracts",
-      icon: "solar:box-linear",
+      icon: "box",
     },
   },
   {
     slug: "relay",
     short: "Wallet result transport",
-    color: "#4f46e5",
     name: "Glyph Relay",
     summary: "Carries signed results from the wallet back to a dApp over SSE or polling.",
     description:
@@ -118,22 +115,21 @@ export const products: Product[] = [
       "SSE streaming or polling",
     ],
     href: "/products/relay",
-    icon: "solar:server-linear",
+    icon: "server",
     primary: {
       label: "Read the docs",
       href: "https://docs.glyphq.org/docs/guides/relay-v2",
-      icon: "solar:document-text-linear",
+      icon: "document",
     },
     secondary: {
       label: "Source",
       href: "https://github.com/glyphq/relay",
-      icon: "solar:code-linear",
+      icon: "code",
     },
   },
   {
     slug: "explorer",
     short: "Qubic network explorer",
-    color: "#0284c7",
     name: "Glyph Explorer",
     summary: "A readable view of Qubic ticks, transactions, identities, tokens, and contracts.",
     description:
@@ -145,22 +141,21 @@ export const products: Product[] = [
       "Generated contract metadata and rich-list balances",
     ],
     href: "/products/explorer",
-    icon: "solar:global-linear",
+    icon: "globe",
     primary: {
       label: "Explorer",
       href: "https://explorer.glyphq.org",
-      icon: "solar:global-linear",
+      icon: "globe",
     },
     secondary: {
       label: "Source",
       href: "https://github.com/glyphq/explorer-v2",
-      icon: "solar:code-linear",
+      icon: "code",
     },
   },
   {
     slug: "api",
     short: "Hosted Qubic data API",
-    color: "#0891b2",
     name: "Glyph API",
     summary: "A verified Qubic indexer and read API, hosted for public use.",
     description:
@@ -172,33 +167,33 @@ export const products: Product[] = [
       "REST resources, SSE and WebSocket streams, and OpenAPI 3.1",
     ],
     href: "/products/api",
-    icon: "solar:database-linear",
+    icon: "database",
     primary: {
       label: "Open the API",
       href: "https://api.glyphq.org/docs",
-      icon: "solar:document-text-linear",
+      icon: "document",
     },
     secondary: {
       label: "View the source",
       href: "https://github.com/glyphq/service",
-      icon: "solar:code-linear",
+      icon: "code",
     },
   },
 ];
 
-export const principles = [
+export const principles: { icon: IconName; title: string; description: string }[] = [
   {
-    icon: "solar:shield-keyhole-linear",
+    icon: "shield",
     title: "Self-custodial",
     description: "Your keys stay in the desktop wallet.",
   },
   {
-    icon: "solar:wallet-linear",
+    icon: "wallet",
     title: "Everyday use",
     description: "Vaults, QU transfers, contacts, and activity in one app.",
   },
   {
-    icon: "solar:layers-linear",
+    icon: "layers",
     title: "One toolchain",
     description: "Wallet, explorer, and the tools apps use to connect.",
   },

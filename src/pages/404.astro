@@ -1,6 +1,5 @@
 ---
 import ButtonLink from "../components/button-link.astro";
-import GrainientBackground from "../components/grainient-background.astro";
 import Layout from "../layouts/layout.astro";
 ---
 
@@ -9,22 +8,29 @@ import Layout from "../layouts/layout.astro";
   description="The page you asked for does not exist."
   noindex
 >
-  <section class="relative flex min-h-[75dvh] items-center px-4 pb-8 pt-24 md:px-8 md:pt-28">
-      <GrainientBackground />
+  <section
+    data-asciify-hero
+    class="relative isolate flex min-h-[75dvh] items-center px-4 pb-8 pt-24 md:px-8 md:pt-28"
+  >
       <div class="relative z-10 w-full py-16 text-center md:py-24">
       <span class="glyph-logo mx-auto mb-5 block size-9 text-ink md:size-11" aria-hidden="true" />
-      <p class="font-mono text-sm uppercase tracking-[0.12em] text-ink/50">404</p>
-      <h1
-        class="mx-auto mt-5 max-w-2xl text-balance text-4xl leading-[1.05] tracking-[-0.03em] text-ink md:text-[64px]"
-      >
-        This page does not exist.
-      </h1>
-      <p class="mx-auto mt-5 max-w-xl text-pretty text-base leading-7 text-ink/75 md:text-[19px] md:leading-[1.45]">
-        The link may be old, or the page may have moved. Start from the toolchain or go back home.
-      </p>
+      <div class="asciify-copy" data-asciify-clear>
+        <p class="font-mono text-sm uppercase tracking-[0.12em] text-ink/50">404</p>
+        <h1
+          class="mx-auto mt-5 max-w-2xl text-balance text-4xl leading-[1.05] tracking-[-0.03em] text-ink md:text-[64px]"
+        >
+          <span transition:name="page-title">This page does not exist.</span>
+        </h1>
+        <p
+          transition:name="page-description"
+          class="mx-auto mt-5 max-w-xl text-pretty text-base leading-7 text-ink/75 md:text-[19px] md:leading-[1.45]"
+        >
+          The link may be old, or the page may have moved. Start from the toolchain or go back home.
+        </p>
+      </div>
       <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <ButtonLink href="/" variant="light" icon="solar:home-smile-linear">Back home</ButtonLink>
-        <ButtonLink href="/products" variant="glass" icon="solar:layers-linear">
+        <ButtonLink href="/" variant="light" icon="home">Back home</ButtonLink>
+        <ButtonLink href="/products" variant="glass" icon="layers">
           Browse products
         </ButtonLink>
       </div>

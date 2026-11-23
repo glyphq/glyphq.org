@@ -27,10 +27,11 @@ const initialize = () => {
 
     pre.dataset.copyReady = "true";
     pre.style.position = "relative";
+    pre.classList.add("corner-frame");
 
     const button = document.createElement("button");
     button.type = "button";
-    button.className = "code-copy-button";
+    button.className = "corner-frame code-copy-button";
     button.textContent = "Copy";
     button.setAttribute("aria-label", "Copy code");
     button.setAttribute("aria-live", "polite");

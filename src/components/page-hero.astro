@@ -1,5 +1,4 @@
 ---
-import GrainientBackground from "./grainient-background.astro";
 import Reveal from "./reveal.astro";
 
 interface Props {
@@ -10,27 +9,27 @@ interface Props {
   compact?: boolean;
 }
 
-const { title, description, variant = "default", align = "left", compact = false } = Astro.props;
+const { title, description, variant = "default", align = "center", compact = false } = Astro.props;
 const isArticle = variant === "article";
 const isCenter = align === "center";
 ---
 
 <section
+  data-asciify-hero
   class:list={[
-    "relative flex px-4 md:px-8",
+    "relative isolate flex px-4 md:px-8",
     isArticle
       ? "pb-8 pt-28 md:pt-32"
       : compact
         ? "pb-6 pt-24 md:pb-8 md:pt-28"
-        : "min-h-[75dvh] items-center pb-8 pt-24 md:pt-28",
+        : "min-h-[64dvh] items-center pb-8 pt-24 md:pt-28",
   ]}
 >
-  <GrainientBackground />
   <Reveal
     class:list={[
       "relative z-10 w-full",
       isArticle
-        ? "mx-auto max-w-6xl text-left"
+        ? ["mx-auto max-w-6xl", isCenter ? "text-center" : "text-left"]
         : [
             compact ? "py-8 md:py-12" : "py-12 md:py-20",
             isCenter ? "text-center" : "text-left",
@@ -48,27 +47,41 @@ const isCenter = align === "center";
         />
       )
     }
-    <h1
-      transition:name="page-title"
-      class:list={[
-        "text-balance text-ink",
-        isArticle
-          ? "max-w-3xl text-[2.5rem] leading-[1.08] tracking-[-0.03em] md:text-[52px]"
-          : "mx-auto max-w-4xl text-[2.75rem] leading-[1.0] tracking-[-0.035em] md:text-[64px]",
-      ]}
-    >
-      {title}
-    </h1>
-    <p
-      class:list={[
-        "text-pretty text-ink/75",
-        isArticle
-          ? "mt-4 max-w-3xl text-base leading-7 md:text-[19px] md:leading-[1.5]"
-          : "mx-auto mt-5 max-w-2xl text-base leading-7 md:text-[19px] md:leading-[1.5]",
-      ]}
-    >
-      {description}
-    </p>
+    <div class="asciify-copy" data-asciify-clear>
+      <h1
+        class:list={[
+          "text-balance text-ink",
+          isArticle
+            ? [
+                isCenter && "mx-auto",
+                "max-w-3xl text-[2.5rem] leading-[1.08] tracking-[-0.03em] md:text-[52px]",
+              ]
+            : [
+                isCenter && "mx-auto",
+                "max-w-4xl text-[2.75rem] leading-[1.0] tracking-[-0.035em] md:text-[64px]",
+              ],
+        ]}
+      >
+        <span class="inline-block max-w-full" transition:name="page-title">{title}</span>
+      </h1>
+      <p
+        transition:name="page-description"
+        class:list={[
+          "text-pretty text-ink/75",
+          isArticle
+            ? [
+                "mt-4 max-w-3xl text-base leading-7 md:text-[19px] md:leading-[1.5]",
+                isCenter && "mx-auto",
+              ]
+            : [
+                "mt-5 max-w-2xl text-base leading-7 md:text-[19px] md:leading-[1.5]",
+                isCenter && "mx-auto",
+              ],
+        ]}
+      >
+        {description}
+      </p>
+    </div>
     {
       Astro.slots.has("default") && (
         <div class:list={["mt-8 flex", isCenter && "justify-center"]}>

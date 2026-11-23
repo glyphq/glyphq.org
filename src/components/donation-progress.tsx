@@ -61,12 +61,12 @@ export default function DonationProgress({ target = DONATION_TARGET_USD }: Props
   return (
     <div className="w-full" aria-busy={isLoading}>
       {isLoading ? (
-        <div className="flex items-center justify-between gap-4" aria-hidden="true">
+        <div className="flex items-center justify-center gap-4" aria-hidden="true">
           <span className="h-3 w-36 animate-pulse rounded-full bg-ink/10" />
           <span className="h-3 w-12 animate-pulse rounded-full bg-ink/10" />
         </div>
       ) : (
-        <div className="flex items-center justify-between gap-4 font-mono text-xs text-muted">
+        <div className="flex items-center justify-center gap-4 font-mono text-xs text-muted">
           <span>
             {status === "ready" ? formatUsd(receivedUsd) : "—"}
             <span className="text-muted"> / {formatUsd(target)}</span>
@@ -99,7 +99,7 @@ export default function DonationProgress({ target = DONATION_TARGET_USD }: Props
           <span className="block h-3 w-32 animate-pulse rounded-full bg-ink/10" />
         </div>
       ) : (
-        <div className="mt-2 text-xs text-muted">
+        <div className="mt-2 text-center text-xs text-muted">
           {status === "error"
             ? "Donation history unavailable"
             : `${quFormatter.format(progress?.receivedQu ?? 0)} QU received`}

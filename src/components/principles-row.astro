@@ -1,6 +1,6 @@
 ---
-import { Icon } from "astro-icon/components";
 import { principles } from "../data/site";
+import UiIcon from "./ui-icon.astro";
 
 interface Props {
   class?: string;
@@ -13,7 +13,7 @@ const { class: className } = Astro.props;
   {
     principles.map((principle) => (
       <div class="py-10 md:px-8 md:first:pl-0 md:last:pr-0">
-        <Icon name={principle.icon} class="size-6 text-accent-soft" aria-hidden="true" />
+        <UiIcon name={principle.icon} class="size-6 text-accent-soft" />
         <h3 class="mt-4 text-base font-medium text-ink">{principle.title}</h3>
         <p class="mt-2 text-base leading-7 text-muted">{principle.description}</p>
       </div>

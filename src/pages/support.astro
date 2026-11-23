@@ -33,17 +33,17 @@ try {
     title="Support Glyph"
     description="A small team maintains Glyph. Donations fund development and infrastructure."
   >
-    <div class="flex w-full flex-col items-start gap-4">
+    <div class="flex w-full max-w-md flex-col items-center gap-4">
       <DonationProgress client:load target={DONATION_TARGET_USD} />
       <DonateModal identity={qubicIdentity} />
     </div>
   </PageHero>
 
 
-  <section class="bg-paper px-4 pb-20 pt-10 md:px-8 md:pb-28 md:pt-12">
+  <section class="border-t border-line bg-paper px-4 pb-20 pt-10 md:px-8 md:pb-28 md:pt-12">
     <Reveal>
       <div class="mx-auto max-w-6xl">
-        <div class="max-w-3xl">
+        <div class="mx-auto max-w-3xl text-center">
           <h2 class="text-3xl font-medium tracking-tight text-ink md:text-4xl">Supporters</h2>
           <p class="mt-4 text-base leading-7 text-muted md:text-lg md:leading-8">
             Projects and identities backing Glyph.

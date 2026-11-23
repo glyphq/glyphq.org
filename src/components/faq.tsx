@@ -18,7 +18,7 @@ export default function Faq() {
         return (
           <motion.div
             key={faq.question}
-            className="overflow-hidden rounded-2xl bg-surface"
+            className="corner-frame corner-frame-card overflow-hidden rounded-[4px] bg-surface"
             initial={reduced ? false : { opacity: 0, y: 12 }}
             whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.15 }}

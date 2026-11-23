@@ -51,10 +51,11 @@ const manifests = latest?.assets.filter((asset) => asset.name.startsWith("SHA256
       <DownloadPicker client:load platforms={platforms} />
     </div>
 
-    <div data-scroll-reveal class="mx-auto mt-10 max-w-3xl rounded-2xl bg-surface p-5 md:p-6">
-      <h2 class="font-display text-[11px] uppercase tracking-[0.16em] text-muted">
-        System requirements
-      </h2>
+    <div
+      data-scroll-reveal
+      class="corner-frame corner-frame-card mx-auto mt-10 max-w-3xl rounded-[4px] bg-surface p-5 md:p-6"
+    >
+      <h2 class="font-mono text-[10px] tracking-[0.08em] text-faint">System requirements</h2>
       <ul class="mt-4 grid gap-2 text-sm leading-6 text-muted sm:grid-cols-2">
         <li>Windows x64</li>
         <li>macOS, Apple Silicon and Intel</li>
@@ -67,15 +68,16 @@ const manifests = latest?.assets.filter((asset) => asset.name.startsWith("SHA256
       </a>
     </div>
 
-    <div data-scroll-reveal class="mx-auto mt-4 max-w-3xl rounded-2xl bg-surface p-5 md:p-6">
-      <h2 class="font-display text-[11px] uppercase tracking-[0.16em] text-muted">
-        Verify your download
-      </h2>
+    <div
+      data-scroll-reveal
+      class="corner-frame corner-frame-card mx-auto mt-4 max-w-3xl rounded-[4px] bg-surface p-5 md:p-6"
+    >
+      <h2 class="font-mono text-[10px] tracking-[0.08em] text-faint">Verify your download</h2>
       <p class="mt-3 text-sm leading-6 text-muted">
         The release publishes SHA256SUMS files. Download the manifest for your platform, compute the
         SHA-256 digest of the file you downloaded, and compare the values.
       </p>
-      <pre class="mt-4 overflow-x-auto rounded-xl bg-paper p-4 font-mono text-xs leading-5 text-ink/80"># macOS or Linux
+      <pre class="corner-frame mt-4 overflow-x-auto rounded-[4px] bg-code p-4 font-mono text-xs leading-5 text-ink/80"># macOS or Linux
 shasum -a 256 Glyph.Wallet_{version}_universal.dmg
 sha256sum Glyph.Wallet_{version}_amd64.AppImage
 
@@ -94,7 +96,7 @@ Get-FileHash .\Glyph.Wallet_{version}_x64-setup.exe -Algorithm SHA256</pre>
       }
       {
         digests.length > 0 && (
-          <details class="mt-4 rounded-xl bg-paper p-4">
+          <details class="corner-frame mt-4 rounded-[4px] bg-code p-4">
             <summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
               <span class="text-sm font-medium text-ink">Show SHA-256 digests</span>
             </summary>
@@ -121,7 +123,10 @@ Get-FileHash .\Glyph.Wallet_{version}_x64-setup.exe -Algorithm SHA256</pre>
 
     {
       latest && latest.assets.length > 0 && (
-        <details data-scroll-reveal class="mx-auto mt-4 max-w-3xl rounded-2xl bg-surface p-5 md:p-6">
+        <details
+          data-scroll-reveal
+          class="corner-frame corner-frame-card mx-auto mt-4 max-w-3xl rounded-[4px] bg-surface p-5 md:p-6"
+        >
           <summary class="flex cursor-pointer list-none items-center justify-between gap-5 text-left [&::-webkit-details-marker]:hidden">
             <span class="text-base font-medium text-ink">All files in {latest.tag}</span>
             <span class="text-xl leading-none text-muted" aria-hidden="true">
@@ -144,10 +149,10 @@ Get-FileHash .\Glyph.Wallet_{version}_x64-setup.exe -Algorithm SHA256</pre>
     <div class="mt-12 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <p class="text-base text-muted">Need help installing?</p>
       <div class="flex flex-wrap gap-3">
-        <ButtonLink href={userGuide} variant="secondary" icon="solar:document-text-linear">
+        <ButtonLink href={userGuide} variant="secondary" icon="document">
           Install guide
         </ButtonLink>
-        <ButtonLink href={discord} variant="secondary" icon="solar:chat-round-line-linear">
+        <ButtonLink href={discord} variant="secondary" icon="chat">
           Discord
         </ButtonLink>
       </div>

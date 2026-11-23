@@ -17,7 +17,7 @@ const maskSrcFor = (slug: string) => {
 
   const svg = readFileSync(`${process.cwd()}/public/masks/${name}.svg`)
     .toString()
-    .replaceAll("#fff", "#eed3ba");
+    .replaceAll("#fff", "#ECEEEE");
   const png = new Resvg(svg, { fitTo: { mode: "width", value: 620 } }).render().asPng();
   const src = `data:image/png;base64,${Buffer.from(png).toString("base64")}`;
   maskCache.set(name, src);
@@ -44,8 +44,8 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
           position: "relative",
           boxSizing: "border-box",
           padding: "64px 72px",
-          background: "#151311",
-          color: "#f6e2ce",
+          background: "#0D0E0F",
+          color: "#ECEEEE",
           fontFamily: "Space Grotesk",
         },
       },
@@ -70,7 +70,7 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
           left: "0",
           right: "0",
           height: "1px",
-          background: "linear-gradient(90deg, transparent, #eed3ba, transparent)",
+          background: "#5C6164",
           opacity: 0.25,
         },
       }),
@@ -118,7 +118,7 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
               display: "flex",
               fontSize: 30,
               lineHeight: 1.25,
-              color: "#9b9ca1",
+              color: "#A0A4A5",
               maxWidth: "920px",
             },
           },

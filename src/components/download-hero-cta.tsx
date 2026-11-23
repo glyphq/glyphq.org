@@ -1,11 +1,10 @@
 "use client";
 
-import { SiApple, SiLinux } from "@icons-pack/react-simple-icons";
-import { MonitorIcon } from "@solar-icons/react/linear/monitor";
+import { LogoApple, LogoLinux, LogoWindows } from "@gravity-ui/icons";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { trackDownload } from "../lib/analytics";
-import { detectPlatform } from "../lib/platform";
+import { getCachedPlatform } from "../lib/platform";
 import type { DownloadPlatform, PlatformId } from "../lib/releases";
 
 interface Props {
@@ -15,16 +14,16 @@ interface Props {
 }
 
 const icons = {
-  windows: MonitorIcon,
-  macos: SiApple,
-  linux: SiLinux,
+  windows: LogoWindows,
+  macos: LogoApple,
+  linux: LogoLinux,
 };
 
 export default function DownloadHeroCta({ platforms, releaseUrl, version }: Props) {
   const [detected, setDetected] = useState<PlatformId | null>(null);
 
   useEffect(() => {
-    setDetected(detectPlatform());
+    setDetected(getCachedPlatform());
   }, []);
 
   const active = platforms.find((platform) => platform.id === detected) ?? null;
@@ -38,10 +37,10 @@ export default function DownloadHeroCta({ platforms, releaseUrl, version }: Prop
       onClick={() => active && trackDownload(active.id)}
       aria-label={active ? `${label} for ${active.name}` : label}
       whileTap={{ scale: 0.97 }}
-      className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 font-display text-base font-semibold text-night transition-colors duration-150 hover:bg-accent-strong"
+      className="corner-frame inline-flex items-center justify-center gap-2 rounded-[3px] bg-accent px-5 py-3 font-mono text-[15px] font-medium text-night transition-colors duration-150 hover:bg-accent-strong"
     >
       {PlatformIcon ? (
-        <PlatformIcon size={16} color="currentColor" aria-hidden="true" />
+        <PlatformIcon width={16} height={16} aria-hidden="true" />
       ) : (
         <span className="glyph-logo size-4" aria-hidden="true" />
       )}

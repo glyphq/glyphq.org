@@ -19,11 +19,11 @@ const discord = "https://discord.gg/faKATpcHGf";
   <PageSection spacing="compact">
     <Reveal>
       <div class="mx-auto max-w-6xl">
-        <div class="grid max-w-3xl gap-4 md:grid-cols-2">
+        <div class="mx-auto grid max-w-3xl gap-4 md:grid-cols-2">
         {showcaseProducts.map((post) => <ProjectCard {...post} />)}
       </div>
 
-        <p class="mt-10 max-w-2xl text-sm leading-6 text-muted">
+        <p class="mx-auto mt-10 max-w-2xl text-center text-sm leading-6 text-muted">
           Built something with Glyph? <a class="text-accent-soft hover:underline" href={discord}>Share it in Discord</a>.
         </p>
       </div>

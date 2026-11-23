@@ -1,9 +1,10 @@
 ---
-import { Icon } from "astro-icon/components";
+import type { IconName } from "../lib/icons";
+import UiIcon from "./ui-icon.astro";
 
 interface Props {
   href: string;
-  icon?: string;
+  icon?: IconName | "glyph";
   variant?: "primary" | "secondary" | "light" | "outline-dark" | "translucent" | "glass";
   size?: "sm" | "md";
   class?: string;
@@ -13,22 +14,22 @@ const { href, icon, variant = "primary", size = "md", class: className } = Astro
 
 const variants = {
   primary: "bg-accent text-night hover:bg-accent-strong",
-  secondary: "bg-surface text-ink hover:bg-[#2A1F21]",
+  secondary: "bg-surface text-ink hover:bg-raised",
   light: "bg-ink text-night hover:bg-ink/90",
   "outline-dark": "bg-ink/10 text-ink hover:bg-ink/15",
   translucent: "bg-ink/10 text-ink hover:bg-ink/15",
-  glass: "bg-[#211A1B] text-ink hover:bg-[#2A1F21]",
+  glass: "bg-surface text-ink hover:bg-raised",
 };
 
 const sizes = {
   sm: "px-4 py-2 text-sm",
-  md: "px-6 py-3 text-base",
+  md: "px-5 py-3 text-[15px]",
 };
 ---
 
 <a
   class:list={[
-    "inline-flex items-center justify-center gap-2 rounded-full font-display font-semibold transition-[transform,background-color,color] duration-150 ease-[cubic-bezier(.22,1,.36,1)] active:scale-[0.97] motion-reduce:transform-none",
+    "corner-frame inline-flex items-center justify-center gap-2 rounded-[3px] font-mono font-medium transition-[transform,background-color,color] duration-150 ease-[cubic-bezier(.22,1,.36,1)] active:scale-[0.97] motion-reduce:transform-none",
     variants[variant],
     sizes[size],
     className,
@@ -39,7 +40,7 @@ const sizes = {
     icon === "glyph" ? (
       <span class="glyph-logo size-4 shrink-0" aria-hidden="true" />
     ) : (
-      icon && <Icon name={icon} class="size-4 shrink-0" aria-hidden="true" />
+      icon && <UiIcon name={icon} class="size-4 shrink-0" />
     )
   }
   <slot />

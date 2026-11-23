@@ -10,8 +10,7 @@ const { slug, name, summary, href } = Astro.props;
 <a
   data-scroll-reveal
   id={slug}
-  transition:name={`product-${slug}`}
-  class="group relative block scroll-mt-24 overflow-hidden rounded-2xl bg-surface p-6 transition-colors duration-150 hover:bg-[#211A1B] md:p-7"
+  class="corner-frame corner-frame-card group relative block scroll-mt-24 overflow-hidden rounded-[4px] bg-surface p-6 transition-colors duration-150 hover:bg-raised md:p-7"
   href={href}
 >
   <HairlineMask variant={slug} />

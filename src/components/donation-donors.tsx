@@ -1,6 +1,6 @@
 "use client";
 
-import { CrownIcon } from "@solar-icons/react/linear/crown";
+import { CrownDiamond } from "@gravity-ui/icons";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { ANALYTICS_URL } from "../lib/analytics";
@@ -75,10 +75,10 @@ export default function DonationDonors({ profiles = [], staticSupporter }: Props
       aria-label={staticSupporter.ariaLabel}
       className="mb-2.5 grid w-fit max-w-full break-inside-avoid grid-cols-1 items-center md:mb-0"
     >
-      <span className="z-10 w-fit max-w-[calc(16ch+1.5rem)] justify-self-start truncate rounded-t-2xl bg-surface px-3 py-1 text-left font-mono text-[11px] tracking-[0.04em] text-muted">
+      <span className="z-10 w-fit max-w-[calc(16ch+1.5rem)] justify-self-start truncate rounded-t-[4px] bg-surface px-3 py-1 text-left font-mono text-[11px] tracking-[0.04em] text-muted">
         {staticSupporter.label}
       </span>
-      <span className="flex w-full items-center gap-2.5 rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl bg-surface py-1.5 pl-1.5 pr-4 text-sm">
+      <span className="flex w-full items-center gap-2.5 rounded-tl-none rounded-tr-[4px] rounded-br-[4px] rounded-bl-[4px] bg-surface py-1.5 pl-1.5 pr-4 text-sm">
         {staticSupporter.image ? (
           <span className="flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-ink/5 ring-1 ring-ink/10">
             <img
@@ -86,7 +86,7 @@ export default function DonationDonors({ profiles = [], staticSupporter }: Props
               alt=""
               width="28"
               height="28"
-              className="size-full object-contain"
+              className="size-full object-contain grayscale"
             />
           </span>
         ) : (
@@ -102,7 +102,7 @@ export default function DonationDonors({ profiles = [], staticSupporter }: Props
 
   if (status === "loading") {
     return (
-      <div className="mt-5 flex flex-wrap gap-2" aria-busy="true">
+      <div className="mt-5 flex flex-wrap justify-center gap-2" aria-busy="true">
         {staticChip}
         {[84, 112, 96].map((width) => (
           <span
@@ -117,12 +117,16 @@ export default function DonationDonors({ profiles = [], staticSupporter }: Props
   }
 
   if (status === "error") {
-    return <p className="mt-4 text-sm text-muted">Donor history is unavailable right now.</p>;
+    return (
+      <p className="mt-4 text-center text-sm text-muted">Donor history is unavailable right now.</p>
+    );
   }
 
   if (!donations.length) {
     return staticChip ? (
-      <div className="mt-5 columns-2 gap-2.5 md:flex md:flex-wrap">{staticChip}</div>
+      <div className="mt-5 columns-2 gap-2.5 md:flex md:flex-wrap md:justify-center">
+        {staticChip}
+      </div>
     ) : null;
   }
 
@@ -135,7 +139,7 @@ export default function DonationDonors({ profiles = [], staticSupporter }: Props
   const ordered = [...podium, ...recent];
 
   return (
-    <div className="mt-5 columns-2 gap-2.5 md:flex md:flex-wrap">
+    <div className="mt-5 columns-2 gap-2.5 md:flex md:flex-wrap md:justify-center">
       {ordered.map((donation, index) => {
         const name = names.get(donation.identity) ?? shortIdentity(donation.identity);
         const chipLabel = name.length > 16 ? `${name.slice(0, 16)}…` : name;
@@ -161,13 +165,13 @@ export default function DonationDonors({ profiles = [], staticSupporter }: Props
           >
             <span className="relative z-10 w-fit max-w-[calc(16ch+1.5rem)] justify-self-start">
               <span
-                className={`block truncate rounded-t-2xl px-3 py-1 text-left font-mono text-[11px] tracking-[0.04em] text-muted ${chipTone}`}
+                className={`block truncate rounded-t-[4px] px-3 py-1 text-left font-mono text-[11px] tracking-[0.04em] text-muted ${chipTone}`}
               >
                 {chipLabel}
               </span>
             </span>
             <span
-              className={`flex w-full items-center gap-2.5 rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl py-1.5 pl-1.5 pr-4 text-sm ${chipTone}`}
+              className={`flex w-full items-center gap-2.5 rounded-tl-none rounded-tr-[4px] rounded-br-[4px] rounded-bl-[4px] py-1.5 pl-1.5 pr-4 text-sm ${chipTone}`}
             >
               <span className="relative shrink-0">
                 {index === 0 && (
@@ -175,7 +179,7 @@ export default function DonationDonors({ profiles = [], staticSupporter }: Props
                     className="absolute inset-0 z-20 flex items-center justify-center text-accent-soft"
                     aria-hidden="true"
                   >
-                    <CrownIcon size={12} aria-hidden="true" />
+                    <CrownDiamond width={12} height={12} aria-hidden="true" />
                   </span>
                 )}
                 <IdentityAvatar value={donation.identity} size={28} />
