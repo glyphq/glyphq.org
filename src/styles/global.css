@@ -8,11 +8,11 @@
   --font-mono:
     "Geist Mono Variable", "Geist Mono", ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas,
     "Liberation Mono", monospace;
-  --color-paper: #080808;
-  --color-surface: #111111;
-  --color-ink: #e8e2db;
-  --color-muted: #948d85;
-  --color-line: #242121;
+  --color-paper: #141414;
+  --color-surface: #1c1c1c;
+  --color-ink: #e9e4de;
+  --color-muted: #9a948c;
+  --color-line: #2c2c2c;
   --color-accent: #dec9b2;
   --color-accent-strong: #ead9c5;
   --color-accent-soft: #dec9b2;

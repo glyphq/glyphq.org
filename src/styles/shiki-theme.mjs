@@ -3,7 +3,7 @@ export const glyphShikiTheme = {
   name: "glyph-dark",
   type: "dark",
   colors: {
-    "editor.background": "#0C0C0C",
+    "editor.background": "#101010",
     "editor.foreground": "#F2EDE6",
   },
   tokenColors: [

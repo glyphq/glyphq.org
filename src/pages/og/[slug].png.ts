@@ -44,7 +44,7 @@ export const GET: APIRoute<{ page: OgPage }> = async ({ props }) => {
           position: "relative",
           boxSizing: "border-box",
           padding: "64px 72px",
-          background: "#080808",
+          background: "#141414",
           color: "#F2EDE6",
           fontFamily: "Space Grotesk",
         },

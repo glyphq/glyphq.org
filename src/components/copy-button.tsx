@@ -33,10 +33,10 @@ export default function CopyButton({
   };
 
   const className = iconOnly
-    ? "inline-flex size-9 items-center justify-center rounded-full bg-surface text-ink transition-colors duration-150 hover:bg-[#191818]"
+    ? "inline-flex size-9 items-center justify-center rounded-full bg-surface text-ink transition-colors duration-150 hover:bg-[#242424]"
     : fullWidth
       ? "inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-accent px-4 py-3 font-display text-sm font-semibold text-night transition-colors duration-150 hover:bg-accent-strong"
-      : "inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 font-display text-xs font-semibold text-ink transition-colors duration-150 hover:bg-[#191818]";
+      : "inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 font-display text-xs font-semibold text-ink transition-colors duration-150 hover:bg-[#242424]";
 
   return (
     <motion.button
