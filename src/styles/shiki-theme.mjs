@@ -3,19 +3,19 @@ export const glyphShikiTheme = {
   name: "glyph-dark",
   type: "dark",
   colors: {
-    "editor.background": "#0F0E0E",
-    "editor.foreground": "#E9EDF5",
+    "editor.background": "#0C0C0C",
+    "editor.foreground": "#F2EDE6",
   },
   tokenColors: [
     {
       settings: {
-        foreground: "#E9EDF5",
+        foreground: "#F2EDE6",
       },
     },
     {
       scope: ["comment", "punctuation.definition.comment"],
       settings: {
-        foreground: "#6F9BFF",
+        foreground: "#E8D2B8",
         fontStyle: "italic",
       },
     },
@@ -33,19 +33,19 @@ export const glyphShikiTheme = {
         "keyword.operator.new",
       ],
       settings: {
-        foreground: "#6F9BFF",
+        foreground: "#E8D2B8",
       },
     },
     {
       scope: ["string", "string.template", "constant.character.escape"],
       settings: {
-        foreground: "#E9EDF5",
+        foreground: "#F2EDE6",
       },
     },
     {
       scope: ["constant.numeric", "constant.language", "constant.other.symbol", "constant.other"],
       settings: {
-        foreground: "#0052FF",
+        foreground: "#D8BFA4",
       },
     },
     {
@@ -56,7 +56,7 @@ export const glyphShikiTheme = {
         "meta.function-call",
       ],
       settings: {
-        foreground: "#E9EDF5",
+        foreground: "#F2EDE6",
       },
     },
     {
@@ -68,7 +68,7 @@ export const glyphShikiTheme = {
         "storage.type.interface",
       ],
       settings: {
-        foreground: "#6F9BFF",
+        foreground: "#E8D2B8",
       },
     },
     {
@@ -80,13 +80,13 @@ export const glyphShikiTheme = {
         "punctuation.terminator",
       ],
       settings: {
-        foreground: "#8A94A6",
+        foreground: "#A39C92",
       },
     },
     {
       scope: ["entity.name.tag", "support.type.property-name", "meta.object-literal.key"],
       settings: {
-        foreground: "#6F9BFF",
+        foreground: "#E8D2B8",
       },
     },
     {

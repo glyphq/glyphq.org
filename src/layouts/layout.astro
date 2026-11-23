@@ -30,7 +30,7 @@ const pathname = Astro.url.pathname;
 const cleanPath = pathname.replace(/^\/+|\/+$/g, "");
 const canonical = canonicalUrlForPath(pathname, site);
 const ogImage = new URL(`/og/${ogSlugForPath(pathname)}.png?v=${ogImageVersion}`, site).href;
-const logo = new URL("/brand/glyph-on-accent.png", site).href;
+const logo = new URL("/brand/glyph-on-cream.png", site).href;
 const product = products.find((item) => cleanPath === `products/${item.slug}`);
 
 const schemas: Record<string, unknown>[] = [
@@ -98,7 +98,7 @@ if (pageSchema) {
     />
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#151414" />
+    <meta name="theme-color" content="#080808" />
     <link rel="icon" href="/favicon.png" type="image/png" />
 
     <meta property="og:type" content={type} />

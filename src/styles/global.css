@@ -8,15 +8,15 @@
   --font-mono:
     "Geist Mono Variable", "Geist Mono", ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas,
     "Liberation Mono", monospace;
-  --color-paper: #151414;
-  --color-surface: #1c1a1a;
-  --color-ink: #e9edf5;
-  --color-muted: #8a94a6;
-  --color-line: #2b2828;
-  --color-accent: #0052ff;
-  --color-accent-strong: #1e66ff;
-  --color-accent-soft: #6f9bff;
-  --color-night: #ffffff;
+  --color-paper: #080808;
+  --color-surface: #111111;
+  --color-ink: #f2ede6;
+  --color-muted: #a39c92;
+  --color-line: #282525;
+  --color-accent: #e8d2b8;
+  --color-accent-strong: #f4e3d0;
+  --color-accent-soft: #e8d2b8;
+  --color-night: #080808;
 }
 
 @layer base {
