@@ -18,6 +18,7 @@ export default Alchemy.Stack(
       sessionKVBindingName: false,
       assets: {
         notFoundHandling: "404-page",
+        runWorkerFirst: ["/download", "/download/*", "/changelog", "/changelog/*"],
       },
     });
 
