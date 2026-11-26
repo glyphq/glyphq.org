@@ -5,6 +5,8 @@ import { createElement as h } from "react";
 import satori from "satori";
 import { type OgPage, ogImageSize, ogPages } from "../../lib/seo";
 
+export const prerender = true;
+
 const font = readFileSync(`${process.cwd()}/src/assets/og/space-grotesk.ttf`);
 const mono = readFileSync(
   `${process.cwd()}/node_modules/@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2`,

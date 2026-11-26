@@ -8,6 +8,8 @@ import Reveal from "../components/reveal.astro";
 import Layout from "../layouts/layout.astro";
 import { DONATION_TARGET_USD, GLYPH_DONATION_IDENTITY } from "../lib/donations";
 
+export const prerender = true;
+
 const qubicIdentity = GLYPH_DONATION_IDENTITY;
 const minerLabLast = moment().subtract(4, "months").fromNow();
 let profiles: { identity: string; displayName: string }[] = [];

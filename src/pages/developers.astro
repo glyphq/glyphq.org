@@ -8,6 +8,8 @@ import SectionHeader from "../components/section-header.astro";
 import { specs } from "../data/site";
 import Layout from "../layouts/layout.astro";
 
+export const prerender = true;
+
 const install = `bun add @glyph-oss/connect
 bun add @glyph-oss/contracts`;
 

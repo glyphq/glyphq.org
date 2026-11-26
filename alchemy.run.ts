@@ -9,13 +9,13 @@ export default Alchemy.Stack(
     state: Cloudflare.state(),
   },
   Effect.gen(function* () {
-    const site = yield* Cloudflare.Website.StaticSite("landing", {
+    const site = yield* Cloudflare.Website.Astro("landing", {
       name: "glyphq-landing",
-      command: "bun run build",
-      cwd: ".",
-      outdir: "dist",
+      rootDir: ".",
       compatibility: { date: "2026-11-22" },
       domain: { name: "glyphq.org" },
+      prerenderEnvironment: "node",
+      sessionKVBindingName: false,
       assets: {
         notFoundHandling: "404-page",
       },

@@ -43,7 +43,8 @@ interface GitHubRelease {
 
 export const releasesPage = "https://github.com/glyphq/wallet/releases";
 
-const cache = new Map<number, Promise<Release[]>>();
+const CACHE_TTL_MS = 5 * 60 * 1000;
+const cache = new Map<number, { expiresAt: number; request: Promise<Release[]> }>();
 const releasesFeed = "https://github.com/glyphq/wallet/releases.atom";
 
 const decodeEntities = (value: string) =>
@@ -131,9 +132,9 @@ const fetchReleases = async (limit: number): Promise<Release[]> => {
 
 export const getReleases = (limit = 6): Promise<Release[]> => {
   const cached = cache.get(limit);
-  if (cached) return cached;
+  if (cached && cached.expiresAt > Date.now()) return cached.request;
   const request = fetchReleases(limit);
-  cache.set(limit, request);
+  cache.set(limit, { expiresAt: Date.now() + CACHE_TTL_MS, request });
   return request;
 };
 

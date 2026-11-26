@@ -9,6 +9,8 @@ import SectionHeader from "../components/section-header.astro";
 import Layout from "../layouts/layout.astro";
 import { buildPlatforms, getReleases, releasesPage } from "../lib/releases";
 
+export const prerender = false;
+
 const [latest] = await getReleases(1);
 const releaseUrl = latest?.url ?? releasesPage;
 const platforms = buildPlatforms(latest);

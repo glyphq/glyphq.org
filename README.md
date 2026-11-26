@@ -22,7 +22,7 @@ content-level reveal animations remain.
 | Runtime   | Bun 1.4.4                             |
 | Lint      | Biome and `astro check`               |
 | Tests     | Vitest                                |
-| Deploy    | Workers static assets                 |
+| Deploy    | Cloudflare Worker with Astro SSR      |
 
 ## Routes
 
@@ -40,21 +40,22 @@ content-level reveal animations remain.
 | `/404`             | Not found                               |
 
 Navigation uses a client router with prefetch. Release data and changelog notes
-come from the public GitHub releases API at build time. The download page uses the browser platform
+come from the public GitHub releases API at request time and are cached in memory for five minutes.
+The download page uses the browser platform
 to suggest the matching build. The support page reads the Qubic donation identity live from the Glyph API at
 `api.glyphq.org`. Showcase thumbnails fall back to GitHub OpenGraph images.
 
 ## Commands
 
-| Command             | What it does                              |
-| ------------------- | ----------------------------------------- |
-| `bun install`       | Install dependencies and git hooks        |
-| `bun dev`           | Start the dev server on port 4321         |
-| `bun run check`     | Run Biome and Astro type checks           |
-| `bun run check:fix` | Apply Biome fixes                         |
-| `bun run test`      | Run Vitest                                |
-| `bun run build`     | Build the static site to `dist/`          |
-| `bun run deploy`    | Build and deploy the Worker with Wrangler |
+| Command             | What it does                            |
+| ------------------- | --------------------------------------- |
+| `bun install`       | Install dependencies and git hooks      |
+| `bun dev`           | Start the dev server on port 4321       |
+| `bun run check`     | Run Biome and Astro type checks         |
+| `bun run check:fix` | Apply Biome fixes                       |
+| `bun run test`      | Run Vitest                              |
+| `bun run build`     | Build the server output to `dist/`      |
+| `bun run deploy`    | Build and deploy the Worker via Alchemy |
 
 Start the dev server in the background with `astro dev --background`.
 
@@ -66,8 +67,8 @@ Deploys run on `.github/workflows/deploy.yml`. The workflow needs:
 - `secrets.CLOUDFLARE_API_TOKEN`
 
 `bun run deploy` builds the site and applies the Alchemy stack in `alchemy.run.ts`. It owns the
-`glyphq-landing` Worker, its static assets, and the `glyphq.org` custom domain. The Worker serves
-`dist/404.html` for unknown routes.
+`glyphq-landing` Worker, its static assets, and the `glyphq.org` custom domain. Release pages render
+on demand; other pages are prerendered. The Worker serves `dist/404.html` for unknown routes.
 
 Download and support analytics live in the separate `analytics-worker` project. The landing
 calls it same-origin at `/api`, routed to that Worker; `/api/downloads` and

@@ -14,6 +14,8 @@ import SectionHeader from "../../components/section-header.astro";
 import { products } from "../../data/site";
 import Layout from "../../layouts/layout.astro";
 
+export const prerender = true;
+
 export function getStaticPaths() {
   return products.map((product) => ({
     params: { slug: product.slug },

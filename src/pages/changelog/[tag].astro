@@ -6,16 +6,14 @@ import Layout from "../../layouts/layout.astro";
 import { getChangelogReleases } from "../../lib/releases";
 import { ogImageVersion } from "../../lib/seo";
 
-export async function getStaticPaths() {
-  const releases = await getChangelogReleases(8);
+export const prerender = false;
 
-  return releases.map((release) => ({
-    params: { tag: release.tag },
-    props: { release },
-  }));
-}
+const { tag } = Astro.params;
+const releases = await getChangelogReleases(8);
+const release = releases.find((entry) => entry.tag === tag);
 
-const { release } = Astro.props;
+if (!release) return Astro.redirect("/changelog", 302);
+
 const dateFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: "medium" });
 const published = dateFormatter.format(new Date(release.publishedAt));
 const canonical = new URL(`/changelog/${release.tag}/`, Astro.site ?? "https://glyphq.org").href;

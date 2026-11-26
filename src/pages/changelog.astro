@@ -6,6 +6,8 @@ import Reveal from "../components/reveal.astro";
 import Layout from "../layouts/layout.astro";
 import { getChangelogReleases, releasesPage } from "../lib/releases";
 
+export const prerender = false;
+
 const releases = await getChangelogReleases(8);
 const dateFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: "medium" });
 
