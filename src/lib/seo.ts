@@ -14,7 +14,7 @@ const topLevelPages: OgPage[] = [
   },
   {
     slug: "download",
-    title: "Download Glyph",
+    title: "Download Glyph Wallet",
     description: "The self-custodial Qubic wallet for Windows, macOS, and Linux.",
   },
   {
@@ -58,7 +58,7 @@ const productPages: OgPage[] = products.map((product) => ({
 export const ogPages: OgPage[] = [...topLevelPages, ...productPages];
 
 export const ogImageSize = { width: 1200, height: 630 } as const;
-export const ogImageVersion = "2026-11-23-4";
+export const ogImageVersion = "2026-11-26-1";
 
 export const ogSlugForPath = (pathname: string) => {
   const clean = pathname.replace(/^\/+|\/+$/g, "");
